@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/curved_shape_infowindow">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:id="@+id/imgViewInfoAvatar"
+            android:src="@drawable/default_icon"/>
+        <TextView
+            android:id="@+id/txtInfoUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngoc V. Hoang"
+            android:layout_gravity="center"
+            android:textSize="25dip"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0109ff" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusableInTouchMode="false">
+        <TextView
+            android:id="@+id/txtInfoFeeling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="feeling happy"
+            android:layout_gravity="center"
+            android:textSize="18dip"
+            android:layout_marginLeft="10dp"
+            android:textColor="#b2acac" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="at"
+            android:textSize="20dip"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0109ff"/>
+        <TextView
+            android:id="@+id/txtInfoAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ho Chi Minh City, Viet Nam."
+            android:layout_gravity="center"
+            android:textSize="18dip"
+            android:layout_marginLeft="10dp"
+            android:textColor="#b2acac" />
+    </LinearLayout>
+
+</LinearLayout>
