@@ -115,6 +115,29 @@
                         custom:indicator_visibility="visible"
                         custom:pager_animation_span="1100"
                         android:layout_height="240dp"/>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-60dip">
+                        <TextView
+                            android:id="@+id/txtAddressLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="50dip"
+                            android:layout_marginBottom="5dip"
+                            android:text="Ho Chi Minh City, Viet Nam."
+                            android:textSize="15dip"
+                            android:layout_gravity="right|bottom"
+                            android:background="#e2e0e0"
+                            android:alpha="0.8"
+                            android:textColor="#0011fe" />
+                        <ImageView
+                            android:id="@+id/imgViewShowMap"
+                            android:layout_width="50dip"
+                            android:layout_height="50dip"
+                            android:layout_gravity="bottom|end"
+                            android:src="@drawable/iconshowmap" />
+                    </FrameLayout>
 
                     <!--
                     <Gallery

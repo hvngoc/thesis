@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -54,6 +55,17 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Global.CurentContext = this;
+
+        ImageView imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
+        imgShowMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Global.CurentContext, MapsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Global.CurentContext.startActivity(intent);
+            }
+        });
+
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         getNewsDetailData();
 
