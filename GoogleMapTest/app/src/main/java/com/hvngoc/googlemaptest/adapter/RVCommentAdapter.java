@@ -32,7 +32,7 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.fragment_card_comment, viewGroup, false);
+                .inflate(R.layout.comment_card_item, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }

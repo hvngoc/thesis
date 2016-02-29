@@ -33,6 +33,19 @@
                     android:textSize="20dip"
                     android:layout_marginLeft="10dp"
                     android:textColor="#002aff" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dip"
+                    android:layout_marginLeft="3dip"
+                    android:text="commented on"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dip"
+                    android:layout_marginLeft="3dip"
+                    android:id="@+id/txtCommentDay"
+                    android:text="27/02/2016"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/txtCommentString"

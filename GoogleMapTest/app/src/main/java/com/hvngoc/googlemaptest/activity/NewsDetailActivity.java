@@ -1,23 +1,14 @@
 package com.hvngoc.googlemaptest.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -25,33 +16,17 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
-    private ImageView imageView;
     private SliderLayout mDemoSlider;
-    private Button commentBtn;
-    private PopupWindow popWindow;
-
-    //the images to display
-    Integer[] imageIDs = {
-            R.drawable.image1,
-            R.drawable.image2,
-            R.drawable.image4,
-            R.drawable.image5,
-            R.drawable.image6,
-            R.drawable.image1,
-            R.drawable.image2
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        commentBtn = (Button) findViewById(R.id.commentBtn);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Global.CurentContext = this;
@@ -66,8 +41,23 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
             }
         });
 
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         getNewsDetailData();
+
+        getImageSlider();
+
+        Button btnComment = (Button) findViewById(R.id.btnViewComment);
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentDialogLayout dialog = new CommentDialogLayout(Global.CurentContext);
+                dialog.show();
+            }
+        });
+
+    }
+
+    private void getImageSlider() {
+        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
         HashMap<String,String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
@@ -102,60 +92,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
-
-        commentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onShowPopup(v);
-            }
-        });
     }
-
-    public void onShowPopup(View v){
-
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // inflate the custom popup layout
-        final View inflatedView = layoutInflater.inflate(R.layout.popup_comment_layout, null,false);
-        // find the ListView in the popup layout
-        ListView listView = (ListView)inflatedView.findViewById(R.id.commentsListView);
-
-        // get device size
-        Display display = getWindowManager().getDefaultDisplay();
-        final Point size = new Point();
-        display.getSize(size);
-        //mDeviceHeight = size.y;
-
-
-        // fill the data to the list items
-        setSimpleList(listView);
-
-
-        // set height depends on the device size
-        popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 400, true );
-        // set a background drawable with rounders corners
-        //popWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.fb_popup_bg));
-        // make it focusable to show the keyboard to enter in `EditText`
-        popWindow.setFocusable(true);
-        // make it outside touchable to dismiss the popup window
-        popWindow.setOutsideTouchable(true);
-
-        // show the popup at bottom of the screen and set some margin at bottom ie,
-        popWindow.showAtLocation(v, Gravity.BOTTOM, 0, 100);
-    }
-
-    void setSimpleList(ListView listView){
-
-        ArrayList<String> contactsList = new ArrayList<String>();
-
-        for (int index = 0; index < 10; index++) {
-            contactsList.add("I am @ index " + index + " today " + Calendar.getInstance().getTime().toString());
-        }
-
-        listView.setAdapter(new ArrayAdapter<String>(NewsDetailActivity.this,
-                R.layout.comment_list_items, android.R.id.text1,contactsList));
-    }
-
     private void getNewsDetailData(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
