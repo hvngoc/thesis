@@ -1,38 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/curved_shape_dialog"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="300dip"/>
+    android:layout_height="wrap_content"
+    android:paddingBottom="6dip"
+    android:background="@drawable/comment_bg_dialog">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <EditText
-            android:layout_marginTop="2dip"
-            android:layout_width="180dip"
-            android:layout_height="38dip"
-            android:hint="write comment here"
-            android:id="@+id/etxtWriteComment"
-            android:background="#ffffff" />
-
-        <Button
-            android:layout_width="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/btnSubmit" />
-
-        <Button
+            android:padding="10dp"
+            android:background="@drawable/comment_bg_title"
+            android:text="Comment"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="wrap_content"
+            android:layout_height="300dip"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:id="@+id/btnCancel" />
+            android:background="@drawable/comment_bg_title"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_marginTop="2dip"
+                android:layout_width="wrap_content"
+                android:layout_height="38dip"
+                android:hint="write a comment"
+                android:id="@+id/etxtWriteComment"
+                android:background="#ffffff" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/btnSubmit"
+                android:textColor="#fffdfd" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/btnCancel"
+                android:textColor="#ffffff" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/comment_bg_close"
+        android:textSize="30dip"
+        android:text="×"
+        android:textColor="#9acd32" />
+</RelativeLayout>

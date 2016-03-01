@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
@@ -33,18 +33,22 @@
                     android:textSize="20dip"
                     android:layout_marginLeft="10dp"
                     android:textColor="#002aff" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dip"
+                android:layout_marginLeft="50dip"
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dip"
-                    android:layout_marginLeft="3dip"
                     android:text="commented on"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dip"
-                    android:layout_marginLeft="3dip"
                     android:id="@+id/txtCommentDay"
+                    android:layout_marginLeft="4dip"
                     android:text="27/02/2016"/>
             </LinearLayout>
             <TextView

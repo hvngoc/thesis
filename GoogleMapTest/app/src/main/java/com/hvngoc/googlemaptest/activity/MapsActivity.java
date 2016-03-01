@@ -84,6 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AddMarker(temp);
         googleMap.addCircle(new CircleOptions().center(latLng).radius(100.0).
                 strokeColor(Color.BLUE).strokeWidth(2).fillColor(0x110000FF));
+
+//        String ss = new GeolocatorAddressHelper(this, latLng.latitude, latLng.longitude).GetAddress();
+//        Log.d("click", ss);
     }
     @Override
     public void onInfoWindowClick(Marker marker) {

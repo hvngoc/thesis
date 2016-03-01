@@ -50,5 +50,13 @@ public class CommentDialogLayout extends Dialog {
             }
         });
 
+        Button btnClose = (Button) findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
     }
 }
