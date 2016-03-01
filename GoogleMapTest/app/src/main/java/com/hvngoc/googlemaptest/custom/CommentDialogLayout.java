@@ -42,14 +42,6 @@ public class CommentDialogLayout extends Dialog {
         mAdapter = new RVCommentAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         Button btnClose = (Button) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
