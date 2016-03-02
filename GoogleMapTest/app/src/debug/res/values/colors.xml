@@ -8,4 +8,19 @@
     <color name="black">#000000</color>
     <color name="Gray">#C51162</color>
     <color name="colorAccent">#FF80AB</color>
+
+    <color name="primary">#088A85</color>
+    <color name="primary_dark">#088A85</color>
+    <color name="primary_darker">#034644</color>
+    <color name="accent">#FFFFFF</color>
+
+
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="white">#FFFFFF</color>
 </resources>

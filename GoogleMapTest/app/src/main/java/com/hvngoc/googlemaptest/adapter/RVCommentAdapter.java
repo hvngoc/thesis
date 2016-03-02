@@ -8,25 +8,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.model.CommentItem;
+import com.hvngoc.googlemaptest.model.Comment;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.ViewHolder>{
-    List<CommentItem> mItems;
+    List<Comment> mItems;
 
     public RVCommentAdapter() {
         super();
-        mItems = new ArrayList<CommentItem>();
-
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "Ok!! I got it"));
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "It's not good as you think"));
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "Wow !! Beautiful"));
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "Let's go one day"));
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "I'm sorry about that"));
-        mItems.add(new CommentItem("Ngoc V. Hoang", R.drawable.default_icon, "What are you doing there ??"));
+        mItems = new ArrayList<Comment>();
+        /*
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Ok!! I got it"));
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "It's not good as you think"));
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Wow !! Beautiful"));
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Let's go one day"));
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "I'm sorry about that"));
+        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "What are you doing there ??"));
+        */
     }
 
     @Override
@@ -39,10 +40,12 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        CommentItem item = mItems.get(i);
+        /*
+        Comment item = mItems.get(i);
         viewHolder.txtCommentSring.setText(item.getCommentString());
         viewHolder.txtUserName.setText(item.getUserName());
         viewHolder.imgAvatar.setImageResource(item.getIdAvatar());
+        */
     }
 
     @Override
