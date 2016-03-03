@@ -38,8 +38,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
 
         @Override
         public void onClick(View v) {
-            //int position = getPosition();
+            int position = getAdapterPosition();
+            //String postID = news.get(position).getTitle();
             Intent intent = new Intent("android.intent.action.NEWS_DETAIL");
+            //intent.putExtra("postID", postID)
             intent.putExtra("title", title.getText());
             intent.putExtra("username", username.getText());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

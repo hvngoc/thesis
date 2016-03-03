@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,7 +11,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.model.User;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,20 +85,11 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        new LoginAsyncTask().execute();
 
         // TODO: Implement your own authentication logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+
     }
 
 
@@ -135,5 +145,54 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private class LoginAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private String email;
+        private String password;
+        HTTPPostHelper helper;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.email = _passwordText.getText().toString();
+            this.password = _emailText.getText().toString();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = "";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("email", this.email);
+                jsonobj.put("password", this.password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Global.CurrentUser = gson.fromJson(res, User.class);
+                onLoginSuccess();
+            }
+            else {
+                onLoginFailed();
+            }
+        }
+
+
     }
 }
