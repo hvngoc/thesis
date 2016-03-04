@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import java.util.List;
+
 /**
  * Created by 12125_000 on 3/2/2016.
  */
@@ -10,6 +12,8 @@ public class Post {
     private String numLike;
     private String postDate;
     private String location;
+    private String userName;
+    private String userAvatar;
 
     public Post (String postID, String content, String listImages, String numLike,
                  String postDate, String location) {
@@ -67,5 +71,21 @@ public class Post {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 }

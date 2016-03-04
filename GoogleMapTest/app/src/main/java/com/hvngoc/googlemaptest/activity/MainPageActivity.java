@@ -133,4 +133,10 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
             getSupportActionBar().setTitle(title);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //moveTaskToBack(true);
+    }
 }

@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,9 +16,20 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.model.NewsItem;
+import com.hvngoc.googlemaptest.model.Post;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
@@ -102,8 +114,14 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
             username.setText(usernameStr);
             TextView title = (TextView) findViewById(R.id.title);
             title.setText(titleStr);
+
+
             ImageView avatar = (ImageView)findViewById(R.id.avatar);
-            avatar.setImageResource(R.drawable.image1);
+            //avatar.setImageResource(R.drawable.image1);
+            Picasso.with(this)
+                    .load("YOUR IMAGE URL HERE")
+
+                    .into(avatar);
         }
     }
 
@@ -137,6 +155,53 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     @Override
     public void onPageSelected(int position) {
         Log.d("Slider Demo", "Page Changed: " + position);
+    }
+
+
+
+
+    private class PostDetailAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = "";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("postID", getIntent().getExtras().getString("postID"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<NewsItem>>(){}.getType();
+                //posts = gson.fromJson(res, listType);
+            }
+            else {
+                // Notify send request failed!
+            }
+        }
+
+
     }
 
 }

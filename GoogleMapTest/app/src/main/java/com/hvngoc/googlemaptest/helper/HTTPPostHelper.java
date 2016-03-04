@@ -3,6 +3,8 @@ package com.hvngoc.googlemaptest.helper;
 import android.net.ParseException;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -19,6 +21,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 12125_000 on 3/3/2016.
@@ -39,10 +42,43 @@ public class HTTPPostHelper {
         try {
             // Add your data
             StringEntity se = new StringEntity(this.params.toString());
+            Log.i("DATA: ", this.params.toString());
             httppost.setEntity(se);
             // Execute HTTP Post Request
             HttpResponse res = httpclient.execute(httppost);
             StatusLine statusLine = res.getStatusLine();
+            Log.i("Post:", "Posteddddddddddddddddddddddddddddddddddd");
+            if (statusLine.getStatusCode() == 200) {
+                try {
+                    this.response = EntityUtils.toString(res.getEntity());
+                    return true;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+        // send or receive request failed
+        return false;
+    }
+
+
+
+
+    public boolean sendStringHTTTPostRequest(String json) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(this.server_url);
+        try {
+            // Add your data
+            StringEntity se = new StringEntity(json);
+            httppost.setEntity(se);
+            // Execute HTTP Post Request
+            HttpResponse res = httpclient.execute(httppost);
+            StatusLine statusLine = res.getStatusLine();
+            Log.i("Post:", "Posteddddddddddddddddddddddddddddddddddd");
             if (statusLine.getStatusCode() == 200) {
                 try {
                     this.response = EntityUtils.toString(res.getEntity());

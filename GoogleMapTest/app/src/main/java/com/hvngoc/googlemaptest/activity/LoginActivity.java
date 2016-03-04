@@ -29,7 +29,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    ProgressDialog progressDialog = null;
     public void login() {
         Log.d(TAG, "Login");
 
@@ -79,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+        progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
@@ -113,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        //finish();
+        finish();
         Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
         startActivity(intent);
     }
@@ -156,8 +160,8 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            this.email = _passwordText.getText().toString();
-            this.password = _emailText.getText().toString();
+            this.email = _emailText.getText().toString();
+            this.password = _passwordText.getText().toString();
         }
 
         @Override
@@ -166,26 +170,30 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = "";
+            String serverUrl = "http://192.168.1.85:8080/Neo4jWebAPI/neo4j/login";
             JSONObject jsonobj = new JSONObject();
+
+            Log.i("PostData", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             try {
                 jsonobj.put("email", this.email);
                 jsonobj.put("password", this.password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            String data = this.email + " " + this.password;
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
+            return helper.sendStringHTTTPostRequest(data);
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Global.CurrentUser = gson.fromJson(res, User.class);
+
                 onLoginSuccess();
             }
             else {

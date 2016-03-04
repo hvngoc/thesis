@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.Global;
 import com.hvngoc.googlemaptest.model.NewsItem;
+import com.hvngoc.googlemaptest.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         TextView username;
         TextView title;
         ImageView placephoto;
+        ImageView userAvatar;
 
         public NewsItemViewHolder(View itemView) {
             super(itemView);
@@ -34,6 +38,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
             username = (TextView)itemView.findViewById(R.id.username);
             title = (TextView)itemView.findViewById(R.id.news_title);
             placephoto = (ImageView)itemView.findViewById(R.id.place_photo);
+            userAvatar = (ImageView) itemView.findViewById(R.id.avatar);
         }
 
         @Override
@@ -49,11 +54,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         }
     }
 
-    List<NewsItem> news;
+    List<Post> posts;
 
-    public RVAdapter(List<NewsItem> persons){
+    public RVAdapter(List<Post> posts){
 
-        this.news = persons;
+        this.posts = posts;
     }
 
     @Override
@@ -70,15 +75,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
 
     @Override
     public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
-        newsViewHolder.username.setText(news.get(i).getUserName());
-        newsViewHolder.title.setText(news.get(i).getTitle());
-        newsViewHolder.placephoto.setImageResource(news.get(i).getPhoto());
+        newsViewHolder.username.setText(posts.get(i).getUserName());
+        Picasso.with(Global.CurentContext)
+                .load("YOUR IMAGE URL HERE")
+                .error(R.drawable.icon_profile)         // optional
+                .into(newsViewHolder.userAvatar);
+        newsViewHolder.title.setText(posts.get(i).getContent());
+
+        Picasso.with(Global.CurentContext)
+                .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
+                .error(R.drawable.image1)         // optional
+                .into(newsViewHolder.placephoto);
+        //newsViewHolder.placephoto.setImageResource(news.get(i).getPhoto());
     }
 
 
     @Override
     public int getItemCount() {
-        return news.size();
+        return posts.size();
     }
 }
 

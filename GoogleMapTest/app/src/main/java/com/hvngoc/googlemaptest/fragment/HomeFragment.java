@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,16 +55,23 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         loadComponents(rootView);
-        initData();
+        //initData();
         //initListNewsAdapter();
         return rootView;
     }
 
+
+    ProgressDialog progressDialog = null;
     @Override
     public void onStart() {
         super.onStart();
+        progressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         new LoadPostAsyncTask().execute();
-        initListNewsAdapter();
+
     }
 
     private void loadComponents(View rootView) {
@@ -97,7 +105,8 @@ public class HomeFragment extends Fragment {
         // Remember set posts to apdater, not news.
 
         // Example code, remember set posts to adapter.
-        RVAdapter adapter = new RVAdapter(news);
+        //RVAdapter adapter = new RVAdapter(news);
+        RVAdapter adapter = new RVAdapter(posts);
         listnews.setAdapter(adapter);
     }
 
@@ -110,8 +119,6 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
-
 
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -129,26 +136,31 @@ public class HomeFragment extends Fragment {
         }
 
         private Boolean postData() {
-            String serverUrl = "";
+            String serverUrl = "http://192.168.1.85:8080/Neo4jWebAPI/neo4j/getAllPost";
             JSONObject jsonobj = new JSONObject();
+            /*
             try {
                 jsonobj.put("userID", Global.CurrentUser.getId());
+                jsonobj.put("userID", "user1");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            */
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
+            return helper.sendStringHTTTPostRequest("user1");
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 posts = gson.fromJson(res, listType);
+                initListNewsAdapter();
+                progressDialog.dismiss();
             }
             else {
                 // Notify send request failed!

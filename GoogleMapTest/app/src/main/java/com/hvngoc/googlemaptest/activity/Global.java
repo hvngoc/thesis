@@ -10,5 +10,5 @@ import com.hvngoc.googlemaptest.model.User;
 public class Global {
     public static Context CurentContext = null;
 
-    public static User CurrentUser = null;
+    public static User CurrentUser = new User("user2", "Tuong V.Nguyen", "default.png");
 }
