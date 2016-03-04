@@ -16,22 +16,9 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.User;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -71,6 +58,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+
+                // TODO: Implement successful signup logic here
+                // By default we just finish the Activity and log them in automatically
+                this.finish();
+            }
+        }
+    }
 
     ProgressDialog progressDialog = null;
     public void login() {
@@ -90,29 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         new LoginAsyncTask().execute();
-
-        // TODO: Implement your own authentication logic here.
-
-
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Disable going back to the MainActivity
-        moveTaskToBack(true);
     }
 
     public void onLoginSuccess() {
@@ -156,7 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         private String password;
         HTTPPostHelper helper;
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -170,10 +144,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = "http://192.168.1.85:8080/Neo4jWebAPI/neo4j/login";
+            String serverUrl = GLOBAL.SERVER_URL + "neo4j/login";
             JSONObject jsonobj = new JSONObject();
 
-            Log.i("PostData", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            Log.i("Login", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             try {
                 jsonobj.put("email", this.email);
                 jsonobj.put("password", this.password);
@@ -192,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
-                Global.CurrentUser = gson.fromJson(res, User.class);
+                GLOBAL.CurrentUser = gson.fromJson(res, User.class);
 
                 onLoginSuccess();
             }

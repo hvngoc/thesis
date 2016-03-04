@@ -1,11 +1,10 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.model.User;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,39 +53,24 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-
+    private  ProgressDialog progressDialog = null;
     public void signup() {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
-            onSignupFailed();
+            onSignupFailed("Sign up failed");
             return;
         }
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        progressDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+        new SignUpAsyncTask().execute();
     }
 
 
@@ -89,10 +78,12 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
+        Intent intent = new Intent(SignupActivity.this, MainPageActivity.class);
+        startActivity(intent);
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+    public void onSignupFailed(String failed) {
+        Toast.makeText(getBaseContext(), failed, Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -124,8 +115,60 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             _passwordText.setError(null);
         }
-
         return valid;
     }
 
+    private class SignUpAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private String email;
+        private String password;
+        private String name;
+        HTTPPostHelper helper;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.name = _nameText.getText().toString();
+            this.email = _emailText.getText().toString();
+            this.password = _passwordText.getText().toString();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "neo4j/checkemail";
+            Log.i("Check email", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+            helper = new HTTPPostHelper(serverUrl, new JSONObject());
+            if(helper.sendStringHTTTPostRequest(this.email)){ // true means not exist
+                Log.i("email OKKK", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+                String data = this.email + " " + this.password + ";" + this.name ;
+                serverUrl = GLOBAL.SERVER_URL + "neo4j/register";
+                helper = new HTTPPostHelper(serverUrl, new JSONObject());
+                return helper.sendStringHTTTPostRequest(data);
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                GLOBAL.CurrentUser = gson.fromJson(res, User.class);
+                onSignupSuccess();
+            }
+            else {
+                onSignupFailed("Email have been used");
+            }
+        }
+
+
+    }
 }

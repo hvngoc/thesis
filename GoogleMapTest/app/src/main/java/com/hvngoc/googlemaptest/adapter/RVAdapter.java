@@ -1,7 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.Global;
-import com.hvngoc.googlemaptest.model.NewsItem;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +48,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
             intent.putExtra("title", title.getText());
             intent.putExtra("username", username.getText());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Global.CurentContext.startActivity(intent);
+            GLOBAL.CurentContext.startActivity(intent);
         }
     }
 
@@ -76,13 +74,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     @Override
     public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
         newsViewHolder.username.setText(posts.get(i).getUserName());
-        Picasso.with(Global.CurentContext)
+        Picasso.with(GLOBAL.CurentContext)
                 .load("YOUR IMAGE URL HERE")
                 .error(R.drawable.icon_profile)         // optional
                 .into(newsViewHolder.userAvatar);
         newsViewHolder.title.setText(posts.get(i).getContent());
 
-        Picasso.with(Global.CurentContext)
+        Picasso.with(GLOBAL.CurentContext)
                 .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
                 .error(R.drawable.image1)         // optional
                 .into(newsViewHolder.placephoto);

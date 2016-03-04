@@ -1,12 +1,9 @@
 package com.hvngoc.googlemaptest.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -38,7 +35,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
-        Global.CurentContext = this;
+        GLOBAL.CurentContext = this;
         // display the first navigation drawer view on app launch
         displayView(0);
     }

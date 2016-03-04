@@ -11,8 +11,6 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.Global;
-import com.hvngoc.googlemaptest.activity.MapsActivity;
 import com.hvngoc.googlemaptest.activity.NewsDetailActivity;
 
 public class MapsDialogLayout extends Dialog {
@@ -26,6 +24,7 @@ public class MapsDialogLayout extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_maps_dialog);
         TextView text = (TextView) findViewById(R.id.txtDialogSeeMore);
         text.setOnClickListener(new View.OnClickListener() {

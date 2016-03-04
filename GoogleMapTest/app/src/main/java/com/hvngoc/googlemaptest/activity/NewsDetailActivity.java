@@ -22,7 +22,6 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.NewsItem;
-import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -41,15 +40,15 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Global.CurentContext = this;
+        GLOBAL.CurentContext = this;
 
         ImageView imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
         imgShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Global.CurentContext, MapsActivity.class);
+                Intent intent = new Intent(GLOBAL.CurentContext, MapsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Global.CurentContext.startActivity(intent);
+                GLOBAL.CurentContext.startActivity(intent);
             }
         });
 
@@ -61,7 +60,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDialogLayout dialog = new CommentDialogLayout(Global.CurentContext);
+                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext);
                 dialog.show();
             }
         });

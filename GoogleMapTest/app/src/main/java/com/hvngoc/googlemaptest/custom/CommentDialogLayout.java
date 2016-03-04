@@ -31,6 +31,7 @@ public class CommentDialogLayout extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_comment_dialog);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
