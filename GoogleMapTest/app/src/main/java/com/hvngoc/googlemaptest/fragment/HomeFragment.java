@@ -128,11 +128,11 @@ public class HomeFragment extends Fragment {
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 GLOBAL.CurrentListPost = gson.fromJson(res, listType);
                 initListNewsAdapter();
-                progressDialog.dismiss();
             }
             else {
                 // Notify send request failed!
             }
+            progressDialog.dismiss();
         }
 
 

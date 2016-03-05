@@ -139,19 +139,10 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/checkemail";
-            Log.i("Check email", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
+            String data = this.email + " " + this.password + ";" + this.name ;
+            String serverUrl = GLOBAL.SERVER_URL + "neo4j/register";
             helper = new HTTPPostHelper(serverUrl, new JSONObject());
-            if(helper.sendStringHTTTPostRequest(this.email)){ // true means not exist
-                Log.i("email OKKK", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
-                String data = this.email + " " + this.password + ";" + this.name ;
-                serverUrl = GLOBAL.SERVER_URL + "neo4j/register";
-                helper = new HTTPPostHelper(serverUrl, new JSONObject());
-                return helper.sendStringHTTTPostRequest(data);
-            }
-            return false;
+            return helper.sendStringHTTTPostRequest(data);
         }
 
         @Override

@@ -11,23 +11,15 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.model.Comment;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.ViewHolder>{
     List<Comment> mItems;
 
-    public RVCommentAdapter() {
+    public RVCommentAdapter(List<Comment> listItems) {
         super();
-        mItems = new ArrayList<Comment>();
-        /*
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Ok!! I got it"));
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "It's not good as you think"));
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Wow !! Beautiful"));
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "Let's go one day"));
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "I'm sorry about that"));
-        mItems.add(new Comment("Ngoc V. Hoang", R.drawable.default_icon, "What are you doing there ??"));
-        */
+        mItems = listItems;
+
     }
 
     @Override
@@ -40,12 +32,11 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        /*
         Comment item = mItems.get(i);
-        viewHolder.txtCommentSring.setText(item.getCommentString());
+        viewHolder.txtCommentSring.setText(item.getContent());
+        viewHolder.txtCommentDay.setText(item.getCommentDate());
         viewHolder.txtUserName.setText(item.getUserName());
-        viewHolder.imgAvatar.setImageResource(item.getIdAvatar());
-        */
+        viewHolder.imgAvatar.setImageResource(R.drawable.icon_profile);//item.getIdAvatar();
     }
 
     @Override
@@ -58,12 +49,14 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
         public ImageView imgAvatar;
         public TextView txtUserName;
         public TextView txtCommentSring;
+        public TextView txtCommentDay;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgAvatar = (ImageView)itemView.findViewById(R.id.imgAvatar);
             txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
             txtCommentSring = (TextView)itemView.findViewById(R.id.txtCommentString);
+            txtCommentDay = (TextView) itemView.findViewById(R.id.txtCommentDay);
         }
     }
 }

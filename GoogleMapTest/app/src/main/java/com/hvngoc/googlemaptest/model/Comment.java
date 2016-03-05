@@ -3,14 +3,17 @@ package com.hvngoc.googlemaptest.model;
 public class Comment {
     private String id;
     private String content;
-    private String userId;
     private String commentDate;
+    private String userId;
+    private String userName, userAvatar;
 
-    public Comment(String id ,String content, String userId, String commentDate){
+    public Comment(String id ,String content, String commentDate, String userId, String userName, String userAvatar){
         this.id = id;
         this.content = content;
         this.userId = userId;
         this.commentDate = commentDate;
+        this.userName = userName;
+        this.userAvatar = userAvatar;
     }
 
     public String getId() {
@@ -29,6 +32,14 @@ public class Comment {
         this.content = content;
     }
 
+    public String getCommentDate() {
+        return this.commentDate;
+    }
+
+    public void setCommentDate(String commentDate) {
+        this.commentDate = commentDate;
+    }
+
     public String getUserId() {
         return this.userId;
     }
@@ -37,11 +48,19 @@ public class Comment {
         this.userId = userId;
     }
 
-    public String getPostDate() {
-        return this.commentDate;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPostDate(String commentDate) {
-        this.commentDate = commentDate;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 }
