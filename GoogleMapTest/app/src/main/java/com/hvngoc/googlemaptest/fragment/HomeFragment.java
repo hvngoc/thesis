@@ -28,7 +28,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private List<Post> posts;
     private RecyclerView listnews;
 
     public HomeFragment() {
@@ -83,7 +82,7 @@ public class HomeFragment extends Fragment {
 
         // Example code, remember set posts to adapter.
         //RVAdapter adapter = new RVAdapter(news);
-        RVAdapter adapter = new RVAdapter(posts);
+        RVAdapter adapter = new RVAdapter(GLOBAL.CurrentListPost);
         listnews.setAdapter(adapter);
     }
 
@@ -127,7 +126,7 @@ public class HomeFragment extends Fragment {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                posts = gson.fromJson(res, listType);
+                GLOBAL.CurrentListPost = gson.fromJson(res, listType);
                 initListNewsAdapter();
                 progressDialog.dismiss();
             }

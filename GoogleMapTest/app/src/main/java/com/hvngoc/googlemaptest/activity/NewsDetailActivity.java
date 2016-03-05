@@ -17,21 +17,36 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.model.NewsItem;
+import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.Bind;
+
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+
+
+    @Bind(R.id.avatar)ImageView userAvatar;
+    @Bind(R.id.username)TextView username;
+    @Bind(R.id.txtFeeling) TextView txtFeeling;
+    @Bind(R.id.txtCommentDay) TextView txtCommentDay;
+    @Bind(R.id.txtAddressLocation) TextView txtAddressLocation;
+    @Bind(R.id.title) TextView title;
+
+    @Bind(R.id.btnLike) Button btnLike;
+    @Bind(R.id.txtNumLike) TextView txtNumLike;
+    @Bind(R.id.btnShare) Button btnShare;
+    @Bind(R.id.txtNumShared) TextView txtNumShared;
+    @Bind(R.id.btnComment) Button btnComment;
+    @Bind(R.id.txtNumComment) TextView txtNumComment;
+
 
     private SliderLayout mDemoSlider;
 
@@ -56,12 +71,24 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
         getImageSlider();
 
-        Button btnComment = (Button) findViewById(R.id.btnViewComment);
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext);
                 dialog.show();
+            }
+        });
+
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -107,20 +134,19 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     private void getNewsDetailData(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String titleStr = extras.getString("title");
-            String usernameStr = extras.getString("username");
-            TextView username = (TextView)findViewById(R.id.username);
-            username.setText(usernameStr);
-            TextView title = (TextView) findViewById(R.id.title);
-            title.setText(titleStr);
+            int i = extras.getInt("position");
+            Log.i("Position", ""+i);
+            Post post = GLOBAL.CurrentListPost.get(i);
+            username.setText(post.userName);
+            Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(userAvatar);
+            title.setText(post.getContent());
+            txtFeeling.setText("feeling " + post.feeling + " on");
+            txtCommentDay.setText(post.getPostDate());
+            //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
+            txtNumLike.setText(post.numLike);
+            txtNumShared.setText(post.numShare);
+            txtNumComment.setText(post.numComment);
 
-
-            ImageView avatar = (ImageView)findViewById(R.id.avatar);
-            //avatar.setImageResource(R.drawable.image1);
-            Picasso.with(this)
-                    .load("YOUR IMAGE URL HERE")
-
-                    .into(avatar);
         }
     }
 
@@ -154,53 +180,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     @Override
     public void onPageSelected(int position) {
         Log.d("Slider Demo", "Page Changed: " + position);
-    }
-
-
-
-
-    private class PostDetailAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        private HTTPPostHelper helper;
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            return postData();
-        }
-
-        private Boolean postData() {
-            String serverUrl = "";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("postID", getIntent().getExtras().getString("postID"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<NewsItem>>(){}.getType();
-                //posts = gson.fromJson(res, listType);
-            }
-            else {
-                // Notify send request failed!
-            }
-        }
-
-
     }
 
 }

@@ -48,6 +48,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtFeeling"
                 android:text="feeling happy on"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -100,10 +101,12 @@
             android:orientation="horizontal">
             <Button
                 android:layout_width="32dp"
+                android:id="@+id/btnLike"
                 android:layout_height="32dp"
                 android:background="@drawable/imglike"/>
             <TextView
                 android:layout_width="wrap_content"
+                android:id="@+id/txtNumLike"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="17"
@@ -113,9 +116,11 @@
             <Button
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:id="@+id/btnShare"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/imgshare"/>
             <TextView
+                android:id="@+id/txtNumShared"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -126,10 +131,12 @@
             <Button
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:id="@+id/btnComment"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/imgcomment"/>
             <TextView
                 android:layout_width="wrap_content"
+                android:id="@+id/txtNumComment"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="7"
