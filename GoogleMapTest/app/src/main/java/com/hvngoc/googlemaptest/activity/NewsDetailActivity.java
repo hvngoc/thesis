@@ -1,7 +1,6 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,36 +15,30 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
-import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
-
-import butterknife.Bind;
 
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
 
-    @Bind(R.id.avatar)ImageView userAvatar;
-    @Bind(R.id.username)TextView username;
-    @Bind(R.id.txtFeeling) TextView txtFeeling;
-    @Bind(R.id.txtCommentDay) TextView txtCommentDay;
-    @Bind(R.id.txtAddressLocation) TextView txtAddressLocation;
-    @Bind(R.id.title) TextView title;
+    ImageView userAvatar;
+    TextView username;
+    TextView txtFeeling;
+    TextView txtCommentDay;
+    TextView txtAddressLocation;
+    TextView title;
 
-    @Bind(R.id.btnLike) Button btnLike;
-    @Bind(R.id.txtNumLike) TextView txtNumLike;
-    @Bind(R.id.btnShare) Button btnShare;
-    @Bind(R.id.txtNumShared) TextView txtNumShared;
-    @Bind(R.id.btnComment) Button btnComment;
-    @Bind(R.id.txtNumComment) TextView txtNumComment;
+    Button btnLike;
+    TextView txtNumLike;
+    Button btnShare;
+    TextView txtNumShared;
+    Button btnComment;
+    TextView txtNumComment;
 
 
     private SliderLayout mDemoSlider;
@@ -56,6 +49,20 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         GLOBAL.CurentContext = this;
+
+        userAvatar = (ImageView) findViewById(R.id.avatar);
+        username = (TextView) findViewById(R.id.username);
+        txtFeeling = (TextView) findViewById(R.id.txtFeeling);
+        txtCommentDay = (TextView) findViewById(R.id.txtCommentDay);
+        txtAddressLocation = (TextView) findViewById(R.id.txtAddressLocation);
+        title = (TextView) findViewById(R.id.title);
+
+        btnLike = (Button) findViewById(R.id.btnLike);
+        txtNumLike = (TextView) findViewById(R.id.txtNumLike);
+        btnShare = (Button) findViewById(R.id.btnShare);
+        txtNumShared = (TextView) findViewById(R.id.txtNumShared);
+        btnComment = (Button) findViewById(R.id.btnComment);
+        txtNumComment = (TextView) findViewById(R.id.txtNumComment);
 
         ImageView imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
         imgShowMap.setOnClickListener(new View.OnClickListener() {
@@ -137,15 +144,20 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
             int i = extras.getInt("position");
             Log.i("Position", ""+i);
             Post post = GLOBAL.CurrentListPost.get(i);
+            if(username == null)
+                Log.i("Username: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
+
+            if(txtNumComment == null)
+                Log.i("Comment: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
             username.setText(post.userName);
             Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(userAvatar);
             title.setText(post.getContent());
             txtFeeling.setText("feeling " + post.feeling + " on");
             txtCommentDay.setText(post.getPostDate());
             //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
-            txtNumLike.setText(post.numLike);
-            txtNumShared.setText(post.numShare);
-            txtNumComment.setText(post.numComment);
+            txtNumLike.setText("" + post.numLike);
+            txtNumShared.setText("" + post.numShare);
+            txtNumComment.setText("" + post.numComment);
 
         }
     }
