@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/curved_shape_infowindow">
@@ -25,14 +25,13 @@
             android:layout_marginLeft="10dp"
             android:textColor="#0109ff" />
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:focusableInTouchMode="false">
         <TextView
             android:id="@+id/txtInfoFeeling"
+            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="feeling happy"
@@ -44,18 +43,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="at"
+            android:id="@+id/txtAT"
+            android:layout_toRightOf="@+id/txtInfoFeeling"
             android:textSize="20dip"
             android:layout_marginLeft="10dp"
             android:textColor="#0109ff"/>
         <TextView
             android:id="@+id/txtInfoAddress"
             android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/txtAT"
             android:layout_height="wrap_content"
             android:text="Ho Chi Minh City, Viet Nam."
             android:layout_gravity="center"
             android:textSize="18dip"
             android:layout_marginLeft="10dp"
             android:textColor="#b2acac" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

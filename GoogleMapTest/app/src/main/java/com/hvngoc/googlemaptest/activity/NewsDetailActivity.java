@@ -68,7 +68,11 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         imgShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle extras = getIntent().getExtras();
+                int position = extras.getInt("position");
+
                 Intent intent = new Intent(GLOBAL.CurentContext, MapsActivity.class);
+                intent.putExtra("position", position);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 GLOBAL.CurentContext.startActivity(intent);
             }
