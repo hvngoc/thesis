@@ -78,6 +78,7 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
+        GLOBAL.startedUserHelper.saveUser(GLOBAL.CurrentUser);
         Intent intent = new Intent(SignupActivity.this, MainPageActivity.class);
         startActivity(intent);
     }

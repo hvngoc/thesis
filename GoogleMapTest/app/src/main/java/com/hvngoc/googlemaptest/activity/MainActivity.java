@@ -2,22 +2,12 @@ package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
-import com.hvngoc.googlemaptest.fragment.FriendsFragment;
-import com.hvngoc.googlemaptest.fragment.HomeFragment;
-import com.hvngoc.googlemaptest.fragment.MessagesFragment;
+import com.hvngoc.googlemaptest.helper.StartedUserHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +16,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent;
+        GLOBAL.startedUserHelper = new StartedUserHelper(this);
+        if (GLOBAL.startedUserHelper.getUser())
+            intent = new Intent(this, MainPageActivity.class);
+        else
+            intent = new Intent(this, LoginActivity.class);
         finish();
-        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
     }
