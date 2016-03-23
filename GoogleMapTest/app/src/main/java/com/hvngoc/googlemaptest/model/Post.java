@@ -1,6 +1,8 @@
 package com.hvngoc.googlemaptest.model;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     private String postID;
     private String content;
     private String listImages;

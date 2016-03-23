@@ -37,10 +37,10 @@ public class CommentDialogLayout extends Dialog {
     String postID;
 
     private Context context;
-    public CommentDialogLayout(Context context, int position) {
+    public CommentDialogLayout(Context context, String postID) {
         super(context);
         this.context = context;
-        this.postID = GLOBAL.CurrentListPost.get(position).getPostID();
+        this.postID = postID;
         Log.i("Dialog post ID", postID);
     }
     @Override
@@ -52,10 +52,9 @@ public class CommentDialogLayout extends Dialog {
         setContentView(R.layout.layout_custom_comment_dialog);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
 
         Button btnClose = (Button) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +99,8 @@ public class CommentDialogLayout extends Dialog {
                 Type listType = new TypeToken<ArrayList<Comment>>() {
                 }.getType();
                 List<Comment> listComment = gson.fromJson(res, listType);
+
+                Log.i("comment count", "" + listComment.size());
 
                 mAdapter = new RVCommentAdapter(listComment);
                 mRecyclerView.setAdapter(mAdapter);

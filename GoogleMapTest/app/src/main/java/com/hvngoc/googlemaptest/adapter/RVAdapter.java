@@ -22,7 +22,50 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder> {
 
-    public static class NewsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    List<Post> posts;
+
+    public RVAdapter(List<Post> posts){
+        Log.i("POst count", ""+ posts.size());
+        this.posts = posts;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public NewsItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
+        NewsItemViewHolder pvh = new NewsItemViewHolder(v);
+        Log.i("Posotin", "" + i);
+        return pvh;
+    }
+
+    @Override
+    public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
+        Post post = posts.get(i);
+        newsViewHolder.username.setText(post.userName);
+        Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
+        newsViewHolder.news_title.setText(post.getContent());
+        newsViewHolder.txtFeeling.setText("feeling " + post.feeling + " on");
+        newsViewHolder.txtCommentDay.setText(post.getPostDate());
+        Picasso.with(GLOBAL.CurentContext)
+                .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
+                .error(R.drawable.image1)         // optional
+                .into(newsViewHolder.placephoto);
+        //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
+        newsViewHolder.txtNumLike.setText(""+post.numLike);
+        newsViewHolder.txtNumShared.setText(""+post.numShare);
+        newsViewHolder.txtNumComment.setText(""+post.numComment);
+    }
+
+    @Override
+    public int getItemCount() {
+        return posts.size();
+    }
+
+    class NewsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public CardView cv;
         public ImageView userAvatar;
@@ -64,62 +107,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            Post currentPost = posts.get(position);
             Intent intent = new Intent("android.intent.action.NEWS_DETAIL");
-            intent.putExtra("position", position);
+            intent.putExtra("currentPost", currentPost);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             GLOBAL.CurentContext.startActivity(intent);
         }
-    }
-
-    List<Post> posts;
-
-    public RVAdapter(List<Post> posts){
-        Log.i("POst count", ""+ posts.size());
-        this.posts = posts;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
-    public NewsItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
-        NewsItemViewHolder pvh = new NewsItemViewHolder(v);
-        Log.i("Posotin", "" + i);
-        return pvh;
-    }
-
-    @Override
-    public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
-        Post post = posts.get(i);
-        Log.i("Post", "" + i);
-        Log.i("Name: ", post.userName);
-        if(newsViewHolder.username == null)
-            Log.i("Username: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
-        if(newsViewHolder.txtNumComment == null)
-            Log.i("Username: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
-
-        newsViewHolder.username.setText(post.userName);
-        Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
-        newsViewHolder.news_title.setText(post.getContent());
-        newsViewHolder.txtFeeling.setText("feeling " + post.feeling + " on");
-        newsViewHolder.txtCommentDay.setText(post.getPostDate());
-        Picasso.with(GLOBAL.CurentContext)
-                .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
-                .error(R.drawable.image1)         // optional
-                .into(newsViewHolder.placephoto);
-        //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
-        newsViewHolder.txtNumLike.setText(""+post.numLike);
-        newsViewHolder.txtNumShared.setText(""+post.numShare);
-        newsViewHolder.txtNumComment.setText(""+post.numComment);
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return posts.size();
     }
 }
 

@@ -40,15 +40,20 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     Button btnComment;
     TextView txtNumComment;
 
-
+    ImageView imgShowMap;
     private SliderLayout mDemoSlider;
+    private Post currentPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         GLOBAL.CurentContext = this;
+
+        Bundle extras = getIntent().getExtras();
+        currentPost = (Post) extras.getSerializable("currentPost");
 
         userAvatar = (ImageView) findViewById(R.id.avatar);
         username = (TextView) findViewById(R.id.username);
@@ -64,30 +69,24 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnComment = (Button) findViewById(R.id.btnComment);
         txtNumComment = (TextView) findViewById(R.id.txtNumComment);
 
-        ImageView imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
+        imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
         imgShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle extras = getIntent().getExtras();
-                int position = extras.getInt("position");
-
                 Intent intent = new Intent(GLOBAL.CurentContext, MapsActivity.class);
-                intent.putExtra("position", position);
+                intent.putExtra("currentPost", currentPost);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 GLOBAL.CurentContext.startActivity(intent);
             }
         });
 
         getNewsDetailData();
-
         getImageSlider();
 
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle extras = getIntent().getExtras();
-                int position = extras.getInt("position");
-                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext, position);
+                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext, currentPost.getPostID());
                 dialog.show();
             }
         });
@@ -145,27 +144,15 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         mDemoSlider.addOnPageChangeListener(this);
     }
     private void getNewsDetailData(){
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            int i = extras.getInt("position");
-            Log.i("Position", ""+i);
-            Post post = GLOBAL.CurrentListPost.get(i);
-            if(username == null)
-                Log.i("Username: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
-
-            if(txtNumComment == null)
-                Log.i("Comment: ", "nulllllllllllllllllllllllllllllllllllllllllllllll");
-            username.setText(post.userName);
-            Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(userAvatar);
-            title.setText(post.getContent());
-            txtFeeling.setText("feeling " + post.feeling + " on");
-            txtCommentDay.setText(post.getPostDate());
-            //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
-            txtNumLike.setText("" + post.numLike);
-            txtNumShared.setText("" + post.numShare);
-            txtNumComment.setText("" + post.numComment);
-
-        }
+        username.setText(currentPost.userName);
+        Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(userAvatar);
+        title.setText(currentPost.getContent());
+        txtFeeling.setText("feeling " + currentPost.feeling + " on");
+        txtCommentDay.setText(currentPost.getPostDate());
+        //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
+        txtNumLike.setText("" + currentPost.numLike);
+        txtNumShared.setText("" + currentPost.numShare);
+        txtNumComment.setText("" + currentPost.numComment);
     }
 
     @Override

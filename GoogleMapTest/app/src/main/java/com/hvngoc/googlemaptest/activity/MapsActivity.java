@@ -135,10 +135,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
     private void SetMarkerStartScreen() {
         Bundle extras = getIntent().getExtras();
-        int position = extras.getInt("position");
+        Post currentPost = (Post) extras.getSerializable("currentPost");
 
-        currentListPost.add(GLOBAL.CurrentListPost.get(position));
-        locationHelper.setLocation(GLOBAL.CurrentListPost.get(position).getLocation());
+        currentListPost.add(currentPost);
+        locationHelper.setLocation(currentPost.getLocation());
 
         Double latitude = locationHelper.getLatitude();
         Double longitude = locationHelper.getLongitude();

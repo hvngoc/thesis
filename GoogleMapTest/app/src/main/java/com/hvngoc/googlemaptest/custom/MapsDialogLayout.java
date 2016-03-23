@@ -39,6 +39,7 @@ public class MapsDialogLayout extends Dialog {
                 dismiss();
                 Intent intent = new Intent(context, NewsDetailActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("currentPost", post);
                 context.startActivity(intent);
             }
         });
