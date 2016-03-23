@@ -17,7 +17,12 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.HomeFragment;
+import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
+import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
+import com.hvngoc.googlemaptest.fragment.ProfileFragment;
+import com.hvngoc.googlemaptest.fragment.SettingsFragment;
+import com.hvngoc.googlemaptest.fragment.WallFragment;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -109,12 +114,32 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 title = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new FriendsFragment();
+                fragment = new ProfileFragment();
                 title = getString(R.string.title_friends);
                 break;
             case 2:
+                fragment = new WallFragment();
+                title = getString(R.string.title_wall);
+                break;
+            case 3:
+                fragment = new FriendsFragment();
+                title = getString(R.string.title_friends);
+                break;
+            case 4:
+                fragment = new NotificationsFragment();
+                title = getString(R.string.title_notifications);
+                break;
+            case 5:
                 fragment = new MessagesFragment();
                 title = getString(R.string.title_messages);
+                break;
+            case 6:
+                fragment = new SettingsFragment();
+                title = getString(R.string.title_settings);
+                break;
+            case 7:
+                fragment = new LogoutFragment();
+                title = getString(R.string.title_logout);
                 break;
             default:
                 break;

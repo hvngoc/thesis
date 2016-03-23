@@ -25,7 +25,7 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.comment_card_item, viewGroup, false);
+                .inflate(R.layout.card_item_comment, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }

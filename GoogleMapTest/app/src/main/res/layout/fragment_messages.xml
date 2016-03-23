@@ -25,6 +25,6 @@
         android:textSize="12dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="Edit fragment_home.xml to change the appearance" />
+        android:text="Edit fragment_message.xml to change the appearance" />
 
 </RelativeLayout>

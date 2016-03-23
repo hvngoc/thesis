@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,9 +51,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        loadComponents(rootView);
-        //initData();
-        //initListNewsAdapter();
+        listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        listnews.setLayoutManager(llm);
+        listnews.setHasFixedSize(true);
         return rootView;
     }
 
@@ -69,23 +72,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void loadComponents(View rootView) {
-        listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
-        listnews.setLayoutManager(llm);
-        listnews.setHasFixedSize(true);
-    }
-
-
-    private void initListNewsAdapter(){
-        // Remember set posts to apdater, not news.
-
-        // Example code, remember set posts to adapter.
-        //RVAdapter adapter = new RVAdapter(news);
-        RVAdapter adapter = new RVAdapter(GLOBAL.CurrentListPost);
-        listnews.setAdapter(adapter);
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -99,8 +85,6 @@ public class HomeFragment extends Fragment {
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -127,14 +111,17 @@ public class HomeFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 GLOBAL.CurrentListPost = gson.fromJson(res, listType);
-                initListNewsAdapter();
+                RVAdapter adapter = new RVAdapter(GLOBAL.CurrentListPost);
+                listnews.setAdapter(adapter);
             }
             else {
                 // Notify send request failed!
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
+                fragmentTransaction.commit();
             }
             progressDialog.dismiss();
         }
-
-
     }
 }

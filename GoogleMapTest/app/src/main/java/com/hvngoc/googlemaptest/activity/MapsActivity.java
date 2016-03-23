@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,7 +28,7 @@ import com.hvngoc.googlemaptest.helper.LocationPostHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap googleMap;
@@ -40,10 +41,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        //setContentView(R.layout.activity_maps);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_maps;
     }
 
     @Override

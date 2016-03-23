@@ -14,15 +14,10 @@ import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-
-import butterknife.Bind;
 
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder> {
@@ -90,7 +85,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
 
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_carditem, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
         NewsItemViewHolder pvh = new NewsItemViewHolder(v);
         Log.i("Posotin", "" + i);
         return pvh;
