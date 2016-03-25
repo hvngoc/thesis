@@ -18,11 +18,12 @@ import java.util.List;
  */
 public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHolder>{
     List<Friend> mItems;
+    String textBtnAction;
 
-    public RVFriendAdapter(List<Friend> listItems) {
+    public RVFriendAdapter(List<Friend> listItems, String textBtnAction) {
         super();
         mItems = listItems;
-
+        this.textBtnAction = textBtnAction;
     }
 
     @Override
@@ -37,7 +38,8 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Friend item = mItems.get(i);
         viewHolder.txt_friendUserName.setText(item.getName());
-        viewHolder.txt_friendNum.setText(item.getNumFriend() + " friends");
+        viewHolder.txt_friendNum.setText(item.getNumFriend() + " friends. " + item.getMutualFriend() + " mutual friends.");
+        viewHolder.btn_friend_action.setText(textBtnAction);
         viewHolder.img_friendAvatar.setImageResource(R.drawable.icon_profile);//item.getAvatar();
     }
 

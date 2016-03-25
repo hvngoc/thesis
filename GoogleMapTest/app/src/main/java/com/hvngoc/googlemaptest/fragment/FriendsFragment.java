@@ -43,7 +43,7 @@ public class FriendsFragment extends Fragment {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_media_play);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_media_pause);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_plusone_small_off_client);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_plusone_standard_off_client);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_cast_disabled_light);
 
         return rootView;
     }
@@ -61,8 +61,8 @@ public class FriendsFragment extends Fragment {
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
         private final int TAB_COUNT = 4;
         private String listTitle[] = new String[]{"friends", "suggested", "request", "find"};
-//        private Fragment listFragment[] = new Fragment[]{new FriendListFragment(), new NothingsFragment(),
-//                new NothingsFragment(), new NothingsFragment()};
+        private Fragment listFragment[] = new Fragment[]{new FriendListFragment(), new FriendSuggestFragment(),
+                new NothingsFragment(), new NothingsFragment()};
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
@@ -70,10 +70,7 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0)
-                return  new FriendListFragment();
-            return new NothingsFragment();
-            //return listFragment[position];
+            return listFragment[position];
         }
 
         @Override

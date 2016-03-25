@@ -7,8 +7,10 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_gravity="center"
+        android:padding="2dip"
+        android:gravity="center"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="60dip"
@@ -26,7 +28,8 @@
             android:textColor="#0109ff" />
     </LinearLayout>
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="false">
         <TextView

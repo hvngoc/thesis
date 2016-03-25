@@ -26,12 +26,12 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class FriendListFragment extends Fragment {
+public class FriendSuggestFragment extends Fragment {
 
     private RecyclerView recyclerListFriend;
-    private final String UNFRIEND = "Unfriend";
+    private final String ADD_FRIEND = "ADD";
 
-    public FriendListFragment() {
+    public FriendSuggestFragment() {
         // Required empty public constructor
     }
 
@@ -89,7 +89,7 @@ public class FriendListFragment extends Fragment {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/getAllFriend";
+            String serverUrl = GLOBAL.SERVER_URL + "neo4j/getSuggestFriend";
             JSONObject jsonobj = new JSONObject();
             helper = new HTTPPostHelper(serverUrl, jsonobj);
             return helper.sendStringHTTTPostRequest(GLOBAL.CurrentUser.getId());
@@ -103,7 +103,7 @@ public class FriendListFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, UNFRIEND);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, ADD_FRIEND);
                 recyclerListFriend.setAdapter(adapter);
             }
             else {

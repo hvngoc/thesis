@@ -34,12 +34,14 @@ public class Friend {
     }
 
     private int numFriend;
+    private int mutualFriend;
 
-    public  Friend(String id, String name, String avatar, int numFriend){
+    public  Friend(String id, String name, String avatar, int numFriend, int mutualFriend){
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.numFriend = numFriend;
+        this.mutualFriend = mutualFriend;
     }
 
     public  int getNumFriend(){
@@ -48,5 +50,13 @@ public class Friend {
 
     public void setNumFriend(int numFriend){
         this.numFriend = numFriend;
+    }
+
+    public  int getMutualFriend(){
+        return this.mutualFriend;
+    }
+
+    public  void setMutualFriend(int mutualFriend){
+        this.mutualFriend = mutualFriend;
     }
 }
