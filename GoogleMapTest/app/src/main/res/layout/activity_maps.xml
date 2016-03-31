@@ -5,24 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MapsActivity" >
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <fragment
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-
-        <fragment
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#aa9a9a">
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/mapsbar"
+        android:layout_height="match_parent"
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:background="@drawable/curved_shape_infowindow"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/mapsbar"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:id="@+id/imageViewBtnMyLocation"
+            android:src="@drawable/iconmylocation"
+            android:onClick="BtnViewMyLocationClick" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text=" Finding "
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/mapsbar"
+        android:background="#ffffffff"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/curved_shape_infowindow"
+            android:id="@+id/layoutBounding"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
             <ImageView
                 android:layout_alignParentLeft="true"
                 android:layout_width="50dip"
@@ -30,35 +54,59 @@
                 android:id="@+id/imageViewAllBoundings"
                 android:src="@drawable/iconcloud"
                 android:onClick="BtnAllBoundingClick" />
-            <ImageView
-                android:layout_toRightOf="@+id/imageViewAllBoundings"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:id="@+id/imageViewBtnMyLocation"
-                android:src="@drawable/iconmylocation"
-                android:onClick="BtnViewMyLocationClick" />
-            <EditText
-                android:layout_toLeftOf="@+id/imageViewBtnSearch"
-                android:layout_toRightOf="@+id/imageViewBtnMyLocation"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:hint="type name here"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextSearch" />
+                android:text=" Bounding "
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:background="@drawable/curved_shape_infowindow"
+            android:layout_toRightOf="@+id/layoutBounding"
+            android:layout_toLeftOf="@+id/layoutSetting"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_toLeftOf="@+id/imageViewBtnSearch"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:hint="type here"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextSearch" />
+                <ImageView
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/imageViewBtnSearch"
+                    android:src="@drawable/iconsearch"
+                    android:onClick="BtnViewSearchClick" />
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="Searching"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:background="@drawable/curved_shape_infowindow"
+            android:id="@+id/layoutSetting"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:id="@+id/imageViewBtnSearch"
-                android:layout_toLeftOf="@+id/imageViewbtnSetting"
-                android:src="@drawable/iconsearch"
-                android:onClick="BtnViewSearchClick" />
-            <ImageView
-                android:layout_width="50dip"
-                android:layout_alignParentRight="true"
                 android:layout_height="50dip"
                 android:id="@+id/imageViewbtnSetting"
+                android:onClick="BtnSettingClick"
                 android:src="@drawable/iconsetting"/>
-
-        </RelativeLayout>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text=" Settting "
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

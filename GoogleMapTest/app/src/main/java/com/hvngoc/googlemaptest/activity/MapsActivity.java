@@ -5,7 +5,6 @@ import java.util.HashMap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
+import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
 import com.hvngoc.googlemaptest.custom.MapsDialogLayout;
 import com.hvngoc.googlemaptest.helper.LocationPostHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
@@ -41,8 +41,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_maps);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -169,6 +167,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         MyLocation location = new MyLocation(this);
         LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
         onMapLongClick(latLng);
+    }
+    public void BtnSettingClick(View v) {
+        MapSearchingDialog dialog = new MapSearchingDialog(this);
+        dialog.show();
     }
     ///////////////////////////////////////////////////////
     // this is method to help us fit the Markers into specific bounds for camera position
