@@ -29,7 +29,6 @@ import java.util.ArrayList;
 public class FriendSuggestFragment extends Fragment {
 
     private RecyclerView recyclerListFriend;
-    private final String ADD_FRIEND = "ADD";
 
     public FriendSuggestFragment() {
         // Required empty public constructor
@@ -103,7 +102,7 @@ public class FriendSuggestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, ADD_FRIEND);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.VISIBLE);
                 recyclerListFriend.setAdapter(adapter);
             }
             else {

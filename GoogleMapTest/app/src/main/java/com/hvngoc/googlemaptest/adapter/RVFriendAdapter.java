@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +17,12 @@ import java.util.List;
  */
 public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHolder>{
     List<Friend> mItems;
-    String textBtnAction;
+    int visibilityAdd;
 
-    public RVFriendAdapter(List<Friend> listItems, String textBtnAction) {
+    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd) {
         super();
         mItems = listItems;
-        this.textBtnAction = textBtnAction;
+        this.visibilityAdd = visibilityAdd;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         Friend item = mItems.get(i);
         viewHolder.txt_friendUserName.setText(item.getName());
         viewHolder.txt_friendNum.setText(item.getNumFriend() + " friends. " + item.getMutualFriend() + " mutual friends.");
-        viewHolder.btn_friend_action.setText(textBtnAction);
+        viewHolder.btnFriendAdd.setVisibility(visibilityAdd);
         viewHolder.img_friendAvatar.setImageResource(R.drawable.icon_profile);//item.getAvatar();
     }
 
@@ -53,14 +52,15 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         public ImageView img_friendAvatar;
         public TextView txt_friendUserName;
         public TextView txt_friendNum;
-        public Button btn_friend_action;
+        public ImageView btnFriendAdd, btnFriendDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_friendAvatar = (ImageView)itemView.findViewById(R.id.img_friendAvatar);
             txt_friendUserName = (TextView)itemView.findViewById(R.id.txt_friendUserName);
             txt_friendNum = (TextView)itemView.findViewById(R.id.txt_friendNum);
-            btn_friend_action = (Button) itemView.findViewById(R.id.btn_friend_action);
+            btnFriendAdd = (ImageView) itemView.findViewById(R.id.btnFriendAdd);
+            btnFriendDelete = (ImageView) itemView.findViewById(R.id.btnFriendDelete);
         }
     }
 }

@@ -1,13 +1,46 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dip"
     tools:context="com.hvngoc.googlemaptest.fragment.NotificationsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/recycler_notification"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_notifications" />
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabNotificationClear"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_delete"
+        android:tint="#ffffff" />
+    <TextView
+        android:layout_above="@+id/fabNotificationClear"
+        android:paddingRight="5dip"
+        android:layout_width="wrap_content"
+        android:text="clear all"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_alignParentEnd="true"
+        android:id="@+id/fabNotificationRead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_popup_reminder" />
+    <TextView
+        android:layout_below="@+id/fabNotificationRead"
+        android:paddingRight="5dip"
+        android:layout_width="wrap_content"
+        android:text="mark all"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000" />
+</RelativeLayout>
