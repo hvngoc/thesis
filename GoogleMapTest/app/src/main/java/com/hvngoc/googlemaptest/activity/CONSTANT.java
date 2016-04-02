@@ -29,4 +29,13 @@ public class CONSTANT {
     public static final int EMOTION_ID_SURPRISE = R.drawable.markers_emotion_surprise;
     public static final int EMOTION_ID_TERRIBLE = R.drawable.markers_emotion_terrible;
 
+    public static final String TAG_NOTAG = "no tag";
+    public static final String TAG_FOOD = "food";
+    public static final String TAG_SHOPPING = "shopping";
+    public static final String TAG_SALE = "sale";
+    public static final String TAG_DANGEROUS = "dangerous";
+    public static final String TAG_TRAVELLER = "traveller";
+    public static final String TAG_ENTERTAINMENT = "entertainment";
+    public static final String TAG_EVENT = "event";
+    public static final String TAG_SPORT = "sport";
 }

@@ -177,8 +177,22 @@
             android:background="#088A85"
             android:orientation="horizontal"
             android:layout_height="50dip">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="like"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="share"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="follow"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="report"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </RelativeLayout>
-
 </android.support.v4.widget.DrawerLayout>

@@ -7,6 +7,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -46,6 +48,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
+
+        AutoCompleteTextView editTextSearch = (AutoCompleteTextView) findViewById(R.id.editTextSearch);
+        editTextSearch.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
     }
 
     @Override
