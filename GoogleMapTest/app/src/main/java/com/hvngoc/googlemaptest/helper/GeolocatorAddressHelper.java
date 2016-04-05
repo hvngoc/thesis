@@ -26,14 +26,23 @@ public class GeolocatorAddressHelper {
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if(addresses == null || addresses.size() == 0)
-                return "";
+                return "UNKNOW";
             String address = addresses.get(0).getAddressLine(0);
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
-            return address + ", " + city + ", " + state + ", " + country + ".";
+            String result = realAddress(address, ", ") + realAddress(city, ", ") + realAddress(state, ", ") + realAddress(country, ".");
+            if (result.length() == 0)
+                return "UNKNOW";
+            return result;
         } catch (IOException e) {
-            return "";
+            return "UNKNOW";
         }
+    }
+
+    private String realAddress(String address, String padding) {
+        if (address == null)
+            return "";
+        return address + padding;
     }
 }

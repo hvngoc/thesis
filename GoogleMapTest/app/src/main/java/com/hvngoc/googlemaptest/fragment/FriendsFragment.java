@@ -60,9 +60,9 @@ public class FriendsFragment extends Fragment {
 
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
         private final int TAB_COUNT = 4;
-        private String listTitle[] = new String[]{"friends", "suggested", "request", "find"};
-        private Fragment listFragment[] = new Fragment[]{new FriendListFragment(), new FriendSuggestFragment(),
-                new NothingsFragment(), new NothingsFragment()};
+        private String listTitle[] = new String[]{"request", "find", "friends", "suggested"};
+        private Fragment listFragment[] = new Fragment[]{new NothingsFragment(), new FriendFindFragment(),
+                new FriendListFragment(), new FriendSuggestFragment()};
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);

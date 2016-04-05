@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +55,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
                 .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
                 .error(R.drawable.image1)         // optional
                 .into(newsViewHolder.placephoto);
-        //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
+        newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude).GetAddress());
         newsViewHolder.txtNumLike.setText(""+post.numLike);
         newsViewHolder.txtNumShared.setText(""+post.numShare);
         newsViewHolder.txtNumComment.setText(""+post.numComment);

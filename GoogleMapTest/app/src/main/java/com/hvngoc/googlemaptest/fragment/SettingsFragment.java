@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,26 +36,24 @@ public class SettingsFragment extends Fragment {
         final MultiAutoCompleteTextView editSpecialTag = (MultiAutoCompleteTextView) rootView.findViewById(R.id.editSpecialTag);
         editSpecialTag.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
         editSpecialTag.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        editSpecialTag.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editSpecialTag.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                    editSpecialTag.showDropDown();
+            public boolean onTouch(View v, MotionEvent event) {
+                editSpecialTag.showDropDown();
+                return false;
             }
         });
 
         final MultiAutoCompleteTextView editSpecialFriend = (MultiAutoCompleteTextView) rootView.findViewById(R.id.editSpecialFriend);
         editSpecialFriend.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
         editSpecialFriend.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        editSpecialFriend.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editSpecialFriend.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                    editSpecialFriend.showDropDown();
+            public boolean onTouch(View v, MotionEvent event) {
+                editSpecialFriend.showDropDown();
+                return false;
             }
         });
-
-
 
         return rootView;
     }

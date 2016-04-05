@@ -26,14 +26,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/friends_bar"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
         android:background="#088A85"
         android:layout_alignParentBottom="true"
         android:layout_height="50dip">
-        <TextView
+        <EditText
+            android:id="@+id/editFriendSearch"
+            android:layout_alignParentStart="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="friends bar"/>
+            android:hint="type email here."
+            android:layout_toStartOf="@+id/btnFriendSearch"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/btnFriendSearch"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@android:drawable/ic_menu_search" />
+
     </RelativeLayout>
 
 </LinearLayout>

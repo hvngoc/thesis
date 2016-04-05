@@ -17,6 +17,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
+import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
@@ -149,7 +150,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         title.setText(currentPost.getContent());
         txtFeeling.setText("feeling " + currentPost.feeling + " on");
         txtCommentDay.setText(currentPost.getPostDate());
-        //newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper() posts.get(i);
+        txtAddressLocation.setText(new GeolocatorAddressHelper(this, currentPost.Latitude, currentPost.Longitude).GetAddress());
         txtNumLike.setText("" + currentPost.numLike);
         txtNumShared.setText("" + currentPost.numShare);
         txtNumComment.setText("" + currentPost.numComment);

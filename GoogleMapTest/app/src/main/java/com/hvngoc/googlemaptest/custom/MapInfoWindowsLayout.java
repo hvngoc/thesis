@@ -10,10 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
-import com.hvngoc.googlemaptest.helper.LocationPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
-
-import org.w3c.dom.Text;
 
 public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
@@ -35,11 +32,7 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
         TextView txtInfoFeeling = (TextView) myContentsView.findViewById(R.id.txtInfoFeeling);
         txtInfoFeeling.setText("feeling " + this.post.feeling);
 
-        LocationPostHelper locationHelper = new LocationPostHelper(this.post.getLocation());
-        Double latitude = locationHelper.getLatitude();
-        Double longitude = locationHelper.getLongitude();
-
-        String address = new GeolocatorAddressHelper(this.context, latitude, longitude).GetAddress();
+        String address = new GeolocatorAddressHelper(this.context, this.post.Latitude, this.post.Longitude).GetAddress();
         TextView txtInfoAddress = (TextView) myContentsView.findViewById(R.id.txtInfoAddress);
         txtInfoAddress.setText(address);
         return myContentsView;

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -26,7 +27,6 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
 import com.hvngoc.googlemaptest.custom.MapsDialogLayout;
-import com.hvngoc.googlemaptest.helper.LocationPostHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -34,7 +34,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap googleMap;
-    private LocationPostHelper locationHelper = new LocationPostHelper();
 
     private HashMap<Marker, Post> markerManager = new HashMap<>();
     private ArrayList<Post> currentListPost = new ArrayList<>();
@@ -49,8 +48,15 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        AutoCompleteTextView editTextSearch = (AutoCompleteTextView) findViewById(R.id.editTextSearch);
+        final AutoCompleteTextView editTextSearch = (AutoCompleteTextView) findViewById(R.id.editTextSearch);
         editTextSearch.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
+        editTextSearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                editTextSearch.showDropDown();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -90,13 +96,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         locationA.setLongitude(latLng.longitude);
         for (Post item : GLOBAL.CurrentListPost) {
             double distance = 0;
-            locationHelper.setLocation(item.getLocation());
-            Double latitude = locationHelper.getLatitude();
-            Double longitude = locationHelper.getLongitude();
-
             Location locationB = new Location("B");
-            locationB.setLatitude(latitude);
-            locationB.setLongitude(longitude);
+            locationB.setLatitude(item.Latitude);
+            locationB.setLongitude(item.Longitude);
             distance = locationA.distanceTo(locationB);
             if (distance < 100.0)
                 currentListPost.add(item);
@@ -141,12 +143,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         Post currentPost = (Post) extras.getSerializable("currentPost");
 
         currentListPost.add(currentPost);
-        locationHelper.setLocation(currentPost.getLocation());
 
-        Double latitude = locationHelper.getLatitude();
-        Double longitude = locationHelper.getLongitude();
-
-        InitilizeMap(new LatLng(latitude, longitude));
+        InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
         AddMarker();
     }
     //////////////////////////button click///////////////////
@@ -184,11 +182,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             return;
         LatLngBounds.Builder b = new LatLngBounds.Builder();
         for(Post item : currentListPost){
-            locationHelper.setLocation(item.getLocation());
-            Double latitude = locationHelper.getLatitude();
-            Double longitude = locationHelper.getLongitude();
-
-            LatLng ll = new LatLng(latitude, longitude);
+            LatLng ll = new LatLng(item.Latitude, item.Longitude);
             b.include(ll);
         }
         LatLngBounds bounds = b.build();
@@ -200,12 +194,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         googleMap.clear();
         markerManager.clear();
         for(Post item : currentListPost) {
-            locationHelper.setLocation(item.getLocation());
-            Double latitude = locationHelper.getLatitude();
-            Double longitude = locationHelper.getLongitude();
-
             MarkerOptions markerOption = new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
+                    .position(new LatLng(item.Latitude, item.Longitude))
                     .icon(BitmapDescriptorFactory.fromResource(GLOBAL.EMOTION.get(item.feeling)))
                     .title(item.getContent());
 

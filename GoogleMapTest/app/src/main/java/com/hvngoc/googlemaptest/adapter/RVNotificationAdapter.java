@@ -33,7 +33,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 6;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
