@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,7 @@ import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -88,10 +90,15 @@ public class FriendListFragment extends Fragment {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/getAllFriend";
+            String serverUrl = GLOBAL.SERVER_URL + "getAllFriends";
             JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendStringHTTTPostRequest(GLOBAL.CurrentUser.getId());
+            return helper.sendHTTTPostRequest();
         }
 
         @Override

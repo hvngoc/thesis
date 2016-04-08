@@ -21,6 +21,7 @@ import com.hvngoc.googlemaptest.adapter.RVCommentAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Comment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -83,10 +84,15 @@ public class CommentDialogLayout extends Dialog {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/getAllComment";
+            String serverUrl = GLOBAL.SERVER_URL + "getAllCommentsOfPost";
             JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("postID", postID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendStringHTTTPostRequest(postID);
+            return helper.sendHTTTPostRequest();
         }
 
         @Override

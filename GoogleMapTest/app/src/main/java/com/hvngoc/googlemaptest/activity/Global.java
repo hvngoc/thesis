@@ -20,7 +20,7 @@ public class GLOBAL {
 
     public static StartedUserHelper startedUserHelper = null;
 
-    public static final String SERVER_URL = "http://10.0.3.2:8084/Neo4jWebAPI/";
+    public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
 
     public static List<Post> CurrentListPost = new ArrayList<Post>();
 

@@ -17,6 +17,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -141,9 +142,17 @@ public class SignupActivity extends AppCompatActivity {
 
         private Boolean postData() {
             String data = this.email + " " + this.password + ";" + this.name ;
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/register";
-            helper = new HTTPPostHelper(serverUrl, new JSONObject());
-            return helper.sendStringHTTTPostRequest(data);
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("email", this.email);
+                jsonobj.put("password", this.password);
+                jsonobj.put("name", this.name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String serverUrl = GLOBAL.SERVER_URL + "register";
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
         }
 
         @Override

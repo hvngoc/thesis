@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/login";
+            String serverUrl = GLOBAL.SERVER_URL + "login";
             JSONObject jsonobj = new JSONObject();
 
             Log.i("Login", "asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -155,9 +155,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String data = this.email + " " + this.password;
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendStringHTTTPostRequest(data);
+            return helper.sendHTTTPostRequest();
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Friend item = mItems.get(i);
         viewHolder.txt_friendUserName.setText(item.getName());
+        Log.i("FRIEND: ", item.getName());
         viewHolder.txt_friendNum.setText(item.getNumFriend() + " friends. " + item.getMutualFriend() + " mutual friends.");
         viewHolder.btnFriendAdd.setVisibility(visibilityAdd);
         viewHolder.img_friendAvatar.setImageResource(R.drawable.icon_profile);//item.getAvatar();

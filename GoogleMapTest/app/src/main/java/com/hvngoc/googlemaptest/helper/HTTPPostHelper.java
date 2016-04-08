@@ -14,7 +14,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -42,6 +44,7 @@ public class HTTPPostHelper {
         try {
             // Add your data
             StringEntity se = new StringEntity(this.params.toString());
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             Log.i("DATA: ", this.params.toString());
             httppost.setEntity(se);
             // Execute HTTP Post Request

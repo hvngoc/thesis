@@ -21,6 +21,7 @@ import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -95,10 +96,15 @@ public class HomeFragment extends Fragment {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "neo4j/getAllPost";
+            String serverUrl = GLOBAL.SERVER_URL + "getAllPostOfFriends";
             JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendStringHTTTPostRequest(GLOBAL.CurrentUser.getId());
+            return helper.sendHTTTPostRequest();
         }
 
         @Override
