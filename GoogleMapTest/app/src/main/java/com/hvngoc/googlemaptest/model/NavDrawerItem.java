@@ -1,11 +1,14 @@
 package com.hvngoc.googlemaptest.model;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by 12125_000 on 1/9/2016.
  */
 public class NavDrawerItem {
     private boolean showNotify;
     private String title;
+    private String image;
 
 
     public NavDrawerItem() {
@@ -31,5 +34,13 @@ public class NavDrawerItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

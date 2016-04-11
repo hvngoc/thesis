@@ -88,10 +88,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp">
                             <Button
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:id="@+id/btnLike"
-                                android:background="@drawable/imglike"/>
+                                android:background="@drawable/ic_favorite_black"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -101,27 +101,13 @@
                                 android:layout_alignParentEnd="true"
                                 android:textSize="20dp"
                                 android:textColor="#fa2b2b" />
-                            <Button
-                                android:layout_width="32dp"
-                                android:id="@+id/btnShare"
-                                android:layout_height="32dp"
-                                android:layout_marginLeft="20dp"
-                                android:background="@drawable/imgshare"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:id="@+id/txtNumShared"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="33"
-                                android:layout_alignParentEnd="true"
-                                android:textSize="20dp"
-                                android:textColor="#fa2b2b" />
+
                             <Button
                                 android:id="@+id/btnComment"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:layout_marginLeft="20dp"
-                                android:background="@drawable/imgcomment"/>
+                                android:background="@drawable/ic_comment_black"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -129,6 +115,22 @@
                                 android:text="7"
                                 android:layout_alignParentEnd="true"
                                 android:id="@+id/txtNumComment"
+                                android:textSize="20dp"
+                                android:textColor="#fa2b2b" />
+
+                            <Button
+                                android:layout_width="24dp"
+                                android:id="@+id/btnShare"
+                                android:layout_height="24dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/ic_share_black"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/txtNumShared"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="33"
+                                android:layout_alignParentEnd="true"
                                 android:textSize="20dp"
                                 android:textColor="#fa2b2b" />
                         </LinearLayout>

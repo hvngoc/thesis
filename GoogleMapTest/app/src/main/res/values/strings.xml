@@ -29,6 +29,17 @@
         <item>@string/nav_item_logout</item>
     </string-array>
 
+    <string-array name="nav_drawer_images">
+        <item>"ic_home_black"</item>
+        <item>"ic_account_box_black"</item>
+        <item>"ic_person_black"</item>
+        <item>"ic_friend_black"</item>
+        <item>"ic_notifications_black"</item>
+        <item>"ic_message_black"</item>
+        <item>"ic_settings_black"</item>
+        <item>"ic_logout_black"</item>
+    </string-array>
+
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_wall">Wall</string>

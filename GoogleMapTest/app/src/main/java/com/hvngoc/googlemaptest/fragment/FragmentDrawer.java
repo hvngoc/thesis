@@ -32,6 +32,7 @@ public class FragmentDrawer extends Fragment {
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
+    private static String[] imageIDs = null;
     private FragmentDrawerListener drawerListener;
 
     public FragmentDrawer() {
@@ -50,6 +51,7 @@ public class FragmentDrawer extends Fragment {
         for (int i = 0; i < titles.length; i++) {
             NavDrawerItem navItem = new NavDrawerItem();
             navItem.setTitle(titles[i]);
+            navItem.setImage(imageIDs[i]);
             data.add(navItem);
         }
         return data;
@@ -61,6 +63,7 @@ public class FragmentDrawer extends Fragment {
 
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+        imageIDs = getActivity().getResources().getStringArray(R.array.nav_drawer_images);
     }
 
     @Override
