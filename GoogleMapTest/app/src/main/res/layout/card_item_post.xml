@@ -75,11 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtAddressLocation"
-                android:text="Ho Chi Minh City, Viet Nam."
+                android:text="Ho Chi Minh City, Viet Nam"
                 android:textSize="15dip"
-                android:background="#e2e0e0"
-                android:alpha="0.8"
-                android:textColor="#0011fe"
+                android:textColor="@color/black"
                 android:layout_alignBottom="@+id/place_photo"
                 android:layout_alignRight="@+id/place_photo"
                 android:layout_marginRight="5dip"
@@ -90,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:text="The most beautiful place in the world"
                 android:layout_below="@+id/place_photo"
                 />
@@ -103,6 +102,7 @@
                 android:layout_width="24dp"
                 android:id="@+id/btnLike"
                 android:layout_height="24dp"
+                android:backgroundTint="@color/Gray"
                 android:background="@drawable/ic_favorite_black"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -117,6 +117,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:id="@+id/btnComment"
+                android:backgroundTint="@color/Gray"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_comment_black"/>
             <TextView
@@ -132,6 +133,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:id="@+id/btnShare"
+                android:backgroundTint="@color/Gray"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_share_black"/>
             <TextView

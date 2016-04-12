@@ -115,7 +115,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 break;
             case 1:
                 fragment = new ProfileFragment();
-                title = getString(R.string.title_friends);
+                title = getString(R.string.title_profile);
                 break;
             case 2:
                 fragment = new WallFragment();

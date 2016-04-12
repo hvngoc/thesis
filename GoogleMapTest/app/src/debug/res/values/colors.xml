@@ -6,8 +6,8 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="black">#000000</color>
-    <color name="Gray">#C51162</color>
-    <color name="colorAccent">#FF80AB</color>
+    <color name="Gray">#848484</color>
+    <color name="colorAccent">#034644</color>
 
     <color name="primary">#088A85</color>
     <color name="primary_dark">#088A85</color>
