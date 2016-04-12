@@ -59,18 +59,23 @@
             android:name=".activity.MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/MyMaterialTheme" >
-
         </activity>
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.Dark" >
-
         </activity>
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_singup"
             android:theme="@style/AppTheme.Dark" >
+        </activity>
+        <activity android:name=".activity.ProfileActivity"
+            android:label="Profile">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainPageActivity" />
         </activity>
     </application>
 
