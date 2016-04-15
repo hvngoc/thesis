@@ -53,7 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurentContext)
                 .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
-                .error(R.drawable.image1)         // optional
+                .error(R.drawable.bigbang)         // optional
                 .into(newsViewHolder.placephoto);
         newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude).GetAddress());
         newsViewHolder.txtNumLike.setText(""+post.numLike);
