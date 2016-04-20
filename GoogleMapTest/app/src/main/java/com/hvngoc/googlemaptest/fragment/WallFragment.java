@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
+import com.hvngoc.googlemaptest.custom.PostCreationDialog;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -56,6 +58,15 @@ public class WallFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
         listPosts.setLayoutManager(llm);
         listPosts.setHasFixedSize(true);
+
+        FloatingActionButton btnCreateNewPost = (FloatingActionButton) rootView.findViewById(R.id.btnCreateNewPost);
+        btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PostCreationDialog(getContext()).show();
+            }
+        });
+
         return rootView;
     }
 

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="60dp"
+    android:paddingBottom="6dip"
+    android:background="@drawable/comment_bg_dialog">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/comment_bg_title"
+            android:text="Create a new post"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
+        <EditText
+            android:id="@+id/editTextCreatePost"
+            android:padding="7dip"
+            android:hint="what is on your mind??"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:lines="5"
+            android:minLines="3"
+            android:maxLines="6"
+            android:gravity="top|left"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:background="#ffffff"
+            android:scrollHorizontally="false"
+            android:scrollbars="vertical" />
+        <Gallery
+            android:id="@+id/galleryCreatePost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Gallery>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/comment_bg_title">
+            <ImageView
+                android:id="@+id/btnCreatePostGetImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:layout_toEndOf="@+id/btnCreatePostGetImage"
+                android:id="@+id/btnCreatePostGetFeeling"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:src="@drawable/markers_emotion_normal" />
+            <TextView
+                android:layout_toEndOf="@+id/btnCreatePostGetFeeling"
+                android:id="@+id/txtCreatePostFeeling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Happy"
+                android:textSize="18sp"
+                android:textColor="@android:color/white" />
+            <ImageView
+                android:layout_toEndOf="@+id/txtCreatePostFeeling"
+                android:id="@+id/btnCreatePostGetLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_myplaces" />
+            <TextView
+                android:layout_toEndOf="@+id/btnCreatePostGetLocation"
+                android:id="@+id/txtCreatePostLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Ho Chi Minh City"
+                android:textSize="18sp"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dip"
+            android:id="@+id/createPostMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="7dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/comment_bg_close"
+        android:textSize="30dip"
+        android:text="×"
+        android:textColor="#9acd32" />
+</RelativeLayout>
