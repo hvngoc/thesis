@@ -70,6 +70,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("sex", radioSex.getCheckedRadioButtonId());
                 intent.putExtra("birthdate", birthdate.getText());
                 intent.putExtra("address", address.getText());
+                intent.putExtra("avatar", "url");
                 startActivity(intent);
             }
         });

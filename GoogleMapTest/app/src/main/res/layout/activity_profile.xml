@@ -17,12 +17,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/avatar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:src="@drawable/default_icon"
-            android:scaleType="centerCrop"/>
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:src="@drawable/default_icon" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/pick_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/avatar"
+                android:layout_alignRight="@+id/avatar"
+                android:layout_marginRight="15dp"
+                android:clickable="true"
+                android:tint="@color/accent"
+                android:src="@drawable/ic_edit_white" />
+
+        </RelativeLayout>
+
+
+
 
         <android.support.v7.widget.CardView
             android:layout_marginTop="5dp"
