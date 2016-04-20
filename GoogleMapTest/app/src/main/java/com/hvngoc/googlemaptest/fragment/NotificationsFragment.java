@@ -19,7 +19,7 @@ import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
 public class NotificationsFragment extends Fragment {
 
     RecyclerView recyclerView;
-    FloatingActionButton fabRead, fabClear;
+    FloatingActionButton  fabClear;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -37,7 +37,6 @@ public class NotificationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
         fabClear = (FloatingActionButton) rootView.findViewById(R.id.fabNotificationClear);
-        fabRead = (FloatingActionButton) rootView.findViewById(R.id.fabNotificationRead);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext));
