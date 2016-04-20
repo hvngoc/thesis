@@ -22,8 +22,10 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/avatar"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="240dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/default_icon" />
 
             <android.support.design.widget.FloatingActionButton
