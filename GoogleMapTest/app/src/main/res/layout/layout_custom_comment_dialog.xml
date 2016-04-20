@@ -26,8 +26,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:layout_marginBottom="100dp"/>
+            android:layout_weight="5"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +36,7 @@
             <EditText
                 android:layout_marginTop="6dip"
                 android:layout_marginLeft="4dip"
-                android:layout_toLeftOf="@+id/btnSubmit"
+                android:layout_toLeftOf="@+id/btnCommentSend"
                 android:layout_width="match_parent"
                 android:layout_height="36dip"
                 android:hint="  write a comment here ...  "
@@ -49,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="Send"
-                android:id="@+id/btnSubmit"
+                android:id="@+id/btnCommentSend"
                 android:textColor="#000000" />
         </RelativeLayout>
     </LinearLayout>

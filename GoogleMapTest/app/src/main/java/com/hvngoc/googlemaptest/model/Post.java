@@ -15,10 +15,12 @@ public class Post implements Serializable {
 
     public int numLike, numShare, numComment;
 
+    public int isYouLike;
+
     public Post (String postID, String content, String listImages,
                  String postDate, Double Latitude, Double Longitude, String feeling,
                  String userName, String userAvatar, String relationShip,
-                 int numLike, int numShare, int numComment) {
+                 int numLike, int numShare, int numComment, int isYouLike) {
         this.setPostID(postID);
         this.setContent(content);
         this.setListImages(listImages);
@@ -33,6 +35,8 @@ public class Post implements Serializable {
         this.numLike = numLike;
         this.numShare = numShare;
         this.numComment = numComment;
+
+        this.isYouLike = isYouLike;
     }
 
     public String getPostID() {

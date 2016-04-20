@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,8 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 
 public class CommentDialogLayout extends Dialog {
@@ -36,7 +38,7 @@ public class CommentDialogLayout extends Dialog {
     RecyclerView.Adapter mAdapter;
 
     String postID;
-
+    private  ArrayList<Comment> listComment = new ArrayList<>();
     private Context context;
     public CommentDialogLayout(Context context, String postID) {
         super(context);
@@ -65,14 +67,20 @@ public class CommentDialogLayout extends Dialog {
             }
         });
 
+        Button btnCommentSend = (Button) findViewById(R.id.btnCommentSend);
+        btnCommentSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CreateNewCommentAsyncTask().execute();
+            }
+        });
+
         new LoadCommentAsyncTask().execute();
 
     }
 
     private class LoadCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -104,13 +112,62 @@ public class CommentDialogLayout extends Dialog {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Comment>>() {
                 }.getType();
-                List<Comment> listComment = gson.fromJson(res, listType);
-
-                Log.i("comment count", "" + listComment.size());
-
+                listComment = gson.fromJson(res, listType);
                 mAdapter = new RVCommentAdapter(listComment);
                 mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.scrollToPosition(listComment.size() - 1);
+            } else {
+                // Notify send request failed!
+            }
+        }
+    }
 
+    private class CreateNewCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        String content = "";
+        TextView etxtWriteComment;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            etxtWriteComment = (TextView) findViewById(R.id.etxtWriteComment);
+            content = etxtWriteComment.getText().toString();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if (content.length() == 0)
+                return false;
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "createNewCommentOfPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("postID", postID);
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("content", content);
+                jsonobj.put("day", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Comment>>() {
+                }.getType();
+                ArrayList<Comment> comment = gson.fromJson(res, listType);
+                listComment.addAll(comment);
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.scrollToPosition(listComment.size() - 1);
+                etxtWriteComment.setText("");
             } else {
                 // Notify send request failed!
             }

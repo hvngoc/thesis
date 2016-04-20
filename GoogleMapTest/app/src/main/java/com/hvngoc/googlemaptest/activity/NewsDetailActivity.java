@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -18,9 +20,13 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -95,13 +101,16 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (currentPost.isYouLike == 0)
+                    new LikeThisPostAsyncTask().execute();
+                else
+                    new UnLikeThisPostAsyncTask().execute();
             }
         });
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new ShareThisPostAsyncTask().execute();
             }
         });
 
@@ -154,6 +163,15 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         txtNumLike.setText("" + currentPost.numLike);
         txtNumShared.setText("" + currentPost.numShare);
         txtNumComment.setText("" + currentPost.numComment);
+        setLikeButton();
+    }
+
+    private void setLikeButton(){
+        Log.i("is you like", currentPost.isYouLike + "");
+        if (currentPost.isYouLike == 0)
+            btnLike.setBackgroundResource(R.drawable.ic_favorite_black);
+        else
+            btnLike.setBackgroundResource(R.drawable.ic_favorite_ok);
     }
 
     @Override
@@ -186,6 +204,126 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     @Override
     public void onPageSelected(int position) {
         Log.d("Slider Demo", "Page Changed: " + position);
+    }
+
+
+    private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "likeThisPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("postID", currentPost.getPostID());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                currentPost.numLike += 1;
+                currentPost.isYouLike = 1;
+                txtNumLike.setText("" + currentPost.numLike);
+            }
+            else {
+
+            }
+            setLikeButton();
+        }
+    }
+
+    private class UnLikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "unLikeThisPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("postID", currentPost.getPostID());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                currentPost.numLike -= 1;
+                currentPost.isYouLike = 0;
+                txtNumLike.setText("" + currentPost.numLike);
+            }
+            else {
+
+            }
+            setLikeButton();
+        }
+    }
+
+    private class ShareThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "shareThisPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("postID", currentPost.getPostID());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                currentPost.numShare += 1;
+                Toast.makeText(getBaseContext(), "share ok!!!",Toast.LENGTH_LONG).show();
+                txtNumShared.setText(currentPost.numShare + "");
+            }
+            else {
+
+            }
+        }
     }
 
 }
