@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
@@ -89,6 +92,12 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             public void onClick(View v) {
                 //load LIST image on sd card *************************************************************************************
                 //to post.listImages and set view to recyclerVIEW
+                RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recyclerCreatePostImage);
+                RecyclerView.Adapter mAdapter = new RVPickImageAdapter();
+
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setAdapter(mAdapter);
             }
         });
 
@@ -134,7 +143,6 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         this.googleMap.setIndoorEnabled(true);
         this.googleMap.setBuildingsEnabled(false);
-
         InitilizeMap();
     }
 
@@ -158,7 +166,6 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 .position(new LatLng(post.Latitude, post.Longitude))
                 .icon(BitmapDescriptorFactory.fromResource(GLOBAL.EMOTION.get(post.feeling)))
                 .title(post.feeling);
-
         this.googleMap.addMarker(markerOption);
     }
 
