@@ -17,6 +17,10 @@ public class Post implements Serializable {
 
     public int isYouLike;
 
+    public Post(){
+
+    }
+
     public Post (String postID, String content, String listImages,
                  String postDate, Double Latitude, Double Longitude, String feeling,
                  String userName, String userAvatar, String relationShip,

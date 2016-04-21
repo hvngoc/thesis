@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
@@ -63,7 +64,7 @@ public class WallFragment extends Fragment {
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PostCreationDialog(getContext()).show();
+                new PostCreationDialog(getContext(), getActivity().getSupportFragmentManager()).show();
             }
         });
 
