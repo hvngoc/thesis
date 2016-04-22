@@ -30,10 +30,12 @@ import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
+import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -90,14 +92,20 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //load LIST image on sd card *************************************************************************************
-                //to post.listImages and set view to recyclerVIEW
-                RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recyclerCreatePostImage);
-                RecyclerView.Adapter mAdapter = new RVPickImageAdapter();
+                final PickPictureHelper pickPictureHelper = new PickPictureHelper(context, true);
+                pickPictureHelper.setOnOKClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ArrayList<String> listImages = pickPictureHelper.getmItemsChecked();
 
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                mRecyclerView.setHasFixedSize(true);
-                mRecyclerView.setAdapter(mAdapter);
+                        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                        mRecyclerView.setHasFixedSize(true);
+                        mRecyclerView.setAdapter(new RVPickImageAdapter(listImages));
+                        pickPictureHelper.dismiss();
+                    }
+                });
+                pickPictureHelper.show();
             }
         });
 

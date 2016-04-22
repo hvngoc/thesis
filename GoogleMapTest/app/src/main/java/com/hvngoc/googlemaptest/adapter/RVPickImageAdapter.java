@@ -1,28 +1,26 @@
 package com.hvngoc.googlemaptest.adapter;
 
-import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.model.Comment;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Hoang Van Ngoc on 22/04/2016.
  */
 public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.ViewHolder>{
-    //List<Bitmap> mItems;
+    ArrayList<String> mItems;
 
-    public RVPickImageAdapter(){//List<Bitmap> listItems) {
+    public RVPickImageAdapter(ArrayList<String> mItems) {
         super();
-        //mItems = listItems;
+        this.mItems = mItems;
     }
 
     @Override
@@ -35,13 +33,13 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        //Bitmap item = mItems.get(i);
-        //viewHolder.imgPickImage.setImageBitmap(item);
+        String item = mItems.get(i);
+        viewHolder.imgPickImage.setImageBitmap(BitmapFactory.decodeFile(item));
     }
 
     @Override
     public int getItemCount() {
-        return 6;//mItems.size();
+        return mItems.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -53,6 +51,14 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
             super(itemView);
             imgPickImage = (ImageView)itemView.findViewById(R.id.imgPickImage);
             btnPickClose = (Button) itemView.findViewById(R.id.btnPickClose);
+            btnPickClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    mItems.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
         }
 
     }
