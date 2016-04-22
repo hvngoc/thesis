@@ -32,7 +32,7 @@
             android:theme="@style/MyMaterialTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.NewsDetailActivity" />
+                android:value=".activity.MainPageActivity" />
         </activity>
         <activity
             android:name=".activity.MainActivity"

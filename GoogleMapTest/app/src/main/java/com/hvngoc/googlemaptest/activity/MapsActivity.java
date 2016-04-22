@@ -5,16 +5,14 @@ import java.util.HashMap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,7 +40,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private HashMap<Marker, Post> markerManager = new HashMap<>();
     private ArrayList<Post> currentListPost = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +48,16 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
+    }
 
-        final AutoCompleteTextView editTextSearch = (AutoCompleteTextView) findViewById(R.id.editTextSearch);
+    private AutoCompleteTextView editTextSearch;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_on_map, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        editTextSearch = (AutoCompleteTextView) searchMenuItem.getActionView();
+        editTextSearch.setHint("type here for searching on map");
         editTextSearch.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
         editTextSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -61,54 +66,47 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 return false;
             }
         });
-    }
-
-
-    private SearchView mSearchView;
-    private MenuItem searchMenuItem;
-
-    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            // newText is text entered by user to SearchView
-            Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_LONG).show();
-            return false;
-        }
-    };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        // Get the SearchView and set the searchable configuration
-        searchMenuItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchMenuItem.getActionView();
-        mSearchView.setOnQueryTextListener(listener);
+        MenuItem clickSearching = menu.findItem(R.id.action_searching);
+        clickSearching.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String text = editTextSearch.getText().toString();
+                Log.i("search action   ", text);
+                currentListPost.clear();
+                for (int i = 0; i < GLOBAL.CurrentListPost.size(); ++i){
+                    if(text.compareTo(GLOBAL.CurrentListPost.get(i).userName) == 0){
+                        currentListPost.add(GLOBAL.CurrentListPost.get(i));
+                    }
+                }
+                if(currentListPost.size() == 0) {
+                    currentListPost.addAll(GLOBAL.CurrentListPost);
+                    AddMarker();
+                }
+                ZoomAnimateLevelToFitMarkers(120);
+                return true;
+            }
+        });
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_finding) {
+            MyLocation location = new MyLocation(this);
+            LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
+            onMapLongClick(latLng);
             return true;
         }
-
-        if(id == R.id.action_search){
-            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
+        if(id == R.id.action_bounding){
+            ZoomAnimateLevelToFitMarkers(120);
             return true;
         }
-
+        if(id == R.id.action_settings){
+            MapSearchingDialog dialog = new MapSearchingDialog(this);
+            dialog.show();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -200,37 +198,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
         AddMarker();
     }
-    //////////////////////////button click///////////////////
-    public void BtnAllBoundingClick(View v) {
-        ZoomAnimateLevelToFitMarkers(120);
-    }
-    public void BtnViewSearchClick(View v){
-        EditText etxtSearch = (EditText) findViewById(R.id.editTextSearch);
-        String text = etxtSearch.getText().toString();
-        currentListPost.clear();
-        for (int i = 0; i < GLOBAL.CurrentListPost.size(); ++i){
-            if(text.compareTo(GLOBAL.CurrentListPost.get(i).userName) == 0){
-                currentListPost.add(GLOBAL.CurrentListPost.get(i));
-            }
-        }
-        if(currentListPost.size() == 0) {
-            currentListPost.addAll(GLOBAL.CurrentListPost);
-            AddMarker();
-        }
-        ZoomAnimateLevelToFitMarkers(120);
-    }
-    public void BtnViewMyLocationClick(View v){
-        MyLocation location = new MyLocation(this);
-        LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
-        onMapLongClick(latLng);
-    }
-    public void BtnSettingClick(View v) {
-        MapSearchingDialog dialog = new MapSearchingDialog(this);
-        dialog.show();
-    }
-    ///////////////////////////////////////////////////////
-    // this is method to help us fit the Markers into specific bounds for camera position
-    public void ZoomAnimateLevelToFitMarkers(int padding) {
+    private void ZoomAnimateLevelToFitMarkers(int padding) {
         if(currentListPost.size() == 0)
             return;
         LatLngBounds.Builder b = new LatLngBounds.Builder();
@@ -242,8 +210,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         googleMap.animateCamera(cu);
     }
-    // this is method to help us add a Marker to the map
-    public void AddMarker() {
+
+    private void AddMarker() {
         googleMap.clear();
         markerManager.clear();
         for(Post item : currentListPost) {

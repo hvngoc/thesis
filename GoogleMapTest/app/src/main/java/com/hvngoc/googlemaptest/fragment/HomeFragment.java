@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class HomeFragment extends Fragment {
         private Boolean postData() {
             String serverUrl = GLOBAL.SERVER_URL + "getAllPostOfFriends";
             JSONObject jsonobj = new JSONObject();
+            Log.i("userID", GLOBAL.CurrentUser.getId());
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
             } catch (JSONException e) {
