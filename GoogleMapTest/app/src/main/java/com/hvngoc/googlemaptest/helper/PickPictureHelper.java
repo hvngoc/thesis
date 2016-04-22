@@ -64,6 +64,9 @@ public class PickPictureHelper extends Dialog {
     public ArrayList<String> getmItemsChecked(){
         return rvShowPictureAdapter.getmItemsChecked();
     }
+    public String getOnlyOnePicture(){
+        return rvShowPictureAdapter.getOnlyOnePicture();
+    }
 
     private void setPictureFromGallery() {
         ArrayList<String> listPicture = getListPicture();

@@ -20,15 +20,22 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
     private ArrayList<String> mItems;
     private ArrayList<Boolean> mChecked;
     private boolean isMultipleClick;
+    private int curPosition;
+    private CheckBox preCheckbox;
 
     public RVShowPictureAdapter(ArrayList<String> mItems, boolean isMultipleClick) {
         super();
         this.mItems = mItems;
-
-        mChecked = new ArrayList<>();
-        int size = mItems.size();
-        for (int i = 0; i < size; ++i){
-            mChecked.add(false);
+        this.isMultipleClick = isMultipleClick;
+        if(this.isMultipleClick) {
+            mChecked = new ArrayList<>();
+            int size = mItems.size();
+            for (int i = 0; i < size; ++i) {
+                mChecked.add(false);
+            }
+        }
+        else{
+            curPosition = -1;
         }
     }
 
@@ -40,6 +47,12 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
                 mDumy.add(mItems.get(i));
         }
         return mDumy;
+    }
+
+    public String getOnlyOnePicture(){
+        if (curPosition == -1)
+            return null;
+        return mItems.get(curPosition);
     }
 
     @Override
@@ -74,7 +87,21 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int position = getAdapterPosition();
-                    mChecked.set(position, isChecked);
+                    if (isMultipleClick) {
+                        mChecked.set(position, isChecked);
+                    }
+                    else{
+                        if (isChecked){
+                            if (curPosition != -1){
+                                    preCheckbox.setChecked(false);
+                            }
+                            curPosition = position;
+                            preCheckbox = checkboxPickPicture;
+                        }
+                        else {
+                            curPosition = -1;
+                        }
+                    }
                 }
             });
         }

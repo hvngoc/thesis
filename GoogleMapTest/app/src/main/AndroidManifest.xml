@@ -72,13 +72,6 @@
             android:label="@string/title_activity_singup"
             android:theme="@style/AppTheme.Dark" >
         </activity>
-        <activity android:name=".activity.ProfileActivity"
-            android:label="Profile">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainPageActivity" />
-        </activity>
     </application>
 
 </manifest>
