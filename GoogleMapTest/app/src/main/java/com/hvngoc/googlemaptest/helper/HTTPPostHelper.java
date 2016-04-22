@@ -42,6 +42,7 @@ public class HTTPPostHelper {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(this.server_url);
         try {
+            Log.i("URL", this.server_url);
             // Add your data
             StringEntity se = new StringEntity(this.params.toString());
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
