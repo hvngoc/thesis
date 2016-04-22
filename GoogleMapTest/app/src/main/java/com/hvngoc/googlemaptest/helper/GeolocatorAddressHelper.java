@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class GeolocatorAddressHelper {
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     private Context context;
 
-    public  GeolocatorAddressHelper(Context context, double latitude, double longitude) {
+    public  GeolocatorAddressHelper(Context context, Double latitude, Double longitude) {
         this.context = context;
         this.latitude = latitude;
         this.longitude = longitude;

@@ -8,8 +8,9 @@
     android:paddingBottom="6dip"
     android:background="@drawable/comment_bg_dialog">
     <LinearLayout
+        android:id="@+id/layoutCreatePost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
@@ -37,12 +38,11 @@
             android:background="#ffffff"
             android:scrollHorizontally="false"
             android:scrollbars="vertical" />
-        <Gallery
-            android:id="@+id/galleryCreatePost"
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
+            android:id="@+id/recyclerCreatePostImage"
             android:layout_height="wrap_content">
-
-        </Gallery>
+        </android.support.v7.widget.RecyclerView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,13 +84,51 @@
                 android:textSize="18sp"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
-        <fragment
+        <LinearLayout
+            android:background="@drawable/comment_bg_title"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dip"
-            android:id="@+id/createPostMap"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/radioGroupCreatePost"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/radioYourLocation"
+                    android:textColor="@color/white"
+                    android:text="Get your Location."
+                    android:checked="true"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:id="@+id/radioGetOnMap"
+                    android:textColor="@color/white"
+                    android:text="Get on map."
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnCreatePostOK"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="2dip"
+        android:clickable="true"
+        android:tint="@color/accent"
+        android:layout_below="@+id/layoutCreatePost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add" />
+    <fragment
+        android:layout_margin="6dip"
+        android:layout_below="@+id/btnCreatePostOK"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/MapCreatePostMap"
+        class ="com.google.android.gms.maps.SupportMapFragment" />
     <Button
         android:id="@+id/btnClose"
         android:layout_width="40dp"
