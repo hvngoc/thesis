@@ -44,9 +44,7 @@ public class ProfileFragment extends Fragment {
     RadioButton radioMale, radioFemale;
     EditText birthdate;
     EditText address;
-    Button save;
-    Button cancel;
-    FloatingActionButton edit_profile;
+    FloatingActionButton save, cancel, edit_profile;
     TextView numFriend, numFollow, numPost;
 
     @Override
@@ -69,8 +67,8 @@ public class ProfileFragment extends Fragment {
         radioFemale = (RadioButton) view.findViewById(R.id.radioFemale);
         birthdate = (EditText) view.findViewById(R.id.birthdate);
         address = (EditText) view.findViewById(R.id.address);
-        save = (Button) view.findViewById(R.id.save);
-        cancel = (Button) view.findViewById(R.id.cancel);
+        save = (FloatingActionButton) view.findViewById(R.id.save);
+        cancel = (FloatingActionButton) view.findViewById(R.id.cancel);
         edit_profile = (FloatingActionButton) view.findViewById(R.id.edit_profile);
         numFriend = (TextView) view.findViewById(R.id.numFriend);
         numFollow = (TextView) view.findViewById(R.id.numFollow);

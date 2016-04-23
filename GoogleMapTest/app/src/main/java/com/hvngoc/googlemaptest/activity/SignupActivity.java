@@ -32,6 +32,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_signup) Button _signupButton;
     @Bind(R.id.link_login) TextView _loginLink;
+    @Bind(R.id.input_password_confirm) TextView _input_password_confirm;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String confirm = _input_password_confirm.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -117,6 +120,14 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             _passwordText.setError(null);
         }
+
+        if (password.equals(confirm)){
+            _input_password_confirm.setError("oop!! password is not matching");
+            valid = false;
+        }else {
+            _input_password_confirm.setError(null);
+        }
+
         return valid;
     }
 
@@ -141,7 +152,6 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String data = this.email + " " + this.password + ";" + this.name ;
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("email", this.email);

@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.custom;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
     private Context context;
     private FragmentManager fragmentManager;
     private GoogleMap googleMap;
-
+    private SupportMapFragment supportMapFragment;
     private Post post;
 
     public PostCreationDialog(Context context, FragmentManager fragmentManager) {
@@ -129,6 +130,13 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 menu.show();
             }
         });
+        //btnCreatePostOK
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        fragmentManager.beginTransaction().remove(supportMapFragment).commit();
     }
 
     @Override
@@ -157,7 +165,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
     @Override
     public void onMapLongClick(LatLng latLng) {
         post.Latitude = latLng.latitude;
-        post.Latitude = latLng.longitude;
+        post.Longitude = latLng.longitude;
         Log.i("lat" + post.Latitude, "long" + post.Longitude);
         AddCurrentMarker();
 
@@ -206,7 +214,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
         txtCreatePostLocation.setText(address);
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
+        supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
         supportMapFragment.getMapAsync(this);
     }
 }

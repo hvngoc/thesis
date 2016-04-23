@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -28,7 +30,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
-import com.hvngoc.googlemaptest.custom.MapsDialogLayout;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -50,14 +51,22 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         mapFragment.getMapAsync(this);
     }
 
-    private AutoCompleteTextView editTextSearch;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_on_map, menu);
 
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        editTextSearch = (AutoCompleteTextView) searchMenuItem.getActionView();
+        final AutoCompleteTextView editTextSearch = (AutoCompleteTextView) searchMenuItem.getActionView();
         editTextSearch.setHint("type here for searching on map");
+        editTextSearch.setDropDownBackgroundResource(R.color.white);
+        editTextSearch.setThreshold(1);
+        editTextSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String getString = editTextSearch.getAdapter().getItem(position).toString();
+                editTextSearch.setText(getString);
+            }
+        });
         editTextSearch.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
         editTextSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -66,6 +75,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 return false;
             }
         });
+
         MenuItem clickSearching = menu.findItem(R.id.action_searching);
         clickSearching.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -162,8 +172,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     public void onInfoWindowClick(Marker marker) {
         marker.hideInfoWindow();
         Post post = markerManager.get(marker);
-        MapsDialogLayout dialog = new MapsDialogLayout(MapsActivity.this, post);
-        dialog.show();
+        Intent intent = new Intent(this, NewsDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("currentPost", post);
+        startActivity(intent);
     }
 
     @Override
