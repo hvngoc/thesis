@@ -5,9 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MapsActivity" >
+    <ImageView
+        android:id="@+id/imgViewOption"
+        android:layout_marginTop="14dip"
+        android:layout_alignParentEnd="true"
+        android:src="@android:drawable/ic_dialog_dialer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+    <AutoCompleteTextView
+        android:hint="type here for searching"
+        android:layout_marginStart="10dip"
+        android:layout_marginEnd="50dip"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/search_text_auto"
+        android:completionThreshold="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <fragment
         android:layout_width="fill_parent"
         android:layout_below="@+id/toolbar"

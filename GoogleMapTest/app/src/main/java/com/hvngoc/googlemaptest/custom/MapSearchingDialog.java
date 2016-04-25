@@ -21,13 +21,15 @@ import com.hvngoc.googlemaptest.R;
 public class MapSearchingDialog extends Dialog {
     private Context context;
 
-    private String searchEngine;
-    private Double searchDistance;
-    private final Double MIN_DISTANCE = 100.0;
+    public String searchEngine;
+    public int searchDistance;
+    private final int MIN_DISTANCE = 100;
 
     public MapSearchingDialog(Context context) {
         super(context);
         this.context = context;
+        searchEngine = "Search by Name.";
+        searchDistance = MIN_DISTANCE;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,6 @@ public class MapSearchingDialog extends Dialog {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton button = (RadioButton) findViewById(checkedId);
                 searchEngine = button.getText().toString();
-                Log.i("search" , searchEngine);
             }
         });
 
@@ -77,12 +78,12 @@ public class MapSearchingDialog extends Dialog {
         });
 
         Button btnOK = (Button) findViewById(R.id.btnSettingOK);
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("search", "click OK");
-                dismiss();
-            }
-        });
+        btnOK.setOnClickListener(onOKClickListener);
+    }
+
+    private View.OnClickListener onOKClickListener;
+
+    public void setOnButtonOKClick(View.OnClickListener listener){
+        this.onOKClickListener = listener;
     }
 }

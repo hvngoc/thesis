@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_search"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="searching"
+        android:visible="true"/>
+    <item
+        android:id="@+id/menu_around"
+        app:showAsAction="ifRoom|withText"
+        android:title="arounding"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:visible="true"/>
+    <item
+        android:id="@+id/menu_bound"
+        app:showAsAction="ifRoom|withText"
+        android:title="bounding"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:visible="true"/>
+    <item
+        android:id="@+id/menu_setting"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_setting_light"
+        android:title="setting"
+        android:visible="true"/>
+</menu>

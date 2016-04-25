@@ -4,35 +4,15 @@
     tools:context=".activity.MainPageActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="@string/action_search"
+        android:id="@+id/action_notification"
+        android:title="click"
+        android:icon="@android:drawable/star_big_on"
         android:orderInCategory="100"
-        app:actionViewClass="android.widget.AutoCompleteTextView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_searching"
+        android:id="@+id/action_options"
         android:title="click"
-        android:icon="@drawable/ic_search_white"
+        android:icon="@android:drawable/ic_dialog_dialer"
         android:orderInCategory="100"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_finding"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Finding around"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_bounding"
-        android:icon="@android:drawable/ic_dialog_map"
-        android:title="Bounding All"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="Setting Engine"
-        android:icon="@drawable/mr_ic_settings_dark"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
 </menu>

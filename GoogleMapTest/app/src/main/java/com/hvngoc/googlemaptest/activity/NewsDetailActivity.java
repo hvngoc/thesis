@@ -40,6 +40,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     TextView txtAddressLocation;
     TextView title;
 
+    TextView txtRelationship, txtTag;
+
     Button btnLike;
     TextView txtNumLike;
     Button btnShare;
@@ -68,6 +70,9 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         txtCommentDay = (TextView) findViewById(R.id.txtCommentDay);
         txtAddressLocation = (TextView) findViewById(R.id.txtAddressLocation);
         title = (TextView) findViewById(R.id.title);
+
+        txtRelationship = (TextView) findViewById(R.id.txtRelationship);
+        txtTag = (TextView) findViewById(R.id.txtTag);
 
         btnLike = (Button) findViewById(R.id.btnLike);
         txtNumLike = (TextView) findViewById(R.id.txtNumLike);
@@ -163,6 +168,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         txtNumLike.setText("" + currentPost.numLike);
         txtNumShared.setText("" + currentPost.numShare);
         txtNumComment.setText("" + currentPost.numComment);
+        txtRelationship.setText(currentPost.relationShip + " on tag:");
+        txtTag.setText(currentPost.tag);
         setLikeButton();
     }
 
