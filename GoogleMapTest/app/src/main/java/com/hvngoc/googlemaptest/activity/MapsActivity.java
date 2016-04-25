@@ -16,10 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,15 +44,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private GoogleMap googleMap;
     private IconizedMenu iconizedMenu;
 
-    private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-
     private String SEARCH_ENGINE = "Search by Name.";
     private int SEARCH_DISTANCE = 100;
 
     private HashMap<Marker, Post> markerManager = new HashMap<>();
     private ArrayList<Post> currentListPost = new ArrayList<>();
 
-    AutoCompleteTextView search_text_auto;
+    private AutoCompleteTextView search_text_auto;
+    private PlaceAutocompleteFragment autocompleteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,24 +72,28 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             }
         });
 
+        autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setHint("tap here for searching");
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                autocompleteFragment.setText(place.getAddress() + " " + place.getAttributions());
+                onMapLongClick(place.getLatLng());
+            }
+
+            @Override
+            public void onError(Status status) {
+
+            }
+        });
+
         RunCustomMenu();
         RunSearchingEngine();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case PLACE_AUTOCOMPLETE_REQUEST_CODE:{
-                if (resultCode == RESULT_OK) {
-                    Place place = PlaceAutocomplete.getPlace(this, data);
-                    onMapLongClick(place.getLatLng());
-                }
-                break;
-            }
-        }
-    }
-
     private  void RunSearchingEngine(){
+        View view = findViewById(R.id.place_autocomplete_fragment);
+        view.setVisibility(View.INVISIBLE);
         search_text_auto.setVisibility(View.VISIBLE);
         search_text_auto.bringToFront();
         switch (SEARCH_ENGINE){
@@ -134,16 +137,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             }
             case "Search by Place.":{
                 search_text_auto.setVisibility(View.INVISIBLE);
-                try {
-                    Intent intent = new PlaceAutocomplete
-                            .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .build(MapsActivity.this);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                }
+                view.setVisibility(View.VISIBLE);
+                view.bringToFront();
                 break;
             }
         }
@@ -157,10 +152,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             public boolean onMenuItemClick(MenuItem item) {
                 iconizedMenu.dismiss();
                 switch (item.getItemId()) {
-                    case R.id.menu_search: {
-                        RunSearchingEngine();
-                        break;
-                    }
                     case R.id.menu_around: {
                         MyLocation location = new MyLocation(MapsActivity.this);
                         LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
@@ -254,7 +245,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
     @Override
     public void onMapLongClick(LatLng latLng) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE * 10));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE));
         currentListPost.clear();
         Location locationA = new Location("A");
         locationA.setLatitude(latLng.latitude);
@@ -292,7 +283,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void InitilizeMap(LatLng latLng) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE / 2));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE));
         (findViewById(R.id.mapFragment)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -324,7 +315,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             b.include(ll);
         }
         LatLngBounds bounds = b.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, SEARCH_DISTANCE * 10);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, SEARCH_DISTANCE);
         googleMap.animateCamera(cu);
     }
 
