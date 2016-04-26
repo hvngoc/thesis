@@ -77,7 +77,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                autocompleteFragment.setText(place.getAddress() + " " + place.getAttributions());
+                autocompleteFragment.setText(place.getAddress().toString());
                 onMapLongClick(place.getLatLng());
             }
 
@@ -245,7 +245,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
     @Override
     public void onMapLongClick(LatLng latLng) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, GET_CAMERA_ZOOM()));
         currentListPost.clear();
         Location locationA = new Location("A");
         locationA.setLatitude(latLng.latitude);
@@ -283,7 +283,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void InitilizeMap(LatLng latLng) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, SEARCH_DISTANCE));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, GET_CAMERA_ZOOM()));
         (findViewById(R.id.mapFragment)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -315,7 +315,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             b.include(ll);
         }
         LatLngBounds bounds = b.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, SEARCH_DISTANCE);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, GET_CAMERA_ZOOM());
         googleMap.animateCamera(cu);
     }
 
@@ -331,6 +331,16 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             Marker marker = googleMap.addMarker(markerOption);
             markerManager.put(marker, item);
         }
+    }
+
+    private int GET_CAMERA_ZOOM(){
+        if (SEARCH_DISTANCE == 100)
+            return 18;
+        if (SEARCH_DISTANCE == 200)
+            return 17;
+        if (SEARCH_DISTANCE < 600)
+            return 16;
+        return 15;
     }
 }
 
