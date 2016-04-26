@@ -17,9 +17,6 @@ import com.hvngoc.googlemaptest.R;
 
 public class FriendsFragment extends Fragment {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
     public FriendsFragment() {
         // Required empty public constructor
     }
@@ -35,15 +32,15 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewpaper_friend);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpaper_friend);
         viewPager.setAdapter(new SampleViewPaperAdapter(getActivity().getSupportFragmentManager()));
 
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_media_play);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_media_pause);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_plusone_small_off_client);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_cast_disabled_light);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_friend_add_black);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_friend_search_black);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_friend_black);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_person_black);
 
         return rootView;
     }
@@ -61,7 +58,7 @@ public class FriendsFragment extends Fragment {
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
         private final int TAB_COUNT = 4;
         private String listTitle[] = new String[]{"request", "find", "friends", "suggested"};
-        private Fragment listFragment[] = new Fragment[]{new NothingsFragment(), new FriendFindFragment(),
+        private Fragment listFragment[] = new Fragment[]{new FriendRequestFragment(), new FriendFindFragment(),
                 new FriendListFragment(), new FriendSuggestFragment()};
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {

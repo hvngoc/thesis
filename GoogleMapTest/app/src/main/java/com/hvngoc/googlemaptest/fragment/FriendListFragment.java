@@ -109,7 +109,7 @@ public class FriendListFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
                 recyclerListFriend.setAdapter(adapter);
             }
             else {

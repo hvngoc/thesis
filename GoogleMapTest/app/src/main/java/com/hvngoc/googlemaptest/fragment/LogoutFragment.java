@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.LoginActivity;
+import com.squareup.picasso.Picasso;
 
 
 public class LogoutFragment extends Fragment {

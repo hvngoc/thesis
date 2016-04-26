@@ -1,7 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,16 @@ import java.util.List;
  * Created by Hoang Van Ngoc on 24/03/2016.
  */
 public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHolder>{
-    List<Friend> mItems;
-    int visibilityAdd;
-
-    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd) {
+    private List<Friend> mItems;
+    private int visibilityAdd;
+    private int visibilityDelete;
+    private int visibilityAddRequest;
+    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest) {
         super();
         mItems = listItems;
         this.visibilityAdd = visibilityAdd;
+        this.visibilityAddRequest = visibilityAddRequest;
+        this.visibilityDelete = visibilityDelete;
     }
 
     @Override
@@ -36,11 +38,14 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        viewHolder.btnFriendAdd.setVisibility(visibilityAdd);
+        viewHolder.btnFriendAddRequest.setVisibility(visibilityAddRequest);
+        viewHolder.btnFriendDelete.setVisibility(visibilityDelete);
+
         Friend item = mItems.get(i);
         viewHolder.txt_friendUserName.setText(item.getName());
-        Log.i("FRIEND: ", item.getName());
-        viewHolder.txt_friendNum.setText(item.getNumFriend() + " friends. " + item.getMutualFriend() + " mutual friends.");
-        viewHolder.btnFriendAdd.setVisibility(visibilityAdd);
+        viewHolder.txt_friendNum.setText(item.getNumFriend() + "");
+        viewHolder.txt_friendMutual.setText(item.getMutualFriend() + "");
         viewHolder.img_friendAvatar.setImageResource(R.drawable.icon_profile);//item.getAvatar();
     }
 
@@ -54,15 +59,18 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         public ImageView img_friendAvatar;
         public TextView txt_friendUserName;
         public TextView txt_friendNum;
-        public ImageView btnFriendAdd, btnFriendDelete;
+        public TextView txt_friendMutual;
+        public ImageView btnFriendAdd, btnFriendDelete, btnFriendAddRequest;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_friendAvatar = (ImageView)itemView.findViewById(R.id.img_friendAvatar);
             txt_friendUserName = (TextView)itemView.findViewById(R.id.txt_friendUserName);
             txt_friendNum = (TextView)itemView.findViewById(R.id.txt_friendNum);
+            txt_friendMutual = (TextView) itemView.findViewById(R.id.txt_friendMutual);
             btnFriendAdd = (ImageView) itemView.findViewById(R.id.btnFriendAdd);
             btnFriendDelete = (ImageView) itemView.findViewById(R.id.btnFriendDelete);
+            btnFriendAddRequest = (ImageView) itemView.findViewById(R.id.btnFriendAddRequest);
         }
     }
 }

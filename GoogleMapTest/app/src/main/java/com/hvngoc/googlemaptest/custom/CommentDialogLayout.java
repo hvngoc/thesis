@@ -161,10 +161,8 @@ public class CommentDialogLayout extends Dialog {
             if (result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Comment>>() {
-                }.getType();
-                ArrayList<Comment> comment = gson.fromJson(res, listType);
-                listComment.addAll(comment);
+                Comment comment = gson.fromJson(res, Comment.class);
+                listComment.add(comment);
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(listComment.size() - 1);
                 etxtWriteComment.setText("");

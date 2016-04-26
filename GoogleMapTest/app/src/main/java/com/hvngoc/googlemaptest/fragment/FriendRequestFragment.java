@@ -27,11 +27,11 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class FriendSuggestFragment extends Fragment {
+public class FriendRequestFragment extends Fragment {
 
     private RecyclerView recyclerListFriend;
 
-    public FriendSuggestFragment() {
+    public FriendRequestFragment() {
         // Required empty public constructor
     }
 
@@ -61,7 +61,7 @@ public class FriendSuggestFragment extends Fragment {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        new LoadFriendAsyncTask().execute();
+        new LoadFriendRequestAsyncTask().execute();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class FriendSuggestFragment extends Fragment {
 
     }
 
-    private class LoadFriendAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private class LoadFriendRequestAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         @Override
         protected void onPreExecute() {
@@ -89,7 +89,7 @@ public class FriendSuggestFragment extends Fragment {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "getSuggestFriends";
+            String serverUrl = GLOBAL.SERVER_URL + "getRequestFriends";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
@@ -108,7 +108,7 @@ public class FriendSuggestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE);
                 recyclerListFriend.setAdapter(adapter);
             }
             else {
