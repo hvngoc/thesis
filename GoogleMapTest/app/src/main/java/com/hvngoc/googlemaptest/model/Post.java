@@ -1,5 +1,9 @@
 package com.hvngoc.googlemaptest.model;
 
+import android.util.Log;
+
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+
 import java.io.Serializable;
 
 public class Post implements Serializable {
@@ -10,7 +14,8 @@ public class Post implements Serializable {
     public String feeling;
     public Double Latitude, Longitude;
 
-    public String userName, userAvatar;
+    public String userName;
+    private String userAvatar;
     public String relationShip;
 
     public int numLike, numShare, numComment;
@@ -35,7 +40,7 @@ public class Post implements Serializable {
         this.Longitude = Longitude;
         this.feeling = feeling;
         this.userName = userName;
-        this.userAvatar = userAvatar;
+        this.setUserAvatar(userAvatar);
         this.relationShip = relationShip;
 
         this.numLike = numLike;
@@ -66,6 +71,13 @@ public class Post implements Serializable {
         return listImages;
     }
 
+    public String getFirstImageUrl() {
+        String prefix = GLOBAL.SERVER_IMAGE_URL;
+        String url = prefix + listImages.substring(0, listImages.indexOf(';'));
+        Log.d("Image URL", url);
+        return url;
+    }
+
     public void setListImages(String listImages) {
         this.listImages = listImages;
     }
@@ -77,5 +89,14 @@ public class Post implements Serializable {
 
     public void setPostDate(String postDate) {
         this.postDate = postDate;
+    }
+
+    public String getUserAvatar() {
+        String url = GLOBAL.SERVER_IMAGE_URL + userAvatar;
+        return url;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 }

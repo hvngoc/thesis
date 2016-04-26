@@ -24,6 +24,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.Profile;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -139,6 +140,10 @@ public class ProfileFragment extends Fragment {
 
     private void SetContentProfileView(){
         //avatar.setImageFromURL(profile.avatar);
+        Picasso.with(GLOBAL.CurentContext)
+                .load(profile.getAvatar())
+                .error(R.drawable.bigbang)         // optional
+                .into(avatar);
         numFriend.setText(profile.numFriend + "");
         numFollow.setText(profile.numFollow + "");
         numPost.setText(profile.numPost + "");

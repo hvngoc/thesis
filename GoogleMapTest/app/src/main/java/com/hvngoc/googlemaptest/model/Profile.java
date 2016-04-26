@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+
 /**
  * Created by 12125_000 on 4/12/2016.
  */
@@ -19,5 +21,10 @@ public class Profile {
         this.numFollow = numFollow;
         this.numFriend = numFriend;
         this.numPost = numPost;
+    }
+
+    public String getAvatar() {
+        String url = GLOBAL.SERVER_IMAGE_URL + this.avatar;
+        return url;
     }
 }

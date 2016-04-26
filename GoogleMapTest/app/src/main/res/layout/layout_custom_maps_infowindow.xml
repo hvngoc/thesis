@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/curved_shape_infowindow">
+    android:background="@drawable/curved_shape_infowindow"
+    android:layout_marginLeft="30dip"
+    android:layout_marginRight="30dip">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -13,8 +15,9 @@
         android:gravity="center"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="60dip"
-            android:layout_height="60dip"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:scaleType="centerCrop"
             android:id="@+id/imgViewInfoAvatar"
             android:src="@drawable/default_icon"/>
         <TextView
@@ -23,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Ngoc V. Hoang"
             android:layout_gravity="center"
-            android:textSize="25dip"
+            android:textSize="18dip"
             android:layout_marginLeft="10dp"
             android:textColor="#0109ff" />
     </LinearLayout>
@@ -39,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="feeling happy"
             android:layout_gravity="center"
-            android:textSize="18dip"
+            android:textSize="15dip"
             android:layout_marginLeft="10dp"
             android:textColor="#b2acac" />
         <TextView
@@ -48,7 +51,7 @@
             android:text="at"
             android:id="@+id/txtAT"
             android:layout_toRightOf="@+id/txtInfoFeeling"
-            android:textSize="20dip"
+            android:textSize="15dip"
             android:layout_marginLeft="10dp"
             android:textColor="#0109ff"/>
         <TextView
@@ -58,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="Ho Chi Minh City, Viet Nam."
             android:layout_gravity="center"
-            android:textSize="18dip"
+            android:textSize="15dip"
             android:layout_marginLeft="10dp"
             android:textColor="#b2acac" />
     </RelativeLayout>

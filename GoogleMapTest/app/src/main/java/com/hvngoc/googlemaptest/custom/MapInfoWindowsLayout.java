@@ -4,13 +4,16 @@ package com.hvngoc.googlemaptest.custom;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
+import com.squareup.picasso.Picasso;
 
 public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
@@ -28,6 +31,14 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
     public View getInfoWindow(Marker marker) {
         TextView txtInfoUsername = (TextView) myContentsView.findViewById(R.id.txtInfoUsername);
         txtInfoUsername.setText(this.post.userName);
+
+        ImageView imgViewInfoAvatar = (ImageView) myContentsView.findViewById(R.id.imgViewInfoAvatar);
+
+        Picasso.with(GLOBAL.CurentContext)
+                .load(post.getUserAvatar())
+                .error(R.drawable.bigbang)         // optional
+                .into(imgViewInfoAvatar);
+
 
         TextView txtInfoFeeling = (TextView) myContentsView.findViewById(R.id.txtInfoFeeling);
         txtInfoFeeling.setText("feeling " + this.post.feeling);

@@ -57,7 +57,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         post = new Post();
         post.relationShip = "posted";
         post.userName = GLOBAL.CurrentUser.getName();
-        post.userAvatar = GLOBAL.CurrentUser.getAvatar();
+        post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
         post.setPostDate(new SimpleDateFormat("mm:HH dd/MM/yyyy").format(new Date()));
     }
 

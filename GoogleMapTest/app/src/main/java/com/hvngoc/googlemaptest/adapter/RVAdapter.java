@@ -47,12 +47,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
         Post post = posts.get(i);
         newsViewHolder.username.setText(post.userName);
-        Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
+        Picasso.with(GLOBAL.CurentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
         newsViewHolder.news_title.setText(post.getContent());
         newsViewHolder.txtFeeling.setText("feeling " + post.feeling + " on");
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurentContext)
-                .load("http://s.hswstatic.com/gif/landscape-photography-1.jpg")
+                .load(post.getFirstImageUrl())
                 .error(R.drawable.bigbang)         // optional
                 .into(newsViewHolder.placephoto);
         newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude).GetAddress());
