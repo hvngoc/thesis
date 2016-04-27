@@ -30,6 +30,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         this.posts = posts;
     }
 
+    public  void addToFrist(Post item){
+        posts.add(0, item);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);

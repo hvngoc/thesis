@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,10 +18,12 @@ import java.util.ArrayList;
  */
 public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.ViewHolder>{
     ArrayList<String> mItems;
+    ArrayList<Bitmap> bitmaps;
 
     public RVPickImageAdapter(ArrayList<String> mItems) {
         super();
         this.mItems = mItems;
+        bitmaps = new ArrayList<Bitmap>();
     }
 
     @Override
@@ -34,7 +37,13 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         String item = mItems.get(i);
-        viewHolder.imgPickImage.setImageBitmap(BitmapFactory.decodeFile(item));
+        Bitmap bitmap = BitmapFactory.decodeFile(item);
+        viewHolder.imgPickImage.setImageBitmap(bitmap);
+        bitmaps.add(bitmap);
+    }
+
+    public ArrayList<Bitmap> getListBitmaps() {
+        return bitmaps;
     }
 
     @Override

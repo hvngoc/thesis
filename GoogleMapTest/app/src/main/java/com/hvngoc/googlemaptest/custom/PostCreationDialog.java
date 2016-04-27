@@ -1,14 +1,19 @@
 package com.hvngoc.googlemaptest.custom;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,18 +31,29 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.MyLocation;
 import com.hvngoc.googlemaptest.model.Post;
+import com.hvngoc.googlemaptest.model.Profile;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Hoang Van Ngoc on 20/04/2016.
@@ -49,16 +65,22 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
     private GoogleMap googleMap;
     private SupportMapFragment supportMapFragment;
     private Post post;
+    private RVPickImageAdapter adapter;
+    private ArrayList<String> listImageUrls = new ArrayList<String>();
+
+    private DelegationHelper delegationHelper;
+    public void setDelegationHelper(DelegationHelper delegationHelper){
+        this.delegationHelper = delegationHelper;
+    }
 
     public PostCreationDialog(Context context, FragmentManager fragmentManager) {
         super(context);
         this.context = context;
         this.fragmentManager = fragmentManager;
         post = new Post();
-        post.relationShip = "posted";
+        post.setPostID(UUID.randomUUID().toString());
         post.userName = GLOBAL.CurrentUser.getName();
         post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
-        post.setPostDate(new SimpleDateFormat("mm:HH dd/MM/yyyy").format(new Date()));
     }
 
     @Override
@@ -102,7 +124,8 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
                         mRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                         mRecyclerView.setHasFixedSize(true);
-                        mRecyclerView.setAdapter(new RVPickImageAdapter(listImages));
+                        adapter = new RVPickImageAdapter(listImages);
+                        mRecyclerView.setAdapter(adapter);
                         pickPictureHelper.dismiss();
                     }
                 });
@@ -130,7 +153,158 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 menu.show();
             }
         });
-        //btnCreatePostOK
+        FloatingActionButton btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
+        btnCreatePostOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                post.setPostDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+                TextView content = (TextView) findViewById(R.id.editTextCreatePost);
+                post.setContent(content.getText().toString());
+                showProgressDialog();
+                List<String> images = getStringImages(adapter.getListBitmaps());
+                for (int i = 0; i < images.size(); ++i) {
+                    new UploadImagesAsyncTask(images.get(i), i, images.size()).execute();
+                }
+            }
+        });
+    }
+
+    public List<String> getStringImages(List<Bitmap> bitmaps){
+        ArrayList<String> images = new ArrayList<String>();
+        for (int i = 0; i < bitmaps.size(); i++) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmaps.get(i).compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            images.add(encodedImage);
+        }
+        return images;
+    }
+
+    public Post getPost(){
+        return post;
+    }
+
+    private class UploadImagesAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        private String encodedImage;
+        private int index;
+        private int size;
+
+        public UploadImagesAsyncTask(String image, int index, int size) {
+            encodedImage = image;
+            this.index = index;
+            this.size = size;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                String imageUrl = gson.fromJson(res, String.class);
+                listImageUrls.add(imageUrl);
+                if(listImageUrls.size() == size) {
+                    new CreatePostAsyncTask().execute();
+                }
+            }
+            else {
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "uploadImage";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("binary", encodedImage);
+                jsonobj.put("postID", post.getPostID());
+                jsonobj.put("indexs", "" + index);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+    }
+
+    private class CreatePostAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        HTTPPostHelper helper;
+        public CreatePostAsyncTask() {
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                post = gson.fromJson(res, Post.class);
+                delegationHelper.doSomeThing();
+            }
+            progressDialog.dismiss();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "createPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("postID", post.getPostID());
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("content", post.getContent());
+                jsonobj.put("date", post.getPostDate());
+                jsonobj.put("Latitude", post.Latitude);
+                jsonobj.put("Longitude", post.Longitude);
+                jsonobj.put("feeling", post.feeling);
+                jsonobj.put("listImages", getListImages());
+                jsonobj.put("tag", "food");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+    }
+
+    private String getListImages(){
+        String sss = "";
+        for (String item : listImageUrls){
+            sss += item + ";";
+        }
+        sss = sss.substring(0, sss.length() - 1);
+        return sss;
+    }
+
+    ProgressDialog progressDialog = null;
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(getContext(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
     }
 
     @Override
@@ -208,7 +382,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         MyLocation myLocation = new MyLocation(context);
         post.Latitude = myLocation.GetLatitude();
         post.Longitude = myLocation.GetLongitude();
-        post.feeling = CONSTANT.EMOTION_STRING_NORMAL;
+        post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
 
         String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
         TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);

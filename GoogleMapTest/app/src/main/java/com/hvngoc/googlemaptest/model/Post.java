@@ -5,6 +5,9 @@ import android.util.Log;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Post implements Serializable {
     private String postID;
@@ -67,9 +70,6 @@ public class Post implements Serializable {
         this.content = content;
     }
 
-    public String getListImages() {
-        return listImages;
-    }
 
     public String getFirstImageUrl() {
         String prefix = GLOBAL.SERVER_IMAGE_URL;
@@ -95,6 +95,16 @@ public class Post implements Serializable {
         String url = GLOBAL.SERVER_IMAGE_URL + userAvatar;
         return url;
     }
+
+    public ArrayList<String> getListImages() {
+        ArrayList<String> images = new ArrayList<String>(Arrays.asList(listImages.split(";")));
+        ArrayList<String> urls = new ArrayList<String>();
+        for (String temp: images) {
+            urls.add(GLOBAL.SERVER_IMAGE_URL + temp);
+        }
+        return urls;
+    }
+
 
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;

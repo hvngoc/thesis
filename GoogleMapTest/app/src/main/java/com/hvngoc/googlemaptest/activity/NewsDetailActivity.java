@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
@@ -123,24 +124,12 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     private void getImageSlider() {
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal",R.drawable.hannibal);
-        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-        file_maps.put("House of Cards",R.drawable.house);
-        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
-
-        for(String name : file_maps.keySet()){
+        ArrayList<String> imageUrls = currentPost.getListImages();
+        for(String name : imageUrls){
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
-                    .image(file_maps.get(name))
+                    .image(name)
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
@@ -160,7 +149,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     }
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
-        Picasso.with(GLOBAL.CurentContext).load("YOUR IMAGE URL HERE").error(R.drawable.icon_profile).into(userAvatar);
+        Picasso.with(GLOBAL.CurentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
+        Log.i("AVATAR", currentPost.getUserAvatar());
         title.setText(currentPost.getContent());
         txtFeeling.setText("feeling " + currentPost.feeling + " on");
         txtCommentDay.setText(currentPost.getPostDate());

@@ -22,6 +22,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.custom.PostCreationDialog;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 public class WallFragment extends Fragment {
 
     RecyclerView listPosts;
+    RVAdapter adapter;
 
     public WallFragment() {
         // Required empty public constructor
@@ -64,7 +66,16 @@ public class WallFragment extends Fragment {
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PostCreationDialog(getContext(), getActivity().getSupportFragmentManager()).show();
+                final PostCreationDialog dialog =  new PostCreationDialog(getContext(), getActivity().getSupportFragmentManager());
+                dialog.setDelegationHelper(new DelegationHelper() {
+                    @Override
+                    public void doSomeThing() {
+                        Post post = dialog.getPost();
+                        adapter.addToFrist(post);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -117,7 +128,7 @@ public class WallFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> listPost = gson.fromJson(res, listType);
-                RVAdapter adapter = new RVAdapter(listPost);
+                adapter = new RVAdapter(listPost);
                 listPosts.setAdapter(adapter);
             }
             else {
