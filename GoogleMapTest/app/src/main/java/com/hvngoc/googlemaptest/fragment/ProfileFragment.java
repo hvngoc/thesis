@@ -2,11 +2,15 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
@@ -28,6 +33,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 public class ProfileFragment extends Fragment {
 
@@ -47,6 +54,7 @@ public class ProfileFragment extends Fragment {
     EditText address;
     FloatingActionButton save, cancel, edit_profile;
     TextView numFriend, numFollow, numPost;
+    Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +101,8 @@ public class ProfileFragment extends Fragment {
                     public void onClick(View v) {
                         String imageURI = pickPictureHelper.getOnlyOnePicture();
                         //if uri = null then set default avatar for this instance
-                        avatar.setImageBitmap(BitmapFactory.decodeFile(imageURI));
+                        bitmap = BitmapFactory.decodeFile(imageURI);
+                        avatar.setImageBitmap(bitmap);
                         pickPictureHelper.dismiss();
                     }
                 });
@@ -112,6 +121,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SetEnableView(false, View.VISIBLE, View.INVISIBLE);
+                new UpadteProfileAsyncTask().execute();
             }
         });
 
@@ -119,6 +129,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SetEnableView(false, View.VISIBLE, View.INVISIBLE);
+                SetContentProfileView();
             }
         });
 
@@ -192,6 +203,8 @@ public class ProfileFragment extends Fragment {
         super.onDetach();
     }
 
+
+
     private class LoadProfileAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         @Override
@@ -228,6 +241,81 @@ public class ProfileFragment extends Fragment {
                 //only fail when we have a trouble with internet or server
             }
             progressDialog.dismiss();
+        }
+    }
+
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    private class UpadteProfileAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        String txtName;
+        String txtAddress;
+        String txtBirthday;
+        String txtGender;
+        String binary = null;
+        private HTTPPostHelper helper;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            txtName = username.getText().toString();
+            txtAddress = address.getText().toString();
+            txtBirthday = birthdate.getText().toString();
+            Boolean checkFemale = radioFemale.isChecked();
+            txtGender = checkFemale? "female": "male";
+            if(bitmap != null)
+                binary = getStringImage(bitmap);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Profile profile2 = gson.fromJson(res, Profile.class);
+                updateProfile(profile2);
+                SetContentProfileView();
+            }
+            else {
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void updateProfile(Profile p) {
+            profile.name = p.name;
+            profile.avatar = p.avatar;
+            profile.address = p.address;
+            profile.birthday = p.birthday;
+            profile.gender = p.gender;
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "updateProfile";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("username", txtName);
+                jsonobj.put("address", txtAddress);
+                jsonobj.put("birthday", txtBirthday);
+                jsonobj.put("gender", txtGender);
+                jsonobj.put("binaryImage", binary);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
         }
     }
 }

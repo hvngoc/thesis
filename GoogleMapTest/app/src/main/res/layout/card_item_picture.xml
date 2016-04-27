@@ -9,19 +9,23 @@
     card_view:cardCornerRadius="2dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dip">
-    <ImageView
-        android:id="@+id/imgPickPicture"
-        android:layout_margin="5dp"
-        android:scaleType="centerCrop"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:src="@drawable/bigbang" />
-    <CheckBox
-        android:id="@+id/checkboxPickPicture"
-        android:background="@drawable/comment_bg_close"
-        android:layout_marginStart="67dip"
-        android:layout_marginTop="3dip"
-        android:checked="false"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imgPickPicture"
+            android:layout_margin="5dp"
+            android:scaleType="centerCrop"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/bigbang" />
+        <CheckBox
+            android:id="@+id/checkboxPickPicture"
+            android:background="@drawable/comment_bg_close"
+            android:layout_alignEnd="@+id/imgPickPicture"
+            android:layout_marginTop="3dp"
+            android:checked="false"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

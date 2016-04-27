@@ -13,6 +13,7 @@
         style="@style/MyCustomTabLayout"
         android:layout_height="wrap_content"
         app:tabGravity="center"
+        app:tabIndicatorColor="@color/Gray"
         app:tabMode="fixed"
         android:background="#54cbfe" />
 
