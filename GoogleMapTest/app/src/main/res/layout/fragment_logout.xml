@@ -23,11 +23,11 @@
                 android:textSize="20dip"
                 android:text="Are you sure you want to log out?" />
             <ImageView
+                android:scaleType="fitCenter"
                 android:layout_width="100dip"
                 android:id="@+id/img_logout_avatar"
                 android:layout_height="100dip"
-                android:src="@drawable/ic_profile"
-                android:background="#030fff" />
+                android:src="@drawable/ic_profile" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

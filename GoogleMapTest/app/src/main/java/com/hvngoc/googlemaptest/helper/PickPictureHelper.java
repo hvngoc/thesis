@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.RVShowPictureAdapter;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by Hoang Van Ngoc on 21/04/2016.
  */
+
 public class PickPictureHelper extends Dialog {
 
     private Context context;
@@ -58,8 +60,17 @@ public class PickPictureHelper extends Dialog {
         Button btnPickOK = (Button) findViewById(R.id.btnPickOK);
         btnPickOK.setOnClickListener(this.onOKClickListener);
 
+        Button btnPickBrowse = (Button) findViewById(R.id.btnPickBrowse);
+        btnPickBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "how to pick image in 2 continuos dialog",Toast.LENGTH_LONG).show();
+            }
+        });
         setPictureFromGallery();
     }
+
 
     public ArrayList<String> getmItemsChecked(){
         return rvShowPictureAdapter.getmItemsChecked();

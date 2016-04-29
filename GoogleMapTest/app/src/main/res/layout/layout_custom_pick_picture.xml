@@ -8,7 +8,7 @@
     android:paddingBottom="6dip"
     android:background="@drawable/comment_bg_dialog">
     <LinearLayout
-        android:layout_above="@+id/btnPickOK"
+        android:layout_above="@+id/layoutPickAction"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="6dp"
@@ -30,26 +30,41 @@
             android:layout_height="match_parent"
             android:layout_weight="5"/>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layoutPickAction"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnPickOK"
+            android:background="@drawable/comment_bg_title"
+            android:text="OK"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_marginStart="10dip"
+            android:layout_toEndOf="@id/btnPickOK"
+            android:id="@+id/btnPickBrowse"
+            android:background="@drawable/comment_bg_title"
+            android:text="Browse"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <Button
         android:id="@+id/btnPickClose"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/comment_bg_close"
         android:textSize="30dip"
         android:text="×"
         android:textColor="#9acd32" />
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/btnPickOK"
-        android:background="@drawable/comment_bg_title"
-        android:text="OK"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </RelativeLayout>
