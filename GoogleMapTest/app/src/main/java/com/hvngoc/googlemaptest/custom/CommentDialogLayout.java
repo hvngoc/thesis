@@ -34,12 +34,11 @@ import java.util.Date;
 public class CommentDialogLayout extends Dialog {
 
     RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerView.Adapter mAdapter;
+    RVCommentAdapter mAdapter;
 
     String postID;
-    private  ArrayList<Comment> listComment = new ArrayList<>();
     private Context context;
+
     public CommentDialogLayout(Context context, String postID) {
         super(context);
         this.context = context;
@@ -55,9 +54,10 @@ public class CommentDialogLayout extends Dialog {
         setContentView(R.layout.layout_custom_comment_dialog);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(context);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setHasFixedSize(true);
+        mAdapter = new RVCommentAdapter();
+        mRecyclerView.setAdapter(mAdapter);
 
         Button btnClose = (Button) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -106,16 +106,14 @@ public class CommentDialogLayout extends Dialog {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-
             if (result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Comment>>() {
                 }.getType();
-                listComment = gson.fromJson(res, listType);
-                mAdapter = new RVCommentAdapter(listComment);
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.scrollToPosition(listComment.size() - 1);
+                ArrayList<Comment> listComment = gson.fromJson(res, listType);
+                int position =  mAdapter.addListComment(listComment);
+                mRecyclerView.scrollToPosition(position);
             } else {
                 // Notify send request failed!
             }
@@ -162,9 +160,8 @@ public class CommentDialogLayout extends Dialog {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Comment comment = gson.fromJson(res, Comment.class);
-                listComment.add(comment);
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.scrollToPosition(listComment.size() - 1);
+                int position = mAdapter.addComment(comment);
+                mRecyclerView.scrollToPosition(position);
                 etxtWriteComment.setText("");
             } else {
                 // Notify send request failed!

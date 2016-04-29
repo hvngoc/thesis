@@ -54,6 +54,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     private SliderLayout mDemoSlider;
     private Post currentPost;
 
+    private Boolean isLiking = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +109,9 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isLiking)
+                    return;
+                isLiking = true;
                 if (currentPost.isYouLike == 0)
                     new LikeThisPostAsyncTask().execute();
                 else
@@ -165,6 +170,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     private void setLikeButton(){
         Log.i("is you like", currentPost.isYouLike + "");
+        isLiking = false;
         if (currentPost.isYouLike == 0)
             btnLike.setBackgroundResource(R.drawable.ic_favorite_black);
         else

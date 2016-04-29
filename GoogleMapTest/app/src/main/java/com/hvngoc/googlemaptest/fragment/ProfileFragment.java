@@ -153,7 +153,7 @@ public class ProfileFragment extends Fragment {
         //avatar.setImageFromURL(profile.avatar);
         Picasso.with(GLOBAL.CurentContext)
                 .load(profile.getAvatar())
-                .error(R.drawable.bigbang)         // optional
+                .error(R.drawable.default_icon)         // optional
                 .into(avatar);
         numFriend.setText(profile.numFriend + "");
         numFollow.setText(profile.numFollow + "");

@@ -18,7 +18,7 @@
             android:scaleType="centerCrop"
             android:layout_width="100dip"
             android:layout_height="100dip"
-            android:src="@drawable/bigbang" />
+            android:src="@drawable/default_icon" />
         <CheckBox
             android:id="@+id/checkboxPickPicture"
             android:background="@drawable/comment_bg_close"

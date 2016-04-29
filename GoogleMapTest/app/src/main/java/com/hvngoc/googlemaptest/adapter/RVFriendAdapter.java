@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.Friend;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         viewHolder.txt_friendUserName.setText(item.getName());
         viewHolder.txt_friendNum.setText(item.getNumFriend() + "");
         viewHolder.txt_friendMutual.setText(item.getMutualFriend() + "");
-        viewHolder.img_friendAvatar.setImageResource(R.drawable.icon_profile);//item.getAvatar();
+        Picasso.with(GLOBAL.CurentContext).load(item.getAvatar()).error(R.drawable.icon_profile).into(viewHolder.img_friendAvatar);
     }
 
     @Override

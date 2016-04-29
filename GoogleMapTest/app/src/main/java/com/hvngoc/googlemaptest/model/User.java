@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+
 /**
  * Created by 12125_000 on 3/2/2016.
  */
@@ -27,7 +29,7 @@ public class User {
     }
 
     public String getAvatar() {
-        return this.avatar;
+    return GLOBAL.SERVER_IMAGE_URL + this.avatar;
     }
 
     public void setId(String id) {

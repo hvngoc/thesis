@@ -3,7 +3,6 @@ package com.hvngoc.googlemaptest.custom;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -40,13 +39,11 @@ import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
-import com.hvngoc.googlemaptest.model.MyLocation;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
-import com.hvngoc.googlemaptest.model.Profile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -62,8 +59,10 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
 
     private Context context;
     private FragmentManager fragmentManager;
+
     private GoogleMap googleMap;
     private SupportMapFragment supportMapFragment;
+
     private Post post;
     private RVPickImageAdapter adapter;
     private ArrayList<String> listImageUrls = new ArrayList<String>();
@@ -169,22 +168,6 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         });
     }
 
-    public List<String> getStringImages(List<Bitmap> bitmaps){
-        ArrayList<String> images = new ArrayList<String>();
-        for (int i = 0; i < bitmaps.size(); i++) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmaps.get(i).compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            images.add(encodedImage);
-        }
-        return images;
-    }
-
-    public Post getPost(){
-        return post;
-    }
-
     private class UploadImagesAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         private String encodedImage;
@@ -216,11 +199,13 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 }
             }
             else {
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Upload Image Error", Toast.LENGTH_SHORT).show();
             }
         }
 
-        private Boolean postData() {
+        @Override
+        protected Boolean doInBackground(Void... params) {
             String serverUrl = GLOBAL.SERVER_URL + "uploadImage";
             JSONObject jsonobj = new JSONObject();
             try {
@@ -233,19 +218,10 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             helper = new HTTPPostHelper(serverUrl, jsonobj);
             return helper.sendHTTTPostRequest();
         }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            return postData();
-        }
     }
 
     private class CreatePostAsyncTask extends AsyncTask<Void, Void, Boolean> {
-
         HTTPPostHelper helper;
-        public CreatePostAsyncTask() {
-        }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -263,7 +239,8 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             progressDialog.dismiss();
         }
 
-        private Boolean postData() {
+        @Override
+        protected Boolean doInBackground(Void... params) {
             String serverUrl = GLOBAL.SERVER_URL + "createPost";
             JSONObject jsonobj = new JSONObject();
             try {
@@ -282,11 +259,23 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             helper = new HTTPPostHelper(serverUrl, jsonobj);
             return helper.sendHTTTPostRequest();
         }
+    }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            return postData();
+/*************************************************************************************************************************/
+    public List<String> getStringImages(List<Bitmap> bitmaps){
+        ArrayList<String> images = new ArrayList<String>();
+        for (int i = 0; i < bitmaps.size(); i++) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmaps.get(i).compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            images.add(encodedImage);
         }
+        return images;
+    }
+
+    public Post getPost(){
+        return post;
     }
 
     private String getListImages(){
@@ -307,6 +296,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         progressDialog.show();
     }
 
+    /*********************************************************************************************************/
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -319,6 +309,23 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         InitContentView();
     }
 
+    private void InitContentView(){
+        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+
+        LocationHelper locationHelper = new LocationHelper(context);
+        post.Latitude = locationHelper.GetLatitude();
+        post.Longitude = locationHelper.GetLongitude();
+        post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
+
+        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
+        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
+        txtCreatePostLocation.setText(address);
+
+        supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
+        supportMapFragment.getMapAsync(this);
+    }
+
+    /*******************************************************************************************************************************/
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -374,21 +381,5 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                     }
                 });
         AddCurrentMarker();
-    }
-
-    private void InitContentView(){
-        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
-
-        MyLocation myLocation = new MyLocation(context);
-        post.Latitude = myLocation.GetLatitude();
-        post.Longitude = myLocation.GetLongitude();
-        post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
-
-        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
-        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
-        txtCreatePostLocation.setText(address);
-
-        supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
-        supportMapFragment.getMapAsync(this);
     }
 }

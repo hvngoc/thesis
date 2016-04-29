@@ -28,11 +28,6 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         this.data = data;
     }
 
-    public void delete(int position) {
-        data.remove(position);
-        notifyItemRemoved(position);
-    }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.card_item_nav_drawer, parent, false);

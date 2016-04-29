@@ -8,18 +8,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.Comment;
+import com.squareup.picasso.Picasso;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.ViewHolder>{
     List<Comment> mItems;
 
-    public RVCommentAdapter(List<Comment> listItems) {
-        super();
-        mItems = listItems;
+    public RVCommentAdapter(){
+        mItems = new ArrayList<>();
+    }
 
+    public int addComment(Comment comment){
+        mItems.add(comment);
+        notifyDataSetChanged();
+        return mItems.size() - 1;
+    }
+    public int addListComment(ArrayList<Comment> listComment){
+        mItems.addAll(listComment);
+        notifyDataSetChanged();
+        return mItems.size() - 1;
     }
 
     @Override
@@ -36,7 +48,7 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
         viewHolder.txtCommentSring.setText(item.getContent());
         viewHolder.txtCommentDay.setText(item.getCommentDate());
         viewHolder.txtUserName.setText(item.getUserName());
-        viewHolder.imgAvatar.setImageResource(R.drawable.icon_profile);//item.getIdAvatar();
+        Picasso.with(GLOBAL.CurentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
     }
 
     @Override

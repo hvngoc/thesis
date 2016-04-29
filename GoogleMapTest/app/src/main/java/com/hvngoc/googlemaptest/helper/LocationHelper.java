@@ -1,4 +1,4 @@
-package com.hvngoc.googlemaptest.model;
+package com.hvngoc.googlemaptest.helper;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -14,7 +14,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 
 
-public class MyLocation extends Service implements LocationListener {
+public class LocationHelper implements LocationListener {
     private static final int TIME_UPDATER = 10000;
     private static final int DISTANCE_UPDATER = 20;
 
@@ -22,9 +22,9 @@ public class MyLocation extends Service implements LocationListener {
     LocationManager Manager;
     Location currentLocation;
 
-    public MyLocation(Context context){
+    public LocationHelper(Context context){
         this.context = context;
-        Manager = (LocationManager)context.getSystemService(LOCATION_SERVICE);
+        Manager = (LocationManager)context.getSystemService(Service.LOCATION_SERVICE);
         currentLocation = this.GetCurtentLocation();
         if(currentLocation == null){
             showSetting();
@@ -104,11 +104,5 @@ public class MyLocation extends Service implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 }

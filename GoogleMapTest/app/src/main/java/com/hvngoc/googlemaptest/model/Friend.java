@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+
 /**
  * Created by Hoang Van Ngoc on 24/03/2016.
  */
@@ -18,7 +20,7 @@ public class Friend {
     }
 
     public String getAvatar() {
-        return this.avatar;
+        return GLOBAL.SERVER_IMAGE_URL + this.avatar;
     }
 
     public void setId(String id) {

@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+
 public class Comment {
     private String id;
     private String content;
@@ -57,7 +59,7 @@ public class Comment {
     }
 
     public String getUserAvatar() {
-        return userAvatar;
+        return GLOBAL.SERVER_IMAGE_URL + userAvatar;
     }
 
     public void setUserAvatar(String userAvatar) {

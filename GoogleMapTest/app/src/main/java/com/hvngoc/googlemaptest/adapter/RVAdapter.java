@@ -58,7 +58,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurentContext)
                 .load(post.getFirstImageUrl())
-                .error(R.drawable.bigbang)         // optional
+                .error(R.drawable.default_icon)         // optional
                 .into(newsViewHolder.placephoto);
         newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude).GetAddress());
         newsViewHolder.txtNumLike.setText(""+post.numLike);

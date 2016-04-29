@@ -35,7 +35,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.IconizedMenu;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
-import com.hvngoc.googlemaptest.model.MyLocation;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
@@ -153,7 +153,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 iconizedMenu.dismiss();
                 switch (item.getItemId()) {
                     case R.id.menu_around: {
-                        MyLocation location = new MyLocation(MapsActivity.this);
+                        LocationHelper location = new LocationHelper(MapsActivity.this);
                         LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
                         onMapLongClick(latLng);
                         break;
