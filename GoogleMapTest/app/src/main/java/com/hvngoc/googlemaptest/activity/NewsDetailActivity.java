@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -177,16 +178,30 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
             btnLike.setBackgroundResource(R.drawable.ic_favorite_ok);
     }
 
+    //*************************************************************************************************************************//
+
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_on_map, menu);
+//        MenuItem action_notification = menu.findItem(R.id.action_notification);
+//        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
+//                return true;
+//            }
+//        });
+//        MenuItem action_options = menu.findItem(R.id.action_options);
+//        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                iconizedMenu.show();
+//                return true;
+//            }
+//        });
+//        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -209,6 +224,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         Log.d("Slider Demo", "Page Changed: " + position);
     }
 
+//*******************************************************************************************************************************//
 
     private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
