@@ -57,20 +57,19 @@
                                 android:layout_marginLeft="10dp"
                                 android:textColor="#0400ff" />
                             <TextView
+                                android:layout_marginStart="5dip"
                                 android:layout_marginTop="7dip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/txtRelationship"
-                                android:layout_marginStart="6dip"
-                                android:text="posted in tag: "/>
+                                android:id="@+id/txtFeeling"
+                                android:text="feeling happy on"/>
                             <TextView
-                                android:layout_marginTop="6dip"
-                                android:textColor="#0400ff"
+                                android:layout_marginTop="7dip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/txtTag"
+                                android:id="@+id/txtCommentDay"
                                 android:layout_marginLeft="4dip"
-                                android:text="sport"/>
+                                android:text="27/02/2016"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -81,14 +80,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/txtFeeling"
-                                android:text="feeling happy on"/>
+                                android:id="@+id/txtRelationship"
+                                android:layout_marginStart="6dip"
+                                android:text="posted in tag: "/>
                             <TextView
+                                android:textColor="#0400ff"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/txtCommentDay"
+                                android:id="@+id/txtTag"
                                 android:layout_marginLeft="4dip"
-                                android:text="27/02/2016"/>
+                                android:text="sport"/>
                         </LinearLayout>
                         <TextView
                             android:layout_width="match_parent"

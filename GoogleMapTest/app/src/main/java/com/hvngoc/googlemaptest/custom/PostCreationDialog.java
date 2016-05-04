@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -152,10 +155,45 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 menu.show();
             }
         });
+
+        final ImageView btnCreatePostGetTag = (ImageView) findViewById(R.id.btnCreatePostGetTag);
+        btnCreatePostGetTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, btnCreatePostGetTag);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_pick_tag, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        boolean checked = !item.isChecked();
+                        item.setChecked(checked);
+                        setTxtCreatePostTag(checked, item.getTitle().toString());
+
+                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                        item.setActionView(new View(context));
+                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                            @Override
+                            public boolean onMenuItemActionExpand(MenuItem item) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                return false;
+                            }
+                        });
+
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
         FloatingActionButton btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
         btnCreatePostOK.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 post.setPostDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
                 TextView content = (TextView) findViewById(R.id.editTextCreatePost);
                 post.setContent(content.getText().toString());
@@ -167,6 +205,20 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             }
         });
     }
+
+    private ArrayList<String> listPostTag = new ArrayList<>();
+
+    private  void setTxtCreatePostTag(boolean checked, String title){
+        if (checked)
+            listPostTag.add(title);
+        else
+            listPostTag.remove(title);
+        String text = TextUtils.join(", ", listPostTag);
+        TextView txtCreatePostTag = (TextView) findViewById(R.id.txtCreatePostTag);
+        txtCreatePostTag.setText(text);
+    }
+
+//**********************************************************************************************************************
 
     private class UploadImagesAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -222,9 +274,16 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
 
     private class CreatePostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         HTTPPostHelper helper;
+        String tag = "[";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            for (String string : listPostTag) {
+                tag += "'" + string + "',";
+            }
+            if (tag.length() > 1)
+                tag = tag.substring(0, tag.length() - 1);
+            tag += "]";
         }
 
         @Override
@@ -252,7 +311,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 jsonobj.put("Longitude", post.Longitude);
                 jsonobj.put("feeling", post.feeling);
                 jsonobj.put("listImages", getListImages());
-                jsonobj.put("tag", "food");
+                jsonobj.put("tag", tag);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

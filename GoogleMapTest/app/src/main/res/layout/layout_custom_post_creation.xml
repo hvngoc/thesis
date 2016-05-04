@@ -70,45 +70,70 @@
                 android:textColor="@android:color/white" />
             <ImageView
                 android:layout_toEndOf="@+id/txtCreatePostFeeling"
-                android:id="@+id/btnCreatePostGetLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:id="@+id/btnCreatePostGetTag"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_tag_black"
+                android:layout_width="35dip"
+                android:layout_height="35dip" />
             <TextView
-                android:layout_toEndOf="@+id/btnCreatePostGetLocation"
-                android:id="@+id/txtCreatePostLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Ho Chi Minh City"
+                android:layout_toEndOf="@+id/btnCreatePostGetTag"
+                android:id="@+id/txtCreatePostTag"
+                android:textColor="@android:color/white"
+                android:text="No Tag"
+                android:padding="5dip"
                 android:textSize="18sp"
-                android:textColor="@android:color/white" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
         <LinearLayout
             android:background="@drawable/comment_bg_title"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RadioGroup
-                android:id="@+id/radioGroupCreatePost"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:gravity="center"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/btnCreatePostGetLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_myplaces" />
+                <TextView
+                    android:layout_toEndOf="@+id/btnCreatePostGetLocation"
+                    android:id="@+id/txtCreatePostLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Ho Chi Minh City"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/radioYourLocation"
-                    android:textColor="@color/white"
-                    android:text="Get your Location."
-                    android:checked="true"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:id="@+id/radioGetOnMap"
-                    android:textColor="@color/white"
-                    android:text="Get on map."
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/radioGroupCreatePost"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:id="@+id/radioYourLocation"
+                        android:textColor="@color/white"
+                        android:text="Get your Location."
+                        android:checked="true"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:id="@+id/radioGetOnMap"
+                        android:textColor="@color/white"
+                        android:text="Get on map."
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton
