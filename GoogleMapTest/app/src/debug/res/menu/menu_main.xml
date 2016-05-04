@@ -4,22 +4,15 @@
     tools:context=".activity.MainPageActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="@string/action_search"
+        android:id="@+id/action_notification"
+        android:title="click"
+        android:icon="@android:drawable/star_big_on"
         android:orderInCategory="100"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        android:icon="@drawable/ic_search_white"
-        app:showAsAction="always|collapseActionView" />
-
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/action_options"
+        android:title="click"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
         android:orderInCategory="100"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_example"
-        android:title="Example"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

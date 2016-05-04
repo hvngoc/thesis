@@ -183,7 +183,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_on_map, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        MenuItem action_notification = menu.findItem(R.id.action_notification);
 //        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //            @Override

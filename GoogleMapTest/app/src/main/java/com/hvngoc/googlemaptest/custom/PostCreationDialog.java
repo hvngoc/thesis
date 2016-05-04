@@ -40,6 +40,7 @@ import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
@@ -107,6 +108,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioGetOnMap) {
                     findViewById(R.id.MapCreatePostMap).setVisibility(View.VISIBLE);
+                    findViewById(R.id.btnCreatePostOK).bringToFront();
                 } else {
                     findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
                 }
@@ -195,6 +197,8 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             @Override
             public void onClick(View v) {
                 post.setPostDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+                post.Latitude = LocationRoundHelper.Round(post.Latitude);
+                post.Longitude = LocationRoundHelper.Round(post.Longitude);
                 TextView content = (TextView) findViewById(R.id.editTextCreatePost);
                 post.setContent(content.getText().toString());
                 showProgressDialog();
