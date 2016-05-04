@@ -21,11 +21,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
     testCompile 'junit:junit:4.12'
-
-
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.google.android.gms:play-services:8.4.0'
@@ -39,4 +37,5 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.android.support:support-v4:23.2.1'
+    compile project(':libmenu')
 }

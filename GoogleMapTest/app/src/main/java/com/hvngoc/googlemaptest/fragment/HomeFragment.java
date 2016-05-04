@@ -11,8 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -119,8 +117,8 @@ public class HomeFragment extends Fragment {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                GLOBAL.CurrentListPost = gson.fromJson(res, listType);
-                RVAdapter adapter = new RVAdapter(GLOBAL.CurrentListPost);
+                 ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
+                RVAdapter adapter = new RVAdapter(CurrentListPost);
                 listnews.setAdapter(adapter);
             }
             else {

@@ -1,10 +1,11 @@
 package com.hvngoc.googlemaptest.activity;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -31,18 +32,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.custom.IconizedMenu;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
+import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.model.Post;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap googleMap;
-    private IconizedMenu iconizedMenu;
+    private ContextMenuDialogFragment mMenuDialogFragment;
 
     private String SEARCH_ENGINE = "Search by Name.";
     private int SEARCH_DISTANCE = 100;
@@ -87,7 +98,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
             }
         });
 
-        RunCustomMenu();
+        InitRunCustomMenu();
         RunSearchingEngine();
     }
 
@@ -97,26 +108,19 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         search_text_auto.setVisibility(View.VISIBLE);
         search_text_auto.bringToFront();
         switch (SEARCH_ENGINE){
-            case "Search by Name.":{
-                search_text_auto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, getListName()));
+            case "Search by Name.":
+                new GetListFriendNameAsyncTask().execute();
                 search_text_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String text = search_text_auto.getAdapter().getItem(position).toString();
                         search_text_auto.setText(text);
                         currentListPost.clear();
-                        for (int i = 0; i < GLOBAL.CurrentListPost.size(); ++i) {
-                            if (text.compareTo(GLOBAL.CurrentListPost.get(i).userName) == 0) {
-                                currentListPost.add(GLOBAL.CurrentListPost.get(i));
-                            }
-                        }
-                        AddMarker();
-                        ZoomAnimateLevelToFitMarkers();
+                        new SearchPostByNameAsyncTask(text).execute();
                     }
                 });
                 break;
-            }
-            case "Search by Tag.":{
+            case "Search by Tag.":
                 search_text_auto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
                 search_text_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -124,45 +128,37 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                         String text = search_text_auto.getAdapter().getItem(position).toString();
                         search_text_auto.setText(text);
                         currentListPost.clear();
-                        for (int i = 0; i < GLOBAL.CurrentListPost.size(); ++i) {
-                            if (text.compareTo(GLOBAL.CurrentListPost.get(i).tag) == 0) {
-                                currentListPost.add(GLOBAL.CurrentListPost.get(i));
-                            }
-                        }
-                        AddMarker();
-                        ZoomAnimateLevelToFitMarkers();
+                        new SearchPostByTagAsyncTask(text).execute();
                     }
                 });
                 break;
-            }
-            case "Search by Place.":{
+            case "Search by Place.":
                 search_text_auto.setVisibility(View.INVISIBLE);
                 view.setVisibility(View.VISIBLE);
                 view.bringToFront();
                 break;
-            }
         }
     }
 
-    private void RunCustomMenu(){
-        iconizedMenu = new IconizedMenu(this, findViewById(R.id.imgViewOption));
-        iconizedMenu.getMenuInflater().inflate(R.menu.menu_map_content, iconizedMenu.getMenu());
-        iconizedMenu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
+    private void InitRunCustomMenu(){
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize(60);
+        menuParams.setMenuObjects(getMenuObjects());
+        menuParams.setClosableOutside(false);
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+        mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                iconizedMenu.dismiss();
-                switch (item.getItemId()) {
-                    case R.id.menu_around: {
+            public void onMenuItemClick(View clickedView, int position) {
+                switch (position) {
+                    case 1:
                         LocationHelper location = new LocationHelper(MapsActivity.this);
                         LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
                         onMapLongClick(latLng);
                         break;
-                    }
-                    case R.id.menu_bound: {
+                    case 2:
                         ZoomAnimateLevelToFitMarkers();
                         break;
-                    }
-                    case R.id.menu_setting: {
+                    case 3:
                         final MapSearchingDialog dialog = new MapSearchingDialog(MapsActivity.this);
                         dialog.setOnButtonOKClick(new View.OnClickListener() {
                             @Override
@@ -175,33 +171,208 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                         });
                         dialog.show();
                         break;
-                    }
                 }
-                return true;
             }
         });
     }
 
-    private ArrayList<String> getListName(){
-        ArrayList<String> listName = new ArrayList<>();
-        for (Post item : GLOBAL.CurrentListPost){
-            if (listName.contains(item.userName))
-                continue;
-            listName.add(item.userName);
-        }
-        return listName;
+    private ArrayList<MenuObject> getMenuObjects() {
+        MenuObject close = new MenuObject();
+        close.setResource(android.R.drawable.ic_delete);
+        MenuObject find = new MenuObject("Finding around");
+        find.setResource(android.R.drawable.ic_menu_myplaces);
+        MenuObject bound = new MenuObject("Bounding All");
+        bound.setResource(android.R.drawable.ic_menu_mapmode);
+        MenuObject setting = new MenuObject("Setting Engine");
+        setting.setResource(R.drawable.ic_setting_light);
+        ArrayList<MenuObject> list =  new ArrayList<>();
+        list.add(close);
+        list.add(find);
+        list.add(bound);
+        list.add(setting);
+        return list;
     }
+//    ***************************************************************************************************************   //
+
+    private class SearchPostByDistanceAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        private LatLng latLng;
+
+        public SearchPostByDistanceAsyncTask(LatLng latLng){
+            this.latLng = new LatLng(LocationRoundHelper.Round(latLng.latitude), LocationRoundHelper.Round(latLng.longitude));
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByDistance";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("Latitude", latLng.latitude);
+                jsonobj.put("Longitude", latLng.longitude);
+                jsonobj.put("distance", SEARCH_DISTANCE);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Post>>() {
+                }.getType();
+                currentListPost = gson.fromJson(res, listType);
+                AddMarker();
+            }
+            else
+                googleMap.clear();
+            googleMap.addCircle(new CircleOptions().center(latLng).radius(SEARCH_DISTANCE).
+                    strokeColor(Color.BLUE).strokeWidth(2).fillColor(0x110000FF));
+        }
+    }
+
+    private class SearchPostByNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        String name;
+        private HTTPPostHelper helper;
+
+        public SearchPostByNameAsyncTask(String name){
+            this.name = name;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByName";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("name", name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
+                currentListPost = gson.fromJson(res, listType);
+                AddMarker();
+                ZoomAnimateLevelToFitMarkers();
+            }
+        }
+    }
+
+    private class GetListFriendNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "GetListFriendName";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+                ArrayList<String> listName = gson.fromJson(res, listType);
+                search_text_auto.setAdapter(new ArrayAdapter<>(MapsActivity.this, android.R.layout.simple_dropdown_item_1line, listName));
+            }
+        }
+    }
+
+    private class SearchPostByTagAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        String tag;
+        private HTTPPostHelper helper;
+
+        public SearchPostByTagAsyncTask(String tag){
+            this.tag = tag;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByTag";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("tag", tag);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
+                currentListPost = gson.fromJson(res, listType);
+                AddMarker();
+                ZoomAnimateLevelToFitMarkers();
+            }
+        }
+    }
+
 //    ************************************************************************************************************    //
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_maps;
     }
-
+    @Override
+    public void onBackPressed() {
+        if (mMenuDialogFragment != null && mMenuDialogFragment.isAdded())
+            mMenuDialogFragment.dismiss();
+        else
+            finish();
+    }
     @Override
     protected void onResume() {
         super.onResume();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -217,7 +388,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                iconizedMenu.show();
+                if (getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+                    mMenuDialogFragment.show(getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
+                }
                 return true;
             }
         });
@@ -247,21 +420,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     public void onMapLongClick(LatLng latLng) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, GET_CAMERA_ZOOM()));
         currentListPost.clear();
-        Location locationA = new Location("A");
-        locationA.setLatitude(latLng.latitude);
-        locationA.setLongitude(latLng.longitude);
-        for (Post item : GLOBAL.CurrentListPost) {
-            double distance = 0;
-            Location locationB = new Location("B");
-            locationB.setLatitude(item.Latitude);
-            locationB.setLongitude(item.Longitude);
-            distance = locationA.distanceTo(locationB);
-            if (distance < SEARCH_DISTANCE)
-                currentListPost.add(item);
-        }
-        AddMarker();
-        googleMap.addCircle(new CircleOptions().center(latLng).radius(SEARCH_DISTANCE).
-                strokeColor(Color.BLUE).strokeWidth(2).fillColor(0x110000FF));
+        new SearchPostByDistanceAsyncTask(latLng).execute();
     }
 
     @Override

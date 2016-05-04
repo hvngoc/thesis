@@ -180,28 +180,25 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     //*************************************************************************************************************************//
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        MenuItem action_notification = menu.findItem(R.id.action_notification);
-//        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        });
-//        MenuItem action_options = menu.findItem(R.id.action_options);
-//        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                iconizedMenu.show();
-//                return true;
-//            }
-//        });
-//        return true;
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem action_notification = menu.findItem(R.id.action_notification);
+        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        MenuItem action_options = menu.findItem(R.id.action_options);
+        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
