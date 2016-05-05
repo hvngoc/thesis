@@ -36,7 +36,7 @@ public class FriendsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
 
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpaper_friend);
-        viewPager.setAdapter(new SampleViewPaperAdapter(getActivity().getSupportFragmentManager()));
+        viewPager.setAdapter(new SampleViewPaperAdapter(getChildFragmentManager()));
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
