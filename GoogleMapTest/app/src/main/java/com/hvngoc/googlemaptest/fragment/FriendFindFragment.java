@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 import com.squareup.picasso.Picasso;
@@ -62,13 +65,25 @@ public class FriendFindFragment extends Fragment {
         txt_addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (friend.getIsFriend() == 0) {
+                    FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(friend.getId());
+                    friendHelpersAsyncTask.runAddFriendAsyncTask();
+                    friend.setIsFriend(1);
+                }
+                else
+                    Toast.makeText(getContext(), "you have been friend with this person already",Toast.LENGTH_SHORT).show();
             }
         });
         txt_addMoreDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int type = CONSTANT.TYPE_FRIEND;
+                if (friend.getIsFriend() == 0) {
+                    type = CONSTANT.TYPE_SUGGEST;
+                }
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(friend.getId(), type));
+                fragmentTransaction.commit();
             }
         });
         btnFriendSearch.setOnClickListener(new View.OnClickListener() {

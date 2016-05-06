@@ -15,6 +15,8 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.fragment.NothingsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.model.Friend;
 import com.squareup.picasso.Picasso;
 
@@ -84,6 +86,60 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
             btnFriendAdd = (ImageView) itemView.findViewById(R.id.btnFriendAdd);
             btnFriendDelete = (ImageView) itemView.findViewById(R.id.btnFriendDelete);
             btnFriendAddRequest = (ImageView) itemView.findViewById(R.id.btnFriendAddRequest);
+
+            btnFriendAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int position = getAdapterPosition();
+                    String id = mItems.get(position).getId();
+                    FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(id);
+                    friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
+                        @Override
+                        public void doSomeThing() {
+                            mItems.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+                    friendHelpersAsyncTask.runAddFriendAsyncTask();
+                }
+            });
+
+            btnFriendAddRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int position = getAdapterPosition();
+                    String id = mItems.get(position).getId();
+                    FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(id);
+                    friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
+                        @Override
+                        public void doSomeThing() {
+                            mItems.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+                    friendHelpersAsyncTask.runConfirmRequestAsyncTask();
+                }
+            });
+
+            btnFriendDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int position = getAdapterPosition();
+                    String id = mItems.get(position).getId();
+                    FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(id);
+                    friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
+                        @Override
+                        public void doSomeThing() {
+                            mItems.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+                    if (visibilityAdd == View.INVISIBLE)
+                        friendHelpersAsyncTask.runDeleteRequestAsyncTask();
+                    if (visibilityAddRequest == View.INVISIBLE)
+                        friendHelpersAsyncTask.runDeleteFriendAsyncTask();
+                }
+            });
         }
 
         @Override

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="http://schemas.android.com/tools">
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/styles.xml -->
     <eat-comment/>
     <attr format="boolean" name="mdtp_theme_dark">false</attr>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/colors.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="mdtp_accent_color">#009688</color>
     <color name="mdtp_accent_color_dark">#00796b</color>
@@ -42,7 +42,7 @@
     <color name="mdtp_red_focused">@color/mdtp_accent_color_dark</color>
     <color name="mdtp_transparent_black">#7f000000</color>
     <color name="mdtp_white">#ffffff</color>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="mdtp_ampm_label_size">16dp</dimen>
     <dimen name="mdtp_ampm_left_padding">6dip</dimen>
@@ -82,14 +82,14 @@
     <dimen name="mdtp_year_label_height">64dp</dimen>
     <dimen name="mdtp_year_label_text_size">22dp</dimen>
     <item format="float" name="mdtp_ampm_circle_radius_multiplier" translatable="false" type="string">0.22</item>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="mdtp_cancel">@android:string/cancel</string>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <item format="float" name="mdtp_circle_radius_multiplier" translatable="false" type="string">0.82</item>
     <item format="float" name="mdtp_circle_radius_multiplier_24HourMode" translatable="false" type="string">0.85</item>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="mdtp_date_v1_monthyear">MMMM yyyy</string>
     <string name="mdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
@@ -99,12 +99,12 @@
     <string name="mdtp_hour_picker_description">Hours circular slider</string>
     <string name="mdtp_item_is_selected"><ns1:g example="2013" id="item">%1$s</ns1:g> selected</string>
     <string name="mdtp_minute_picker_description">Minutes circular slider</string>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <item format="float" name="mdtp_numbers_radius_multiplier_inner" translatable="false" type="string">0.60</item>
     <item format="float" name="mdtp_numbers_radius_multiplier_normal" translatable="false" type="string">0.81</item>
     <item format="float" name="mdtp_numbers_radius_multiplier_outer" translatable="false" type="string">0.83</item>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="mdtp_ok">@android:string/ok</string>
     <string name="mdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
@@ -115,18 +115,18 @@
     <string name="mdtp_select_minutes">Select minutes</string>
     <string name="mdtp_select_seconds">Select seconds</string>
     <string name="mdtp_select_year">Select year</string>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <item format="float" name="mdtp_selection_radius_multiplier" translatable="false" type="string">0.16</item>
     <item format="float" name="mdtp_text_size_multiplier_inner" translatable="false" type="string">0.11</item>
     <item format="float" name="mdtp_text_size_multiplier_normal" translatable="false" type="string">0.12</item>
     <item format="float" name="mdtp_text_size_multiplier_outer" translatable="false" type="string">0.08</item>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="mdtp_time_placeholder" translatable="false">--</string>
     <string name="mdtp_time_separator" translatable="false">:</string>
     <string name="mdtp_year_picker_description">Year list</string>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="mdtp_ActionButton">
         <item name="android:layout_width">wrap_content</item>

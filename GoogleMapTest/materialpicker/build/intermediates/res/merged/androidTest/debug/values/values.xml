@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="http://schemas.android.com/tools">
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <attr format="boolean" name="mdtp_theme_dark">false</attr>
     <color name="mdtp_accent_color">#009688</color>

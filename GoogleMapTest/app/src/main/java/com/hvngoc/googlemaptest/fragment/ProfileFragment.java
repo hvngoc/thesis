@@ -202,8 +202,10 @@ public class ProfileFragment extends Fragment {
         birthdate.setText(profile.birthday);
         address.setText(profile.address);
         email.setText(profile.email);
-        GLOBAL.CurrentUser.setName(profile.name);
-        GLOBAL.CurrentUser.setAvatar(profile.avatar);
+        if (currentID.equals(GLOBAL.CurrentUser.getId())) {
+            GLOBAL.CurrentUser.setName(profile.name);
+            GLOBAL.CurrentUser.setAvatar(profile.avatar);
+        }
         if (profile.gender.equals("male")){
             radioMale.setChecked(true);
             //radioSex.check(R.id.radioMale);
@@ -270,7 +272,7 @@ public class ProfileFragment extends Fragment {
                                     @Override
                                     public void doSomeThing() {
                                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_FRIEND));
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
                                         fragmentTransaction.commit();
                                     }
                                 });
@@ -307,17 +309,20 @@ public class ProfileFragment extends Fragment {
             case CONSTANT.TYPE_ME: return list;
             case CONSTANT.TYPE_REQUEST:
                 MenuObject accept = new MenuObject("Confirm");
-                accept.setResource(R.drawable.ic_add_black);
+                accept.setResource(R.drawable.ic_friend_add_black);
                 list.add(accept);
                 MenuObject deleteRequest = new MenuObject("Delete Request");
+
                 list.add(deleteRequest);
                 break;
             case CONSTANT.TYPE_FRIEND:
-                MenuObject deleteFriend = new MenuObject("Delete");
+                MenuObject deleteFriend = new MenuObject("UnFriend");
+                
                 list.add(deleteFriend);
                 break;
             case CONSTANT.TYPE_SUGGEST:
                 MenuObject addFriend = new MenuObject("Add Friend");
+                addFriend.setResource(R.drawable.ic_friend_add_black);
                 list.add(addFriend);
                 break;
         }

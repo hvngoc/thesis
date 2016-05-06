@@ -135,7 +135,8 @@ public class FriendHelpersAsyncTask {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result) {
-                delegation.doSomeThing();
+                if (delegation != null)
+                    delegation.doSomeThing();
             }
 
         }

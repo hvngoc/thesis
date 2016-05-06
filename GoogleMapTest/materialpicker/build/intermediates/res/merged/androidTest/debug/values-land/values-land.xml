@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/F:/THESIS_GIT/Thesis_Public/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/values-land/values-land.xml -->
+    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/values-land/values-land.xml -->
     <eat-comment/>
     <dimen name="mdtp_date_picker_component_width">220dp</dimen>
     <dimen name="mdtp_date_picker_view_animator_height">220dp</dimen>

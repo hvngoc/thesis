@@ -37,13 +37,23 @@ public class Friend {
 
     private int numFriend;
     private int mutualFriend;
+    private int isFriend;
 
-    public  Friend(String id, String name, String avatar, int numFriend, int mutualFriend){
+    public  Friend(String id, String name, String avatar, int numFriend, int mutualFriend, int isFriend){
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.numFriend = numFriend;
         this.mutualFriend = mutualFriend;
+        this.isFriend = isFriend;
+    }
+
+    public int getIsFriend(){
+        return isFriend;
+    }
+
+    public void setIsFriend(int isFriend){
+        this.isFriend = isFriend;
     }
 
     public  int getNumFriend(){
