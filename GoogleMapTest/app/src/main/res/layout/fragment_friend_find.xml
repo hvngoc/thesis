@@ -83,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <ImageView
+                    android:id="@+id/img_add_Friend"
                     android:layout_width="30dip"
                     android:src="@drawable/ic_friend_add_black"
                     android:layout_height="30dip" />

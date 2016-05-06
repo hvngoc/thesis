@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Friend;
@@ -35,6 +37,7 @@ public class FriendFindFragment extends Fragment {
     TextView txt_find_name;
     TextView txt_friendNum, txt_friendMutual;
     TextView txt_addFriend, txt_addMoreDetail;
+    ImageView img_add_Friend;
     ImageView btnFriendSearch;
     EditText editFriendSearch;
 
@@ -59,19 +62,34 @@ public class FriendFindFragment extends Fragment {
         txt_friendMutual = (TextView) view.findViewById(R.id.txt_friendMutual);
         txt_addFriend = (TextView) view.findViewById(R.id.txt_addFriend);
         txt_addMoreDetail = (TextView) view.findViewById(R.id.txt_addMoreDetail);
+        img_add_Friend = (ImageView) view.findViewById(R.id.img_add_Friend);
         editFriendSearch = (EditText) view.findViewById(R.id.editFriendSearch);
         btnFriendSearch = (ImageView) view.findViewById(R.id.btnFriendSearch);
 
         txt_addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(friend.getId());
                 if (friend.getIsFriend() == 0) {
-                    FriendHelpersAsyncTask friendHelpersAsyncTask = new FriendHelpersAsyncTask(friend.getId());
                     friendHelpersAsyncTask.runAddFriendAsyncTask();
-                    friend.setIsFriend(1);
+                    friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
+                        @Override
+                        public void doSomeThing() {
+                            Toast.makeText(getContext(), "send request ok",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                else
-                    Toast.makeText(getContext(), "you have been friend with this person already",Toast.LENGTH_SHORT).show();
+                else{
+                    
+                    friendHelpersAsyncTask.runDeleteFriendAsyncTask();
+                    friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
+                        @Override
+                        public void doSomeThing() {
+                            friend.setIsFriend(0);
+                            ChangeLayoutUnFriend();
+                        }
+                    });
+                }
             }
         });
         txt_addMoreDetail.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +133,20 @@ public class FriendFindFragment extends Fragment {
         txt_find_name.setText(friend.getName());
         txt_friendNum.setText(friend.getNumFriend() + "");
         txt_friendMutual.setText(friend.getMutualFriend() + "");
+        ChangeLayoutUnFriend();
+    }
+
+    private void ChangeLayoutUnFriend(){
+        if (friend.getIsFriend() == 0){
+            txt_addFriend.setText("Add friend");
+            txt_addFriend.setTextColor(Color.parseColor("#030fff"));
+            img_add_Friend.setImageResource(R.drawable.ic_friend_add_black);
+        }
+        else {
+            txt_addFriend.setText("Unfriend");
+            txt_addFriend.setTextColor(Color.RED);
+            img_add_Friend.setImageResource(R.drawable.ic_friend_delete);
+        }
     }
 
     private void setLayoutContent(int visibleCardFriend, int visibleNothing){

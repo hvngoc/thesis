@@ -134,10 +134,10 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
                             notifyDataSetChanged();
                         }
                     });
-                    if (visibilityAdd == View.INVISIBLE)
-                        friendHelpersAsyncTask.runDeleteRequestAsyncTask();
                     if (visibilityAddRequest == View.INVISIBLE)
                         friendHelpersAsyncTask.runDeleteFriendAsyncTask();
+                    else
+                        friendHelpersAsyncTask.runDeleteRequestAsyncTask();
                 }
             });
         }

@@ -1,9 +1,11 @@
 package com.hvngoc.googlemaptest.helper;
 
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.custom.ConfirmDialog;
 import com.hvngoc.googlemaptest.model.Profile;
 
 import org.json.JSONException;
@@ -15,6 +17,7 @@ import org.json.JSONObject;
 public class FriendHelpersAsyncTask {
     private DelegationHelper delegation;
     private String friendID;
+    private ConfirmDialog confirmDialog;
 
     public FriendHelpersAsyncTask(String friendID) {
         this.friendID = friendID;
@@ -25,20 +28,54 @@ public class FriendHelpersAsyncTask {
     }
 
     public  void runDeleteRequestAsyncTask() {
-        new DeleteRequestAsyncTask().execute();
+        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for deleting this request?");
+        confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();
+                new DeleteRequestAsyncTask().execute();
+            }
+        });
+        confirmDialog.show();
     }
 
     public  void runConfirmRequestAsyncTask() {
-        new ConfirmFriendRequestAsyncTask().execute();
+        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for confirming this request?");
+        confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();
+                new ConfirmFriendRequestAsyncTask().execute();
+            }
+        });
+        confirmDialog.show();
     }
 
     public void runAddFriendAsyncTask( ) {
-        new AddFriendAsyncTask().execute();
+        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for making a friend request?");
+        confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();
+                new AddFriendAsyncTask().execute();
+            }
+        });
+        confirmDialog.show();
     }
 
     public void runDeleteFriendAsyncTask() {
-        new DeleteFriendAsyncTask().execute();
+        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for deleting from friend list?");
+        confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDialog.dismiss();
+                new DeleteFriendAsyncTask().execute();
+            }
+        });
+        confirmDialog.show();
     }
+
+//    *********************************************************************************************************//
 
     private class DeleteRequestAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -67,13 +104,12 @@ public class FriendHelpersAsyncTask {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result) {
-                delegation.doSomeThing();
+                if (delegation != null)
+                    delegation.doSomeThing();
             }
 
         }
     }
-
-
 
     private class DeleteFriendAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -102,7 +138,8 @@ public class FriendHelpersAsyncTask {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result) {
-                delegation.doSomeThing();
+                if (delegation != null)
+                    delegation.doSomeThing();
             }
 
         }
@@ -169,7 +206,8 @@ public class FriendHelpersAsyncTask {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result) {
-                delegation.doSomeThing();
+                if (delegation != null)
+                    delegation.doSomeThing();
             }
 
         }
