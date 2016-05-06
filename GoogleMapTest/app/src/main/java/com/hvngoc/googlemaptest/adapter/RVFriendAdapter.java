@@ -1,6 +1,9 @@
 package com.hvngoc.googlemaptest.adapter;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,9 @@ import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.fragment.NothingsFragment;
+import com.hvngoc.googlemaptest.fragment.ProfileFragment;
+import com.hvngoc.googlemaptest.fragment.WallFragment;
 import com.hvngoc.googlemaptest.model.Friend;
 import com.squareup.picasso.Picasso;
 
@@ -22,12 +28,16 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     private int visibilityAdd;
     private int visibilityDelete;
     private int visibilityAddRequest;
-    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest) {
+    private FragmentManager fragmentManager;
+    private int type;
+    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest, FragmentManager manager, int type) {
         super();
         mItems = listItems;
         this.visibilityAdd = visibilityAdd;
         this.visibilityAddRequest = visibilityAddRequest;
         this.visibilityDelete = visibilityDelete;
+        this.fragmentManager = manager;
+        this.type = type;
     }
 
     @Override
@@ -56,16 +66,17 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         return mItems.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView img_friendAvatar;
         public TextView txt_friendUserName;
         public TextView txt_friendNum;
         public TextView txt_friendMutual;
         public ImageView btnFriendAdd, btnFriendDelete, btnFriendAddRequest;
-
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
             img_friendAvatar = (ImageView)itemView.findViewById(R.id.img_friendAvatar);
             txt_friendUserName = (TextView)itemView.findViewById(R.id.txt_friendUserName);
             txt_friendNum = (TextView)itemView.findViewById(R.id.txt_friendNum);
@@ -73,6 +84,16 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
             btnFriendAdd = (ImageView) itemView.findViewById(R.id.btnFriendAdd);
             btnFriendDelete = (ImageView) itemView.findViewById(R.id.btnFriendDelete);
             btnFriendAddRequest = (ImageView) itemView.findViewById(R.id.btnFriendAddRequest);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            String id = mItems.get(position).getId();
+            Log.i("ONCLICK", "ONCLICK");
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(id, type));
+            fragmentTransaction.commit();
         }
     }
 }

@@ -21,6 +21,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
+    }
+
     protected abstract int getLayoutResource();
 
     protected void setActionBarIcon(int iconRes) {

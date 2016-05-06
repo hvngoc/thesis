@@ -19,10 +19,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.custom.PostCreationDialog;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -37,10 +39,19 @@ public class WallFragment extends Fragment {
 
     RecyclerView listPosts;
     RVAdapter adapter;
+    String currentID;
 
     public WallFragment() {
         // Required empty public constructor
     }
+    public static WallFragment getInstance(String currentID) {
+        WallFragment fragment = new WallFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", currentID);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     @Override
     public void setArguments(Bundle args) {
@@ -50,12 +61,14 @@ public class WallFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle args = getArguments();
+        currentID = args.getString("id");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((BaseActivity)getActivity()).setActionBarTitle("Wall");
         View rootView = inflater.inflate(R.layout.fragment_wall, container, false);
         listPosts = (RecyclerView) rootView.findViewById(R.id.list_wall_post);
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
@@ -111,7 +124,7 @@ public class WallFragment extends Fragment {
             String serverUrl = GLOBAL.SERVER_URL + "getAllPostOfUser";
             JSONObject jsonobj = new JSONObject();
             try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("userID", currentID);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

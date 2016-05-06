@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,26 +26,49 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.squareup.picasso.Picasso;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
 
     Profile profile;
+    private ContextMenuDialogFragment mMenuDialogFragment;
+    private FriendHelpersAsyncTask helpersAsyncTask;
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    public static ProfileFragment getInstance(String id, int type) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        bundle.putInt("type", type);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     ImageView avatar;
@@ -56,11 +82,18 @@ public class ProfileFragment extends Fragment {
     FloatingActionButton save, cancel, edit_profile;
     TextView numFriend, numFollow, numPost;
     Bitmap bitmap;
+    String currentID;
+    int typeFriend;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Bundle args = getArguments();
+        currentID = args.getString("id");
+        typeFriend = args.getInt("type");
+        InitRunCustomMenu();
+        helpersAsyncTask = new FriendHelpersAsyncTask(currentID);
     }
 
     @Override
@@ -134,6 +167,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        ((BaseActivity)getActivity()).setActionBarTitle("Profile");
+
         return view;
     }
 
@@ -142,7 +177,8 @@ public class ProfileFragment extends Fragment {
         radioSex.setEnabled(enable);
         birthdate.setEnabled(enable);
         address.setEnabled(enable);
-
+        radioFemale.setEnabled(enable);
+        radioMale.setEnabled(enable);
         edit_profile.setVisibility(visibleEdit);
 
         pick_image.setVisibility(visibleSave);
@@ -151,6 +187,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void SetContentProfileView(){
+        if(currentID != GLOBAL.CurrentUser.getId()) {
+            edit_profile.setVisibility(View.INVISIBLE);
+        }
         //avatar.setImageFromURL(profile.avatar);
         Picasso.with(GLOBAL.CurentContext)
                 .load(profile.getAvatar())
@@ -187,9 +226,126 @@ public class ProfileFragment extends Fragment {
         new LoadProfileAsyncTask().execute();
     }
 
+    private void InitRunCustomMenu(){
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize(60);
+        menuParams.setMenuObjects(getMenuObjects());
+        menuParams.setClosableOutside(false);
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+        mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(View clickedView, int position) {
+                switch (position) {
+                    case 1:
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container_body, WallFragment.getInstance(currentID));
+                        fragmentTransaction.commit();
+                        break;
+                    case 2:
+                        switch (typeFriend){
+                            case CONSTANT.TYPE_REQUEST:
+                                helpersAsyncTask.setDelegation(new DelegationHelper() {
+                                    @Override
+                                    public void doSomeThing() {
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_FRIEND));
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                                helpersAsyncTask.runConfirmRequestAsyncTask();
+                                break;
+                            case CONSTANT.TYPE_FRIEND:
+                                helpersAsyncTask.setDelegation(new DelegationHelper() {
+                                    @Override
+                                    public void doSomeThing() {
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                                helpersAsyncTask.runDeleteFriendAsyncTask();
+                                break;
+                            case CONSTANT.TYPE_SUGGEST:
+                                helpersAsyncTask.setDelegation(new DelegationHelper() {
+                                    @Override
+                                    public void doSomeThing() {
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_FRIEND));
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                                helpersAsyncTask.runAddFriendAsyncTask();
+                                break;
+                        }
+                        break;
+                    case 3:
+                        helpersAsyncTask.setDelegation(new DelegationHelper() {
+                            @Override
+                            public void doSomeThing() {
+                                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
+                                fragmentTransaction.commit();
+                            }
+                        });
+                        helpersAsyncTask.runDeleteRequestAsyncTask();
+                        break;
+                }
+            }
+        });
+    }
+
+    private ArrayList<MenuObject> getMenuObjects() {
+        ArrayList<MenuObject> list =  new ArrayList<>();
+        MenuObject close = new MenuObject();
+        close.setResource(android.R.drawable.ic_delete);
+        MenuObject wall = new MenuObject("View Wall");
+        wall.setResource(android.R.drawable.ic_menu_myplaces);
+        list.add(close);
+        list.add(wall);
+
+        switch (typeFriend) {
+            case CONSTANT.TYPE_ME: return list;
+            case CONSTANT.TYPE_REQUEST:
+                MenuObject accept = new MenuObject("Confirm");
+                accept.setResource(R.drawable.ic_add_black);
+                list.add(accept);
+                MenuObject deleteRequest = new MenuObject("Delete Request");
+                list.add(deleteRequest);
+                break;
+            case CONSTANT.TYPE_FRIEND:
+                MenuObject deleteFriend = new MenuObject("Delete");
+                list.add(deleteFriend);
+                break;
+            case CONSTANT.TYPE_SUGGEST:
+                MenuObject addFriend = new MenuObject("Add Friend");
+                list.add(addFriend);
+                break;
+        }
+
+        return list;
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        MenuItem action_notification = menu.findItem(R.id.action_notification);
+        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        MenuItem action_options = menu.findItem(R.id.action_options);
+        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (getActivity().getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+                    mMenuDialogFragment.show(getActivity().getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -218,7 +374,7 @@ public class ProfileFragment extends Fragment {
             String serverUrl = GLOBAL.SERVER_URL + "getProfileOfUser";
             JSONObject jsonobj = new JSONObject();
             try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("userID", currentID);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

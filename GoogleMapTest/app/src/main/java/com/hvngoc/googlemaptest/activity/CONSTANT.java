@@ -37,4 +37,9 @@ public class CONSTANT {
     public static final String TAG_ENTERTAINMENT = "entertainment";
     public static final String TAG_EVENT = "event";
     public static final String TAG_SPORT = "sport";
+
+    public static final int TYPE_ME = 0;
+    public static final int TYPE_REQUEST = 1;
+    public static final int TYPE_FRIEND = 2;
+    public static final int TYPE_SUGGEST = 3;
 }

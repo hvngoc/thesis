@@ -23,6 +23,7 @@ import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.SettingsFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
+import com.hvngoc.googlemaptest.model.Profile;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -97,11 +98,11 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 title = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new ProfileFragment();
+                fragment = ProfileFragment.getInstance(GLOBAL.CurrentUser.getId(), CONSTANT.TYPE_ME);
                 title = getString(R.string.title_profile);
                 break;
             case 2:
-                fragment = new WallFragment();
+                fragment = WallFragment.getInstance(GLOBAL.CurrentUser.getId());
                 title = getString(R.string.title_wall);
                 break;
             case 3:
