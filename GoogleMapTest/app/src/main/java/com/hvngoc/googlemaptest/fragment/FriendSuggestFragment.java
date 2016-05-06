@@ -113,8 +113,7 @@ public class FriendSuggestFragment extends Fragment {
                 recyclerListFriend.setAdapter(adapter);
             }
             else {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_friend_list, new NothingsFragment());
                 fragmentTransaction.commit();
             }

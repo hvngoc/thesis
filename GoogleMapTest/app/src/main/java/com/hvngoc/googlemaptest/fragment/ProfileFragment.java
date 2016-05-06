@@ -206,14 +206,10 @@ public class ProfileFragment extends Fragment {
             GLOBAL.CurrentUser.setName(profile.name);
             GLOBAL.CurrentUser.setAvatar(profile.avatar);
         }
-        if (profile.gender.equals("male")){
+        if (profile.gender.equals("male"))
             radioMale.setChecked(true);
-            //radioSex.check(R.id.radioMale);
-        }
-        else {
+        else
             radioFemale.setChecked(true);
-            //radioSex.check(R.id.radioFemale);
-        }
     }
 
     ProgressDialog progressDialog = null;
@@ -312,12 +308,12 @@ public class ProfileFragment extends Fragment {
                 accept.setResource(R.drawable.ic_friend_add_black);
                 list.add(accept);
                 MenuObject deleteRequest = new MenuObject("Delete Request");
-
+                deleteRequest.setResource(R.drawable.ic_friend_delete);
                 list.add(deleteRequest);
                 break;
             case CONSTANT.TYPE_FRIEND:
                 MenuObject deleteFriend = new MenuObject("UnFriend");
-                
+                deleteFriend.setResource(R.drawable.ic_friend_delete);
                 list.add(deleteFriend);
                 break;
             case CONSTANT.TYPE_SUGGEST:
