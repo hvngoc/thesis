@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.model;
 import android.util.Log;
 
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -72,10 +73,10 @@ public class Post implements Serializable {
 
 
     public String getFirstImageUrl() {
-        String prefix = GLOBAL.SERVER_IMAGE_URL;
-        String url = prefix + listImages.substring(0, listImages.indexOf(';'));
-        Log.d("Image URL", url);
-        return url;
+        int index = listImages.indexOf(';');
+        if (index != -1)
+            return GLOBAL.SERVER_IMAGE_URL + listImages.substring(0, index);
+        return GLOBAL.SERVER_IMAGE_URL + listImages;
     }
 
     public void setListImages(String listImages) {
@@ -84,7 +85,7 @@ public class Post implements Serializable {
 
 
     public String getPostDate() {
-        return postDate;
+        return ParseDateTimeHelper.parse(postDate);
     }
 
     public void setPostDate(String postDate) {

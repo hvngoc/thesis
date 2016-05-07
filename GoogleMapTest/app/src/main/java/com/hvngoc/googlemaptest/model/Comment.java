@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
 public class Comment {
     private String id;
@@ -35,7 +36,7 @@ public class Comment {
     }
 
     public String getCommentDate() {
-        return this.commentDate;
+        return ParseDateTimeHelper.parse(this.commentDate);
     }
 
     public void setCommentDate(String commentDate) {

@@ -20,15 +20,14 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVCommentAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.Comment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class CommentDialogLayout extends Dialog {
@@ -145,7 +144,7 @@ public class CommentDialogLayout extends Dialog {
                 jsonobj.put("postID", postID);
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("content", content);
-                jsonobj.put("day", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

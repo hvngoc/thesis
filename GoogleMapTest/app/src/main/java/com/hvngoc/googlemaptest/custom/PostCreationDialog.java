@@ -41,18 +41,16 @@ import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -196,7 +194,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         btnCreatePostOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                post.setPostDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+                post.setPostDate(ParseDateTimeHelper.getCurrent());
                 post.Latitude = LocationRoundHelper.Round(post.Latitude);
                 post.Longitude = LocationRoundHelper.Round(post.Longitude);
                 TextView content = (TextView) findViewById(R.id.editTextCreatePost);

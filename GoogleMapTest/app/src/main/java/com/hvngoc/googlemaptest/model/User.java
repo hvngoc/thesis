@@ -29,7 +29,7 @@ public class User {
     }
 
     public String getAvatar() {
-    return GLOBAL.SERVER_IMAGE_URL + this.avatar;
+        return GLOBAL.SERVER_IMAGE_URL + this.avatar;
     }
 
     public void setId(String id) {
