@@ -42,6 +42,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurentContext = this;
+        drawerFragment.setPictureProfile();
         // display the first navigation drawer view on app launch
         displayView(0);
     }
@@ -52,24 +53,8 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     }
 
 
-    SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            // newText is text entered by user to SearchView
-            Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_LONG).show();
-            return false;
-        }
-    };
 
 
-
-    private SearchView mSearchView;
-    private MenuItem searchMenuItem;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -13,10 +13,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.NavigationDrawerAdapter;
 import com.hvngoc.googlemaptest.model.NavDrawerItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,8 @@ public class FragmentDrawer extends Fragment {
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
     private RecyclerView recyclerView;
+    private ImageView pictureProfile;
+    private TextView nameTxtView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
@@ -72,7 +78,8 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-
+        pictureProfile = (ImageView) layout.findViewById(R.id.ic_profile_picture);
+        nameTxtView = (TextView) layout.findViewById(R.id.nametxt);
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -90,6 +97,14 @@ public class FragmentDrawer extends Fragment {
         }));
 
         return layout;
+    }
+
+    public void setPictureProfile() {
+        Picasso.with(GLOBAL.CurentContext)
+                .load(GLOBAL.CurrentUser.getAvatar())
+                .error(R.drawable.default_icon)         // optional
+                .into(pictureProfile);
+        nameTxtView.setText(GLOBAL.CurrentUser.getName());
     }
 
 
