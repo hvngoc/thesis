@@ -14,10 +14,30 @@ public class User {
 
     }
 
-    public User(String id, String name, String avatar) {
+    private double defaultLatitude, defaultLongitude;
+
+    public User(String id, String name, String avatar, double defaultLatitude, double defaultLongitude) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
+        this.defaultLatitude = defaultLatitude;
+        this.defaultLongitude = defaultLongitude;
+    }
+
+    public double getDefaultLatitude(){
+        return this.defaultLatitude;
+    }
+
+    public double getDefaultLongitude(){
+        return this.defaultLongitude;
+    }
+
+    public void setDefaultLatitude(double defaultLatitude){
+        this.defaultLatitude = defaultLatitude;
+    }
+
+    public void setDefaultLongitude(double defaultLongitude){
+        this.defaultLongitude = defaultLongitude;
     }
 
     public String getId() {

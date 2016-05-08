@@ -18,6 +18,7 @@ import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +31,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         this.posts = posts;
     }
 
-    public  void addToFrist(Post item){
+    public RVAdapter(){
+        posts = new ArrayList<>();
+    }
+
+    public  void addToFirst(Post item){
         posts.add(0, item);
         notifyDataSetChanged();
     }

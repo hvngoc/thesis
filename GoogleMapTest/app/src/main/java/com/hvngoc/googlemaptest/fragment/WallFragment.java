@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class WallFragment extends Fragment {
     RecyclerView listPosts;
     RVAdapter adapter;
     String currentID;
+    CardView cardWallNothing;
 
     public WallFragment() {
         // Required empty public constructor
@@ -75,6 +77,8 @@ public class WallFragment extends Fragment {
         listPosts.setLayoutManager(llm);
         listPosts.setHasFixedSize(true);
 
+        cardWallNothing = (CardView) rootView.findViewById(R.id.cardWallNothing);
+
         FloatingActionButton btnCreateNewPost = (FloatingActionButton) rootView.findViewById(R.id.btnCreateNewPost);
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +88,16 @@ public class WallFragment extends Fragment {
                     @Override
                     public void doSomeThing() {
                         Post post = dialog.getPost();
-                        adapter.addToFrist(post);
+                        adapter.addToFirst(post);
                         dialog.dismiss();
+                        SetContentView(View.VISIBLE, View.INVISIBLE);
                     }
                 });
                 dialog.show();
             }
         });
+
+        SetContentView(View.VISIBLE, View.INVISIBLE);
 
         return rootView;
     }
@@ -106,6 +113,11 @@ public class WallFragment extends Fragment {
         progressDialog.show();
         new LoadPostAsyncTask().execute();
 
+    }
+
+    private void SetContentView(int recycler, int cardview){
+        listPosts.setVisibility(recycler);
+        cardWallNothing.setVisibility(cardview);
     }
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -145,11 +157,8 @@ public class WallFragment extends Fragment {
                 listPosts.setAdapter(adapter);
             }
             else {
-                // Notify send request failed!
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
-                fragmentTransaction.commit();
+                adapter = new RVAdapter();
+                SetContentView(View.INVISIBLE, View.VISIBLE);
             }
             progressDialog.dismiss();
         }

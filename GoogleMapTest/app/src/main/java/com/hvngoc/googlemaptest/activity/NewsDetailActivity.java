@@ -102,7 +102,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext, currentPost.getPostID());
+                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext, currentPost.getPostID(), txtNumComment);
                 dialog.show();
             }
         });

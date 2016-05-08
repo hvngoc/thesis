@@ -14,6 +14,8 @@ public class StartedUserHelper {
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String AVATAR = "avatar";
+    private static final String DEFAULT_LATITUDE = "defaultLatitude";
+    private static final String DEFAULT_LONGITUDE = "defaultLongitude";
 
     private SharedPreferences sharedRef;
     private SharedPreferences.Editor editor;
@@ -27,6 +29,8 @@ public class StartedUserHelper {
         editor.putString(ID, user.getId());
         editor.putString(NAME, user.getName());
         editor.putString(AVATAR, user.getAvatar());
+        editor.putFloat(DEFAULT_LATITUDE, (float) user.getDefaultLatitude());
+        editor.putFloat(DEFAULT_LONGITUDE, (float) user.getDefaultLongitude());
         editor.commit();
     }
 
@@ -36,7 +40,9 @@ public class StartedUserHelper {
             return false;
         String name = sharedRef.getString(NAME, null);
         String avatar = sharedRef.getString(AVATAR, null);
-        GLOBAL.CurrentUser = new User(id, name, avatar);
+        double defaultLatitude = (double)sharedRef.getFloat(DEFAULT_LATITUDE, (float)0.0);
+        double defaultLongitude = (double)sharedRef.getFloat(DEFAULT_LONGITUDE, (float)0.0);
+        GLOBAL.CurrentUser = new User(id, name, avatar, defaultLatitude, defaultLongitude);
         return true;
     }
 

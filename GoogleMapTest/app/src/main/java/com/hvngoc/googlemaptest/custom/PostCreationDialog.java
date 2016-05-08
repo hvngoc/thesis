@@ -52,6 +52,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -104,11 +105,20 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         radioGroupCreatePost.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.radioGetOnMap) {
-                    findViewById(R.id.MapCreatePostMap).setVisibility(View.VISIBLE);
-                    findViewById(R.id.btnCreatePostOK).bringToFront();
-                } else {
-                    findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+                switch (checkedId){
+                    case R.id.radioDefaultLocation:
+                        SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
+                        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+                        break;
+                    case R.id.radioGetOnMapLocation:
+                        findViewById(R.id.MapCreatePostMap).setVisibility(View.VISIBLE);
+                        findViewById(R.id.btnCreatePostOK).bringToFront();
+                        break;
+                    case R.id.radioYourLocation:
+                        LocationHelper locationHelper = new LocationHelper(context);
+                        SetLocationTextView(locationHelper.GetLatitude(), locationHelper.GetLongitude());
+                        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+                        break;
                 }
             }
         });
@@ -372,18 +382,20 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
 
     private void InitContentView(){
         findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
-
-        LocationHelper locationHelper = new LocationHelper(context);
-        post.Latitude = locationHelper.GetLatitude();
-        post.Longitude = locationHelper.GetLongitude();
         post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
 
-        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
-        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
-        txtCreatePostLocation.setText(address);
+        SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
 
         supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
         supportMapFragment.getMapAsync(this);
+    }
+
+    private void SetLocationTextView(double Latitude, double Longitude){
+        post.Latitude = Latitude;
+        post.Longitude = Longitude;
+        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
+        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
+        txtCreatePostLocation.setText(address);
     }
 
     /*******************************************************************************************************************************/
@@ -406,16 +418,8 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        post.Latitude = latLng.latitude;
-        post.Longitude = latLng.longitude;
-        Log.i("lat" + post.Latitude, "long" + post.Longitude);
+        SetLocationTextView(latLng.latitude, latLng.longitude);
         AddCurrentMarker();
-
-        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
-        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
-        txtCreatePostLocation.setText(address);
-
-        Toast.makeText(context, "You mean: " + address, Toast.LENGTH_SHORT).show();
     }
 
     private void AddCurrentMarker(){
@@ -428,7 +432,8 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
     }
 
     private void InitilizeMap() {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(post.Latitude, post.Longitude), 17));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()), 14));
         (findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 

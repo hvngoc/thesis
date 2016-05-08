@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 
 
 public class LocationHelper implements LocationListener {
-    private static final int TIME_UPDATER = 10000;
+    private static final int TIME_UPDATER = 5000;
     private static final int DISTANCE_UPDATER = 20;
 
     Context context;

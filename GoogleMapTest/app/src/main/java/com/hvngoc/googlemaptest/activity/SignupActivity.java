@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
+import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.model.User;
 
 import org.json.JSONException;
@@ -25,8 +26,6 @@ import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignupActivity";
-
     @Bind(R.id.input_name) EditText _nameText;
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -34,6 +33,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.link_login) TextView _loginLink;
     @Bind(R.id.input_password_confirm) TextView _input_password_confirm;
 
+    private double defaultLatitude = 0.0;
+    private double defaultLongitude = 0.0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,17 @@ public class SignupActivity extends AppCompatActivity {
     }
     private  ProgressDialog progressDialog = null;
     public void signup() {
-        Log.d(TAG, "Signup");
 
         if (!validate()) {
             onSignupFailed("Sign up failed");
             return;
         }
+
+        LocationHelper locationHelper = new LocationHelper(SignupActivity.this);
+        defaultLatitude = locationHelper.GetLatitude();
+        defaultLongitude = locationHelper.GetLongitude();
+        if (defaultLongitude == 0.0 && defaultLatitude == 0.0)
+            return;
 
         _signupButton.setEnabled(false);
 
@@ -114,14 +120,14 @@ public class SignupActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 4 || password.length() > 32) {
+            _passwordText.setError("between 4 and 32 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
-        if (password.equals(confirm)){
+        if (!password.equals(confirm)){
             _input_password_confirm.setError("oop!! password is not matching");
             valid = false;
         }else {
@@ -144,6 +150,8 @@ public class SignupActivity extends AppCompatActivity {
             this.name = _nameText.getText().toString();
             this.email = _emailText.getText().toString();
             this.password = _passwordText.getText().toString();
+            defaultLatitude = LocationRoundHelper.Round(defaultLatitude);
+            defaultLongitude = LocationRoundHelper.Round(defaultLongitude);
         }
 
         @Override
@@ -157,6 +165,8 @@ public class SignupActivity extends AppCompatActivity {
                 jsonobj.put("email", this.email);
                 jsonobj.put("password", this.password);
                 jsonobj.put("name", this.name);
+                jsonobj.put("defaultLatitude", defaultLatitude);
+                jsonobj.put("defaultLongitude", defaultLongitude);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

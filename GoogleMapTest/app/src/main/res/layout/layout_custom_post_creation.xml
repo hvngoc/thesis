@@ -109,31 +109,36 @@
                     android:textSize="18sp"
                     android:textColor="@android:color/white" />
             </RelativeLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <RadioGroup
                     android:id="@+id/radioGroupCreatePost"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:id="@+id/radioDefaultLocation"
+                        android:textColor="@color/white"
+                        android:text="Use default location."
+                        android:checked="true"
+                        android:layout_height="wrap_content" />
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:id="@+id/radioYourLocation"
                         android:textColor="@color/white"
                         android:text="Get your Location."
-                        android:checked="true"
                         android:layout_height="wrap_content" />
                     <RadioButton
                         android:layout_width="wrap_content"
-                        android:id="@+id/radioGetOnMap"
+                        android:id="@+id/radioGetOnMapLocation"
                         android:textColor="@color/white"
                         android:text="Get on map."
                         android:layout_height="wrap_content" />
                 </RadioGroup>
-            </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton

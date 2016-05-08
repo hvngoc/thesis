@@ -37,12 +37,13 @@ public class CommentDialogLayout extends Dialog {
 
     String postID;
     private Context context;
+    TextView txtNumComment;
 
-    public CommentDialogLayout(Context context, String postID) {
+    public CommentDialogLayout(Context context, String postID, TextView txtNumComment) {
         super(context);
         this.context = context;
         this.postID = postID;
-        Log.i("Dialog post ID", postID);
+        this.txtNumComment = txtNumComment;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,8 @@ public class CommentDialogLayout extends Dialog {
                 }.getType();
                 ArrayList<Comment> listComment = gson.fromJson(res, listType);
                 int position =  mAdapter.addListComment(listComment);
+                int numComment = position + 1;
+                txtNumComment.setText("" + numComment);
                 mRecyclerView.scrollToPosition(position);
             } else {
                 // Notify send request failed!
@@ -161,6 +164,8 @@ public class CommentDialogLayout extends Dialog {
                 Comment comment = gson.fromJson(res, Comment.class);
                 int position = mAdapter.addComment(comment);
                 mRecyclerView.scrollToPosition(position);
+                int numComment = position + 1;
+                txtNumComment.setText("" + numComment);
                 etxtWriteComment.setText("");
             } else {
                 // Notify send request failed!
