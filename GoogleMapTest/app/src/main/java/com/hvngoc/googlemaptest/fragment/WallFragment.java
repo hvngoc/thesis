@@ -2,13 +2,10 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
@@ -25,7 +21,6 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.custom.PostCreationDialog;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
-import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -83,7 +78,7 @@ public class WallFragment extends Fragment {
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PostCreationDialog dialog =  new PostCreationDialog(getContext(), getActivity().getSupportFragmentManager());
+                final PostCreationDialog dialog =  new PostCreationDialog();
                 dialog.setDelegationHelper(new DelegationHelper() {
                     @Override
                     public void doSomeThing() {
@@ -93,7 +88,7 @@ public class WallFragment extends Fragment {
                         SetContentView(View.VISIBLE, View.INVISIBLE);
                     }
                 });
-                dialog.show();
+                dialog.show(getFragmentManager(), "PostCreationDialog");
             }
         });
 

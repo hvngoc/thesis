@@ -4,21 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -26,18 +22,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.squareup.picasso.Picasso;
@@ -129,7 +122,7 @@ public class ProfileFragment extends Fragment {
         pick_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PickPictureHelper pickPictureHelper = new PickPictureHelper(getContext(), false);
+                final PickPictureHelper pickPictureHelper = PickPictureHelper.getInstance(false);
                 pickPictureHelper.setOnOKClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -140,7 +133,7 @@ public class ProfileFragment extends Fragment {
                         pickPictureHelper.dismiss();
                     }
                 });
-                pickPictureHelper.show();
+                pickPictureHelper.show(getFragmentManager(), "PickPictureHelper");
             }
         });
 

@@ -1,22 +1,21 @@
 package com.hvngoc.googlemaptest.custom;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,16 +51,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * Created by Hoang Van Ngoc on 20/04/2016.
  */
-public class PostCreationDialog extends Dialog implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
-
-    private Context context;
-    private FragmentManager fragmentManager;
+public class PostCreationDialog extends DialogFragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap googleMap;
     private SupportMapFragment supportMapFragment;
@@ -75,25 +70,16 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         this.delegationHelper = delegationHelper;
     }
 
-    public PostCreationDialog(Context context, FragmentManager fragmentManager) {
-        super(context);
-        this.context = context;
-        this.fragmentManager = fragmentManager;
-        post = new Post();
-        post.setPostID(UUID.randomUUID().toString());
-        post.userName = GLOBAL.CurrentUser.getName();
-        post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
-    }
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        setContentView(R.layout.layout_custom_post_creation);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        view =  inflater.inflate(R.layout.layout_custom_post_creation, container, false);
 
-        Button btnClose = (Button) findViewById(R.id.btnClose);
+        Button btnClose = (Button) view.findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,62 +87,62 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             }
         });
 
-        RadioGroup radioGroupCreatePost = (RadioGroup) findViewById(R.id.radioGroupCreatePost);
+        RadioGroup radioGroupCreatePost = (RadioGroup) view.findViewById(R.id.radioGroupCreatePost);
         radioGroupCreatePost.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.radioDefaultLocation:
                         SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
-                        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+                        view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
                         break;
                     case R.id.radioGetOnMapLocation:
-                        findViewById(R.id.MapCreatePostMap).setVisibility(View.VISIBLE);
-                        findViewById(R.id.btnCreatePostOK).bringToFront();
+                        view.findViewById(R.id.MapCreatePostMap).setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.btnCreatePostOK).bringToFront();
                         break;
                     case R.id.radioYourLocation:
-                        LocationHelper locationHelper = new LocationHelper(context);
+                        LocationHelper locationHelper = new LocationHelper(GLOBAL.CurentContext);
                         SetLocationTextView(locationHelper.GetLatitude(), locationHelper.GetLongitude());
-                        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+                        view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
                         break;
                 }
             }
         });
 
-        final ImageView btnCreatePostGetImage = (ImageView) findViewById(R.id.btnCreatePostGetImage);
+        final ImageView btnCreatePostGetImage = (ImageView) view.findViewById(R.id.btnCreatePostGetImage);
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PickPictureHelper pickPictureHelper = new PickPictureHelper(context, true);
+                final PickPictureHelper pickPictureHelper = PickPictureHelper.getInstance(true);
                 pickPictureHelper.setOnOKClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ArrayList<String> listImages = pickPictureHelper.getmItemsChecked();
 
-                        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerCreatePostImage);
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext, LinearLayoutManager.HORIZONTAL, false));
                         mRecyclerView.setHasFixedSize(true);
                         adapter = new RVPickImageAdapter(listImages);
                         mRecyclerView.setAdapter(adapter);
                         pickPictureHelper.dismiss();
                     }
                 });
-                pickPictureHelper.show();
+                pickPictureHelper.show(getFragmentManager(), "pickPictureHelper");
             }
         });
 
-        final ImageView btnCreatePostGetFeeling = (ImageView) findViewById(R.id.btnCreatePostGetFeeling);
+        final ImageView btnCreatePostGetFeeling = (ImageView) view.findViewById(R.id.btnCreatePostGetFeeling);
         btnCreatePostGetFeeling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final IconizedMenu menu = new IconizedMenu(context, btnCreatePostGetFeeling);
+                final IconizedMenu menu = new IconizedMenu(GLOBAL.CurentContext, btnCreatePostGetFeeling);
                 menu.getMenuInflater().inflate(R.menu.menu_pick_feeling, menu.getMenu());
                 menu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         post.feeling = item.getTitle().toString();
                         btnCreatePostGetFeeling.setImageResource(GLOBAL.EMOTION.get(post.feeling));
-                        TextView text = (TextView) findViewById(R.id.txtCreatePostFeeling);
+                        TextView text = (TextView) view.findViewById(R.id.txtCreatePostFeeling);
                         text.setText(post.feeling);
                         menu.dismiss();
                         return true;
@@ -166,11 +152,11 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             }
         });
 
-        final ImageView btnCreatePostGetTag = (ImageView) findViewById(R.id.btnCreatePostGetTag);
+        final ImageView btnCreatePostGetTag = (ImageView) view.findViewById(R.id.btnCreatePostGetTag);
         btnCreatePostGetTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, btnCreatePostGetTag);
+                PopupMenu popupMenu = new PopupMenu(GLOBAL.CurentContext, btnCreatePostGetTag);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_pick_tag, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -180,7 +166,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                         setTxtCreatePostTag(checked, item.getTitle().toString());
 
                         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        item.setActionView(new View(context));
+                        item.setActionView(new View(GLOBAL.CurentContext));
                         item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                             @Override
                             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -200,14 +186,14 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
             }
         });
 
-        FloatingActionButton btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
+        FloatingActionButton btnCreatePostOK = (FloatingActionButton) view.findViewById(R.id.btnCreatePostOK);
         btnCreatePostOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 post.setPostDate(ParseDateTimeHelper.getCurrent());
                 post.Latitude = LocationRoundHelper.Round(post.Latitude);
                 post.Longitude = LocationRoundHelper.Round(post.Longitude);
-                TextView content = (TextView) findViewById(R.id.editTextCreatePost);
+                TextView content = (TextView) view.findViewById(R.id.editTextCreatePost);
                 post.setContent(content.getText().toString());
                 showProgressDialog();
                 List<String> images = getStringImages(adapter.getListBitmaps());
@@ -216,6 +202,18 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
                 }
             }
         });
+
+        return view;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        post = new Post();
+        post.setPostID(UUID.randomUUID().toString());
+        post.userName = GLOBAL.CurrentUser.getName();
+        post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
     }
 
     private ArrayList<String> listPostTag = new ArrayList<>();
@@ -226,7 +224,7 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         else
             listPostTag.remove(title);
         String text = TextUtils.join(", ", listPostTag);
-        TextView txtCreatePostTag = (TextView) findViewById(R.id.txtCreatePostTag);
+        TextView txtCreatePostTag = (TextView) view.findViewById(R.id.txtCreatePostTag);
         txtCreatePostTag.setText(text);
     }
 
@@ -367,34 +365,34 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
         progressDialog.show();
     }
 
-    /*********************************************************************************************************/
+//    *********************************************************************************************************
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        fragmentManager.beginTransaction().remove(supportMapFragment).commit();
+    public void onDetach() {
+        super.onDetach();
+        getFragmentManager().beginTransaction().remove(supportMapFragment).commit();
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         InitContentView();
     }
 
     private void InitContentView(){
-        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
         post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
 
         SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
 
-        supportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.MapCreatePostMap);
+        supportMapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.MapCreatePostMap);
         supportMapFragment.getMapAsync(this);
     }
 
     private void SetLocationTextView(double Latitude, double Longitude){
         post.Latitude = Latitude;
         post.Longitude = Longitude;
-        String address = new GeolocatorAddressHelper(context, post.Latitude, post.Longitude ).GetAddress();
-        TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
+        String address = new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude ).GetAddress();
+        TextView txtCreatePostLocation = (TextView) view.findViewById(R.id.txtCreatePostLocation);
         txtCreatePostLocation.setText(address);
     }
 
@@ -434,15 +432,15 @@ public class PostCreationDialog extends Dialog implements OnMapReadyCallback, Go
     private void InitilizeMap() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()), 14));
-        (findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().addOnGlobalLayoutListener(
+        (view.findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 
                     @Override
                     public void onGlobalLayout() {
                         if (android.os.Build.VERSION.SDK_INT >= 16) {
-                            (findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            (view.findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         } else {
-                            (findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            (view.findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }
                     }
                 });
