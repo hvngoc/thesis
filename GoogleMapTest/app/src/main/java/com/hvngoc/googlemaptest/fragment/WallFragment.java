@@ -78,7 +78,7 @@ public class WallFragment extends Fragment {
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PostCreationDialog dialog =  new PostCreationDialog();
+                final PostCreationDialog dialog = new PostCreationDialog();
                 dialog.setDelegationHelper(new DelegationHelper() {
                     @Override
                     public void doSomeThing() {
@@ -91,6 +91,9 @@ public class WallFragment extends Fragment {
                 dialog.show(getFragmentManager(), "PostCreationDialog");
             }
         });
+
+        if (!currentID.equals(GLOBAL.CurrentUser.getId()))
+            btnCreateNewPost.setVisibility(View.INVISIBLE);
 
         SetContentView(View.VISIBLE, View.INVISIBLE);
 

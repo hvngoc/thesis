@@ -10,16 +10,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,11 +33,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
-import com.hvngoc.googlemaptest.custom.MapSearchingDialog;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.model.Post;
+import com.hvngoc.googlemaptest.view.MapFooterLayout;
+import com.hvngoc.googlemaptest.view.MapHeaderLayout;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -55,14 +54,13 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private GoogleMap googleMap;
     private ContextMenuDialogFragment mMenuDialogFragment;
 
-    private String SEARCH_ENGINE = "Search by Name.";
     private int SEARCH_DISTANCE = 100;
 
     private HashMap<Marker, Post> markerManager = new HashMap<>();
     private ArrayList<Post> currentListPost = new ArrayList<>();
 
-    private AutoCompleteTextView search_text_auto;
-    private PlaceAutocompleteFragment autocompleteFragment;
+    private MapHeaderLayout mapHeaderLayout;
+    private MapFooterLayout mapFooterLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,25 +68,45 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        GLOBAL.CurentContext = this;
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        search_text_auto = (AutoCompleteTextView) findViewById(R.id.search_text_auto);
-        search_text_auto.setDropDownBackgroundResource(R.color.white);
-        search_text_auto.setOnTouchListener(new View.OnTouchListener() {
+        InitRunMapHeader();
+        InitRunMapFooter();
+        InitRunCustomMenu();
+    }
+
+    private  void InitRunMapFooter(){
+        mapFooterLayout = new MapFooterLayout(this);
+        mapFooterLayout.setDelegationHelper(new DelegationHelper() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                search_text_auto.showDropDown();
-                return false;
+            public void doSomeThing() {
+                SEARCH_DISTANCE = mapFooterLayout.getSearchDistance();
             }
         });
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        RelativeLayout map_activity = (RelativeLayout) findViewById(R.id.layout_map_activity);
+        map_activity.addView(mapFooterLayout, params);
+        mapFooterLayout.setVisibility(View.INVISIBLE);
+    }
 
-        autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setHint("tap here for searching");
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+    private void InitRunMapHeader(){
+        mapHeaderLayout = new MapHeaderLayout(this);
+        mapHeaderLayout.setDelegationHelper(new DelegationHelper() {
+            @Override
+            public void doSomeThing() {
+                currentListPost = mapHeaderLayout.getCurrentListPost();
+                AddMarker();
+                ZoomAnimateLevelToFitMarkers();
+            }
+        });
+        mapHeaderLayout.setOnPlaceSelectionListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                autocompleteFragment.setText(place.getAddress().toString());
+                mapHeaderLayout.setTextPlaceFragment(place);
                 onMapLongClick(place.getLatLng());
             }
 
@@ -97,47 +115,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
 
             }
         });
-
-        InitRunCustomMenu();
-        RunSearchingEngine();
-    }
-
-    private  void RunSearchingEngine(){
-        View view = findViewById(R.id.place_autocomplete_fragment);
-        view.setVisibility(View.INVISIBLE);
-        search_text_auto.setVisibility(View.VISIBLE);
-        search_text_auto.bringToFront();
-        switch (SEARCH_ENGINE){
-            case "Search by Name.":
-                new GetListFriendNameAsyncTask().execute();
-                search_text_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String text = search_text_auto.getAdapter().getItem(position).toString();
-                        search_text_auto.setText(text);
-                        currentListPost.clear();
-                        new SearchPostByNameAsyncTask(text).execute();
-                    }
-                });
-                break;
-            case "Search by Tag.":
-                search_text_auto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
-                search_text_auto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String text = search_text_auto.getAdapter().getItem(position).toString();
-                        search_text_auto.setText(text);
-                        currentListPost.clear();
-                        new SearchPostByTagAsyncTask(text).execute();
-                    }
-                });
-                break;
-            case "Search by Place.":
-                search_text_auto.setVisibility(View.INVISIBLE);
-                view.setVisibility(View.VISIBLE);
-                view.bringToFront();
-                break;
-        }
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.BELOW, R.id.toolbar);
+        RelativeLayout map_activity = (RelativeLayout) findViewById(R.id.layout_map_activity);
+        map_activity.addView(mapHeaderLayout, params);
     }
 
     private void InitRunCustomMenu(){
@@ -158,19 +139,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                     case 2:
                         ZoomAnimateLevelToFitMarkers();
                         break;
-                    case 3:
-                        final MapSearchingDialog dialog = new MapSearchingDialog(MapsActivity.this);
-                        dialog.setOnButtonOKClick(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SEARCH_ENGINE = dialog.searchEngine;
-                                SEARCH_DISTANCE = dialog.searchDistance;
-                                dialog.dismiss();
-                                RunSearchingEngine();
-                            }
-                        });
-                        dialog.show();
-                        break;
                 }
             }
         });
@@ -183,13 +151,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         find.setResource(android.R.drawable.ic_menu_myplaces);
         MenuObject bound = new MenuObject("Bounding All");
         bound.setResource(android.R.drawable.ic_menu_mapmode);
-        MenuObject setting = new MenuObject("Setting Engine");
-        setting.setResource(R.drawable.ic_setting_light);
         ArrayList<MenuObject> list =  new ArrayList<>();
         list.add(close);
         list.add(find);
         list.add(bound);
-        list.add(setting);
         return list;
     }
 //    ***************************************************************************************************************   //
@@ -234,126 +199,11 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 currentListPost = gson.fromJson(res, listType);
                 AddMarker();
             }
-            else
+            else {
                 googleMap.clear();
+            }
             googleMap.addCircle(new CircleOptions().center(latLng).radius(SEARCH_DISTANCE).
                     strokeColor(Color.BLUE).strokeWidth(2).fillColor(0x110000FF));
-        }
-    }
-
-    private class SearchPostByNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        String name;
-        private HTTPPostHelper helper;
-
-        public SearchPostByNameAsyncTask(String name){
-            this.name = name;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByName";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("name", name);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                currentListPost = gson.fromJson(res, listType);
-                AddMarker();
-                ZoomAnimateLevelToFitMarkers();
-            }
-        }
-    }
-
-    private class GetListFriendNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        private HTTPPostHelper helper;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "GetListFriendName";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-                ArrayList<String> listName = gson.fromJson(res, listType);
-                search_text_auto.setAdapter(new ArrayAdapter<>(MapsActivity.this, android.R.layout.simple_dropdown_item_1line, listName));
-            }
-        }
-    }
-
-    private class SearchPostByTagAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        String tag;
-        private HTTPPostHelper helper;
-
-        public SearchPostByTagAsyncTask(String tag){
-            this.tag = tag;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByTag";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("tag", tag);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                currentListPost = gson.fromJson(res, listType);
-                AddMarker();
-                ZoomAnimateLevelToFitMarkers();
-            }
         }
     }
 
@@ -421,6 +271,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, GET_CAMERA_ZOOM()));
         currentListPost.clear();
         new SearchPostByDistanceAsyncTask(latLng).execute();
+        mapFooterLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

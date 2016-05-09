@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/map_search_name"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/markers_emotion_funny"
+        android:title="Search by name"
+        android:visible="true"/>
+    <item
+        android:id="@+id/map_search_tag"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@drawable/markers_emotion_funny"
+        android:title="Search by post"
+        android:visible="true"/>
+    <item
+        android:id="@+id/map_search_place"
+        app:showAsAction="ifRoom|withText"
+        android:title="Search by place"
+        android:icon="@drawable/markers_emotion_happy"
+        android:visible="true"/>
+</menu>
