@@ -3,11 +3,12 @@ package com.hvngoc.googlemaptest.view;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.adapter.SearchPostAdapter;
 import com.hvngoc.googlemaptest.custom.IconizedMenu;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
@@ -67,6 +69,7 @@ public class MapHeaderLayout extends RelativeLayout {
 
     private void setEnableView(int viewPlace, int viewSearch){
         findViewById(R.id.place_autocomplete_fragment).setVisibility(viewPlace);
+        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
         search_text_header.setVisibility(viewSearch);
         img_header_search.setVisibility(viewSearch);
     }
@@ -75,7 +78,6 @@ public class MapHeaderLayout extends RelativeLayout {
         inflate(getContext(), R.layout.layout_map_header, this);
         autocompleteFragment = (PlaceAutocompleteFragment)((Activity)GLOBAL.CurentContext).getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setHint("tap here for searching");
-        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
         search_text_header = (AutoCompleteTextView) findViewById(R.id.search_text_header);
         search_text_header.setDropDownBackgroundResource(R.color.white);
@@ -86,12 +88,42 @@ public class MapHeaderLayout extends RelativeLayout {
                 return false;
             }
         });
+        search_text_header.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Post post = (Post) search_text_header.getAdapter().getItem(position);
+                currentListPost.clear();
+                currentListPost.add(post);
+                delegationHelper.doSomeThing();
+                search_text_header.setText("");
+            }
+        });
+        search_text_header.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if (text.length() > 30)
+                    return;
+                if (text.length() > 0)
+                    new SearchPostAsyncTask(text).execute();
+            }
+        });
 
         img_header_search = (ImageView) findViewById(R.id.img_header_search);
         img_header_search.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                delegationHelper.doSomeThing();
             }
         });
 
@@ -104,7 +136,7 @@ public class MapHeaderLayout extends RelativeLayout {
         });
 
         InitIconActionMenu();
-        RunSearchOption(R.id.map_search_name);
+        RunSearchOption(R.id.map_search_post);
         setEnableView(View.INVISIBLE, View.VISIBLE);
     }
 
@@ -123,30 +155,7 @@ public class MapHeaderLayout extends RelativeLayout {
 
     private void RunSearchOption(int id){
         switch (id){
-            case R.id.map_search_name:
-                new GetListFriendNameAsyncTask().execute();
-                search_text_header.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String text = search_text_header.getAdapter().getItem(position).toString();
-                        search_text_header.setText(text);
-                        currentListPost.clear();
-                        new SearchPostByNameAsyncTask(text).execute();
-                    }
-                });
-                setEnableView(View.INVISIBLE, View.VISIBLE);
-                break;
-            case R.id.map_search_tag:
-                search_text_header.setAdapter(new ArrayAdapter<>(GLOBAL.CurentContext, android.R.layout.simple_dropdown_item_1line, GLOBAL.listTag));
-                search_text_header.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String text = search_text_header.getAdapter().getItem(position).toString();
-                        search_text_header.setText(text);
-                        currentListPost.clear();
-                        new SearchPostByTagAsyncTask(text).execute();
-                    }
-                });
+            case R.id.map_search_post:
                 setEnableView(View.INVISIBLE, View.VISIBLE);
                 break;
             case R.id.map_search_place:
@@ -156,59 +165,20 @@ public class MapHeaderLayout extends RelativeLayout {
     }
 
 //    ****************************************************************************
-    private class GetListFriendNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private class SearchPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private String text;
+        public SearchPostAsyncTask(String text){
+            this.text = text;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "GetListFriendName";
+            String serverUrl = GLOBAL.SERVER_URL + "SearchPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-                ArrayList<String> listName = gson.fromJson(res, listType);
-                search_text_header.setAdapter(new ArrayAdapter<>(GLOBAL.CurentContext, android.R.layout.simple_dropdown_item_1line, listName));
-            }
-        }
-    }
-    private class SearchPostByNameAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        String name;
-        private HTTPPostHelper helper;
-
-        public SearchPostByNameAsyncTask(String name){
-            this.name = name;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByName";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("name", name);
+                jsonobj.put("params", text);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -224,47 +194,9 @@ public class MapHeaderLayout extends RelativeLayout {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 currentListPost = gson.fromJson(res, listType);
-                delegationHelper.doSomeThing();
-            }
-        }
-    }
-
-    private class SearchPostByTagAsyncTask extends AsyncTask<Void, Void, Boolean> {
-        String tag;
-        private HTTPPostHelper helper;
-
-        public SearchPostByTagAsyncTask(String tag){
-            this.tag = tag;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "SearchPostByTag";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("tag", tag);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                currentListPost = gson.fromJson(res, listType);
-                delegationHelper.doSomeThing();
+                search_text_header.setAdapter(new SearchPostAdapter(GLOBAL.CurentContext, android.R.layout.simple_list_item_1, currentListPost));
+                if (!search_text_header.isPopupShowing())
+                    search_text_header.showDropDown();
             }
         }
     }
