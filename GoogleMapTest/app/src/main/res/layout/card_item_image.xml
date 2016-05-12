@@ -15,7 +15,7 @@
         android:scaleType="centerCrop"
         android:layout_width="100dip"
         android:layout_height="100dip"
-        android:src="@drawable/default_icon" />
+        android:src="@drawable/icon_no_image" />
     <Button
         android:id="@+id/btnPickClose"
         android:layout_width="30dp"

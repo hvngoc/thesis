@@ -118,8 +118,7 @@ public class HomeFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                  ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
-                RVAdapter adapter = new RVAdapter(CurrentListPost);
-                listnews.setAdapter(adapter);
+                listnews.setAdapter(new RVAdapter(CurrentListPost));
             }
             else {
                 // Notify send request failed!

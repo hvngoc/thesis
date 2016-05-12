@@ -2,9 +2,11 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,15 +15,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.model.NotificationItem;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class NotificationsFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    FloatingActionButton  fabClear;
+    private RecyclerView recyclerView;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -38,27 +49,24 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
-        fabClear = (FloatingActionButton) rootView.findViewById(R.id.fabNotificationClear);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new RVNotificationAdapter());
         return rootView;
     }
 
-//    ProgressDialog progressDialog = null;
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        progressDialog = new ProgressDialog(getActivity(),
-//                R.style.AppTheme_Dark_Dialog);
-//        progressDialog.setIndeterminate(true);
-//        progressDialog.setMessage("Loading...");
-//        progressDialog.show();
-//        new LoadNotificationsAsyncTask().execute();
-//    }
-
+    ProgressDialog progressDialog = null;
+    @Override
+    public void onStart() {
+        super.onStart();
+        progressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        new LoadNotificationsAsyncTask().execute();
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -75,5 +83,42 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private class LoadNotificationsAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "getUserNotification";
+            JSONObject json = new JSONObject();
+            try {
+                json.put("userID", GLOBAL.CurrentUser.getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, json);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<NotificationItem>>(){}.getType();
+                ArrayList<NotificationItem> list = gson.fromJson(res, listType);
+                recyclerView.setAdapter(new RVNotificationAdapter(list, getActivity().getSupportFragmentManager().beginTransaction()));
+            }
+            else {
+                // Notify send request failed!
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
+                fragmentTransaction.commit();
+            }
+            progressDialog.dismiss();
+        }
     }
 }

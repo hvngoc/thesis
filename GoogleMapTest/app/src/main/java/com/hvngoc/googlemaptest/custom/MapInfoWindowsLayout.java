@@ -36,7 +36,7 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
         Picasso.with(GLOBAL.CurentContext)
                 .load(post.getUserAvatar())
-                .error(R.drawable.default_icon)         // optional
+                .error(R.drawable.icon_profile)         // optional
                 .into(imgViewInfoAvatar);
 
 

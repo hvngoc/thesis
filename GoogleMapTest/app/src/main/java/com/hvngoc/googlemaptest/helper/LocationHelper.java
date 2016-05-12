@@ -9,50 +9,38 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 
 
 public class LocationHelper implements LocationListener {
     private static final int TIME_UPDATER = 5000;
     private static final int DISTANCE_UPDATER = 20;
 
-    Context context;
-    LocationManager Manager;
-    Location currentLocation;
+    private Context context;
+    private Location currentLocation;
 
     public LocationHelper(Context context){
         this.context = context;
-        Manager = (LocationManager)context.getSystemService(Service.LOCATION_SERVICE);
-        currentLocation = this.GetCurtentLocation();
-        if(currentLocation == null){
-            showSetting();
-        }
-    }
-
-    private Location GetCurtentLocation()
-    {
+        LocationManager Manager = (LocationManager)context.getSystemService(Service.LOCATION_SERVICE);
         try{
             if (Manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
-                if (Manager != null) {
-                    currentLocation = Manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                }
+                currentLocation = Manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
             if (currentLocation == null) {
                 if (Manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                     Manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
-                    if (Manager != null) {
-                        currentLocation = Manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    }
+                    currentLocation = Manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
             }
         }catch(Exception e){
             throw new RuntimeException(e);
         }
-        return currentLocation;
+        if(currentLocation == null){
+            showSetting();
+        }
     }
+
     private void showSetting(){
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Warning");

@@ -186,7 +186,7 @@ public class ProfileFragment extends Fragment {
         //avatar.setImageFromURL(profile.avatar);
         Picasso.with(GLOBAL.CurentContext)
                 .load(profile.getAvatar())
-                .error(R.drawable.default_icon)         // optional
+                .error(R.drawable.icon_no_image)         // optional
                 .into(avatar);
         numFriend.setText(profile.numFriend + "");
         numFollow.setText(profile.numFollow + "");

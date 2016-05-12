@@ -161,6 +161,7 @@ public class FriendHelpersAsyncTask {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("friendID", friendID);
+                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -195,6 +196,7 @@ public class FriendHelpersAsyncTask {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("friendID", friendID);
+                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

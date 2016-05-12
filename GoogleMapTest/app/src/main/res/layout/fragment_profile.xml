@@ -25,7 +25,7 @@
                     android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/default_icon" />
+                    android:src="@drawable/icon_no_image" />
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/pick_image"
                     android:layout_width="wrap_content"

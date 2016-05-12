@@ -102,7 +102,13 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                         break;
                     case R.id.radioYourLocation:
                         LocationHelper locationHelper = new LocationHelper(GLOBAL.CurentContext);
-                        SetLocationTextView(locationHelper.GetLatitude(), locationHelper.GetLongitude());
+                        Double latitude = locationHelper.GetLatitude();
+                        Double longitude = locationHelper.GetLongitude();
+                        if (latitude == 0.0 && longitude == 0.0){
+                            latitude = GLOBAL.CurrentUser.getDefaultLatitude();
+                            longitude = GLOBAL.CurrentUser.getDefaultLongitude();
+                        }
+                        SetLocationTextView(latitude, longitude);
                         view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
                         break;
                 }

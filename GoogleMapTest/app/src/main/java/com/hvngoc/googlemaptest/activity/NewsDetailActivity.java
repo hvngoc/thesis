@@ -52,7 +52,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     TextView txtNumComment;
 
     ImageView imgShowMap;
-    private SliderLayout mDemoSlider;
     private Post currentPost;
 
     private Boolean isLiking = false;
@@ -129,22 +128,26 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     }
 
     private void getImageSlider() {
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+        SliderLayout mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         ArrayList<String> imageUrls = currentPost.getListImages();
-        for(String name : imageUrls){
+        if (imageUrls.size() == 0){
             TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .image(name)
+            textSliderView.image(R.drawable.icon_no_image)
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
-
-            //add your extra information
             textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-
+            textSliderView.getBundle().putString("extra", "No IMAGE");
             mDemoSlider.addSlider(textSliderView);
+        }else {
+            for (String name : imageUrls) {
+                TextSliderView textSliderView = new TextSliderView(this);
+                textSliderView.image(name)
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(this);
+                textSliderView.bundle(new Bundle());
+                textSliderView.getBundle().putString("extra", name);
+                mDemoSlider.addSlider(textSliderView);
+            }
         }
 
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);

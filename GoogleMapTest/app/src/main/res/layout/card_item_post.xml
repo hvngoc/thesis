@@ -27,7 +27,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/default_icon"
+                android:src="@drawable/icon_profile"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/username"
@@ -70,7 +70,7 @@
                 android:layout_height="240dp"
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_icon"/>
+                android:src="@drawable/icon_no_image"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

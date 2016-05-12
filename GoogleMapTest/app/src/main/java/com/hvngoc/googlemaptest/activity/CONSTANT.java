@@ -1,7 +1,5 @@
 package com.hvngoc.googlemaptest.activity;
 
-import com.hvngoc.googlemaptest.R;
-
 /**
  * Created by Hoang Van Ngoc on 11/03/2016.
  */
@@ -18,26 +16,6 @@ public class CONSTANT {
     public static final String EMOTION_STRING_SURPRISE = "surprise";
     public static final String EMOTION_STRING_TERRIBLE = "terrible";
 
-    public static final int EMOTION_ID_FUNNY = R.drawable.markers_emotion_funny;
-    public static final int EMOTION_ID_HAPPY = R.drawable.markers_emotion_happy;
-    public static final int EMOTION_ID_MONEY = R.drawable.markers_emotion_money;
-    public static final int EMOTION_ID_NORMAL = R.drawable.markers_emotion_normal;
-    public static final int EMOTION_ID_REFUSE = R.drawable.markers_emotion_refuse;
-    public static final int EMOTION_ID_SAD = R.drawable.markers_emotion_sad;
-    public static final int EMOTION_ID_SCARED = R.drawable.markers_emotion_scared;
-    public static final int EMOTION_ID_SLEEPY = R.drawable.markers_emotion_sleepy;
-    public static final int EMOTION_ID_SURPRISE = R.drawable.markers_emotion_surprise;
-    public static final int EMOTION_ID_TERRIBLE = R.drawable.markers_emotion_terrible;
-
-    public static final String TAG_FOOD = "food";
-    public static final String TAG_SHOPPING = "shopping";
-    public static final String TAG_SALE = "sale";
-    public static final String TAG_DANGEROUS = "dangerous";
-    public static final String TAG_TRAVELLER = "traveller";
-    public static final String TAG_ENTERTAINMENT = "entertainment";
-    public static final String TAG_EVENT = "event";
-    public static final String TAG_SPORT = "sport";
-
     public static final int TYPE_ME = 0;
     public static final int TYPE_REQUEST = 1;
     public static final int TYPE_FRIEND = 2;
@@ -45,4 +23,16 @@ public class CONSTANT {
 
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String DATE_TIME_VIEW_FORMAT = "HH:mm:ss dd/MM/yyyy";
+
+    public static final String NOTIFICATION_COMMENT = "comment";
+    public static final String NOTIFICATION_ADD_FRIEND = "add";
+    public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
+    public static final String NOTIFICATION_MY_POST = "mine";
+    public static final String NOTIFICATION_FRIEND_POST = "friend";
+
+    public static final String NOTIFICATION_STRING_COMMENT = "has just commented on your post.";
+    public static final String NOTIFICATION_STRING_ADD_FRIEND = "want to become friend with you.";
+    public static final String NOTIFICATION_STRING_CONFIRM_FRIEND = "has just accepted your request";
+    public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
+    public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
 }

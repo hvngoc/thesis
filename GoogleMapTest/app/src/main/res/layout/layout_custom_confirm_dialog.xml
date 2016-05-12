@@ -37,7 +37,7 @@
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@drawable/logo"
+                        android:src="@drawable/icon_logo"
                         android:layout_width="70dip"
                         android:layout_height="70dip" />
                     <TextView

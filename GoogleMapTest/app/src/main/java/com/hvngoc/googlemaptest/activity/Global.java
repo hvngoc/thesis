@@ -1,7 +1,9 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
 import com.hvngoc.googlemaptest.model.User;
 
@@ -15,6 +17,8 @@ public class GLOBAL {
 
     public static User CurrentUser = null;
 
+    public static Intent intentService = null;
+
     public static StartedUserHelper startedUserHelper = null;
 
     public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
@@ -23,19 +27,26 @@ public class GLOBAL {
 
     public static HashMap<String, Integer> EMOTION = new HashMap<String, Integer>(){
         {
-            put(CONSTANT.EMOTION_STRING_FUNNY, CONSTANT.EMOTION_ID_FUNNY);
-            put(CONSTANT.EMOTION_STRING_HAPPY, CONSTANT.EMOTION_ID_HAPPY);
-            put(CONSTANT.EMOTION_STRING_MONEY, CONSTANT.EMOTION_ID_MONEY);
-            put(CONSTANT.EMOTION_STRING_NORMAL, CONSTANT.EMOTION_ID_NORMAL);
-            put(CONSTANT.EMOTION_STRING_REFUSE, CONSTANT.EMOTION_ID_REFUSE);
-            put(CONSTANT.EMOTION_STRING_SAD, CONSTANT.EMOTION_ID_SAD);
-            put(CONSTANT.EMOTION_STRING_SCARED, CONSTANT.EMOTION_ID_SCARED);
-            put(CONSTANT.EMOTION_STRING_SLEEPY, CONSTANT.EMOTION_ID_SLEEPY);
-            put(CONSTANT.EMOTION_STRING_SURPRISE, CONSTANT.EMOTION_ID_SURPRISE);
-            put(CONSTANT.EMOTION_STRING_TERRIBLE, CONSTANT.EMOTION_ID_TERRIBLE);
+            put(CONSTANT.EMOTION_STRING_FUNNY, R.drawable.markers_emotion_funny);
+            put(CONSTANT.EMOTION_STRING_HAPPY, R.drawable.markers_emotion_happy);
+            put(CONSTANT.EMOTION_STRING_MONEY, R.drawable.markers_emotion_money);
+            put(CONSTANT.EMOTION_STRING_NORMAL, R.drawable.markers_emotion_normal);
+            put(CONSTANT.EMOTION_STRING_REFUSE, R.drawable.markers_emotion_refuse);
+            put(CONSTANT.EMOTION_STRING_SAD, R.drawable.markers_emotion_sad);
+            put(CONSTANT.EMOTION_STRING_SCARED, R.drawable.markers_emotion_scared);
+            put(CONSTANT.EMOTION_STRING_SLEEPY, R.drawable.markers_emotion_sleepy);
+            put(CONSTANT.EMOTION_STRING_SURPRISE, R.drawable.markers_emotion_surprise);
+            put(CONSTANT.EMOTION_STRING_TERRIBLE, R.drawable.markers_emotion_terrible);
         }
     };
 
-    public static final String[] listTag = new String[]{CONSTANT.TAG_DANGEROUS, CONSTANT.TAG_ENTERTAINMENT, CONSTANT.TAG_EVENT,
-            CONSTANT.TAG_FOOD, CONSTANT.TAG_SALE, CONSTANT.TAG_SHOPPING, CONSTANT.TAG_SPORT, CONSTANT.TAG_TRAVELLER};
+    public static HashMap<String, String> NOTIFICATION = new HashMap<String, String>(){
+        {
+            put(CONSTANT.NOTIFICATION_ADD_FRIEND, CONSTANT.NOTIFICATION_STRING_ADD_FRIEND);
+            put(CONSTANT.NOTIFICATION_COMMENT, CONSTANT.NOTIFICATION_STRING_COMMENT);
+            put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CONSTANT.NOTIFICATION_STRING_CONFIRM_FRIEND);
+            put(CONSTANT.NOTIFICATION_FRIEND_POST, CONSTANT.NOTIFICATION_STRING_FRIEND_POST);
+            put(CONSTANT.NOTIFICATION_MY_POST, CONSTANT.NOTIFICATION_STRING_MY_POST);
+        }
+    };
 }

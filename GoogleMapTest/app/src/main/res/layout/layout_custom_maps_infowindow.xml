@@ -19,7 +19,7 @@
             android:layout_height="32dip"
             android:scaleType="centerCrop"
             android:id="@+id/imgViewInfoAvatar"
-            android:src="@drawable/default_icon"/>
+            android:src="@drawable/icon_profile"/>
         <TextView
             android:id="@+id/txtInfoUsername"
             android:layout_width="wrap_content"

@@ -1,6 +1,8 @@
 package com.hvngoc.googlemaptest.fragment;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.LoginActivity;
+import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.squareup.picasso.Picasso;
 
 
@@ -30,7 +33,6 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,9 +49,10 @@ public class LogoutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 GLOBAL.startedUserHelper.clear();
+                GLOBAL.CurrentUser = null;
                 getActivity().finish();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                getActivity().startActivity(intent);
+                getActivity().stopService(new Intent(getContext().getApplicationContext(), LocationNotifierService.class));
+                getActivity().startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
 
