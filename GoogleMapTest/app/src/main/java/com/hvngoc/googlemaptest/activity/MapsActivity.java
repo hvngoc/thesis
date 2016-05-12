@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,7 +109,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 mapHeaderLayout.setTextPlaceFragment(place);
                 onMapLongClick(place.getLatLng());
             }
-
             @Override
             public void onError(Status status) {
 

@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.helper;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -75,9 +76,9 @@ public class PickPictureHelper extends DialogFragment {
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 takePicture.setType("image/*");
                 Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent, takePicture});
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent, takePicture});
 
-                startActivityForResult(chooserIntent, 1);
+                startActivityForResult(chooserIntent, 100);
             }
         });
 
@@ -88,7 +89,20 @@ public class PickPictureHelper extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("request code", requestCode + "");
+        if (resultCode == Activity.RESULT_OK && requestCode == 100){
+            Uri selectedImage = data.getData();
+            String[] PROJECTION = new String[]{MediaStore.Images.Media.DATA};
+
+            Cursor cursor = GLOBAL.CurentContext.getContentResolver().query(selectedImage,
+                    PROJECTION, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                rvShowPictureAdapter.addItemString(picturePath);
+            }
+        }
     }
 
     @Override
@@ -116,16 +130,13 @@ public class PickPictureHelper extends DialogFragment {
 
     private ArrayList<String> getListPicture(){
         ArrayList<String> listPicture = new ArrayList<>();
-        String[] PROJECTION = new String[]{
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATA,
-        };
+        String[] PROJECTION = new String[]{MediaStore.Images.Media.DATA};
         Uri UriImages = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         Cursor cur = GLOBAL.CurentContext.getContentResolver().query(UriImages,
                 PROJECTION, // Which columns to return
                 null,       // Which rows to return (all rows)
                 null,       // Selection arguments (none)
-                null        // Ordering
+                MediaStore.Images.Media.DEFAULT_SORT_ORDER        // Ordering
         );
         if (cur == null)
             return listPicture;
@@ -136,6 +147,7 @@ public class PickPictureHelper extends DialogFragment {
                 listPicture.add(bucket);
             } while (cur.moveToNext());
         }
+        cur.close();
         return listPicture;
     }
 }

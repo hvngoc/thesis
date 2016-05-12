@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
@@ -65,6 +66,21 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem action_notification = menu.findItem(R.id.action_notification);
+        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        MenuItem action_options = menu.findItem(R.id.action_options);
+        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return true;
+            }
+        });
         return true;
     }
 

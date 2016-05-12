@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_options"
         android:title="click"
-        android:icon="@drawable/ic_more_vert_black"
+        android:icon="@drawable/ic_setting_dark"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>

@@ -29,10 +29,10 @@
             android:hint="what is on your mind??"
             android:inputType="textMultiLine"
             android:singleLine="false"
-            android:lines="5"
-            android:minLines="3"
-            android:maxLines="6"
-            android:gravity="top|left"
+            android:lines="7"
+            android:minLines="5"
+            android:maxLines="8"
+            android:gravity="top|start"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:background="#ffffff"
@@ -71,19 +71,22 @@
             <ImageView
                 android:layout_toEndOf="@+id/txtCreatePostFeeling"
                 android:id="@+id/btnCreatePostGetTag"
-                android:backgroundTint="@color/black"
                 android:src="@drawable/ic_tag_black"
                 android:layout_width="35dip"
                 android:layout_height="35dip" />
-            <TextView
+            <HorizontalScrollView
                 android:layout_toEndOf="@+id/btnCreatePostGetTag"
-                android:id="@+id/txtCreatePostTag"
-                android:textColor="@android:color/white"
-                android:text="No Tag"
-                android:padding="5dip"
-                android:textSize="18sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txtCreatePostTag"
+                    android:textColor="@android:color/white"
+                    android:text="No Tag"
+                    android:padding="5dip"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </HorizontalScrollView>
         </RelativeLayout>
         <LinearLayout
             android:background="@drawable/comment_bg_title"
@@ -99,15 +102,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_myplaces" />
-                <TextView
+                <HorizontalScrollView
                     android:layout_toEndOf="@+id/btnCreatePostGetLocation"
-                    android:id="@+id/txtCreatePostLocation"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Ho Chi Minh City"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/white" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txtCreatePostLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Ho Chi Minh City"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white" />
+                </HorizontalScrollView>
             </RelativeLayout>
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -164,8 +171,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="6dp"
-        android:layout_marginRight="7dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginEnd="7dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/comment_bg_close"
         android:textSize="30dip"

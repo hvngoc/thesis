@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.custom;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,7 +92,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         radioGroupCreatePost.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.radioDefaultLocation:
                         SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
                         view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
@@ -104,7 +105,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                         LocationHelper locationHelper = new LocationHelper(GLOBAL.CurentContext);
                         Double latitude = locationHelper.GetLatitude();
                         Double longitude = locationHelper.GetLongitude();
-                        if (latitude == 0.0 && longitude == 0.0){
+                        if (latitude == 0.0 && longitude == 0.0) {
                             latitude = GLOBAL.CurrentUser.getDefaultLatitude();
                             longitude = GLOBAL.CurrentUser.getDefaultLongitude();
                         }
@@ -159,9 +160,13 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         });
 
         final ImageView btnCreatePostGetTag = (ImageView) view.findViewById(R.id.btnCreatePostGetTag);
+        btnCreatePostGetTag.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         btnCreatePostGetTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listPostTag.clear();
+                TextView txtCreatePostTag = (TextView) view.findViewById(R.id.txtCreatePostTag);
+                txtCreatePostTag.setText("");
                 PopupMenu popupMenu = new PopupMenu(GLOBAL.CurentContext, btnCreatePostGetTag);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_pick_tag, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -246,12 +251,6 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
             encodedImage = image;
             this.index = index;
             this.size = size;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
         }
 
         @Override

@@ -107,8 +107,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:id="@+id/btnLike"
-                                android:background="@drawable/ic_favorite_black"
-                                android:backgroundTint="@color/Gray"/>
+                                android:background="@drawable/ic_favorite_black"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -124,8 +123,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="20dp"
-                                android:background="@drawable/ic_comment_black"
-                                android:backgroundTint="@color/Gray"/>
+                                android:background="@drawable/ic_comment_black"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -141,8 +139,7 @@
                                 android:id="@+id/btnShare"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="20dp"
-                                android:background="@drawable/ic_share_black"
-                                android:backgroundTint="@color/Gray"/>
+                                android:background="@drawable/ic_share_black"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:id="@+id/txtNumShared"

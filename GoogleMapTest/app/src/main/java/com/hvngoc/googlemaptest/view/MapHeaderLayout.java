@@ -2,6 +2,8 @@ package com.hvngoc.googlemaptest.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -128,6 +130,7 @@ public class MapHeaderLayout extends RelativeLayout {
         });
 
         img_header_action = (ImageView) findViewById(R.id.img_header_action);
+        img_header_action.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         img_header_action.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,8 +198,7 @@ public class MapHeaderLayout extends RelativeLayout {
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 currentListPost = gson.fromJson(res, listType);
                 search_text_header.setAdapter(new SearchPostAdapter(GLOBAL.CurentContext, android.R.layout.simple_list_item_1, currentListPost));
-                if (!search_text_header.isPopupShowing())
-                    search_text_header.showDropDown();
+                search_text_header.showDropDown();
             }
         }
     }

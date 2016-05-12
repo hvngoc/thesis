@@ -23,15 +23,14 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     public RVPickImageAdapter(ArrayList<String> mItems) {
         super();
         this.mItems = mItems;
-        bitmaps = new ArrayList<Bitmap>();
+        bitmaps = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_item_image, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -65,6 +64,7 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     mItems.remove(position);
+                    bitmaps.remove(position);
                     notifyDataSetChanged();
                 }
             });

@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +33,8 @@ public class LocationNotifierService extends Service implements LocationListener
     private static final int DISTANCE_UPDATER = 50;
 
     private LocationManager Manager;
+    private GpsStatus.Listener gpsListener;
+
     private MediaPlayer vibrateAudio;
     private Vibrator vibrator;
 
@@ -49,6 +52,25 @@ public class LocationNotifierService extends Service implements LocationListener
         vibrateAudio.setLooping(false);
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         Manager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        gpsListener = new GpsStatus.Listener() {
+            @Override
+            public void onGpsStatusChanged(int event) {
+                switch (event) {
+                    case GpsStatus.GPS_EVENT_STARTED: {
+                        Log.i("GPS STATUS", "STARTED");
+                        Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER,
+                                DISTANCE_UPDATER, LocationNotifierService.this);
+                    }
+                    case GpsStatus.GPS_EVENT_STOPPED: {
+                        Log.i("GPS STATUS", "STOPPED");
+                        if (Manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+                            Manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME_UPDATER,
+                                    DISTANCE_UPDATER, LocationNotifierService.this);
+                    }
+                }
+            }
+        };
+        Manager.addGpsStatusListener(gpsListener);
     }
 
     @Override
@@ -71,6 +93,7 @@ public class LocationNotifierService extends Service implements LocationListener
         Log.i("service stop", "service stop");
         vibrateAudio.release();
         Manager.removeUpdates(this);
+        Manager.removeGpsStatusListener(gpsListener);
     }
 
     private void NotifyDevice(){

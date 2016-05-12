@@ -39,6 +39,13 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
         }
     }
 
+    public void addItemString(String item){
+        mItems.add(item);
+        if (this.isMultipleClick)
+            mChecked.add(false);
+        notifyDataSetChanged();
+    }
+
     public ArrayList<String> getmItemsChecked(){
         ArrayList<String> mDumy = new ArrayList<>();
         int size = mItems.size();
@@ -59,8 +66,7 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_item_picture, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -105,6 +111,5 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
                 }
             });
         }
-
     }
 }

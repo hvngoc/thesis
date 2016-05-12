@@ -1,6 +1,8 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
@@ -84,6 +85,9 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnComment = (Button) findViewById(R.id.btnComment);
         txtNumComment = (TextView) findViewById(R.id.txtNumComment);
 
+        btnShare.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        btnComment.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+
         imgShowMap = (ImageView) findViewById(R.id.imgViewShowMap);
         imgShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +128,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
                 new ShareThisPostAsyncTask().execute();
             }
         });
-
     }
 
     private void getImageSlider() {
@@ -149,7 +152,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
                 mDemoSlider.addSlider(textSliderView);
             }
         }
-
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
@@ -176,9 +178,9 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         Log.i("is you like", currentPost.isYouLike + "");
         isLiking = false;
         if (currentPost.isYouLike == 0)
-            btnLike.setBackgroundResource(R.drawable.ic_favorite_black);
+            btnLike.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         else
-            btnLike.setBackgroundResource(R.drawable.ic_favorite_ok);
+            btnLike.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
     //*************************************************************************************************************************//
@@ -228,10 +230,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -259,19 +257,12 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
                 currentPost.isYouLike = 1;
                 txtNumLike.setText("" + currentPost.numLike);
             }
-            else {
-
-            }
             setLikeButton();
         }
     }
 
     private class UnLikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -299,19 +290,12 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
                 currentPost.isYouLike = 0;
                 txtNumLike.setText("" + currentPost.numLike);
             }
-            else {
-
-            }
             setLikeButton();
         }
     }
 
     private class ShareThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -339,12 +323,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
                 Toast.makeText(getBaseContext(), "share ok!!!",Toast.LENGTH_LONG).show();
                 txtNumShared.setText(currentPost.numShare + "");
             }
-            else {
-
-            }
         }
     }
-
 }
 
 
