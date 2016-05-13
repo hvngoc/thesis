@@ -1,6 +1,5 @@
 package com.hvngoc.googlemaptest.fragment;
 
-import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;

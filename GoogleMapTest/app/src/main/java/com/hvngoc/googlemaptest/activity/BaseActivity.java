@@ -6,19 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
-import com.hvngoc.googlemaptest.model.NotificationItem;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
-
-import java.util.ArrayList;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -55,8 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (resultCode == 200)
                 {
                     action_notification.setIcon(android.R.drawable.star_big_on);
-                    ArrayList<NotificationItem> listNotification = (ArrayList<NotificationItem>) resultData.getSerializable("Notification");
-                    Log.i("Notification around", "size: " + listNotification.size());
                     if (delegationHelper != null)
                         delegationHelper.doSomeThing();
                 }

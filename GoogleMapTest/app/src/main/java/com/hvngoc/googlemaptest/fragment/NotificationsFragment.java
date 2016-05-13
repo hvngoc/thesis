@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private RVNotificationAdapter rvNotificationAdapter;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -51,9 +51,12 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext));
         recyclerView.setHasFixedSize(true);
+
+        rvNotificationAdapter = new RVNotificationAdapter(getActivity().getSupportFragmentManager().beginTransaction());
+        recyclerView.setAdapter(rvNotificationAdapter);
 
         return rootView;
     }
@@ -79,12 +82,12 @@ public class NotificationsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         ((BaseActivity)context).setDelegationHelper(new DelegationHelper() {
             @Override
             public void doSomeThing() {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = ((BaseActivity)context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());
                 fragmentTransaction.commit();
@@ -115,14 +118,17 @@ public class NotificationsFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<NotificationItem>>(){}.getType();
                 ArrayList<NotificationItem> list = gson.fromJson(res, listType);
-                recyclerView.setAdapter(new RVNotificationAdapter(list,
-                        getActivity().getSupportFragmentManager().beginTransaction()));
+                rvNotificationAdapter.addListItem(list);
+            }else {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
+                fragmentTransaction.commit();
             }
 
             progressDialog.dismiss();

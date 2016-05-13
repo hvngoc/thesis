@@ -16,20 +16,14 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
-import com.hvngoc.googlemaptest.model.NotificationItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 /**
  * Created by Hoang Van Ngoc on 11/05/2016.
@@ -188,15 +182,7 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<NotificationItem>>(){}.getType();
-                ArrayList<NotificationItem> list = gson.fromJson(res, listType);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Notification", list);
-                locationResultReceiver.send(200, bundle);
+                locationResultReceiver.send(200, new Bundle());
             }
         }
     }
