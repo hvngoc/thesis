@@ -26,13 +26,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
 
     List<Post> posts;
 
-    public RVAdapter(List<Post> posts){
-        Log.i("POst count", ""+ posts.size());
-        this.posts = posts;
-    }
-
     public RVAdapter(){
         posts = new ArrayList<>();
+    }
+
+    public void addListPost(ArrayList<Post> list){
+        posts.addAll(list);
+        notifyDataSetChanged();
     }
 
     public  void addToFirst(Post item){
@@ -49,7 +49,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     public NewsItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
         NewsItemViewHolder pvh = new NewsItemViewHolder(v);
-        Log.i("Posotin", "" + i);
+        Log.i("Position post : ", "" + i);
         return pvh;
     }
 

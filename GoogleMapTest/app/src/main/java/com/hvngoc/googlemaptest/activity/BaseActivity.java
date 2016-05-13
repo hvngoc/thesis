@@ -36,7 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutResource();
 
-    private  LocationResultReceiver locationResultReceiver;
     private void StartLocationServiceHelper() {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -44,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return;
             }
         }
-        locationResultReceiver = new LocationResultReceiver(null);
+        LocationResultReceiver locationResultReceiver = new LocationResultReceiver(null);
         locationResultReceiver.setDelegationReceiver(new LocationResultReceiver.DelegationReceiver() {
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
@@ -61,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 //    ****************************************************************************************************
 
-    private MenuItem action_notification;
+    protected MenuItem action_notification;
 
     protected ContextMenuDialogFragment mMenuDialogFragment;
     protected abstract void InitRunCustomMenu();

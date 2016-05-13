@@ -2,11 +2,15 @@ package com.hvngoc.googlemaptest.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.btn_signup) Button _signupButton;
     @Bind(R.id.link_login) TextView _loginLink;
     @Bind(R.id.input_password_confirm) TextView _input_password_confirm;
+    @Bind(R.id.checkbox_signup) CheckBox checkbox_signup;
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
     private double defaultLatitude = 0.0;
     private double defaultLongitude = 0.0;
@@ -132,6 +138,24 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         }else {
             _input_password_confirm.setError(null);
+        }
+
+        if (!checkbox_signup.isChecked()){
+            valid = false;
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "You must read privacy policy first", Snackbar.LENGTH_LONG)
+                    .setAction("Read", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+            snackbar.setActionTextColor(Color.YELLOW);
+            View snackView = snackbar.getView();
+            snackView.setBackgroundColor(Color.DKGRAY);
+            TextView textView = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+            snackbar.show();
         }
 
         return valid;

@@ -6,12 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,10 +33,10 @@ import java.util.ArrayList;
 
 public class WallFragment extends Fragment {
 
-    RecyclerView listPosts;
-    RVAdapter adapter;
-    String currentID;
-    CardView cardWallNothing;
+    private RecyclerView listPosts;
+    private RVAdapter adapter;
+    private String currentID;
+    private LinearLayout listNothing;
 
     public WallFragment() {
         // Required empty public constructor
@@ -70,9 +70,11 @@ public class WallFragment extends Fragment {
         listPosts = (RecyclerView) rootView.findViewById(R.id.list_wall_post);
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
         listPosts.setLayoutManager(llm);
+        adapter = new RVAdapter();
+        listPosts.setAdapter(adapter);
         listPosts.setHasFixedSize(true);
 
-        cardWallNothing = (CardView) rootView.findViewById(R.id.cardWallNothing);
+        listNothing = (LinearLayout)rootView.findViewById(R.id.list_wall_nothing);
 
         FloatingActionButton btnCreateNewPost = (FloatingActionButton) rootView.findViewById(R.id.btnCreateNewPost);
         btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
@@ -82,10 +84,11 @@ public class WallFragment extends Fragment {
                 dialog.setDelegationHelper(new DelegationHelper() {
                     @Override
                     public void doSomeThing() {
+                        SetContentView(View.VISIBLE, View.INVISIBLE);
                         Post post = dialog.getPost();
                         adapter.addToFirst(post);
+                        listPosts.invalidate();
                         dialog.dismiss();
-                        SetContentView(View.VISIBLE, View.INVISIBLE);
                     }
                 });
                 dialog.show(getFragmentManager(), "PostCreationDialog");
@@ -94,8 +97,6 @@ public class WallFragment extends Fragment {
 
         if (!currentID.equals(GLOBAL.CurrentUser.getId()))
             btnCreateNewPost.setVisibility(View.INVISIBLE);
-
-        SetContentView(View.VISIBLE, View.INVISIBLE);
 
         return rootView;
     }
@@ -113,9 +114,9 @@ public class WallFragment extends Fragment {
 
     }
 
-    private void SetContentView(int recycler, int cardview){
+    private void SetContentView(int recycler, int nothing){
         listPosts.setVisibility(recycler);
-        cardWallNothing.setVisibility(cardview);
+        listNothing.setVisibility(nothing);
     }
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -147,15 +148,14 @@ public class WallFragment extends Fragment {
             super.onPostExecute(result);
 
             if(result) {
+                SetContentView(View.VISIBLE, View.INVISIBLE);
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> listPost = gson.fromJson(res, listType);
-                adapter = new RVAdapter(listPost);
-                listPosts.setAdapter(adapter);
+                adapter.addListPost(listPost);
             }
             else {
-                adapter = new RVAdapter();
                 SetContentView(View.INVISIBLE, View.VISIBLE);
             }
             progressDialog.dismiss();

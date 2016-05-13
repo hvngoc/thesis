@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView listnews;
+    private RVAdapter adapter;
 
     public HomeFragment() {
     }
@@ -52,10 +52,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
+        RecyclerView listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
         listnews.setLayoutManager(llm);
         listnews.setHasFixedSize(true);
+        adapter = new RVAdapter();
+        listnews.setAdapter(adapter);
         return rootView;
     }
 
@@ -118,7 +120,7 @@ public class HomeFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                  ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
-                listnews.setAdapter(new RVAdapter(CurrentListPost));
+                adapter.addListPost(CurrentListPost);
             }
             else {
                 // Notify send request failed!
