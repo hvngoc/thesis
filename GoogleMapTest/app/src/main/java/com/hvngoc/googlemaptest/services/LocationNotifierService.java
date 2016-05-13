@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.ResultReceiver;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class LocationNotifierService extends Service implements LocationListener
 
     private MediaPlayer vibrateAudio;
     private Vibrator vibrator;
+
+    private ResultReceiver locationResultReceiver;
 
     @Nullable
     @Override
@@ -75,6 +78,7 @@ public class LocationNotifierService extends Service implements LocationListener
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        locationResultReceiver = intent.getParcelableExtra("LocationResultReceiver");
         if (Manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Log.i("GPS is on", "GPS on");
             Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
@@ -179,8 +183,9 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-                // chang star in menu bar
-                Log.i("NOTIFICATION ...", "my post accepted");
+                Bundle bundle = new Bundle();
+                bundle.putString("TEST", "TEST");
+                locationResultReceiver.send(200, bundle);
             }
         }
     }
@@ -216,8 +221,9 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-                // chang star in menu bar
-                Log.i("NOTIFICATION ...", "friend post accepted");
+                Bundle bundle = new Bundle();
+                bundle.putString("TEST", "TEST");
+                locationResultReceiver.send(200, bundle);
             }
         }
     }

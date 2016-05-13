@@ -44,19 +44,8 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setPictureProfile();
         // display the first navigation drawer view on app launch
         displayView(0);
-
-        StartLocationServiceHelper();
     }
 
-    private void StartLocationServiceHelper(){
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (LocationNotifierService.class.getName().equals(service.service.getClassName())) {
-                return;
-            }
-        }
-        startService(new Intent(getApplicationContext(), LocationNotifierService.class));
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -64,24 +53,8 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem action_notification = menu.findItem(R.id.action_notification);
-        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-        MenuItem action_options = menu.findItem(R.id.action_options);
-        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return true;
-            }
-        });
-        return true;
+    protected void InitRunCustomMenu() {
+
     }
 
     @Override
@@ -141,13 +114,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
             fragmentTransaction.commit();
 
             // set the toolbar title
-            getSupportActionBar().setTitle(title);
+            setActionBarTitle(title);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //moveTaskToBack(true);
     }
 }

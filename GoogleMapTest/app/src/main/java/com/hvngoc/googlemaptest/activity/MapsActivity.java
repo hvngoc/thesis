@@ -8,12 +8,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -52,7 +49,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap googleMap;
-    private ContextMenuDialogFragment mMenuDialogFragment;
 
     private int SEARCH_DISTANCE = 100;
 
@@ -75,7 +71,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
 
         InitRunMapHeader();
         InitRunMapFooter();
-        InitRunCustomMenu();
     }
 
     private  void InitRunMapFooter(){
@@ -109,6 +104,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 mapHeaderLayout.setTextPlaceFragment(place);
                 onMapLongClick(place.getLatLng());
             }
+
             @Override
             public void onError(Status status) {
 
@@ -118,29 +114,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         params.addRule(RelativeLayout.BELOW, R.id.toolbar);
         RelativeLayout map_activity = (RelativeLayout) findViewById(R.id.layout_map_activity);
         map_activity.addView(mapHeaderLayout, params);
-    }
-
-    private void InitRunCustomMenu(){
-        MenuParams menuParams = new MenuParams();
-        menuParams.setActionBarSize(60);
-        menuParams.setMenuObjects(getMenuObjects());
-        menuParams.setClosableOutside(false);
-        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
-        mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(View clickedView, int position) {
-                switch (position) {
-                    case 1:
-                        LocationHelper location = new LocationHelper(MapsActivity.this);
-                        LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
-                        onMapLongClick(latLng);
-                        break;
-                    case 2:
-                        ZoomAnimateLevelToFitMarkers();
-                        break;
-                }
-            }
-        });
     }
 
     private ArrayList<MenuObject> getMenuObjects() {
@@ -211,39 +184,34 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     protected int getLayoutResource() {
         return R.layout.activity_maps;
     }
+
     @Override
-    public void onBackPressed() {
-        if (mMenuDialogFragment != null && mMenuDialogFragment.isAdded())
-            mMenuDialogFragment.dismiss();
-        else
-            finish();
+    protected void InitRunCustomMenu(){
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize(60);
+        menuParams.setMenuObjects(getMenuObjects());
+        menuParams.setClosableOutside(false);
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+        mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(View clickedView, int position) {
+                switch (position) {
+                    case 1:
+                        LocationHelper location = new LocationHelper(MapsActivity.this);
+                        LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
+                        onMapLongClick(latLng);
+                        break;
+                    case 2:
+                        ZoomAnimateLevelToFitMarkers();
+                        break;
+                }
+            }
+        });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem action_notification = menu.findItem(R.id.action_notification);
-        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-        MenuItem action_options = menu.findItem(R.id.action_options);
-        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
-                    mMenuDialogFragment.show(getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
-                }
-                return true;
-            }
-        });
-        return true;
     }
 //******************************************************************************************************************//
     @Override
