@@ -1,12 +1,9 @@
 package com.hvngoc.googlemaptest.model;
 
-import android.util.Log;
-
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 

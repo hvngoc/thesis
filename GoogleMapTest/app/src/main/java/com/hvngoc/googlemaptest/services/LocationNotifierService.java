@@ -16,14 +16,20 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
+import com.hvngoc.googlemaptest.model.NotificationItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Created by Hoang Van Ngoc on 11/05/2016.
@@ -130,8 +136,7 @@ public class LocationNotifierService extends Service implements LocationListener
     public void onLocationChanged(Location location) {
         Log.i("Location change", "Location change");
         if (GLOBAL.CurrentUser != null) {
-            new MakeNotificationMyPost(location.getLatitude(), location.getLongitude()).execute();
-            new MakeNotificationFriendPost(location.getLatitude(), location.getLongitude()).execute();
+            new MakeNotificationPost(location.getLatitude(), location.getLongitude()).execute();
         }
     }
 
@@ -152,18 +157,18 @@ public class LocationNotifierService extends Service implements LocationListener
 
 //    **********************************************************************************************************
 
-    private class MakeNotificationMyPost extends AsyncTask<Void, Void, Boolean> {
+    private class MakeNotificationPost extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         private Double latitude, longitude;
 
-        public MakeNotificationMyPost(Double latitude, Double longitude){
+        public MakeNotificationPost(Double latitude, Double longitude){
             this.latitude = LocationRoundHelper.Round(latitude);
             this.longitude = LocationRoundHelper.Round(longitude);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "makeNotificationMyPost";
+            String serverUrl = GLOBAL.SERVER_URL + "makeNotificationPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
@@ -183,46 +188,14 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
+
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<NotificationItem>>(){}.getType();
+                ArrayList<NotificationItem> list = gson.fromJson(res, listType);
+
                 Bundle bundle = new Bundle();
-                bundle.putString("TEST", "TEST");
-                locationResultReceiver.send(200, bundle);
-            }
-        }
-    }
-
-    private class MakeNotificationFriendPost extends AsyncTask<Void, Void, Boolean> {
-        private HTTPPostHelper helper;
-        private Double latitude, longitude;
-
-        public MakeNotificationFriendPost(Double latitude, Double longitude){
-            this.latitude = LocationRoundHelper.Round(latitude);
-            this.longitude = LocationRoundHelper.Round(longitude);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "makeNotificationFriendPost";
-            JSONObject jsonobj = new JSONObject();
-            try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("Latitude", latitude);
-                jsonobj.put("Longitude", longitude);
-                jsonobj.put("distance", 1000);
-                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            helper = new HTTPPostHelper(serverUrl, jsonobj);
-            return helper.sendHTTTPostRequest();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if (result) {
-                NotifyDevice();
-                Bundle bundle = new Bundle();
-                bundle.putString("TEST", "TEST");
+                bundle.putSerializable("Notification", list);
                 locationResultReceiver.send(200, bundle);
             }
         }

@@ -5,5 +5,5 @@ package com.hvngoc.googlemaptest.helper;
  */
 public interface DelegationHelper {
 
-    public void doSomeThing();
+    void doSomeThing();
 }

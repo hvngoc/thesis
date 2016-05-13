@@ -34,10 +34,11 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
     private ArrayList<NotificationItem> mItems;
     private FragmentTransaction fragmentTransaction;
 
-    public RVNotificationAdapter(ArrayList<NotificationItem> mItems, FragmentTransaction fragmentTransaction) {
+    public RVNotificationAdapter(ArrayList<NotificationItem> mItems,
+                                 FragmentTransaction fragmentTransaction) {
         super();
-        this.mItems = mItems;
         this.fragmentTransaction = fragmentTransaction;
+        this.mItems = mItems;
     }
 
     @Override

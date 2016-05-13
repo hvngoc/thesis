@@ -3,10 +3,12 @@ package com.hvngoc.googlemaptest.model;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
+import java.io.Serializable;
+
 /**
  * Created by Hoang Van Ngoc on 12/05/2016.
  */
-public class NotificationItem {
+public class NotificationItem implements Serializable {
     private String userAvatar;
     private String userName;
 

@@ -18,8 +18,10 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.NotificationItem;
 
@@ -47,14 +49,15 @@ public class NotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext));
         recyclerView.setHasFixedSize(true);
+
         return rootView;
     }
+
 
     ProgressDialog progressDialog = null;
     @Override
@@ -78,6 +81,15 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ((BaseActivity)context).setDelegationHelper(new DelegationHelper() {
+            @Override
+            public void doSomeThing() {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override
@@ -109,15 +121,10 @@ public class NotificationsFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<NotificationItem>>(){}.getType();
                 ArrayList<NotificationItem> list = gson.fromJson(res, listType);
-                recyclerView.setAdapter(new RVNotificationAdapter(list, getActivity().getSupportFragmentManager().beginTransaction()));
+                recyclerView.setAdapter(new RVNotificationAdapter(list,
+                        getActivity().getSupportFragmentManager().beginTransaction()));
             }
-            else {
-                // Notify send request failed!
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
-                fragmentTransaction.commit();
-            }
+
             progressDialog.dismiss();
         }
     }
