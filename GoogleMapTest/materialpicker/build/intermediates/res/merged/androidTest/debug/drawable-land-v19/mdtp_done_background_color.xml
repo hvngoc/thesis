@@ -22,4 +22,4 @@
           android:drawable="@color/mdtp_neutral_pressed" />
 
     <item android:drawable="@color/mdtp_white" />
-</selector><!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/drawable-land-v19/mdtp_done_background_color.xml --><!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/drawable-land-v19/mdtp_done_background_color.xml -->
+</selector>

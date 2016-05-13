@@ -41,4 +41,3 @@
         style="@style/mdtp_ActionButton.Text"
         android:text="@string/mdtp_ok" />
 </LinearLayout>
-<!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/layout/mdtp_done_button.xml --><!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/build/intermediates/bundles/debug/res/layout/mdtp_done_button.xml -->

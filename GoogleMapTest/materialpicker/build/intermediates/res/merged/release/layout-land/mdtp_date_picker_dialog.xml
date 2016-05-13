@@ -40,4 +40,4 @@
     </LinearLayout>
 
     <include layout="@layout/mdtp_done_button" />
-</LinearLayout><!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/layout-land/mdtp_date_picker_dialog.xml -->
+</LinearLayout>

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "647519011622",
+    "project_id": "api-project-647519011622"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647519011622:android:87bec3a9e1203399",
+        "android_client_info": {
+          "package_name": "com.hvngoc.googlemaptest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFTItB-NjZRAxkemZeUVpQAalJSD4YSw4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

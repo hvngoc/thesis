@@ -20,4 +20,4 @@
     <item android:state_pressed="false" android:state_selected="false"
         android:color="@color/mdtp_date_picker_text_normal"/>
 
-</selector><!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/color/mdtp_date_picker_year_selector.xml -->
+</selector>

@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_done_button.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_done_button.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_year_label_text_view.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_year_label_text_view.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_date_picker_dialog.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_date_picker_dialog.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_date_picker_view_animator.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_date_picker_view_animator.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_date_picker_selected_date.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_date_picker_selected_date.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\layout\\mdtp_date_picker_header_view.xml",
+        "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\layout\\mdtp_date_picker_header_view.xml"
+    }
+]

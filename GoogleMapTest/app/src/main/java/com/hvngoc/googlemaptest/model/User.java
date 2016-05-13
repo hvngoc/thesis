@@ -24,6 +24,14 @@ public class User {
         this.defaultLongitude = defaultLongitude;
     }
 
+    private String regID;
+    public void setRegID(String regID){
+        this.regID = regID;
+    }
+    public String getRegID(){
+        return this.regID;
+    }
+
     public double getDefaultLatitude(){
         return this.defaultLatitude;
     }

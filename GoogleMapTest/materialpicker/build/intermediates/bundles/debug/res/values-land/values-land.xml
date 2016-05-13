@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/_AndroidApplication/New%20folder/thesis/GoogleMapTest/materialpicker/src/main/res/values-land/dimens.xml -->
-    <eat-comment/>
     <dimen name="mdtp_date_picker_component_width">220dp</dimen>
     <dimen name="mdtp_date_picker_view_animator_height">220dp</dimen>
     <dimen name="mdtp_dialog_height">200dip</dimen>

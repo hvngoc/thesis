@@ -35,4 +35,8 @@ public class CONSTANT {
     public static final String NOTIFICATION_STRING_CONFIRM_FRIEND = "has just accepted your request";
     public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
     public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
+
+    public static final String NOTIFICATION_FRAGMENT = "Notification";
+    public static final String HOME_FRAGMENT = "Home";
+    public static final String FRIEND_FRAGMENT = "Friend";
 }
