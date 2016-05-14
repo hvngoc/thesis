@@ -44,6 +44,7 @@ public class GcmIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i("GCM", "CREATED");
         String key = intent.getStringExtra(KEY);
         switch (key) {
             case SUBSCRIBE:
@@ -60,6 +61,12 @@ public class GcmIntentService extends IntentService {
                 registerGCM();
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("GCM", "DESTROY");
     }
 
     /**

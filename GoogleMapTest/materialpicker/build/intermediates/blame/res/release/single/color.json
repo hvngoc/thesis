@@ -14,5 +14,21 @@
     {
         "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\color\\mdtp_date_picker_selector.xml",
         "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\color\\mdtp_date_picker_selector.xml"
+    },
+    {
+        "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\color\\mdtp_date_picker_selector.xml",
+        "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\color\\mdtp_date_picker_selector.xml"
+    },
+    {
+        "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\color\\mdtp_done_text_color_dark.xml",
+        "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\color\\mdtp_done_text_color_dark.xml"
+    },
+    {
+        "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\color\\mdtp_date_picker_year_selector.xml",
+        "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\color\\mdtp_date_picker_year_selector.xml"
+    },
+    {
+        "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\release\\color\\mdtp_done_text_color.xml",
+        "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\color\\mdtp_done_text_color.xml"
     }
 ]

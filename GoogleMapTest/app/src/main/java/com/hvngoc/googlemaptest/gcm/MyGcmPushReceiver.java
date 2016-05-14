@@ -64,6 +64,18 @@ public class MyGcmPushReceiver extends GcmListenerService {
         }
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.i("MYGCM", "Created");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("MYGCM", "Destroyed");
+    }
+
     /**
      * Showing notification with text only
      */
