@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +22,11 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.app.MyApplication;
+import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
+import com.hvngoc.googlemaptest.helper.NotificationManager;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
@@ -50,21 +56,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // checking for type intent filter
-                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-                    // gcm successfully registered
-                    // now subscribe to `global` topic to receive app wide notifications
-                    String token = intent.getStringExtra("token");
-                    Toast.makeText(getApplicationContext(), "GCM registration token: " + token, Toast.LENGTH_LONG).show();
-                } else if (intent.getAction().equals(Config.SENT_TOKEN_TO_SERVER)) {
-                    // gcm registration id is stored in our server's MySQL
-                    Toast.makeText(getApplicationContext(), "GCM registration token is stored in server!", Toast.LENGTH_LONG).show();
-                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+//                // checking for type intent filter
+//                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+//                    // gcm successfully registered
+//                    // now subscribe to `global` topic to receive app wide notifications
+//                    String token = intent.getStringExtra("token");
+//                    Toast.makeText(getApplicationContext(), "GCM registration token: " + token, Toast.LENGTH_LONG).show();
+//                } else if (intent.getAction().equals(Config.SENT_TOKEN_TO_SERVER)) {
+//                    // gcm registration id is stored in our server's MySQL
+//                    Toast.makeText(getApplicationContext(), "GCM registration token is stored in server!", Toast.LENGTH_LONG).show();
+//                } else
+                if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
                     Bundle bundle = intent.getExtras();
                     String message = bundle.getString("message");
-                    action_notification.setIcon(android.R.drawable.star_big_on);
-                    Toast.makeText(getApplicationContext(), "Push notification is received!" + message, Toast.LENGTH_LONG).show();
+                    GLOBAL.IconNotification = android.R.drawable.star_big_on;
+                    if (delegationStringHelper != null){
+                        delegationStringHelper.doSomething(message);
+                    }
                 }
             }
         };
@@ -72,6 +81,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (checkPlayServices()) {
             registerGCM();
         }
+    }
+
+    private DelegationStringHelper delegationStringHelper;
+    public void setDelegationStringHelper(DelegationStringHelper helper){
+        this.delegationStringHelper = helper;
     }
 
     // starting the service to register with GCM
@@ -129,6 +143,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         MyApplication.getInstance().getPrefManager().clear();
     }
 
+//    ******************************************************************************************************
+
+    // replace current fragment in body_container with new fragment and new titile on Toolbar
+    protected void replaceCurrentFragment(Fragment fragment, String title) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.commit();
+
+            // set the toolbar title
+            if(title != null)
+                setActionBarTitle(title);
+        }
+    }
+
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
@@ -148,7 +178,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == 200)
                 {
-                    action_notification.setIcon(android.R.drawable.star_big_on);
+                    GLOBAL.IconNotification = android.R.drawable.star_big_on;
                     if (delegationHelper != null)
                         delegationHelper.doSomeThing();
                 }
@@ -166,19 +196,27 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 //    ****************************************************************************************************
 
-    protected MenuItem action_notification;
-
     protected ContextMenuDialogFragment mMenuDialogFragment;
     protected abstract void InitRunCustomMenu();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        action_notification = menu.findItem(R.id.action_notification);
-        action_notification.setIcon(android.R.drawable.star_big_off);
+        MenuItem action_notification = menu.findItem(R.id.action_notification);
+        action_notification.setIcon(GLOBAL.IconNotification);
         action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getBaseContext(), "goto notification fragment", Toast.LENGTH_LONG).show();
+                GLOBAL.IconNotification = android.R.drawable.star_big_off;
+                String activity = NotificationManager.getCurrentActivity();
+                if (activity.equals("MainPageActivity")) {
+                    replaceCurrentFragment(new NotificationsFragment(), "Notification");
+                }
+                else {
+                    NotificationManager.setCurrentActivity("MainPageActivity");
+                    NotificationManager.setCurrentFragment(CONSTANT.NAME_NOTIFICATION_FRAGMENT);
+                    Intent intent = new Intent(getBaseContext(), MainPageActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         });

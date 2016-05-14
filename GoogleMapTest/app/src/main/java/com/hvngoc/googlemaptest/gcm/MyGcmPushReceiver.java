@@ -1,19 +1,15 @@
 package com.hvngoc.googlemaptest.gcm;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
-import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.app.Config;
-import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.helper.NotificationManager;
 import com.hvngoc.googlemaptest.model.MyNotification;
 
@@ -58,7 +54,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
             // App is in background!
             Intent resultIntent = new Intent(getApplicationContext(), MainPageActivity.class);
             resultIntent.putExtra("message", message);
-            NotificationManager.setCurrentFragment(CONSTANT.NOTIFICATION_FRAGMENT);
+            NotificationManager.setCurrentFragment(CONSTANT.NAME_NOTIFICATION_FRAGMENT);
             NotificationManager.addNotification(notification);
             showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
         }

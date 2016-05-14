@@ -22,6 +22,7 @@ import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.NotificationItem;
 
@@ -44,6 +45,7 @@ public class NotificationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        GLOBAL.IconNotification = android.R.drawable.star_big_off;
     }
 
     @Override
@@ -87,6 +89,15 @@ public class NotificationsFragment extends Fragment {
         ((BaseActivity)context).setDelegationHelper(new DelegationHelper() {
             @Override
             public void doSomeThing() {
+                FragmentManager fragmentManager = ((BaseActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());
+                fragmentTransaction.commit();
+            }
+        });
+        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+            @Override
+            public void doSomething(String message) {
                 FragmentManager fragmentManager = ((BaseActivity)context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());

@@ -17,7 +17,7 @@ public class GLOBAL {
 
     public static User CurrentUser = null;
 
-    public static Intent intentService = null;
+    public static int IconNotification = android.R.drawable.star_big_off;
 
     public static StartedUserHelper startedUserHelper = null;
 

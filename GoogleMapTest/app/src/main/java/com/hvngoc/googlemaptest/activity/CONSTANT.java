@@ -29,6 +29,7 @@ public class CONSTANT {
     public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
     public static final String NOTIFICATION_MY_POST = "mine";
     public static final String NOTIFICATION_FRIEND_POST = "friend";
+    public static final String NOTIFICATION_HOME = "home";
 
     public static final String NOTIFICATION_STRING_COMMENT = "has just commented on your post.";
     public static final String NOTIFICATION_STRING_ADD_FRIEND = "want to become friend with you.";
@@ -36,7 +37,7 @@ public class CONSTANT {
     public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
     public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
 
-    public static final String NOTIFICATION_FRAGMENT = "Notification";
-    public static final String HOME_FRAGMENT = "Home";
-    public static final String FRIEND_FRAGMENT = "Friend";
+    public static final String NAME_NOTIFICATION_FRAGMENT = "Notification";
+    public static final String NAME_HOME_FRAGMENT = "Home";
+    public static final String NAME_FRIEND_FRAGMENT = "Friend";
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:id="@+id/fragment_friend_list"
     tools:context="com.hvngoc.googlemaptest.fragment.NothingsFragment">
     <LinearLayout
         android:orientation="vertical"

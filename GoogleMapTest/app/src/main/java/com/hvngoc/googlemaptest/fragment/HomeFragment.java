@@ -1,7 +1,7 @@
 package com.hvngoc.googlemaptest.fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.BaseActivity;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
+import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
@@ -68,7 +69,6 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
-
     ProgressDialog progressDialog = null;
     @Override
     public void onStart() {
@@ -80,6 +80,19 @@ public class HomeFragment extends Fragment {
         progressDialog.show();
         new LoadPostAsyncTask().execute();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+            @Override
+            public void doSomething(String message) {
+                if (message.equals(CONSTANT.NOTIFICATION_HOME)){
+                    new LoadPostAsyncTask().execute();
+                }
+            }
+        });
     }
 
     @Override

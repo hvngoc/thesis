@@ -5,10 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
+import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 
@@ -57,6 +59,7 @@ public class FriendRequestFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.i("REAQUESTTT", "STARTT");
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -66,9 +69,16 @@ public class FriendRequestFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
-
+        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+            @Override
+            public void doSomething(String message) {
+                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
+                    new LoadFriendRequestAsyncTask().execute();
+                }
+            }
+        });
     }
 
     @Override
@@ -112,11 +122,11 @@ public class FriendRequestFragment extends Fragment {
                 RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE, getActivity().getSupportFragmentManager(), CONSTANT.TYPE_REQUEST);
                 recyclerListFriend.setAdapter(adapter);
             }
-            else {
-                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_friend_list, new NothingsFragment());
-                fragmentTransaction.commit();
-            }
+//            else {
+//                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.fragment_friend_list, new NothingsFragment());
+//                fragmentTransaction.commit();
+//            }
             progressDialog.dismiss();
         }
     }
