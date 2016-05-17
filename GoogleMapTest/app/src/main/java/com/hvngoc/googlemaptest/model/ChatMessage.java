@@ -6,6 +6,11 @@ package com.hvngoc.googlemaptest.model;
 public class ChatMessage {
     public boolean left;
     public String message;
+    public String username;
+    public String avatar;
+    public String fromUserID;
+    public String ID;
+    public String messageDate;
 
     public ChatMessage(boolean left, String message) {
         super();

@@ -1,30 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.hvngoc.googlemaptest.fragment.MessagesFragment">
+    android:id="@+id/fragment_friend_list"
+    android:layout_margin="2dip"
+    android:padding="2dip"
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/label"
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="MESSAGE"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:layout_below="@id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Edit fragment_message.xml to change the appearance" />
-
+        android:layout_width="match_parent"
+        android:id="@+id/recycler_message"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>
