@@ -19,7 +19,7 @@ public class GLOBAL {
 
     public static int IconNotification = android.R.drawable.star_big_off;
 
-    public static int MAIN_PAGE_POSITION_VIEW = 0;
+    public static String MAIN_PAGE_STRING_VIEW = "Home";
 
     public static StartedUserHelper startedUserHelper = null;
 

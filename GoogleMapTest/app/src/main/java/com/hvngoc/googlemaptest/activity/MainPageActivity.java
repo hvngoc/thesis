@@ -6,14 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.HomeFragment;
 import com.hvngoc.googlemaptest.fragment.LogoutFragment;
+import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.SettingsFragment;
@@ -40,8 +39,9 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     @Override
     protected void onResume() {
         super.onResume();
-        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = 0;
+        displayView(GLOBAL.MAIN_PAGE_STRING_VIEW);
+        GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
+        Log.i("GLOBAL TITLE", GLOBAL.MAIN_PAGE_STRING_VIEW);
     }
 
     @Override
@@ -55,47 +55,53 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     }
 
     @Override
-    public void onDrawerItemSelected(View view, int position) {
-        displayView(position);
+    public void onDrawerItemSelected(String title) {
+        displayView(title);
     }
 
-    private void displayView(int position) {
+    private void displayView(String title) {
+        Log.i("MAIN PAGE:", title);
         Fragment fragment = null;
-        String title = getString(R.string.app_name);
-        switch (position) {
-            case 0:
+        switch (title) {
+            case "Home":
                 fragment = new HomeFragment();
-                title = getString(R.string.title_home);
                 break;
-            case 1:
+            case "Profile":
                 fragment = ProfileFragment.getInstance(GLOBAL.CurrentUser.getId(), CONSTANT.TYPE_ME);
-                title = getString(R.string.title_profile);
                 break;
-            case 2:
+            case "Wall":
                 fragment = WallFragment.getInstance(GLOBAL.CurrentUser.getId());
-                title = getString(R.string.title_wall);
                 break;
-            case 3:
+            case "Map":
+                startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
+                return;
+            case "Friends":
                 fragment = new FriendsFragment();
-                title = getString(R.string.title_friends);
                 break;
-            case 4:
+            case "Notifications":
                 fragment = new NotificationsFragment();
-                title = getString(R.string.title_notifications);
                 break;
-            case 5:
+            case "Messages":
                 fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
                 //Intent intent = new Intent(this, ChatActivity.class);
                 //startActivity(intent);
                 break;
-            case 6:
+            case "Settings":
                 fragment = new SettingsFragment();
-                title = getString(R.string.title_settings);
                 break;
-            case 7:
+            case "Language":
+                break;
+            case "About":
+                break;
+            case "Help":
+                break;
+            case "Report":
+                break;
+            case "Log Out":
                 fragment = new LogoutFragment();
-                title = getString(R.string.title_logout);
+                break;
+            case "Close":
+                //System.exit(0);
                 break;
             default:
                 break;

@@ -17,7 +17,6 @@ public class MapFooterLayout extends RelativeLayout {
 
     TextView textDistance;
     SeekBar seekBar;
-    ImageView btn_footer_close;
 
     private final int MIN_DISTANCE = 100;
     private int searchDistance;
@@ -58,14 +57,6 @@ public class MapFooterLayout extends RelativeLayout {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-            }
-        });
-
-        btn_footer_close = (ImageView) findViewById(R.id.btn_footer_close);
-        btn_footer_close.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setVisibility(View.INVISIBLE);
             }
         });
     }
