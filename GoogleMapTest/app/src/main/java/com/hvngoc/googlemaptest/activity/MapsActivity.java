@@ -189,8 +189,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.MAIN_PAGE_POSITION_VIEW = 4;
-                startActivity(new Intent(MapsActivity.this, MainPageActivity.class));
+                GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
+                Intent intent = new Intent(MapsActivity.this, MainPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -291,14 +293,15 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 });
     }
     private void SetMarkerStartScreen() {
-        Bundle extras = getIntent().getExtras();
-        Post currentPost = (Post) extras.getSerializable("currentPost");
-        if (currentPost != null) {
-            currentListPost.add(currentPost);
-            InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
-            AddMarker();
-        }
-        else{
+        try{
+            Bundle extras = getIntent().getExtras();
+            Post currentPost = (Post) extras.getSerializable("currentPost");
+            if (currentPost != null) {
+                currentListPost.add(currentPost);
+                InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
+                AddMarker();
+            }
+        }catch (Exception e){
             InitilizeMap(new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()));
         }
     }
