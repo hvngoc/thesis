@@ -340,6 +340,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.i("PROFILE", "ATTACH");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("PROFILE", "RESUME");
     }
 
     @Override
