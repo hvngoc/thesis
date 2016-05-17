@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -180,6 +182,20 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
 //    ************************************************************************************************************    //
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_notification:
+                Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = 4;
+                startActivity(new Intent(MapsActivity.this, MainPageActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_maps;
@@ -277,11 +293,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private void SetMarkerStartScreen() {
         Bundle extras = getIntent().getExtras();
         Post currentPost = (Post) extras.getSerializable("currentPost");
-
-        currentListPost.add(currentPost);
-
-        InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
-        AddMarker();
+        if (currentPost != null) {
+            currentListPost.add(currentPost);
+            InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
+            AddMarker();
+        }
+        else{
+            InitilizeMap(new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()));
+        }
     }
     private void ZoomAnimateLevelToFitMarkers() {
         if(currentListPost.size() == 0)

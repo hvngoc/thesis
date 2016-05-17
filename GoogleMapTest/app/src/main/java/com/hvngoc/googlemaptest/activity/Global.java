@@ -19,6 +19,8 @@ public class GLOBAL {
 
     public static int IconNotification = android.R.drawable.star_big_off;
 
+    public static int MAIN_PAGE_POSITION_VIEW = 0;
+
     public static StartedUserHelper startedUserHelper = null;
 
     public static final String SERVER_URL = "http://10.0.3.2:9000/api/";

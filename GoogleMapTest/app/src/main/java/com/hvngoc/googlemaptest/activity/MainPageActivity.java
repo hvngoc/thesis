@@ -18,7 +18,6 @@ import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.SettingsFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
-import com.hvngoc.googlemaptest.helper.NotificationManager;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -35,12 +34,15 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurentContext = this;
         drawerFragment.setPictureProfile();
-        Log.i("USERID", GLOBAL.CurrentUser.getId());
         // display the first navigation drawer view on app launch
-        displayView(0);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = 0;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -50,11 +52,6 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     @Override
     protected void InitRunCustomMenu() {
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -87,10 +84,10 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 title = getString(R.string.title_notifications);
                 break;
             case 5:
-                //fragment = new MessagesFragment();
-                //title = getString(R.string.title_messages);
-                Intent intent = new Intent(this, ChatActivity.class);
-                startActivity(intent);
+                fragment = new MessagesFragment();
+                title = getString(R.string.title_messages);
+                //Intent intent = new Intent(this, ChatActivity.class);
+                //startActivity(intent);
                 break;
             case 6:
                 fragment = new SettingsFragment();
@@ -103,29 +100,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
             default:
                 break;
         }
-
         replaceCurrentFragment(fragment, title);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String fragmentName = NotificationManager.getCurrentFragment();
-        Fragment fragment = null;
-        switch (fragmentName){
-            case CONSTANT.NAME_HOME_FRAGMENT:
-                fragment = new HomeFragment();
-                break;
-            case CONSTANT.NAME_NOTIFICATION_FRAGMENT:
-                fragment = new NotificationsFragment();
-                break;
-            case CONSTANT.NAME_FRIEND_FRAGMENT:
-                fragment = new FriendsFragment();
-                break;
-            default:
-                fragment = new HomeFragment();
-        }
-        replaceCurrentFragment(fragment, fragmentName);
     }
 
 

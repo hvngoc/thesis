@@ -19,6 +19,7 @@
             android:id="@+id/list_wall_nothing"
             android:orientation="vertical"
             android:gravity="center"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView

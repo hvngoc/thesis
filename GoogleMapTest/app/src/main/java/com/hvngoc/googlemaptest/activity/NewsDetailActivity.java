@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.NotificationManager;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
@@ -55,6 +53,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     ImageView imgShowMap;
     private Post currentPost;
+    private SliderLayout mDemoSlider;
 
     private Boolean isLiking = false;
 
@@ -62,7 +61,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        NotificationManager.setCurrentActivity("NewsDetailActivity");
+        Log.i("DETAIL ACTIVITY", "CREATE");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -134,7 +133,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     }
 
     private void getImageSlider() {
-        SliderLayout mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         ArrayList<String> imageUrls = currentPost.getListImages();
         if (imageUrls.size() == 0){
             TextSliderView textSliderView = new TextSliderView(this);
@@ -159,7 +158,8 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
-        mDemoSlider.addOnPageChangeListener(this);
+//        this listener will be called in on resume
+//        mDemoSlider.addOnPageChangeListener(this);
     }
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
@@ -187,6 +187,33 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     }
 
     //*************************************************************************************************************************//
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("DETAIL ACTIVITY", "RESUME");
+        mDemoSlider.addOnPageChangeListener(this);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("DETAIL ACTIVITY", "STOP");
+        mDemoSlider.removeOnPageChangeListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_notification:
+                Log.i("DETAIL ACTIVITY", "CLICK NOTIFICATION");
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = 4;
+                startActivity(new Intent(NewsDetailActivity.this, MainPageActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void InitRunCustomMenu() {

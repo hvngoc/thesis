@@ -39,6 +39,7 @@ public class LocationHelper implements LocationListener {
         if(currentLocation == null){
             showSetting();
         }
+        Manager.removeUpdates(this);
     }
 
     private void showSetting(){

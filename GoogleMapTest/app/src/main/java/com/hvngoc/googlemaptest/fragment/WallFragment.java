@@ -148,7 +148,6 @@ public class WallFragment extends Fragment {
             super.onPostExecute(result);
 
             if(result) {
-                SetContentView(View.VISIBLE, View.INVISIBLE);
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();

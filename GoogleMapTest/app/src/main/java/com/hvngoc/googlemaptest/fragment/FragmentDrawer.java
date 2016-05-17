@@ -37,12 +37,15 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private static String[] titles = null;
     private static String[] imageIDs = null;
-    private FragmentDrawerListener drawerListener;
 
     public FragmentDrawer() {
 
     }
 
+    public interface FragmentDrawerListener {
+        void onDrawerItemSelected(View view, int position);
+    }
+    private FragmentDrawerListener drawerListener;
     public void setDrawerListener(FragmentDrawerListener listener) {
         this.drawerListener = listener;
     }
@@ -188,9 +191,5 @@ public class FragmentDrawer extends Fragment {
         }
 
 
-    }
-
-    public interface FragmentDrawerListener {
-         void onDrawerItemSelected(View view, int position);
     }
 }

@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -180,7 +181,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void SetContentProfileView(){
-        if(currentID != GLOBAL.CurrentUser.getId()) {
+        if(!currentID.equals(GLOBAL.CurrentUser.getId())) {
             edit_profile.setVisibility(View.INVISIBLE);
         }
         //avatar.setImageFromURL(profile.avatar);
@@ -326,6 +327,7 @@ public class ProfileFragment extends Fragment {
         action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Log.i("PROFILE FRAGMENT", "CLICK OPTIONS");
                 if (getActivity().getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     mMenuDialogFragment.show(getActivity().getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
                 }
@@ -333,6 +335,7 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -342,6 +345,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        if (mMenuDialogFragment.isAdded())
+            mMenuDialogFragment.dismiss();
     }
 
 

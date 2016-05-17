@@ -40,11 +40,6 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }

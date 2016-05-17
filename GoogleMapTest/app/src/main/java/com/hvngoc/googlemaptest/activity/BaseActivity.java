@@ -26,7 +26,6 @@ import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
-import com.hvngoc.googlemaptest.helper.NotificationManager;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
@@ -88,14 +87,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.delegationStringHelper = helper;
     }
 
+//    *******************************************************************************************************************************
+
     // starting the service to register with GCM
     public void registerGCM() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (GcmIntentService.class.getName().equals(service.service.getClassName())) {
-                return;
-            }
-        }
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (GcmIntentService.class.getName().equals(service.service.getClassName())) {
+//                return;
+//            }
+//        }
+        /*make sure only one server start. it's destroy after finishing work*/
         Intent intent = new Intent(this, GcmIntentService.class);
         intent.putExtra("key", "register");
         startService(intent);
@@ -203,34 +205,25 @@ public abstract class BaseActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem action_notification = menu.findItem(R.id.action_notification);
         action_notification.setIcon(GLOBAL.IconNotification);
-        action_notification.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_notification:
+                Log.i("BASE ACTIVITY", "CLICK NOTIFICATION");
                 GLOBAL.IconNotification = android.R.drawable.star_big_off;
-                String activity = NotificationManager.getCurrentActivity();
-                if (activity.equals("MainPageActivity")) {
-                    replaceCurrentFragment(new NotificationsFragment(), "Notification");
-                }
-                else {
-                    NotificationManager.setCurrentActivity("MainPageActivity");
-                    NotificationManager.setCurrentFragment(CONSTANT.NAME_NOTIFICATION_FRAGMENT);
-                    Intent intent = new Intent(getBaseContext(), MainPageActivity.class);
-                    startActivity(intent);
-                }
+                replaceCurrentFragment(new NotificationsFragment(), "Notification");
                 return true;
-            }
-        });
-        MenuItem action_options = menu.findItem(R.id.action_options);
-        action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            case R.id.action_options:
+                Log.i("BASE ACTIVITY", "CLICK OPTIONS");
                 if (getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null && mMenuDialogFragment != null) {
                     mMenuDialogFragment.show(getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
                 }
                 return true;
-            }
-        });
-        return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

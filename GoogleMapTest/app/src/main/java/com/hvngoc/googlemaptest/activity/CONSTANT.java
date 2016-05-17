@@ -37,7 +37,4 @@ public class CONSTANT {
     public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
     public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
 
-    public static final String NAME_NOTIFICATION_FRAGMENT = "Notification";
-    public static final String NAME_HOME_FRAGMENT = "Home";
-    public static final String NAME_FRIEND_FRAGMENT = "Friend";
 }

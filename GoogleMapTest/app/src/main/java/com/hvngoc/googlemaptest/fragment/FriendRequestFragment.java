@@ -74,7 +74,8 @@ public class FriendRequestFragment extends Fragment {
         ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
             @Override
             public void doSomething(String message) {
-                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
+                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) ||
+                        message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)){
                     new LoadFriendRequestAsyncTask().execute();
                 }
             }

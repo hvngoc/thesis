@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.services;
 
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.GpsStatus;
@@ -8,6 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -18,6 +22,7 @@ import android.util.Log;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
@@ -36,7 +41,6 @@ public class LocationNotifierService extends Service implements LocationListener
     private LocationManager Manager;
     private GpsStatus.Listener gpsListener;
 
-    private MediaPlayer vibrateAudio;
     private Vibrator vibrator;
 
     private ResultReceiver locationResultReceiver;
@@ -51,8 +55,6 @@ public class LocationNotifierService extends Service implements LocationListener
     public void onCreate() {
         super.onCreate();
         Log.i("SERVICE", "START");
-        vibrateAudio = MediaPlayer.create(getApplicationContext(), R.raw.vibrate_audio);
-        vibrateAudio.setLooping(false);
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         Manager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         gpsListener = new GpsStatus.Listener() {
@@ -95,14 +97,19 @@ public class LocationNotifierService extends Service implements LocationListener
         super.onDestroy();
         stopSelf();
         Log.i("service stop", "service stop");
-        vibrateAudio.release();
         Manager.removeUpdates(this);
         Manager.removeGpsStatusListener(gpsListener);
     }
 
     private void NotifyDevice(){
-        if (!vibrateAudio.isPlaying())
-            vibrateAudio.start();
+        try {
+            Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + MyApplication.getInstance().getApplicationContext().getPackageName() + "/raw/vibrate_audio");
+            Ringtone r = RingtoneManager.getRingtone(MyApplication.getInstance().getApplicationContext(), alarmSound);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         vibrator.vibrate(500);
     }
 
