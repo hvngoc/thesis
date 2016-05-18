@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
+import com.hvngoc.googlemaptest.custom.SettingDialog;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.HomeFragment;
@@ -15,7 +17,6 @@ import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
-import com.hvngoc.googlemaptest.fragment.SettingsFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
 
 
@@ -34,14 +35,14 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         GLOBAL.CurentContext = this;
         drawerFragment.setPictureProfile();
         // display the first navigation drawer view on app launch
+        displayView(GLOBAL.MAIN_PAGE_STRING_VIEW);
+        GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        displayView(GLOBAL.MAIN_PAGE_STRING_VIEW);
-        GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
-        Log.i("GLOBAL TITLE", GLOBAL.MAIN_PAGE_STRING_VIEW);
+        Log.i("MAIN PAGE", "RESUME");
     }
 
     @Override
@@ -60,7 +61,6 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     }
 
     private void displayView(String title) {
-        Log.i("MAIN PAGE:", title);
         Fragment fragment = null;
         switch (title) {
             case "Home":
@@ -87,8 +87,13 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 //startActivity(intent);
                 break;
             case "Settings":
-                fragment = new SettingsFragment();
-                break;
+                SettingDialog settingDialog = new SettingDialog();
+                settingDialog.show(getSupportFragmentManager(), "SettingDialog");
+                return;
+            case "Change Password":
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
+                changePasswordDialog.show(getSupportFragmentManager(), "ChangePasswordDialog");
+                return;
             case "Language":
                 break;
             case "About":

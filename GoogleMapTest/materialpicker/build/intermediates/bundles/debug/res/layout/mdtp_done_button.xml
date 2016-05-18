@@ -19,7 +19,7 @@
     android:layout_height="56dp"
     android:orientation="horizontal"
     android:background="@android:color/transparent"
-    android:gravity="center"
+    android:gravity="right"
     android:layout_gravity="center_vertical"
     android:paddingBottom="8dp">
 

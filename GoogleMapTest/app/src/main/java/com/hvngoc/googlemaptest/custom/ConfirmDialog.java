@@ -32,16 +32,16 @@ public class ConfirmDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_confirm_dialog);
 
-        Button btnClose = (Button) findViewById(R.id.btnConfirmClose);
-        btnClose.setOnClickListener(new View.OnClickListener() {
+        TextView btn_confirm_ok = (TextView) findViewById(R.id.btn_confirm_ok);
+        btn_confirm_ok.setOnClickListener(onOKClickListener);
+
+        TextView btn_confirm_cancel = (TextView) findViewById(R.id.btn_confirm_cancel);
+        btn_confirm_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-
-        Button btnOK = (Button) findViewById(R.id.btnConfirmOK);
-        btnOK.setOnClickListener(onOKClickListener);
 
         TextView txtConfirm = (TextView) findViewById(R.id.txtConfirm);
         txtConfirm.setText(confirm);

@@ -122,6 +122,14 @@ public class FragmentDrawer extends Fragment {
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
+        CardView card_nav_change_password = (CardView) layout.findViewById(R.id.card_nav_change_password);
+        card_nav_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerListener.onDrawerItemSelected(getString(R.string.title_change_pass_work));
+                mDrawerLayout.closeDrawer(containerView);
+            }
+        });
         CardView card_nav_about = (CardView) layout.findViewById(R.id.card_nav_about);
         card_nav_about.setOnClickListener(new View.OnClickListener() {
             @Override
