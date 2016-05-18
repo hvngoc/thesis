@@ -91,15 +91,7 @@ public class MessagesFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
     private class LoadMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;

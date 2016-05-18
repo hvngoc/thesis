@@ -128,6 +128,7 @@ public class FriendFindFragment extends Fragment {
         return view;
     }
 
+
     private void setDataFriendFounded(){
         Picasso.with(GLOBAL.CurentContext).load(friend.getAvatar()).error(R.drawable.icon_profile).into(img_find_avatar);
         txt_find_name.setText(friend.getName());
