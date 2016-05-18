@@ -1,11 +1,14 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -50,10 +53,7 @@ public class ChatActivity extends BaseActivity {
         chatText = (EditText) findViewById(R.id.chatText);
         chatText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage();
-                }
-                return false;
+                return (event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && sendChatMessage();
             }
         });
         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -78,11 +78,11 @@ public class ChatActivity extends BaseActivity {
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setActionBarTitle("Message");
+        setActionBarTitle(getString(R.string.title_messages));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GLOBAL.MAIN_PAGE_STRING_VIEW = "Messages";
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
                 finish();
             }
         });
@@ -98,11 +98,11 @@ public class ChatActivity extends BaseActivity {
         chatText.setText("");
         side = false;
     }
-
+//    *************************************************************************************************************
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        GLOBAL.MAIN_PAGE_STRING_VIEW = "Messages";
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
         finish();
     }
 
@@ -115,7 +115,20 @@ public class ChatActivity extends BaseActivity {
     protected void InitRunCustomMenu() {
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_notification:
+                Log.i("CHAT ACTIVITY", "CLICK NOTIFICATION");
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
+                Intent intent = new Intent(ChatActivity.this, MainPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+//    ***********************************************************************************************************
 
     private class SendMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;

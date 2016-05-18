@@ -347,6 +347,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("PROFILE", "RESUME");
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_PROFILE;
     }
 
     @Override

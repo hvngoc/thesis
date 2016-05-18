@@ -85,14 +85,6 @@ public class MessagesFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-
-        super.onPrepareOptionsMenu(menu);
-    }
-
-
-
     private class LoadMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         @Override

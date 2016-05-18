@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +31,7 @@ public class FragmentDrawer extends Fragment {
     }
 
     public interface FragmentDrawerListener {
-        void onDrawerItemSelected(String title);
+        void onDrawerItemSelected(int position);
     }
     private FragmentDrawerListener drawerListener;
     public void setDrawerListener(FragmentDrawerListener listener) {
@@ -54,7 +55,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_home));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HOME);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -62,7 +63,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_profile));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_PROFILE);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -70,7 +71,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_wall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_wall));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_WALL);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -78,7 +79,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_map));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MAP);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -86,7 +87,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_friends));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_FRIEND);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -94,7 +95,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_notifications));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_NOTIFICATION);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -102,7 +103,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_messages));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MESSAGE);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -110,7 +111,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_language));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LANGUAGE);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -118,7 +119,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_settings));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_SETTING);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -126,7 +127,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_change_pass_work));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CHANGE_PASSWORD);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -134,7 +135,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_about));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_ABOUT);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -142,7 +143,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_help));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HELP);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -150,7 +151,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_report));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_REPORT);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -158,7 +159,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_logout));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LOGOUT);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });
@@ -166,7 +167,7 @@ public class FragmentDrawer extends Fragment {
         card_nav_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(getString(R.string.title_close));
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CLOSE);
                 mDrawerLayout.closeDrawer(containerView);
             }
         });

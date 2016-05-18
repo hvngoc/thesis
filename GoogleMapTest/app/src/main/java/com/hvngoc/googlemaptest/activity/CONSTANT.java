@@ -37,4 +37,21 @@ public class CONSTANT {
     public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
     public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
 
+    public static final int NAVIGATION_HOME = 1;
+    public static final int NAVIGATION_PROFILE = 2;
+    public static final int NAVIGATION_WALL = 3;
+    public static final int NAVIGATION_MAP = 4;
+    public static final int NAVIGATION_FRIEND = 5;
+    public static final int NAVIGATION_NOTIFICATION = 6;
+    public static final int NAVIGATION_MESSAGE = 7;
+    public static final int NAVIGATION_SETTING = 8;
+    public static final int NAVIGATION_CHANGE_PASSWORD = 9;
+    public static final int NAVIGATION_LANGUAGE = 10;
+    public static final int NAVIGATION_ABOUT = 11;
+    public static final int NAVIGATION_HELP = 12;
+    public static final int NAVIGATION_REPORT = 13;
+    public static final int NAVIGATION_LOGOUT = 14;
+    public static final int NAVIGATION_CLOSE = 15;
+
+
 }

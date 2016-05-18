@@ -189,7 +189,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
                 Intent intent = new Intent(MapsActivity.this, MainPageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

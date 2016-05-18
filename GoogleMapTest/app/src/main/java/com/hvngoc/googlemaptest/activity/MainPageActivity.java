@@ -6,9 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.custom.AboutDialog;
+import com.hvngoc.googlemaptest.custom.ChangeLanguageDialog;
 import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
+import com.hvngoc.googlemaptest.custom.ConfirmDialog;
+import com.hvngoc.googlemaptest.custom.HelpDialog;
+import com.hvngoc.googlemaptest.custom.ReportDialog;
 import com.hvngoc.googlemaptest.custom.SettingDialog;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
@@ -34,15 +40,15 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurentContext = this;
         drawerFragment.setPictureProfile();
-        // display the first navigation drawer view on app launch
-        displayView(GLOBAL.MAIN_PAGE_STRING_VIEW);
-        GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i("MAIN PAGE", "RESUME");
+        // display the first navigation drawer view on app launch
+        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
     }
 
     @Override
@@ -56,58 +62,79 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     }
 
     @Override
-    public void onDrawerItemSelected(String title) {
-        displayView(title);
+    public void onDrawerItemSelected(int position) {
+        displayView(position);
     }
 
-    private void displayView(String title) {
+    private void displayView(int position) {
         Fragment fragment = null;
-        switch (title) {
-            case "Home":
+        String title = null;
+        switch (position) {
+            case CONSTANT.NAVIGATION_HOME:
                 fragment = new HomeFragment();
+                title = getString(R.string.title_home);
                 break;
-            case "Profile":
+            case CONSTANT.NAVIGATION_PROFILE:
                 fragment = ProfileFragment.getInstance(GLOBAL.CurrentUser.getId(), CONSTANT.TYPE_ME);
+                title = getString(R.string.title_profile);
                 break;
-            case "Wall":
+            case CONSTANT.NAVIGATION_WALL:
                 fragment = WallFragment.getInstance(GLOBAL.CurrentUser.getId());
+                title = getString(R.string.title_wall);
                 break;
-            case "Map":
+            case CONSTANT.NAVIGATION_MAP:
                 startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
                 return;
-            case "Friends":
+            case CONSTANT.NAVIGATION_FRIEND:
                 fragment = new FriendsFragment();
+                title = getString(R.string.title_friends);
                 break;
-            case "Notifications":
+            case CONSTANT.NAVIGATION_NOTIFICATION:
                 fragment = new NotificationsFragment();
+                title = getString(R.string.title_notifications);
                 break;
-            case "Messages":
+            case CONSTANT.NAVIGATION_MESSAGE:
                 fragment = new MessagesFragment();
-                //Intent intent = new Intent(this, ChatActivity.class);
-                //startActivity(intent);
+                title = getString(R.string.title_messages);
                 break;
-            case "Settings":
+            case CONSTANT.NAVIGATION_LANGUAGE:
+                ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();
+                changeLanguageDialog.show(getSupportFragmentManager(), "ChangeLanguageDialog");
+                return;
+            case CONSTANT.NAVIGATION_SETTING:
                 SettingDialog settingDialog = new SettingDialog();
                 settingDialog.show(getSupportFragmentManager(), "SettingDialog");
                 return;
-            case "Change Password":
+            case CONSTANT.NAVIGATION_CHANGE_PASSWORD:
                 ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
                 changePasswordDialog.show(getSupportFragmentManager(), "ChangePasswordDialog");
                 return;
-            case "Language":
-                break;
-            case "About":
-                break;
-            case "Help":
-                break;
-            case "Report":
-                break;
-            case "Log Out":
+            case CONSTANT.NAVIGATION_ABOUT:
+                AboutDialog aboutDialog = new AboutDialog();
+                aboutDialog.show(getSupportFragmentManager(), "AboutDialog");
+                return;
+            case CONSTANT.NAVIGATION_HELP:
+                HelpDialog helpDialog = new HelpDialog();
+                helpDialog.show(getSupportFragmentManager(), "HelpDialog");
+                return;
+            case CONSTANT.NAVIGATION_REPORT:
+                ReportDialog reportDialog = new ReportDialog();
+                reportDialog.show(getSupportFragmentManager(), "ReportDialog");
+                return;
+            case CONSTANT.NAVIGATION_LOGOUT:
                 fragment = new LogoutFragment();
+                title = getString(R.string.title_logout);
                 break;
-            case "Close":
-                //System.exit(0);
-                break;
+            case CONSTANT.NAVIGATION_CLOSE:
+                ConfirmDialog confirmDialog = new ConfirmDialog(MainPageActivity.this, "Are you sure for closing app without logout?");
+                confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                confirmDialog.show();
+                return;
             default:
                 break;
         }

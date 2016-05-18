@@ -26,9 +26,18 @@
             android:layout_height="wrap_content"
             android:text="Ngoc V. Hoang"
             android:layout_gravity="center"
-            android:textSize="18dip"
-            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"
             android:textColor="#0109ff" />
+        <TextView
+            android:id="@+id/txtInfoFeeling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="feeling happy"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            android:textColor="#b2acac" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,28 +45,8 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="false">
         <TextView
-            android:id="@+id/txtInfoFeeling"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="feeling happy"
-            android:layout_gravity="center"
-            android:textSize="15dip"
-            android:layout_marginLeft="10dp"
-            android:textColor="#b2acac" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="at"
-            android:id="@+id/txtAT"
-            android:layout_toRightOf="@+id/txtInfoFeeling"
-            android:textSize="15dip"
-            android:layout_marginLeft="10dp"
-            android:textColor="#0109ff"/>
-        <TextView
             android:id="@+id/txtInfoAddress"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/txtAT"
             android:layout_height="wrap_content"
             android:text="Ho Chi Minh City, Viet Nam."
             android:layout_gravity="center"
@@ -65,5 +54,4 @@
             android:layout_marginLeft="10dp"
             android:textColor="#b2acac" />
     </RelativeLayout>
-
 </LinearLayout>

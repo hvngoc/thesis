@@ -208,7 +208,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("DETAIL ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.MAIN_PAGE_STRING_VIEW = getString(R.string.title_home);
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
                 Intent intent = new Intent(NewsDetailActivity.this, MainPageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
