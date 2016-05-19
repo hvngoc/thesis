@@ -205,11 +205,19 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("DETAIL ACTIVITY", "CLICK NOTIFICATION");
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
-                Intent intent = new Intent(NewsDetailActivity.this, MainPageActivity.class);
+                intent = new Intent(NewsDetailActivity.this, MainPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.message_notification:
+                Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
+                intent = new Intent(NewsDetailActivity.this, MainPageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;

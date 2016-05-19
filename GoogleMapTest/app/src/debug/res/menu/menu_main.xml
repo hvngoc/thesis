@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainPageActivity">
 
-    <item
-        android:id="@+id/friend_notification"
-        android:title="click"
-        android:icon="@drawable/ic_group_white"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/message_notification"

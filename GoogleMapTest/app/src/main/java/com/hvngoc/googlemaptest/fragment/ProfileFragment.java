@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
+import com.hvngoc.googlemaptest.activity.ChatActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
@@ -247,15 +249,9 @@ public class ProfileFragment extends Fragment {
                                 helpersAsyncTask.runConfirmRequestAsyncTask();
                                 break;
                             case CONSTANT.TYPE_FRIEND:
-                                helpersAsyncTask.setDelegation(new DelegationHelper() {
-                                    @Override
-                                    public void doSomeThing() {
-                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
-                                        fragmentTransaction.commit();
-                                    }
-                                });
-                                helpersAsyncTask.runDeleteFriendAsyncTask();
+                                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                                intent.putExtra("fromUserID", currentID);
+                                getActivity().startActivity(intent);
                                 break;
                             case CONSTANT.TYPE_SUGGEST:
                                 helpersAsyncTask.setDelegation(new DelegationHelper() {
@@ -271,16 +267,30 @@ public class ProfileFragment extends Fragment {
                         }
                         break;
                     case 3:
-                        helpersAsyncTask.setDelegation(new DelegationHelper() {
-                            @Override
-                            public void doSomeThing() {
-                                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
-                                fragmentTransaction.commit();
-                            }
-                        });
-                        helpersAsyncTask.runDeleteRequestAsyncTask();
-                        break;
+                        switch (typeFriend) {
+                            case CONSTANT.TYPE_REQUEST:
+                                helpersAsyncTask.setDelegation(new DelegationHelper() {
+                                    @Override
+                                    public void doSomeThing() {
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                                helpersAsyncTask.runDeleteRequestAsyncTask();
+                                break;
+                            case CONSTANT.TYPE_FRIEND:
+                                helpersAsyncTask.setDelegation(new DelegationHelper() {
+                                    @Override
+                                    public void doSomeThing() {
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_SUGGEST));
+                                        fragmentTransaction.commit();
+                                    }
+                                });
+                                helpersAsyncTask.runDeleteFriendAsyncTask();
+                                break;
+                        }
                 }
             }
         });
@@ -306,6 +316,9 @@ public class ProfileFragment extends Fragment {
                 list.add(deleteRequest);
                 break;
             case CONSTANT.TYPE_FRIEND:
+                MenuObject message = new MenuObject("Message");
+                message.setResource(R.drawable.ic_message_black);
+                list.add(message);
                 MenuObject deleteFriend = new MenuObject("UnFriend");
                 deleteFriend.setResource(R.drawable.ic_friend_delete);
                 list.add(deleteFriend);

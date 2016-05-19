@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -44,32 +45,26 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        /*
+
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         new LoadMessageAsyncTask().execute();
-        */
-
-        RVMessageAdapter adapter = getSampleAdapter();
-        recyclerListMessage.setAdapter(adapter);
     }
 
-    private RVMessageAdapter getSampleAdapter() {
-        ArrayList<ChatMessage> adapter = new ArrayList<ChatMessage>();
-        for (int i = 0; i < 5; i++) {
-            ChatMessage mess = new ChatMessage(true, "How are you");
-            adapter.add(mess);
-        }
-        return new RVMessageAdapter(adapter, getFragmentManager(), getActivity());
+    @Override
+    public void onResume() {
+        super.onResume();
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -114,10 +109,11 @@ public class MessagesFragment extends Fragment {
             super.onPostExecute(result);
             if(result) {
                 String res = helper.getResponse();
+                Log.i("RES", res);
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> listMessage = gson.fromJson(res, listType);
-                RVMessageAdapter adapter = new RVMessageAdapter(listMessage, getActivity().getSupportFragmentManager(), getActivity());
+                RVMessageAdapter adapter = new RVMessageAdapter(listMessage);
                 recyclerListMessage.setAdapter(adapter);
             }
             progressDialog.dismiss();

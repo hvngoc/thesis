@@ -3,7 +3,6 @@ package com.hvngoc.googlemaptest.activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,12 +18,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.ChatArrayAdapter;
-import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
 import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
-import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +47,7 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initToolbar();
         toUserID = getIntent().getExtras().getString("fromUserID");
+        Log.i("toUSERID", toUserID);
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage);
@@ -78,12 +77,11 @@ public class ChatActivity extends BaseActivity {
         });
 
         new LoadMessageAsyncTask().execute();
-
-        setDelegationStringHelper(new DelegationStringHelper() {
+        setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message) {
-                if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
-                    new LoadMessageAsyncTask().execute();
+            public void doSomething(String message, String param) {
+                if (param.equals(toUserID)) {
+                    new LoadOneMessageAsyncTask().execute();
                 }
             }
         });
@@ -96,19 +94,19 @@ public class ChatActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
                 finish();
             }
         });
     }
 
     private boolean sendChatMessage(){
-        new SendMessageAsyncTask().execute();
+        if(chatText.getText().length() > 0)
+            new SendMessageAsyncTask().execute();
         return true;
     }
 
     private void sendChatMessageSuccess() {
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+        chatArrayAdapter.add(new ChatMessage(chatText.getText().toString()));
         chatText.setText("");
         side = false;
     }
@@ -116,7 +114,6 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
         finish();
     }
 
@@ -131,11 +128,19 @@ public class ChatActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("CHAT ACTIVITY", "CLICK NOTIFICATION");
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
-                Intent intent = new Intent(ChatActivity.this, MainPageActivity.class);
+                intent = new Intent(ChatActivity.this, MainPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.message_notification:
+                Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
+                intent = new Intent(ChatActivity.this, MainPageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
@@ -143,6 +148,45 @@ public class ChatActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 //    ***********************************************************************************************************
+
+    private class LoadOneMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "loadOneMessageOfUser";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("targetUserID", toUserID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                ChatMessage message = gson.fromJson(res, ChatMessage.class);
+                chatArrayAdapter.add(message);
+            }
+        }
+    }
+
+
 
     private class LoadMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -162,6 +206,7 @@ public class ChatActivity extends BaseActivity {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("targetUserID", toUserID);
+                jsonobj.put("skip", 0);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -21,6 +21,7 @@ import com.hvngoc.googlemaptest.model.ChatMessage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.OnClick;
@@ -30,17 +31,15 @@ import butterknife.OnClick;
  */
 public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.ViewHolder> {
     List<ChatMessage> mItems;
-    FragmentManager fragmentManager;
-    Context context;
+
 
     public RVMessageAdapter(){
         mItems = new ArrayList<>();
     }
 
-    public RVMessageAdapter(List<ChatMessage> listMessage, FragmentManager fragmentManager, Context context) {
+    public RVMessageAdapter(List<ChatMessage> listMessage) {
         this.mItems = listMessage;
-        this.fragmentManager = fragmentManager;
-        this.context = context;
+        Collections.reverse(this.mItems);
     }
 
     public int addMessage(ChatMessage message){
@@ -66,8 +65,8 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
     public void onBindViewHolder(RVMessageAdapter.ViewHolder holder, int position) {
         ChatMessage item = mItems.get(position);
         holder.txtMessage.setText(item.getMessage());
-        //holder.txtUserName.setText(item.username);
-        //Picasso.with(GLOBAL.CurentContext).load(item.avatar).error(R.drawable.icon_profile).into(holder.imgAvatar);
+        holder.txtUserName.setText(item.getSenderName());
+        Picasso.with(GLOBAL.CurentContext).load(item.getSenderAvatar()).error(R.drawable.icon_profile).into(holder.imgAvatar);
     }
 
 
@@ -92,9 +91,9 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     String fromUserID = mItems.get(position).getSenderID();
-                    Intent intent = new Intent(context, ChatActivity.class);
+                    Intent intent = new Intent(GLOBAL.CurentContext, ChatActivity.class);
                     intent.putExtra("fromUserID", fromUserID);
-                    context.startActivity(intent);
+                    GLOBAL.CurentContext.startActivity(intent);
                 }
             });
         }

@@ -16,6 +16,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.model.ChatMessage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,11 +33,13 @@ public class ChatArrayAdapter extends ArrayAdapter {
     public void add(Object object) {
         super.add(object);
         chatMessageList.add(object);
+        notifyDataSetChanged();
     }
 
 
     public void addListMessage(List<ChatMessage> listMessage) {
         if(listMessage != null) {
+            Collections.reverse(listMessage);
             chatMessageList.addAll(listMessage);
             notifyDataSetChanged();
         }

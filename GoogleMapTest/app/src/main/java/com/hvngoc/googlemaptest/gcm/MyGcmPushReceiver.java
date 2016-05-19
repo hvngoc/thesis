@@ -33,6 +33,8 @@ public class MyGcmPushReceiver extends GcmListenerService {
     public void onMessageReceived(String from, Bundle bundle) {
         String title = bundle.getString("title");
         String message = bundle.getString("message");
+        String param = bundle.getString("param");
+
         String timestamp = bundle.getString("created_at");
         Log.e(TAG, "From: " + from);
         Log.e(TAG, "Title: " + title);
@@ -44,6 +46,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
             // app is in foreground, broadcast the push message
             Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
+            pushNotification.putExtra("param", param);
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
             // play notification sound

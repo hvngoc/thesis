@@ -2,6 +2,8 @@ package com.hvngoc.googlemaptest.model;
 
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 
+import java.security.acl.LastOwnerException;
+
 /**
  * Created by 12125_000 on 5/11/2016.
  */
@@ -13,21 +15,25 @@ public class ChatMessage {
     private String messageDate;
     private String senderID;
 
-    public ChatMessage(boolean left, String message) {
+    public ChatMessage(String senderID, String senderName, String senderAvatar, String date, String message){
+        this.senderID = senderID;
+        this.senderName = senderName;
+        this.senderAvatar = senderAvatar;
+        this.messageDate = date;
+        this.message = message;
+    }
+
+    public ChatMessage(String message) {
         super();
-        this.setLeft(left);
         this.setMessage(message);
+        this.setSenderID(GLOBAL.CurrentUser.getId());
+        this.setSenderAvatar(GLOBAL.CurrentUser.getAvatar());
+        this.setSenderName(GLOBAL.CurrentUser.getName());
     }
 
 
     public boolean isLeft() {
-        if(senderID.equals(GLOBAL.CurrentUser.getId()))
-            return false;
-        return true;
-    }
-
-    public void setLeft(boolean left) {
-        this.left = left;
+        return !senderID.equals(GLOBAL.CurrentUser.getId());
     }
 
     public String getMessage() {

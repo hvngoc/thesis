@@ -24,10 +24,13 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.app.MyApplication;
+import com.hvngoc.googlemaptest.fragment.FriendsFragment;
+import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
@@ -71,10 +74,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                     // new push notification is received
                     Bundle bundle = intent.getExtras();
                     String message = bundle.getString("message");
-                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE))
+                    String param = bundle.getString("param");
+                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+                        if(messageDelegationHelper != null)
+                            messageDelegationHelper.doSomething(message, param);
                         message_notification.getIcon().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-                    else if(message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) || message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND))
-                        friend_notification.getIcon().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    }
                     else
                         GLOBAL.IconNotification = android.R.drawable.star_big_on;
                     if (delegationStringHelper != null){
@@ -87,6 +92,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (checkPlayServices()) {
             registerGCM();
         }
+    }
+
+    private MessageDelegationHelper messageDelegationHelper;
+
+    public void setMessageDelegationHelper(MessageDelegationHelper helper) {
+        this.messageDelegationHelper = helper;
     }
 
     private DelegationStringHelper delegationStringHelper;
@@ -208,7 +219,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ContextMenuDialogFragment mMenuDialogFragment;
     protected abstract void InitRunCustomMenu();
 
-    private MenuItem friend_notification;
     private MenuItem message_notification;
 
 
@@ -217,8 +227,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem action_notification = menu.findItem(R.id.action_notification);
         action_notification.setIcon(GLOBAL.IconNotification);
-        friend_notification = menu.findItem(R.id.friend_notification);
-        friend_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         message_notification = menu.findItem(R.id.message_notification);
         message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         return true;
@@ -231,6 +239,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Log.i("BASE ACTIVITY", "CLICK NOTIFICATION");
                 GLOBAL.IconNotification = android.R.drawable.star_big_off;
                 replaceCurrentFragment(new NotificationsFragment(), "Notification");
+                return true;
+            case R.id.message_notification:
+                message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+                replaceCurrentFragment(new MessagesFragment(), "Message");
                 return true;
             case R.id.action_options:
                 Log.i("BASE ACTIVITY", "CLICK OPTIONS");
