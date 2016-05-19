@@ -90,8 +90,7 @@ public class Post implements Serializable {
     }
 
     public String getUserAvatar() {
-        String url = GLOBAL.SERVER_IMAGE_URL + userAvatar;
-        return url;
+        return GLOBAL.SERVER_IMAGE_URL + userAvatar;
     }
 
     public ArrayList<String> getListImages() {

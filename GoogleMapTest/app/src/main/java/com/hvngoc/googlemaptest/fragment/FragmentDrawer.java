@@ -175,7 +175,7 @@ public class FragmentDrawer extends Fragment {
     }
 
     public void setPictureProfile() {
-        Picasso.with(GLOBAL.CurentContext)
+        Picasso.with(GLOBAL.CurrentContext)
                 .load(GLOBAL.CurrentUser.getAvatar())
                 .error(R.drawable.icon_profile)         // optional
                 .into(pictureProfile);

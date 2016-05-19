@@ -48,7 +48,7 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
         viewHolder.txtCommentSring.setText(item.getContent());
         viewHolder.txtCommentDay.setText(item.getCommentDate());
         viewHolder.txtUserName.setText(item.getUserName());
-        Picasso.with(GLOBAL.CurentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
     }
 
     @Override

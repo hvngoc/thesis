@@ -21,8 +21,8 @@ import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
-import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         listnews.setLayoutManager(llm);
         listnews.setHasFixedSize(true);
         adapter = new RVAdapter();
@@ -87,10 +87,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+        ((BaseActivity) context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message) {
-                if (message.equals(CONSTANT.NOTIFICATION_HOME)){
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_HOME)) {
                     new LoadPostAsyncTask().execute();
                 }
             }

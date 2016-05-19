@@ -40,13 +40,13 @@ public class FriendsFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_friend_add_black);
-        tabLayout.getTabAt(0).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(0).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_friend_search_black);
-        tabLayout.getTabAt(1).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(1).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friend_black);
-        tabLayout.getTabAt(2).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(2).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_person_black);
-        tabLayout.getTabAt(3).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(3).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
         return rootView;
     }
 

@@ -102,7 +102,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                         view.findViewById(R.id.btnCreatePostOK).bringToFront();
                         break;
                     case R.id.radioYourLocation:
-                        LocationHelper locationHelper = new LocationHelper(GLOBAL.CurentContext);
+                        LocationHelper locationHelper = new LocationHelper(GLOBAL.CurrentContext);
                         Double latitude = locationHelper.GetLatitude();
                         Double longitude = locationHelper.GetLongitude();
                         if (latitude == 0.0 && longitude == 0.0) {
@@ -127,7 +127,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                         ArrayList<String> listImages = pickPictureHelper.getmItemsChecked();
 
                         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerCreatePostImage);
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext, LinearLayoutManager.HORIZONTAL, false));
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
                         mRecyclerView.setHasFixedSize(true);
                         adapter = new RVPickImageAdapter(listImages);
                         mRecyclerView.setAdapter(adapter);
@@ -142,7 +142,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         btnCreatePostGetFeeling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final IconizedMenu menu = new IconizedMenu(GLOBAL.CurentContext, btnCreatePostGetFeeling);
+                final IconizedMenu menu = new IconizedMenu(GLOBAL.CurrentContext, btnCreatePostGetFeeling);
                 menu.getMenuInflater().inflate(R.menu.menu_pick_feeling, menu.getMenu());
                 menu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
                     @Override
@@ -167,7 +167,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 listPostTag.clear();
                 TextView txtCreatePostTag = (TextView) view.findViewById(R.id.txtCreatePostTag);
                 txtCreatePostTag.setText("");
-                PopupMenu popupMenu = new PopupMenu(GLOBAL.CurentContext, btnCreatePostGetTag);
+                PopupMenu popupMenu = new PopupMenu(GLOBAL.CurrentContext, btnCreatePostGetTag);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_pick_tag, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -177,7 +177,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                         setTxtCreatePostTag(checked, item.getTitle().toString());
 
                         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        item.setActionView(new View(GLOBAL.CurentContext));
+                        item.setActionView(new View(GLOBAL.CurrentContext));
                         item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                             @Override
                             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -396,7 +396,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
     private void SetLocationTextView(double Latitude, double Longitude){
         post.Latitude = Latitude;
         post.Longitude = Longitude;
-        String address = new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude ).GetAddress();
+        String address = new GeolocatorAddressHelper(GLOBAL.CurrentContext, post.Latitude, post.Longitude ).GetAddress();
         TextView txtCreatePostLocation = (TextView) view.findViewById(R.id.txtCreatePostLocation);
         txtCreatePostLocation.setText(address);
     }

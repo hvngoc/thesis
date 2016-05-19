@@ -3,10 +3,8 @@ package com.hvngoc.googlemaptest.helper;
 import android.os.AsyncTask;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.custom.ConfirmDialog;
-import com.hvngoc.googlemaptest.model.Profile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +26,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public  void runDeleteRequestAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for deleting this request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for deleting this request?");
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +38,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public  void runConfirmRequestAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for confirming this request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for confirming this request?");
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +50,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public void runAddFriendAsyncTask( ) {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for making a friend request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for making a friend request?");
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +62,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public void runDeleteFriendAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurentContext, "Are you sure for deleting from friend list?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for deleting from friend list?");
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

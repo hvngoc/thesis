@@ -4,10 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,8 +18,8 @@ import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
-import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 
 import org.json.JSONException;
@@ -50,7 +47,7 @@ public class FriendListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_friend_list, container, false);
         recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         recyclerListFriend.setLayoutManager(llm);
         recyclerListFriend.setHasFixedSize(true);
         return rootView;
@@ -71,15 +68,14 @@ public class FriendListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message) {
-                if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)){
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
                     new LoadFriendAsyncTask().execute();
                 }
             }
         });
-
     }
 
     @Override

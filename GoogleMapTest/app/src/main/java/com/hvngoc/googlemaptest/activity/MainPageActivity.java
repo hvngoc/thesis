@@ -38,7 +38,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
-        GLOBAL.CurentContext = this;
+        GLOBAL.CurrentContext = this;
         drawerFragment.setPictureProfile();
     }
 

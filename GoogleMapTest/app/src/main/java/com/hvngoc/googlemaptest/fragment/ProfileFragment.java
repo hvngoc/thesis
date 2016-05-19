@@ -34,6 +34,7 @@ import com.hvngoc.googlemaptest.helper.DatePickerHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.squareup.picasso.Picasso;
@@ -151,7 +152,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SetEnableView(false, View.VISIBLE, View.INVISIBLE);
-                new UpadteProfileAsyncTask().execute();
+                new UpdateProfileAsyncTask().execute();
             }
         });
 
@@ -187,7 +188,7 @@ public class ProfileFragment extends Fragment {
             edit_profile.setVisibility(View.INVISIBLE);
         }
         //avatar.setImageFromURL(profile.avatar);
-        Picasso.with(GLOBAL.CurentContext)
+        Picasso.with(GLOBAL.CurrentContext)
                 .load(profile.getAvatar())
                 .error(R.drawable.icon_no_image)         // optional
                 .into(avatar);
@@ -236,7 +237,7 @@ public class ProfileFragment extends Fragment {
                         fragmentTransaction.commit();
                         break;
                     case 2:
-                        switch (typeFriend){
+                        switch (typeFriend) {
                             case CONSTANT.TYPE_REQUEST:
                                 helpersAsyncTask.setDelegation(new DelegationHelper() {
                                     @Override
@@ -354,6 +355,21 @@ public class ProfileFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i("PROFILE", "ATTACH");
+        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) && param.equals(currentID)) {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_REQUEST));
+                    fragmentTransaction.commit();
+                }
+                if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND) && param.equals(currentID)) {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(currentID, CONSTANT.TYPE_FRIEND));
+                    fragmentTransaction.commit();
+                }
+            }
+        });
     }
 
     @Override
@@ -420,7 +436,7 @@ public class ProfileFragment extends Fragment {
         return encodedImage;
     }
 
-    private class UpadteProfileAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private class UpdateProfileAsyncTask extends AsyncTask<Void, Void, Boolean> {
         String txtName;
         String txtAddress;
         String txtBirthday;

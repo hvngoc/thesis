@@ -34,7 +34,7 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
         ImageView imgViewInfoAvatar = (ImageView) myContentsView.findViewById(R.id.imgViewInfoAvatar);
 
-        Picasso.with(GLOBAL.CurentContext)
+        Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getUserAvatar())
                 .error(R.drawable.icon_profile)         // optional
                 .into(imgViewInfoAvatar);

@@ -24,7 +24,6 @@ public class Profile {
     }
 
     public String getAvatar() {
-        String url = GLOBAL.SERVER_IMAGE_URL + this.avatar;
-        return url;
+        return GLOBAL.SERVER_IMAGE_URL + this.avatar;
     }
 }

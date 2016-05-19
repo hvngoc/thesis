@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Header"
+                android:text="@string/navigation_header_page"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
@@ -154,7 +154,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
-                android:text="Header 2"
+                android:text="@string/navigation_header_your"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
@@ -245,7 +245,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
-                android:text="Header 3"
+                android:text="@string/navigation_header_option"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
@@ -416,7 +416,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
-                android:text="Header 4"
+                android:text="@string/navigation_header_system"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"

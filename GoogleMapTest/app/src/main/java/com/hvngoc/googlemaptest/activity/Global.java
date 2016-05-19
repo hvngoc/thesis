@@ -13,11 +13,9 @@ import java.util.HashMap;
  * Created by 12125_000 on 1/9/2016.
  */
 public class GLOBAL {
-    public static Context CurentContext = null;
+    public static Context CurrentContext = null;
 
     public static User CurrentUser = null;
-
-    public static int IconNotification = android.R.drawable.star_big_off;
 
     public static int MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
 

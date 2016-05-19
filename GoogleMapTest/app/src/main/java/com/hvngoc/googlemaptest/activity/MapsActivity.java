@@ -66,7 +66,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        GLOBAL.CurentContext = this;
+        GLOBAL.CurrentContext = this;
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);

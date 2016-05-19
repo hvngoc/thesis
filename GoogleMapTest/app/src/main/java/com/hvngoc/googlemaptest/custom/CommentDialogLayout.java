@@ -16,9 +16,12 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVCommentAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.Comment;
 
@@ -31,12 +34,12 @@ import java.util.ArrayList;
 
 public class CommentDialogLayout extends Dialog {
 
-    RecyclerView mRecyclerView;
-    RVCommentAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private RVCommentAdapter mAdapter;
 
-    String postID;
+    private String postID;
     private Context context;
-    TextView txtNumComment;
+    private TextView txtNumComment;
 
     public CommentDialogLayout(Context context, String postID, TextView txtNumComment) {
         super(context);
@@ -76,6 +79,54 @@ public class CommentDialogLayout extends Dialog {
 
         new LoadCommentAsyncTask().execute();
 
+        ((BaseActivity)this.context).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_COMMENT) && param.equals(postID)){
+                    new LoadLastCommentAsyncTask().execute();
+                }
+            }
+        });
+
+    }
+
+    private class LoadLastCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "getLastCommentOfPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("postID", postID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Comment comment = gson.fromJson(res, Comment.class);
+                int position = mAdapter.addComment(comment);
+                mRecyclerView.scrollToPosition(position);
+                int numComment = position + 1;
+                txtNumComment.setText("" + numComment);
+            }
+        }
     }
 
     private class LoadCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -115,8 +166,6 @@ public class CommentDialogLayout extends Dialog {
                 int numComment = position + 1;
                 txtNumComment.setText("" + numComment);
                 mRecyclerView.scrollToPosition(position);
-            } else {
-                // Notify send request failed!
             }
         }
     }
@@ -166,8 +215,6 @@ public class CommentDialogLayout extends Dialog {
                 int numComment = position + 1;
                 txtNumComment.setText("" + numComment);
                 etxtWriteComment.setText("");
-            } else {
-                // Notify send request failed!
             }
         }
     }

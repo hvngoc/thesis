@@ -1,30 +1,22 @@
 package com.hvngoc.googlemaptest.adapter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.ChatActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.model.ChatMessage;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.OnClick;
 
 /**
  * Created by 12125_000 on 5/17/2016.
@@ -66,7 +58,7 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
         ChatMessage item = mItems.get(position);
         holder.txtMessage.setText(item.getMessage());
         holder.txtUserName.setText(item.getSenderName());
-        Picasso.with(GLOBAL.CurentContext).load(item.getSenderAvatar()).error(R.drawable.icon_profile).into(holder.imgAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(item.getSenderAvatar()).error(R.drawable.icon_profile).into(holder.imgAvatar);
     }
 
 
@@ -91,9 +83,9 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     String fromUserID = mItems.get(position).getSenderID();
-                    Intent intent = new Intent(GLOBAL.CurentContext, ChatActivity.class);
+                    Intent intent = new Intent(GLOBAL.CurrentContext, ChatActivity.class);
                     intent.putExtra("fromUserID", fromUserID);
-                    GLOBAL.CurentContext.startActivity(intent);
+                    GLOBAL.CurrentContext.startActivity(intent);
                 }
             });
         }

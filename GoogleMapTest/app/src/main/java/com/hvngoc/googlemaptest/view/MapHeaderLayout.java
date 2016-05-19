@@ -78,7 +78,7 @@ public class MapHeaderLayout extends RelativeLayout {
 //    *************************************************************************************
     private void init(){
         inflate(getContext(), R.layout.layout_map_header, this);
-        autocompleteFragment = (PlaceAutocompleteFragment)((Activity)GLOBAL.CurentContext).getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment = (PlaceAutocompleteFragment)((Activity)GLOBAL.CurrentContext).getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setHint("tap here for searching");
 
         search_text_header = (AutoCompleteTextView) findViewById(R.id.search_text_header);
@@ -144,7 +144,7 @@ public class MapHeaderLayout extends RelativeLayout {
     }
 
     private void InitIconActionMenu(){
-        iconizedMenu = new IconizedMenu(GLOBAL.CurentContext, img_header_action);
+        iconizedMenu = new IconizedMenu(GLOBAL.CurrentContext, img_header_action);
         iconizedMenu.getMenuInflater().inflate(R.menu.menu_map_search_engine, iconizedMenu.getMenu());
         iconizedMenu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
             @Override
@@ -197,7 +197,7 @@ public class MapHeaderLayout extends RelativeLayout {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 currentListPost = gson.fromJson(res, listType);
-                search_text_header.setAdapter(new SearchPostAdapter(GLOBAL.CurentContext, android.R.layout.simple_list_item_1, currentListPost));
+                search_text_header.setAdapter(new SearchPostAdapter(GLOBAL.CurrentContext, android.R.layout.simple_list_item_1, currentListPost));
                 search_text_header.showDropDown();
             }
         }

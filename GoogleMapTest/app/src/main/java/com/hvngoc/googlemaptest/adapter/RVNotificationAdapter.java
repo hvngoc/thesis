@@ -55,7 +55,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         NotificationItem item = mItems.get(i);
-        Picasso.with(GLOBAL.CurentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
         viewHolder.txtUserName.setText(item.getUserName());
         viewHolder.txtNotificationString.setText(item.getContent());
         viewHolder.txtNotificationDate.setText(ParseDateTimeHelper.parse(item.getDate()));
@@ -175,7 +175,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
                 Intent intent = new Intent("android.intent.action.NEWS_DETAIL");
                 intent.putExtra("currentPost", post);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                GLOBAL.CurentContext.startActivity(intent);
+                GLOBAL.CurrentContext.startActivity(intent);
             }
         }
     }

@@ -41,7 +41,7 @@ public class LogoutFragment extends Fragment {
         txt_logout_name = (TextView) rootView.findViewById(R.id.txt_logout_name);
         btn_logout_logout = (Button) rootView.findViewById(R.id.btn_logout_logout);
 
-        Picasso.with(GLOBAL.CurentContext).load(GLOBAL.CurrentUser.getAvatar()).error(R.drawable.icon_profile).into(img_logout_avatar);
+        Picasso.with(GLOBAL.CurrentContext).load(GLOBAL.CurrentUser.getAvatar()).error(R.drawable.icon_profile).into(img_logout_avatar);
         txt_logout_name.setText(GLOBAL.CurrentUser.getName());
         btn_logout_logout.setOnClickListener(new View.OnClickListener() {
             @Override

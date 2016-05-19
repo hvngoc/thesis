@@ -7,10 +7,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.app.Config;
-import com.hvngoc.googlemaptest.model.MyNotification;
 
 /**
  * Created by 12125_000 on 5/10/2016.
@@ -40,7 +38,6 @@ public class MyGcmPushReceiver extends GcmListenerService {
         Log.e(TAG, "Title: " + title);
         Log.e(TAG, "message: " + message);
         Log.e(TAG, "timestamp: " + timestamp);
-        MyNotification notification = new MyNotification();
 
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message
@@ -56,6 +53,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
             // App is in background!
             Intent resultIntent = new Intent(getApplicationContext(), MainPageActivity.class);
             resultIntent.putExtra("message", message);
+            resultIntent.putExtra("param", param);
             showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
         }
     }

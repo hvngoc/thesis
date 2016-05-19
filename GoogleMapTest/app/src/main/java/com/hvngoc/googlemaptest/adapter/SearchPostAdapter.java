@@ -36,7 +36,7 @@ public class SearchPostAdapter extends ArrayAdapter<Post> {
 
         Post item = postList.get(position);
         ImageView img_search_avatar = (ImageView) convertView.findViewById(R.id.img_search_avatar);
-        Picasso.with(GLOBAL.CurentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(img_search_avatar);
+        Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(img_search_avatar);
 
         TextView txt_search_username = (TextView) convertView.findViewById(R.id.txt_search_username);
         txt_search_username.setText(item.userName);

@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.fragment.NothingsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
-import com.hvngoc.googlemaptest.fragment.WallFragment;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.model.Friend;
@@ -60,7 +58,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
         viewHolder.txt_friendUserName.setText(item.getName());
         viewHolder.txt_friendNum.setText(item.getNumFriend() + "");
         viewHolder.txt_friendMutual.setText(item.getMutualFriend() + "");
-        Picasso.with(GLOBAL.CurentContext).load(item.getAvatar()).error(R.drawable.icon_profile).into(viewHolder.img_friendAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(item.getAvatar()).error(R.drawable.icon_profile).into(viewHolder.img_friendAvatar);
     }
 
     @Override

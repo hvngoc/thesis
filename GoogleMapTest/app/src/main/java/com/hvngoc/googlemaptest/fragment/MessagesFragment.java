@@ -1,7 +1,9 @@
 package com.hvngoc.googlemaptest.fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,19 +12,20 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
 import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
-import com.hvngoc.googlemaptest.model.Friend;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,17 +38,14 @@ public class MessagesFragment extends Fragment {
 
     private RecyclerView recyclerListMessage;
 
-
     public MessagesFragment() {
         // Required empty public constructor
     }
 
     ProgressDialog progressDialog = null;
-
     @Override
     public void onStart() {
         super.onStart();
-
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -64,7 +64,27 @@ public class MessagesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)){
+                    progressDialog.show();
+                    new LoadMessageAsyncTask().execute();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem message_notification = menu.findItem(R.id.message_notification);
+        message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -72,10 +92,9 @@ public class MessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_messages, container, false);
         recyclerListMessage = (RecyclerView) rootView.findViewById(R.id.recycler_message);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         recyclerListMessage.setLayoutManager(llm);
         recyclerListMessage.setHasFixedSize(true);
-
         // Inflate the layout for this fragment
         return rootView;
     }

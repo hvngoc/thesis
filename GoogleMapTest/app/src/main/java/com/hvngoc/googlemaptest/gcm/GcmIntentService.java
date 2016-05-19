@@ -12,13 +12,10 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
-import com.hvngoc.googlemaptest.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -175,7 +172,7 @@ public class GcmIntentService extends IntentService {
                 GLOBAL.CurrentUser.setRegID(this.regID);
             }
             else
-                Toast.makeText(GLOBAL.CurentContext, "Server is busy! Please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GLOBAL.CurrentContext, "Server is busy! Please try again!", Toast.LENGTH_SHORT).show();
         }
 
 

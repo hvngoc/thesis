@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +46,7 @@ public class FriendSuggestFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_friend_list, container, false);
         recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         recyclerListFriend.setLayoutManager(llm);
         recyclerListFriend.setHasFixedSize(true);
         return rootView;

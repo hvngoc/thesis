@@ -24,6 +24,7 @@ import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.custom.PostCreationDialog;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
@@ -76,7 +77,7 @@ public class WallFragment extends Fragment {
         ((BaseActivity)getActivity()).setActionBarTitle("Wall");
         View rootView = inflater.inflate(R.layout.fragment_wall, container, false);
         listPosts = (RecyclerView) rootView.findViewById(R.id.list_wall_post);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurentContext);
+        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         listPosts.setLayoutManager(llm);
         adapter = new RVAdapter();
         listPosts.setAdapter(adapter);
@@ -172,6 +173,15 @@ public class WallFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_HOME) && param.equals(currentID)){
+                    progressDialog.show();
+                    new LoadPostAsyncTask().execute();
+                }
+            }
+        });
     }
 
     @Override

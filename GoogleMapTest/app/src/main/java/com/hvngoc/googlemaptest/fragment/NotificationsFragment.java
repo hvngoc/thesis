@@ -19,11 +19,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.BaseActivity;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
-import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.NotificationItem;
 
 import org.json.JSONException;
@@ -45,7 +46,6 @@ public class NotificationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        GLOBAL.IconNotification = android.R.drawable.star_big_off;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class NotificationsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_notification);
-        recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurentContext));
+        recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerView.setHasFixedSize(true);
 
         rvNotificationAdapter = new RVNotificationAdapter(getActivity().getSupportFragmentManager().beginTransaction());
@@ -89,19 +89,17 @@ public class NotificationsFragment extends Fragment {
         ((BaseActivity)context).setDelegationHelper(new DelegationHelper() {
             @Override
             public void doSomeThing() {
-                FragmentManager fragmentManager = ((BaseActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());
-                fragmentTransaction.commit();
+                progressDialog.show();
+                new LoadNotificationsAsyncTask().execute();
             }
         });
-        ((BaseActivity)context).setDelegationStringHelper(new DelegationStringHelper() {
+        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message) {
-                FragmentManager fragmentManager = ((BaseActivity)context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new NotificationsFragment());
-                fragmentTransaction.commit();
+            public void doSomething(String message, String param) {
+                if (!message.equals(CONSTANT.NOTIFICATION_HOME) && !message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+                    progressDialog.show();
+                    new LoadNotificationsAsyncTask().execute();
+                }
             }
         });
     }

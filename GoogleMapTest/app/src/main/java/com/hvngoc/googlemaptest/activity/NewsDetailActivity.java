@@ -65,7 +65,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        GLOBAL.CurentContext = this;
+        GLOBAL.CurrentContext = this;
 
         Bundle extras = getIntent().getExtras();
         currentPost = (Post) extras.getSerializable("currentPost");
@@ -94,10 +94,10 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         imgShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GLOBAL.CurentContext, MapsActivity.class);
+                Intent intent = new Intent(GLOBAL.CurrentContext, MapsActivity.class);
                 intent.putExtra("currentPost", currentPost);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                GLOBAL.CurentContext.startActivity(intent);
+                GLOBAL.CurrentContext.startActivity(intent);
             }
         });
 
@@ -107,7 +107,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurentContext, currentPost.getPostID(), txtNumComment);
+                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurrentContext, currentPost.getPostID(), txtNumComment);
                 dialog.show();
             }
         });
@@ -163,7 +163,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     }
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
-        Picasso.with(GLOBAL.CurentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
         Log.i("AVATAR", currentPost.getUserAvatar());
         title.setText(currentPost.getContent());
         txtFeeling.setText("feeling " + currentPost.feeling + " on");

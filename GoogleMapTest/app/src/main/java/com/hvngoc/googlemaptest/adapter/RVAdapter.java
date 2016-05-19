@@ -57,15 +57,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
         Post post = posts.get(i);
         newsViewHolder.username.setText(post.userName);
-        Picasso.with(GLOBAL.CurentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
         newsViewHolder.news_title.setText(post.getContent());
         newsViewHolder.txtFeeling.setText("feeling " + post.feeling + " on");
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
-        Picasso.with(GLOBAL.CurentContext)
+        Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getFirstImageUrl())
                 .error(R.drawable.icon_no_image)         // optional
                 .into(newsViewHolder.placephoto);
-        newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurentContext, post.Latitude, post.Longitude).GetAddress());
+        newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurrentContext, post.Latitude, post.Longitude).GetAddress());
         newsViewHolder.txtNumLike.setText(""+post.numLike);
         newsViewHolder.txtNumShared.setText(""+post.numShare);
         newsViewHolder.txtNumComment.setText(""+post.numComment);
@@ -122,7 +122,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
             Intent intent = new Intent("android.intent.action.NEWS_DETAIL");
             intent.putExtra("currentPost", currentPost);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            GLOBAL.CurentContext.startActivity(intent);
+            GLOBAL.CurrentContext.startActivity(intent);
         }
     }
 }

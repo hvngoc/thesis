@@ -24,12 +24,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.app.MyApplication;
-import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
-import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
@@ -76,15 +74,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                     String message = bundle.getString("message");
                     String param = bundle.getString("param");
                     if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
-                        if(messageDelegationHelper != null)
-                            messageDelegationHelper.doSomething(message, param);
                         message_notification.getIcon().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
                     }
-                    else
-                        GLOBAL.IconNotification = android.R.drawable.star_big_on;
-                    if (delegationStringHelper != null){
-                        delegationStringHelper.doSomething(message);
+                    else if (message.equals(CONSTANT.NOTIFICATION_HOME)){
+
                     }
+                    else
+                        action_notification.setIcon(android.R.drawable.star_big_on);
+                    if(messageDelegationHelper != null)
+                        messageDelegationHelper.doSomething(message, param);
                 }
             }
         };
@@ -95,14 +93,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private MessageDelegationHelper messageDelegationHelper;
-
     public void setMessageDelegationHelper(MessageDelegationHelper helper) {
         this.messageDelegationHelper = helper;
-    }
-
-    private DelegationStringHelper delegationStringHelper;
-    public void setDelegationStringHelper(DelegationStringHelper helper){
-        this.delegationStringHelper = helper;
     }
 
 //    *******************************************************************************************************************************
@@ -198,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == 200)
                 {
-                    GLOBAL.IconNotification = android.R.drawable.star_big_on;
+                    action_notification.setIcon(android.R.drawable.star_big_on);
                     if (delegationHelper != null)
                         delegationHelper.doSomeThing();
                 }
@@ -220,13 +212,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void InitRunCustomMenu();
 
     private MenuItem message_notification;
-
+    private MenuItem action_notification;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem action_notification = menu.findItem(R.id.action_notification);
-        action_notification.setIcon(GLOBAL.IconNotification);
+        action_notification = menu.findItem(R.id.action_notification);
+        action_notification.setIcon(android.R.drawable.star_big_off);
         message_notification = menu.findItem(R.id.message_notification);
         message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         return true;
@@ -237,7 +229,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("BASE ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.IconNotification = android.R.drawable.star_big_off;
                 replaceCurrentFragment(new NotificationsFragment(), "Notification");
                 return true;
             case R.id.message_notification:

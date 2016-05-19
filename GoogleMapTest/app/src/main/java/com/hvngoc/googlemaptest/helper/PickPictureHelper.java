@@ -92,7 +92,7 @@ public class PickPictureHelper extends DialogFragment {
             Uri selectedImage = data.getData();
             String[] PROJECTION = new String[]{MediaStore.Images.Media.DATA};
 
-            Cursor cursor = GLOBAL.CurentContext.getContentResolver().query(selectedImage,
+            Cursor cursor = GLOBAL.CurrentContext.getContentResolver().query(selectedImage,
                     PROJECTION, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
@@ -122,7 +122,7 @@ public class PickPictureHelper extends DialogFragment {
         ArrayList<String> listPicture = getListPicture();
         RecyclerView recycler_view_pick  = (RecyclerView) view.findViewById(R.id.recycler_view_pick);
         recycler_view_pick.setHasFixedSize(true);
-        recycler_view_pick.setLayoutManager(new GridLayoutManager(GLOBAL.CurentContext, 4));
+        recycler_view_pick.setLayoutManager(new GridLayoutManager(GLOBAL.CurrentContext, 4));
         rvShowPictureAdapter = new RVShowPictureAdapter(listPicture, isMultiplePick);
         recycler_view_pick.setAdapter(rvShowPictureAdapter);
     }
@@ -131,7 +131,7 @@ public class PickPictureHelper extends DialogFragment {
         ArrayList<String> listPicture = new ArrayList<>();
         String[] PROJECTION = new String[]{MediaStore.Images.Media.DATA};
         Uri UriImages = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        Cursor cur = GLOBAL.CurentContext.getContentResolver().query(UriImages,
+        Cursor cur = GLOBAL.CurrentContext.getContentResolver().query(UriImages,
                 PROJECTION, // Which columns to return
                 null,       // Which rows to return (all rows)
                 null,       // Selection arguments (none)

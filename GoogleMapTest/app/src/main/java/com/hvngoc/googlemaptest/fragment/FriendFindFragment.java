@@ -130,7 +130,7 @@ public class FriendFindFragment extends Fragment {
 
 
     private void setDataFriendFounded(){
-        Picasso.with(GLOBAL.CurentContext).load(friend.getAvatar()).error(R.drawable.icon_profile).into(img_find_avatar);
+        Picasso.with(GLOBAL.CurrentContext).load(friend.getAvatar()).error(R.drawable.icon_profile).into(img_find_avatar);
         txt_find_name.setText(friend.getName());
         txt_friendNum.setText(friend.getNumFriend() + "");
         txt_friendMutual.setText(friend.getMutualFriend() + "");

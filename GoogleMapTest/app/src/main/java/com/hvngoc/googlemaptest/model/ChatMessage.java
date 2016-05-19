@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
 import java.security.acl.LastOwnerException;
 
@@ -61,7 +62,7 @@ public class ChatMessage {
     }
 
     public String getMessageDate() {
-        return messageDate;
+        return ParseDateTimeHelper.parse(messageDate);
     }
 
     public void setMessageDate(String messageDate) {
