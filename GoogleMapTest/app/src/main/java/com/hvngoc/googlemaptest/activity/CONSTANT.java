@@ -30,6 +30,7 @@ public class CONSTANT {
     public static final String NOTIFICATION_MY_POST = "mine";
     public static final String NOTIFICATION_FRIEND_POST = "friend";
     public static final String NOTIFICATION_HOME = "home";
+    public static final String NOTIFICATION_MESSAGE = "message";
 
     public static final String NOTIFICATION_STRING_COMMENT = "has just commented on your post.";
     public static final String NOTIFICATION_STRING_ADD_FRIEND = "want to become friend with you.";

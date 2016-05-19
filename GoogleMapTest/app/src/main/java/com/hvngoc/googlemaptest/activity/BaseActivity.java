@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -69,7 +71,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                     // new push notification is received
                     Bundle bundle = intent.getExtras();
                     String message = bundle.getString("message");
-                    GLOBAL.IconNotification = android.R.drawable.star_big_on;
+                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE))
+                        message_notification.getIcon().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    else if(message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) || message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND))
+                        friend_notification.getIcon().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    else
+                        GLOBAL.IconNotification = android.R.drawable.star_big_on;
                     if (delegationStringHelper != null){
                         delegationStringHelper.doSomething(message);
                     }
@@ -200,11 +207,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ContextMenuDialogFragment mMenuDialogFragment;
     protected abstract void InitRunCustomMenu();
+
+    private MenuItem friend_notification;
+    private MenuItem message_notification;
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem action_notification = menu.findItem(R.id.action_notification);
         action_notification.setIcon(GLOBAL.IconNotification);
+        friend_notification = menu.findItem(R.id.friend_notification);
+        friend_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        message_notification = menu.findItem(R.id.message_notification);
+        message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         return true;
     }
 

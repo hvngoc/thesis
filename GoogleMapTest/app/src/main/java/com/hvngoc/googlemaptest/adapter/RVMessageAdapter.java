@@ -65,7 +65,7 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
     @Override
     public void onBindViewHolder(RVMessageAdapter.ViewHolder holder, int position) {
         ChatMessage item = mItems.get(position);
-        holder.txtMessage.setText(item.message);
+        holder.txtMessage.setText(item.getMessage());
         //holder.txtUserName.setText(item.username);
         //Picasso.with(GLOBAL.CurentContext).load(item.avatar).error(R.drawable.icon_profile).into(holder.imgAvatar);
     }
@@ -76,7 +76,7 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
         return mItems.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView imgAvatar;
         public TextView txtUserName;
@@ -91,25 +91,12 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    String fromUserID = mItems.get(position).fromUserID;
-
+                    String fromUserID = mItems.get(position).getSenderID();
                     Intent intent = new Intent(context, ChatActivity.class);
                     intent.putExtra("fromUserID", fromUserID);
                     context.startActivity(intent);
                 }
             });
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Onclick", Toast.LENGTH_SHORT).show();
-            Log.i("ONCLICK", "ONCLICK");
-            int position = getAdapterPosition();
-            String fromUserID = mItems.get(position).fromUserID;
-
-            Intent intent = new Intent(context, ChatActivity.class);
-            intent.putExtra("fromUserID", fromUserID);
-            context.startActivity(intent);
         }
     }
 

@@ -20,8 +20,11 @@ import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.ChatArrayAdapter;
 import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
+import com.hvngoc.googlemaptest.helper.DelegationStringHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
+import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +74,17 @@ public class ChatActivity extends BaseActivity {
             public void onChanged() {
                 super.onChanged();
                 listView.setSelection(chatArrayAdapter.getCount() - 1);
+            }
+        });
+
+        new LoadMessageAsyncTask().execute();
+
+        setDelegationStringHelper(new DelegationStringHelper() {
+            @Override
+            public void doSomething(String message) {
+                if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+                    new LoadMessageAsyncTask().execute();
+                }
             }
         });
     }
@@ -130,6 +144,45 @@ public class ChatActivity extends BaseActivity {
     }
 //    ***********************************************************************************************************
 
+    private class LoadMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "loadMessageOfUser";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("targetUserID", toUserID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
+                ArrayList<ChatMessage> messageList = gson.fromJson(res, listType);
+                chatArrayAdapter.addListMessage(messageList);
+            }
+        }
+    }
+
+
     private class SendMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         private String message;
@@ -151,6 +204,7 @@ public class ChatActivity extends BaseActivity {
                 jsonobj.put("fromUserID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("toUserID", toUserID);
                 jsonobj.put("message", message);
+                jsonobj.put("date", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
