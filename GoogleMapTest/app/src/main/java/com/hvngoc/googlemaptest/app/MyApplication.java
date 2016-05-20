@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.app;
 import android.app.Application;
 import android.util.Log;
 
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 import com.hvngoc.googlemaptest.helper.MyPreferenceManager;
 
 /**
@@ -22,6 +23,7 @@ public class MyApplication extends Application {
         super.onCreate();
         mInstance = this;
         Log.i("MYAPPLICATION", "Created an instance");
+        LanguageHelper.onCreate(this);
     }
 
     public static synchronized MyApplication getInstance() {

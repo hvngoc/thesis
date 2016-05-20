@@ -1,19 +1,19 @@
 package com.hvngoc.googlemaptest.custom;
 
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 
 import java.util.Locale;
 
@@ -46,18 +46,15 @@ public class ChangeLanguageDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 RadioButton radioLanguageEnglish = (RadioButton) dialog.findViewById(R.id.radioLanguageEnglish);
-                Resources res = getContext().getResources();
-                DisplayMetrics dm = res.getDisplayMetrics();
-                android.content.res.Configuration conf = res.getConfiguration();
                 if (radioLanguageEnglish.isChecked()){
-                    conf.locale = new Locale(Locale.getDefault().toString());
-                    res.updateConfiguration(conf, dm);
+                    LanguageHelper.setLocale(getContext(), "en");
                 }
                 else {
-                    conf.locale = new Locale("vi".toLowerCase());
-                    res.updateConfiguration(conf, dm);
+                    LanguageHelper.setLocale(getContext(), "vi");
                 }
+                Log.i("CHANGE LANGUAGE", getString(R.string.title_home));
                 dialog.dismiss();
+                getActivity().recreate();
             }
         });
 

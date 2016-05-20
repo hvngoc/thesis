@@ -24,6 +24,7 @@ import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -32,6 +33,9 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Activity:", " MainPageActivity");
+
+        LanguageHelper.onCreate(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FragmentDrawer drawerFragment = (FragmentDrawer)
