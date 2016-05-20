@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/comment_bg_title"
-        android:text="About"
+        android:text="@string/title_about"
         android:textSize="18sp"
         android:textColor="@android:color/white" />
     <android.support.v7.widget.CardView
@@ -26,16 +26,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:padding="4dip"
-                android:text="Author:"
+                android:text="@string/hint_author"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginStart="30dip"
-                android:text="\u2022 \t Ngoc V. Hoang"
+                android:text="@string/hint_hvngoc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginStart="30dip"
-                android:text="\u2022 \t Tuong V. Nguyen"
+                android:text="@string/hint_nvtuong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:padding="8dip"
-                android:text="Description: social network for enjoying our experience lifes."
+                android:text="@string/hint_description"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -68,7 +68,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:padding="8dip"
-                android:text="Version: 1.0.0"
+                android:text="@string/hint_version"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -86,21 +86,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:padding="4dip"
-                android:text="More:"
+                android:text="@string/hint_more"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginStart="30dip"
-                android:text="\u2022 \t We are computer science students in honors program 2012, faculty of Infomation technology, university of science - VNU HCMC"
+                android:text="@string/hint_about_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginStart="30dip"
-                android:text="\u2022 \t This application is our research product of bachelor thesis major in computer science."
+                android:text="@string/hint_about_app"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginStart="30dip"
-                android:text="\u2022 \t Supervisor: Dr. Tien B. Dinh"
+                android:text="@string/hint_dbtien"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RelativeLayout
@@ -112,7 +112,7 @@
                     android:id="@+id/btn_setting_cancel"
                     android:layout_marginEnd="16dip"
                     android:layout_alignParentEnd="true"
-                    android:text="CLOSE"
+                    android:text="@string/hint_close"
                     android:textColor="@color/primary"
                     android:layout_width="wrap_content"
                     android:textSize="18sp"

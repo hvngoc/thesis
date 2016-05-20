@@ -480,7 +480,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
-                android:text="CopyRight \u00a9 2016 - HCMUS"
+                android:text="@string/hint_copyright"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"

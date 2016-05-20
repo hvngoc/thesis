@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="#000000"
-                android:text="May be you know this person?" />
+                android:text="@string/hint_find_friend" />
             <ImageView
                 android:layout_marginTop="5dip"
                 android:layout_width="100dip"
@@ -52,7 +52,7 @@
                     android:textColor="#FF0000"/>
                 <TextView
                     android:layout_marginStart="5dip"
-                    android:text="friends."
+                    android:text="@string/hint_friend"
                     android:textColor="#000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -66,7 +66,7 @@
                     android:textColor="#FF0000" />
                 <TextView
                     android:layout_marginStart="5dip"
-                    android:text="mutual friends."
+                    android:text="@string/hint_mutual_friend"
                     android:textColor="#000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -78,7 +78,7 @@
                 <TextView
                     android:id="@+id/txt_addFriend"
                     android:layout_marginTop="8dip"
-                    android:text="add friend"
+                    android:text="@string/hint_add_friend"
                     android:textColor="#030fff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -95,7 +95,7 @@
                 <TextView
                     android:id="@+id/txt_addMoreDetail"
                     android:layout_marginTop="8dip"
-                    android:text="detail"
+                    android:text="@string/hint_detail"
                     android:textColor="#030fff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -121,7 +121,7 @@
                 android:textSize="100sp"
                 android:text="Oops!" />
             <TextView
-                android:text="we found nothing."
+                android:text="@string/hint_nothing_found"
                 android:textSize="30sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -140,7 +140,7 @@
             android:layout_alignParentStart="true"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
-            android:hint="type email here."
+            android:hint="@string/hint_type_email"
             android:layout_toStartOf="@+id/btnFriendSearch"
             android:layout_height="wrap_content" />
         <ImageView

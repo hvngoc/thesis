@@ -34,7 +34,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:inputType="textMultiLine"
-            android:hint="Write a message"
+            android:hint="@string/hint_type_message"
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:ems="10"
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="7dp"
             android:background="@color/colorPrimary"
-            android:text="Send"
+            android:text="@string/hint_button_send"
             android:id="@+id/buttonSend" />
     </LinearLayout>
 

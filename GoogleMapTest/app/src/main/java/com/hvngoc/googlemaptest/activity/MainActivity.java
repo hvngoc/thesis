@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
 
-
 public class MainActivity extends AppCompatActivity {
 
     @Override

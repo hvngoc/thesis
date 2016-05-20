@@ -6,60 +6,60 @@
         android:id="@+id/funny"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/markers_emotion_funny"
-        android:title="funny"
+        android:title="@string/feeling_funny"
         android:visible="true"/>
     <item
         android:id="@+id/happy"
         app:showAsAction="ifRoom|withText"
-        android:title="happy"
+        android:title="@string/feeling_happy"
         android:icon="@drawable/markers_emotion_happy"
         android:visible="true"/>
     <item
         android:id="@+id/money"
         app:showAsAction="ifRoom|withText"
-        android:title="money"
+        android:title="@string/feeling_money"
         android:icon="@drawable/markers_emotion_money"
         android:visible="true"/>
     <item
         android:id="@+id/normal"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/markers_emotion_normal"
-        android:title="normal"
+        android:title="@string/feeling_normal"
         android:visible="true"/>
     <item
         android:id="@+id/refuse"
         app:showAsAction="ifRoom|withText"
-        android:title="refuse"
+        android:title="@string/feeling_refuse"
         android:icon="@drawable/markers_emotion_refuse"
         android:visible="true"/>
     <item
         android:id="@+id/sad"
         app:showAsAction="ifRoom|withText"
-        android:title="sad"
+        android:title="@string/feeling_sad"
         android:icon="@drawable/markers_emotion_sad"
         android:visible="true"/>
     <item
         android:id="@+id/SCARED"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/markers_emotion_scared"
-        android:title="SCARED"
+        android:title="@string/feeling_scare"
         android:visible="true"/>
     <item
         android:id="@+id/sleepy"
         app:showAsAction="ifRoom|withText"
-        android:title="sleepy"
+        android:title="@string/feeling_sleepy"
         android:icon="@drawable/markers_emotion_sleepy"
         android:visible="true"/>
     <item
         android:id="@+id/surprise"
         app:showAsAction="ifRoom|withText"
-        android:title="surprise"
+        android:title="@string/feeling_surprise"
         android:icon="@drawable/markers_emotion_surprise"
         android:visible="true"/>
     <item
         android:id="@+id/terrible"
         app:showAsAction="ifRoom|withText"
-        android:title="terrible"
+        android:title="@string/feeling_terrible"
         android:icon="@drawable/markers_emotion_terrible"
         android:visible="true"/>
 </menu>

@@ -29,7 +29,7 @@
                 android:textSize="100sp"
                 android:text="Oops!" />
             <TextView
-                android:text="we found nothing."
+                android:text="@string/hint_nothing_found"
                 android:textSize="30sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

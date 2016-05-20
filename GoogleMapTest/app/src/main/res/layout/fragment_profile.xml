@@ -56,7 +56,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="friend"
+                            android:text="@string/hint_friend"
                             android:textColor="@color/black"
                             android:textSize="17sp" />
                         <TextView
@@ -82,7 +82,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="follow"
+                            android:text="@string/hint_follow"
                             android:textColor="@color/black"
                             android:textSize="17sp" />
                         <TextView
@@ -111,7 +111,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="post"
+                            android:text="@string/hint_post"
                             android:textColor="@color/black"
                             android:textSize="17sp" />
                         <TextView
@@ -138,7 +138,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/hint_name"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
                     <EditText
@@ -164,7 +164,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/hint_email"
                         android:textColor="@color/black"
                         android:textSize="17sp" />
                     <EditText
@@ -191,7 +191,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gender"
+                        android:text="@string/hint_gender"
                         android:textColor="@color/black"
                         android:textSize="17sp"/>
                     <LinearLayout
@@ -208,7 +208,7 @@
                                 android:id="@+id/radioMale"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Male"
+                                android:text="@string/hint_male"
                                 android:textSize="17sp" />
                             <RadioButton
                                 android:id="@+id/radioFemale"
@@ -216,7 +216,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="17sp"
-                                android:text="Female"
+                                android:text="@string/hint_female"
                                 android:checked="true"/>
                         </RadioGroup>
                     </LinearLayout>
@@ -236,7 +236,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Date Of Birth"
+                        android:text="@string/hint_birthday"
                         android:textColor="@color/black"
                         android:textSize="17sp"/>
                     <EditText
@@ -263,7 +263,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Address"
+                        android:text="@string/hint_address"
                         android:textColor="@color/black"
                         android:textSize="17sp"/>
                     <EditText

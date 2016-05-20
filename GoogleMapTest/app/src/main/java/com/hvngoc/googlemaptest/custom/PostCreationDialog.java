@@ -385,7 +385,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
 
     private void InitContentView(){
         view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
-        post.feeling = CONSTANT.EMOTION_STRING_HAPPY;
+        post.feeling = getString(R.string.feeling_happy);
 
         SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
 

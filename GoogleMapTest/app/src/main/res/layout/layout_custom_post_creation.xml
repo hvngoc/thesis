@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/comment_bg_title"
-            android:text="Create a new post"
+            android:text="@string/hint_create_post"
             android:textSize="18sp"
             android:textColor="@android:color/white" />
         <EditText
             android:id="@+id/editTextCreatePost"
             android:padding="7dip"
-            android:hint="what is on your mind??"
+            android:hint="@string/hint_on_mind"
             android:inputType="textMultiLine"
             android:singleLine="false"
             android:lines="7"
@@ -129,20 +129,20 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/radioDefaultLocation"
                         android:textColor="@color/white"
-                        android:text="Use default location."
+                        android:text="@string/hint_use_location_default"
                         android:checked="true"
                         android:layout_height="wrap_content" />
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:id="@+id/radioYourLocation"
                         android:textColor="@color/white"
-                        android:text="Get your Location."
+                        android:text="@string/hint_use_your_location"
                         android:layout_height="wrap_content" />
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:id="@+id/radioGetOnMapLocation"
                         android:textColor="@color/white"
-                        android:text="Get on map."
+                        android:text="@string/hint_use_location_map"
                         android:layout_height="wrap_content" />
                 </RadioGroup>
             </HorizontalScrollView>
@@ -175,7 +175,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/comment_bg_close"
-        android:textSize="30dip"
+        android:textSize="30sp"
         android:text="×"
         android:textColor="#9acd32" />
 </RelativeLayout>

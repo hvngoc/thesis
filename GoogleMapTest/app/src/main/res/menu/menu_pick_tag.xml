@@ -5,42 +5,42 @@
         <item
             android:id="@+id/food"
             app:showAsAction="ifRoom|withText"
-            android:title="food"
+            android:title="@string/tag_food"
             android:visible="true"/>
         <item
             android:id="@+id/shopping"
             app:showAsAction="ifRoom|withText"
-            android:title="shopping"
+            android:title="@string/tag_shopping"
             android:visible="true"/>
         <item
             android:id="@+id/sale"
             app:showAsAction="ifRoom|withText"
-            android:title="sale"
+            android:title="@string/tag_sale"
             android:visible="true"/>
         <item
             android:id="@+id/dangerous"
             app:showAsAction="ifRoom|withText"
-            android:title="dangerous"
+            android:title="@string/tag_dangerous"
             android:visible="true"/>
         <item
             android:id="@+id/traveller"
             app:showAsAction="ifRoom|withText"
-            android:title="traveller"
+            android:title="@string/tag_traveller"
             android:visible="true"/>
         <item
             android:id="@+id/entertainment"
             app:showAsAction="ifRoom|withText"
-            android:title="entertainment"
+            android:title="@string/tag_entertainment"
             android:visible="true"/>
         <item
             android:id="@+id/event"
             app:showAsAction="ifRoom|withText"
-            android:title="event"
+            android:title="@string/tag_event"
             android:visible="true"/>
         <item
             android:id="@+id/sport"
             app:showAsAction="ifRoom|withText"
-            android:title="sport"
+            android:title="@string/tag_sport"
             android:visible="true"/>
     </group>
 </menu>

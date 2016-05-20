@@ -19,13 +19,13 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/comment_bg_title"
-            android:text="Comment"
+            android:text="@string/hint_comment"
             android:textSize="18sp"
             android:textColor="@android:color/white" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="5"/>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,19 +35,19 @@
 
             <EditText
                 android:layout_marginTop="6dip"
-                android:layout_marginLeft="4dip"
-                android:layout_toLeftOf="@+id/btnCommentSend"
+                android:layout_marginStart="4dip"
+                android:layout_toStartOf="@+id/btnCommentSend"
                 android:layout_width="match_parent"
                 android:layout_height="36dip"
-                android:hint="  write a comment here ...  "
+                android:hint="@string/hint_type_comment"
                 android:id="@+id/etxtWriteComment"
                 android:background="#ffffff" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Send"
+                android:layout_alignParentEnd="true"
+                android:text="@string/hint_button_send"
                 android:id="@+id/btnCommentSend"
                 android:textColor="#000000" />
         </RelativeLayout>
@@ -57,11 +57,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_alignParentRight="true"
+        android:layout_marginEnd="7dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/comment_bg_close"
-        android:textSize="30dip"
+        android:textSize="30sp"
         android:text="×"
         android:textColor="#9acd32" />
 </RelativeLayout>

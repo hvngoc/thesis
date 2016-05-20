@@ -2,6 +2,8 @@ package com.hvngoc.googlemaptest.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.SparseIntArray;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
@@ -49,4 +51,29 @@ public class GLOBAL {
             put(CONSTANT.NOTIFICATION_MY_POST, CONSTANT.NOTIFICATION_STRING_MY_POST);
         }
     };
+
+//    public static SparseIntArray EMOTION = new SparseIntArray(){
+//        {
+//            put(R.string.feeling_funny, R.drawable.markers_emotion_funny);
+//            put(R.string.feeling_happy, R.drawable.markers_emotion_happy);
+//            put(R.string.feeling_money, R.drawable.markers_emotion_money);
+//            put(R.string.feeling_normal, R.drawable.markers_emotion_normal);
+//            put(R.string.feeling_refuse, R.drawable.markers_emotion_refuse);
+//            put(R.string.feeling_sad, R.drawable.markers_emotion_sad);
+//            put(R.string.feeling_scare, R.drawable.markers_emotion_scared);
+//            put(R.string.feeling_sleepy, R.drawable.markers_emotion_sleepy);
+//            put(R.string.feeling_surprise, R.drawable.markers_emotion_surprise);
+//            put(R.string.feeling_terrible, R.drawable.markers_emotion_terrible);
+//        }
+//    };
+
+//    public static HashMap<String, Integer> NOTIFICATION = new HashMap<String, Integer>(){
+//        {
+//            put(CONSTANT.NOTIFICATION_ADD_FRIEND, R.string.notification_string_add_friend);
+//            put(CONSTANT.NOTIFICATION_COMMENT, R.string.notification_string_comment);
+//            put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, R.string.notification_string_confirm_friend);
+//            put(CONSTANT.NOTIFICATION_FRIEND_POST, R.string.notification_string_friend_post);
+//            put(CONSTANT.NOTIFICATION_MY_POST, R.string.notification_string_my_post);
+//        }
+//    };
 }

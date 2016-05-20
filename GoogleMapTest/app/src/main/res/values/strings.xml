@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DemoGoogleMap</string>
+    <string name="app_name">HOMFY</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -28,6 +28,102 @@
     <string name="navigation_header_your">Your</string>
     <string name="navigation_header_option">Option</string>
     <string name="navigation_header_system">System</string>
+
+    <string name="hint_type_message">Write a message</string>
+    <string name="hint_button_send">SEND</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_remember_login">Remember me</string>
+    <string name="hint_btn_login">Login</string>
+    <string name="hint_create_account">No account yet? Create one</string>
+    <string name="hint_forget_password">Forgot your password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_read_policy">I have read Privacy Policy</string>
+    <string name="hint_create_account_back">Create Account</string>
+    <string name="hint_login_back">Already a member? Login</string>
+    <string name="hint_commented">commented on</string>
+    <string name="hint_friend">friends.</string>
+    <string name="hint_mutual_friend">mutual friends.</string>
+    <string name="hint_find_friend">May be you know this person?</string>
+    <string name="hint_add_friend">add friend</string>
+    <string name="hint_detail">detail</string>
+    <string name="hint_nothing_found">we found nothing.</string>
+    <string name="hint_type_email">type email here.</string>
+    <string name="hint_sure_logout">Are you sure you want to log out?</string>
+    <string name="hint_logout">Log out</string>
+    <string name="hint_copyright">CopyRight \u00a9 2016 - HCMUS</string>
+    <string name="hint_follow">follow</string>
+    <string name="hint_post">post</string>
+    <string name="hint_gender">Gender</string>
+    <string name="hint_male">Male</string>
+    <string name="hint_female">Female</string>
+    <string name="hint_birthday">Date Of Birth</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_author">Author:</string>
+    <string name="hint_hvngoc">\u2022 \t Ngoc V. Hoang</string>
+    <string name="hint_nvtuong">\u2022 \t Tuong V. Nguyen</string>
+    <string name="hint_description">Description: social network for enjoying our experience lifes.</string>
+    <string name="hint_version">Version: 1.0.0</string>
+    <string name="hint_more">More:</string>
+    <string name="hint_about_student">\u2022 \t We are computer science students in honors program 2012, faculty of Information technology, university of science - VNU HCMC</string>
+    <string name="hint_about_app">\u2022 \t This application is our research product of bachelor thesis major in computer science.</string>
+    <string name="hint_dbtien">\u2022 \t Supervisor: Dr. Tien B. Dinh</string>
+    <string name="hint_close">CLOSE</string>
+    <string name="hint_change">CHANGE</string>
+    <string name="hint_cancel">CANCEL</string>
+    <string name="hint_current_password">Current Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="hint_comment">Comment</string>
+    <string name="hint_type_comment">  write a comment here &#8230;</string>
+    <string name="hint_confirm_again">Confirm Again</string>
+    <string name="hint_ok">OK</string>
+    <string name="hint_choose_picture">Choose Picture</string>
+    <string name="hint_browse">Browse</string>
+    <string name="hint_create_post">Create a new post</string>
+    <string name="hint_on_mind">What is on your mind??</string>
+    <string name="hint_use_location_default">Use default location.</string>
+    <string name="hint_use_your_location">Get your Location.</string>
+    <string name="hint_use_location_map">Get on map.</string>
+    <string name="hint_help_report">Help us to improve this application:</string>
+    <string name="hint_help_description">Description</string>
+    <string name="hint_run_background">Allow running in background</string>
+    <string name="hint_on">ON</string>
+    <string name="hint_off">OFF</string>
+    <string name="hint_setting_near_post">Auto notify when you get near by post:</string>
+    <string name="hint_setting_past">Auto notify your memory in the past:</string>
+    <string name="hint_setting_send">Send your location for new post:</string>
+    <string name="hint_change_radius">change radius for searching:</string>
+    <string name="hint_type_search_map">type here for searching</string>
+
+    <string name="menu_search_by_post">Search by post</string>
+    <string name="menu_search_by_place">Search by place</string>
+
+    <string name="feeling_funny">funny</string>
+    <string name="feeling_happy">happy</string>
+    <string name="feeling_money">money</string>
+    <string name="feeling_normal">normal</string>
+    <string name="feeling_refuse">refuse</string>
+    <string name="feeling_sad">sad</string>
+    <string name="feeling_scare">SCARED</string>
+    <string name="feeling_sleepy">sleepy</string>
+    <string name="feeling_surprise">surprise</string>
+    <string name="feeling_terrible">terrible</string>
+
+    <string name="tag_food">food</string>
+    <string name="tag_shopping">shopping</string>
+    <string name="tag_sale">sale</string>
+    <string name="tag_dangerous">dangerous</string>
+    <string name="tag_traveller">traveller</string>
+    <string name="tag_entertainment">entertainment</string>
+    <string name="tag_event">event</string>
+    <string name="tag_sport">sport</string>
+
+    <string name="notification_string_comment">has just commented on your post.</string>
+    <string name="notification_string_add_friend">want to become friend with you.</string>
+    <string name="notification_string_confirm_friend">has just accepted your request</string>
+    <string name="notification_string_my_post">here!! it has been one of the best memory in your life</string>
+    <string name="notification_string_friend_post">here!! maybe it make you feel excited</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

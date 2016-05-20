@@ -13,7 +13,7 @@
     <AutoCompleteTextView
         android:layout_toStartOf="@+id/img_header_action"
         android:layout_toEndOf="@+id/img_header_search"
-        android:hint="type here for searching"
+        android:hint="@string/hint_type_search_map"
         android:id="@+id/search_text_header"
         android:completionThreshold="1"
         android:layout_width="match_parent"

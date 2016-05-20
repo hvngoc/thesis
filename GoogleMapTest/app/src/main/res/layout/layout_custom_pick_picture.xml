@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/comment_bg_title"
-            android:text="Choose Picture"
+            android:text="@string/hint_choose_picture"
             android:textSize="18sp"
             android:textColor="@android:color/white" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_pick"
             android:layout_marginTop="3dip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="5"/>
     </LinearLayout>
     <RelativeLayout
@@ -39,7 +39,7 @@
         <Button
             android:id="@+id/btnPickOK"
             android:background="@drawable/comment_bg_title"
-            android:text="OK"
+            android:text="@string/hint_ok"
             android:textSize="18sp"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:layout_toEndOf="@id/btnPickOK"
             android:id="@+id/btnPickBrowse"
             android:background="@drawable/comment_bg_title"
-            android:text="Browse"
+            android:text="@string/hint_browse"
             android:textSize="18sp"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/comment_bg_close"
-        android:textSize="30dip"
+        android:textSize="30sp"
         android:text="×"
         android:textColor="#9acd32" />
 </RelativeLayout>
