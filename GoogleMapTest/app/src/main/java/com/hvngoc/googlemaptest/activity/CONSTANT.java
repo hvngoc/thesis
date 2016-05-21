@@ -16,6 +16,17 @@ public class CONSTANT {
     public static final String EMOTION_STRING_SURPRISE = "surprise";
     public static final String EMOTION_STRING_TERRIBLE = "terrible";
 
+    public static final String EMOTION_STRING_FUNNY_VN = "thích thú";
+    public static final String EMOTION_STRING_HAPPY_VN = "vui vẻ";
+    public static final String EMOTION_STRING_MONEY_VN = "có tiền";
+    public static final String EMOTION_STRING_NORMAL_VN = "bình thường";
+    public static final String EMOTION_STRING_REFUSE_VN = "vô dụng";
+    public static final String EMOTION_STRING_SAD_VN = "buồn";
+    public static final String EMOTION_STRING_SCARED_VN = "sợ hãi";
+    public static final String EMOTION_STRING_SLEEPY_VN = "buồn ngủ";
+    public static final String EMOTION_STRING_SURPRISE_VN = "ngạc nhiên";
+    public static final String EMOTION_STRING_TERRIBLE_VN = "kinh khủng";
+
     public static final int TYPE_ME = 0;
     public static final int TYPE_REQUEST = 1;
     public static final int TYPE_FRIEND = 2;

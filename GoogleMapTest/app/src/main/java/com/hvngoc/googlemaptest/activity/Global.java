@@ -39,6 +39,17 @@ public class GLOBAL {
             put(CONSTANT.EMOTION_STRING_SLEEPY, R.drawable.markers_emotion_sleepy);
             put(CONSTANT.EMOTION_STRING_SURPRISE, R.drawable.markers_emotion_surprise);
             put(CONSTANT.EMOTION_STRING_TERRIBLE, R.drawable.markers_emotion_terrible);
+
+            put(CONSTANT.EMOTION_STRING_FUNNY_VN, R.drawable.markers_emotion_funny);
+            put(CONSTANT.EMOTION_STRING_HAPPY_VN, R.drawable.markers_emotion_happy);
+            put(CONSTANT.EMOTION_STRING_MONEY_VN, R.drawable.markers_emotion_money);
+            put(CONSTANT.EMOTION_STRING_NORMAL_VN, R.drawable.markers_emotion_normal);
+            put(CONSTANT.EMOTION_STRING_REFUSE_VN, R.drawable.markers_emotion_refuse);
+            put(CONSTANT.EMOTION_STRING_SAD_VN, R.drawable.markers_emotion_sad);
+            put(CONSTANT.EMOTION_STRING_SCARED_VN, R.drawable.markers_emotion_scared);
+            put(CONSTANT.EMOTION_STRING_SLEEPY_VN, R.drawable.markers_emotion_sleepy);
+            put(CONSTANT.EMOTION_STRING_SURPRISE_VN, R.drawable.markers_emotion_surprise);
+            put(CONSTANT.EMOTION_STRING_TERRIBLE_VN, R.drawable.markers_emotion_terrible);
         }
     };
 

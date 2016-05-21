@@ -100,8 +100,8 @@
     <string name="menu_search_by_post">Tìm theo bài</string>
     <string name="menu_search_by_place">Tìm theo địa điểm</string>
 
-    <string name="feeling_funny">vui vẻ</string>
-    <string name="feeling_happy">hạnh phúc</string>
+    <string name="feeling_funny">thích thú</string>
+    <string name="feeling_happy">vui vẻ</string>
     <string name="feeling_money">có tiền</string>
     <string name="feeling_normal">bình thường</string>
     <string name="feeling_refuse">vô dụng</string>
