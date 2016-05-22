@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.hvngoc.googlemaptest.R;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -26,17 +28,17 @@ public class GeolocatorAddressHelper {
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if(addresses == null || addresses.size() == 0)
-                return "UNKNOW";
+                return context.getString(R.string.unknown);
             String address = addresses.get(0).getAddressLine(0);
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
             String result = realAddress(address, ", ") + realAddress(city, ", ") + realAddress(state, ", ") + realAddress(country, ".");
             if (result.length() == 0)
-                return "UNKNOW";
+                return context.getString(R.string.unknown);
             return result;
         } catch (IOException e) {
-            return "UNKNOW";
+            return context.getString(R.string.unknown);
         }
     }
 

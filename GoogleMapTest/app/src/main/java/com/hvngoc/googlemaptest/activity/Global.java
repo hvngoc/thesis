@@ -27,6 +27,8 @@ public class GLOBAL {
 
     public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
 
+    public static HashMap<String, String> NOTIFICATION = null;
+
     public static HashMap<String, Integer> EMOTION = new HashMap<String, Integer>(){
         {
             put(CONSTANT.EMOTION_STRING_FUNNY, R.drawable.markers_emotion_funny);
@@ -53,15 +55,17 @@ public class GLOBAL {
         }
     };
 
-    public static HashMap<String, String> NOTIFICATION = new HashMap<String, String>(){
-        {
-            put(CONSTANT.NOTIFICATION_ADD_FRIEND, CONSTANT.NOTIFICATION_STRING_ADD_FRIEND);
-            put(CONSTANT.NOTIFICATION_COMMENT, CONSTANT.NOTIFICATION_STRING_COMMENT);
-            put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CONSTANT.NOTIFICATION_STRING_CONFIRM_FRIEND);
-            put(CONSTANT.NOTIFICATION_FRIEND_POST, CONSTANT.NOTIFICATION_STRING_FRIEND_POST);
-            put(CONSTANT.NOTIFICATION_MY_POST, CONSTANT.NOTIFICATION_STRING_MY_POST);
-        }
-    };
+    public static void initNOTIFICATION(){
+        NOTIFICATION = new HashMap<String, String>(){
+            {
+                put(CONSTANT.NOTIFICATION_ADD_FRIEND, CurrentContext.getString(R.string.notification_string_add_friend));
+                put(CONSTANT.NOTIFICATION_COMMENT, CurrentContext.getString(R.string.notification_string_comment));
+                put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CurrentContext.getString(R.string.notification_string_confirm_friend));
+                put(CONSTANT.NOTIFICATION_FRIEND_POST, CurrentContext.getString(R.string.notification_string_friend_post));
+                put(CONSTANT.NOTIFICATION_MY_POST, CurrentContext.getString(R.string.notification_string_my_post));
+            }
+        };
+    }
 
 //    public static SparseIntArray EMOTION = new SparseIntArray(){
 //        {

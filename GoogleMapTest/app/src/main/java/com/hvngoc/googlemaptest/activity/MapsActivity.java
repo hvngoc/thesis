@@ -121,9 +121,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private ArrayList<MenuObject> getMenuObjects() {
         MenuObject close = new MenuObject();
         close.setResource(android.R.drawable.ic_delete);
-        MenuObject find = new MenuObject("Finding around");
+        MenuObject find = new MenuObject(getString(R.string.finding_around));
         find.setResource(android.R.drawable.ic_menu_myplaces);
-        MenuObject bound = new MenuObject("Bounding All");
+        MenuObject bound = new MenuObject(getString(R.string.bounding_all));
         bound.setResource(android.R.drawable.ic_menu_mapmode);
         ArrayList<MenuObject> list =  new ArrayList<>();
         list.add(close);

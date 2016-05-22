@@ -267,7 +267,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
             }
             else {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Upload Image Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -366,7 +366,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         progressDialog = new ProgressDialog(getContext(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Uploading...");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
     }
 

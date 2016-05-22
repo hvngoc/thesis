@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ((BaseActivity)getActivity()).setActionBarTitle("Profile");
+        ((BaseActivity)getActivity()).setActionBarTitle(getString(R.string.title_profile));
 
         return view;
     }
@@ -216,7 +216,7 @@ public class ProfileFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
         new LoadProfileAsyncTask().execute();
     }
@@ -301,7 +301,7 @@ public class ProfileFragment extends Fragment {
         ArrayList<MenuObject> list =  new ArrayList<>();
         MenuObject close = new MenuObject();
         close.setResource(android.R.drawable.ic_delete);
-        MenuObject wall = new MenuObject("View Wall");
+        MenuObject wall = new MenuObject(getString(R.string.view_wall));
         wall.setResource(android.R.drawable.ic_menu_myplaces);
         list.add(close);
         list.add(wall);
@@ -309,23 +309,23 @@ public class ProfileFragment extends Fragment {
         switch (typeFriend) {
             case CONSTANT.TYPE_ME: return list;
             case CONSTANT.TYPE_REQUEST:
-                MenuObject accept = new MenuObject("Confirm");
+                MenuObject accept = new MenuObject(getString(R.string.confirm_friend));
                 accept.setResource(R.drawable.ic_friend_add_black);
                 list.add(accept);
-                MenuObject deleteRequest = new MenuObject("Delete Request");
+                MenuObject deleteRequest = new MenuObject(getString(R.string.delete_request_friend));
                 deleteRequest.setResource(R.drawable.ic_friend_delete);
                 list.add(deleteRequest);
                 break;
             case CONSTANT.TYPE_FRIEND:
-                MenuObject message = new MenuObject("Message");
+                MenuObject message = new MenuObject(getString(R.string.title_messages));
                 message.setResource(R.drawable.ic_message_black);
                 list.add(message);
-                MenuObject deleteFriend = new MenuObject("UnFriend");
+                MenuObject deleteFriend = new MenuObject(getString(R.string.un_friend));
                 deleteFriend.setResource(R.drawable.ic_friend_delete);
                 list.add(deleteFriend);
                 break;
             case CONSTANT.TYPE_SUGGEST:
-                MenuObject addFriend = new MenuObject("Add Friend");
+                MenuObject addFriend = new MenuObject(getString(R.string.hint_add_friend));
                 addFriend.setResource(R.drawable.ic_friend_add_black);
                 list.add(addFriend);
                 break;

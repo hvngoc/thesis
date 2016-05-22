@@ -71,7 +71,7 @@ public class NotificationsFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
         new LoadNotificationsAsyncTask().execute();
     }

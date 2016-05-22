@@ -28,6 +28,7 @@ import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
@@ -52,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         InitRunCustomMenu();
         initBroadcastReceiver();
         StartLocationServiceHelper();
+        LanguageHelper.onCreate(this);
     }
 
     private void initBroadcastReceiver() {
@@ -229,11 +231,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_notification:
                 Log.i("BASE ACTIVITY", "CLICK NOTIFICATION");
-                replaceCurrentFragment(new NotificationsFragment(), "Notification");
+                replaceCurrentFragment(new NotificationsFragment(), getString(R.string.title_notifications));
                 return true;
             case R.id.message_notification:
                 message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-                replaceCurrentFragment(new MessagesFragment(), "Message");
+                replaceCurrentFragment(new MessagesFragment(), getString(R.string.title_messages));
                 return true;
             case R.id.action_options:
                 Log.i("BASE ACTIVITY", "CLICK OPTIONS");

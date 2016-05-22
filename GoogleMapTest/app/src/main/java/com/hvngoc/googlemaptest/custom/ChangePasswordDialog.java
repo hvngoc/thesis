@@ -70,28 +70,28 @@ public class ChangePasswordDialog extends DialogFragment {
         String confirm_password = input_confirm_password.getText().toString();
 
         if (old_password.isEmpty() || old_password.length() < 4 || old_password.length() > 32) {
-            input_old_password.setError("between 4 and 32 alphanumeric characters");
+            input_old_password.setError(getString(R.string.between_4_32));
             return false;
         } else {
             input_old_password.setError(null);
         }
 
         if (new_password.isEmpty() || new_password.length() < 4 || new_password.length() > 32) {
-            input_new_password.setError("between 4 and 32 alphanumeric characters");
+            input_new_password.setError(getString(R.string.between_4_32));
             return false;
         } else {
             input_new_password.setError(null);
         }
 
         if (old_password.equals(new_password)){
-            input_new_password.setError("use different password for safe");
+            input_new_password.setError(getString(R.string.new_password_same));
             return false;
         }else {
             input_new_password.setError(null);
         }
 
         if (!confirm_password.equals(new_password)){
-            input_confirm_password.setError("oop!! password is not matching");
+            input_confirm_password.setError(getString(R.string.password_not_match));
             return false;
         }else {
             input_confirm_password.setError(null);
@@ -133,10 +133,10 @@ public class ChangePasswordDialog extends DialogFragment {
             super.onPostExecute(result);
             if(result) {
                 dismiss();
-                Toast.makeText(getContext(), "Change password successfully !",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.change_pass_ok),Toast.LENGTH_SHORT).show();
             }
             else {
-                input_old_password.setError("Current password is incorrect.");
+                input_old_password.setError(getString(R.string.password_incorrect));
             }
         }
     }

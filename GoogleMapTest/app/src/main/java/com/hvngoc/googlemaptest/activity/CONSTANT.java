@@ -43,11 +43,11 @@ public class CONSTANT {
     public static final String NOTIFICATION_HOME = "home";
     public static final String NOTIFICATION_MESSAGE = "message";
 
-    public static final String NOTIFICATION_STRING_COMMENT = "has just commented on your post.";
-    public static final String NOTIFICATION_STRING_ADD_FRIEND = "want to become friend with you.";
-    public static final String NOTIFICATION_STRING_CONFIRM_FRIEND = "has just accepted your request";
-    public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
-    public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
+//    public static final String NOTIFICATION_STRING_COMMENT = "has just commented on your post.";
+//    public static final String NOTIFICATION_STRING_ADD_FRIEND = "want to become friend with you.";
+//    public static final String NOTIFICATION_STRING_CONFIRM_FRIEND = "has just accepted your request";
+//    public static final String NOTIFICATION_STRING_MY_POST = "here!! it has been one of the best memory in your life";
+//    public static final String NOTIFICATION_STRING_FRIEND_POST = "here!! maybe it make you feel excited";
 
     public static final int NAVIGATION_HOME = 1;
     public static final int NAVIGATION_PROFILE = 2;
@@ -64,6 +64,4 @@ public class CONSTANT {
     public static final int NAVIGATION_REPORT = 13;
     public static final int NAVIGATION_LOGOUT = 14;
     public static final int NAVIGATION_CLOSE = 15;
-
-
 }

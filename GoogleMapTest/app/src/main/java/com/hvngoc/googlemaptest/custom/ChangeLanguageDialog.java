@@ -13,9 +13,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.LanguageHelper;
-
-import java.util.Locale;
 
 /**
  * Created by Hoang Van Ngoc on 18/05/2016.
@@ -24,6 +23,12 @@ public class ChangeLanguageDialog extends DialogFragment {
     public ChangeLanguageDialog(){
 
     }
+
+    private DelegationHelper helper;
+    public void setHelper(DelegationHelper helper){
+        this.helper = helper;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,7 +59,9 @@ public class ChangeLanguageDialog extends DialogFragment {
                 }
                 Log.i("CHANGE LANGUAGE", getString(R.string.title_home));
                 dialog.dismiss();
-                getActivity().recreate();
+                if (helper!= null){
+                    helper.doSomeThing();
+                }
             }
         });
 

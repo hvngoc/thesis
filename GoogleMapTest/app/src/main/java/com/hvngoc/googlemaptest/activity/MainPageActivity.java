@@ -24,22 +24,22 @@ import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.LanguageHelper;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
+
+    private FragmentDrawer drawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Activity:", " MainPageActivity");
 
-        LanguageHelper.onCreate(this);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FragmentDrawer drawerFragment = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment = (FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurrentContext = this;
@@ -53,6 +53,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         // display the first navigation drawer view on app launch
         displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+        drawerFragment.setLanguageAgain();
     }
 
     @Override
@@ -104,6 +105,13 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
             case CONSTANT.NAVIGATION_LANGUAGE:
                 ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();
                 changeLanguageDialog.show(getSupportFragmentManager(), "ChangeLanguageDialog");
+                changeLanguageDialog.setHelper(new DelegationHelper() {
+                    @Override
+                    public void doSomeThing() {
+                        drawerFragment.setLanguageAgain();
+                        GLOBAL.initNOTIFICATION();
+                    }
+                });
                 return;
             case CONSTANT.NAVIGATION_SETTING:
                 SettingDialog settingDialog = new SettingDialog();
@@ -130,7 +138,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 title = getString(R.string.title_logout);
                 break;
             case CONSTANT.NAVIGATION_CLOSE:
-                ConfirmDialog confirmDialog = new ConfirmDialog(MainPageActivity.this, "Are you sure for closing app without logout?");
+                ConfirmDialog confirmDialog = new ConfirmDialog(MainPageActivity.this, getString(R.string.sure_logout));
                 confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

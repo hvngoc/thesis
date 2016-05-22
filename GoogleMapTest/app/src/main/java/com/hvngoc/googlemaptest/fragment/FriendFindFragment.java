@@ -75,7 +75,7 @@ public class FriendFindFragment extends Fragment {
                     friendHelpersAsyncTask.setDelegation(new DelegationHelper() {
                         @Override
                         public void doSomeThing() {
-                            Toast.makeText(getContext(), "send request ok",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.send_request_ok),Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -109,15 +109,15 @@ public class FriendFindFragment extends Fragment {
             public void onClick(View v) {
                 String text = editFriendSearch.getText().toString();
                 if (text.length() == 0)
-                    Toast.makeText(getContext(), "please input your friend's email.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.input_email), Toast.LENGTH_SHORT).show();
                 else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(text).matches())
-                    Toast.makeText(getContext(), "Oops! invalid email.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.invalid_email), Toast.LENGTH_SHORT).show();
                 else {
                     Log.i("onclick find", "click find friend OKKKK");
                     progressDialog = new ProgressDialog(getActivity(),
                             R.style.AppTheme_Dark_Dialog);
                     progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Searching...");
+                    progressDialog.setMessage(getString(R.string.searching));
                     progressDialog.show();
                     new SearchFriendByEmailAsyncTask(text).execute();
                 }
@@ -139,12 +139,12 @@ public class FriendFindFragment extends Fragment {
 
     private void ChangeLayoutUnFriend(){
         if (friend.getIsFriend() == 0){
-            txt_addFriend.setText("Add friend");
+            txt_addFriend.setText(getString(R.string.hint_add_friend));
             txt_addFriend.setTextColor(Color.parseColor("#030fff"));
             img_add_Friend.setImageResource(R.drawable.ic_friend_add_black);
         }
         else {
-            txt_addFriend.setText("Unfriend");
+            txt_addFriend.setText(getString(R.string.un_friend));
             txt_addFriend.setTextColor(Color.RED);
             img_add_Friend.setImageResource(R.drawable.ic_friend_delete);
         }

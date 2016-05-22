@@ -41,7 +41,7 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
 
         TextView txtInfoFeeling = (TextView) myContentsView.findViewById(R.id.txtInfoFeeling);
-        txtInfoFeeling.setText("feeling " + this.post.feeling);
+        txtInfoFeeling.setText(context.getString(R.string.feeling) + " " + this.post.feeling);
 
         String address = new GeolocatorAddressHelper(this.context, this.post.Latitude, this.post.Longitude).GetAddress();
         TextView txtInfoAddress = (TextView) myContentsView.findViewById(R.id.txtInfoAddress);

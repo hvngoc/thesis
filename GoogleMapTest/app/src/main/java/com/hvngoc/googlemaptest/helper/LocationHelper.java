@@ -11,6 +11,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import com.hvngoc.googlemaptest.R;
+
 
 public class LocationHelper implements LocationListener {
     private static final int TIME_UPDATER = 5000;
@@ -44,16 +46,16 @@ public class LocationHelper implements LocationListener {
 
     private void showSetting(){
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle("Warning");
-        alert.setMessage("Setting GPS to determine your location??");
+        alert.setTitle(context.getString(R.string.warning));
+        alert.setMessage(context.getString(R.string.setting_gps));
 
-        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(context.getString(R.string.hint_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
                 context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             }
         });
 
-        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(context.getString(R.string.hint_close), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
