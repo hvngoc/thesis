@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
@@ -47,10 +48,12 @@ import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +76,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
     }
 
     private View view;
+    List<String> images;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -208,9 +212,12 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 TextView content = (TextView) view.findViewById(R.id.editTextCreatePost);
                 post.setContent(content.getText().toString());
                 showProgressDialog();
-                List<String> images = getStringImages(adapter.getListBitmaps());
-                for (int i = 0; i < images.size(); ++i) {
-                    new UploadImagesAsyncTask(images.get(i), i, images.size()).execute();
+                images = getStringImages(adapter.getListBitmaps());
+                int i = 0;
+                for (i = 0; i < images.size(); i += 5) {
+                    int size = (images.size() >= 5 + i)? 5 : images.size();
+                    List<String> subList = images.subList(i, size);
+                    new UploadImagesAsyncTask(subList, i, images.size()).execute();
                 }
             }
         });
@@ -246,11 +253,14 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         private String encodedImage;
         private int index;
         private int size;
+        private List<String> images;
+        private int startIndex;
 
-        public UploadImagesAsyncTask(String image, int index, int size) {
-            encodedImage = image;
-            this.index = index;
+
+        public UploadImagesAsyncTask(List<String> images, int startIndex, int size) {
             this.size = size;
+            this.images = images;
+            this.startIndex = startIndex;
         }
 
         @Override
@@ -259,8 +269,10 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
             if(aBoolean) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
-                String imageUrl = gson.fromJson(res, String.class);
-                listImageUrls.add(imageUrl);
+                Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+                List<String> imageUrls = gson.fromJson(res, listType);
+                listImageUrls.addAll(imageUrls);
+                //listImageUrls.add(imageUrl);
                 if(listImageUrls.size() == size) {
                     new CreatePostAsyncTask().execute();
                 }
@@ -273,12 +285,12 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "uploadImage";
+            String serverUrl = GLOBAL.SERVER_URL + "uploadImages";
             JSONObject jsonobj = new JSONObject();
             try {
-                jsonobj.put("binary", encodedImage);
                 jsonobj.put("postID", post.getPostID());
-                jsonobj.put("indexs", "" + index);
+                jsonobj.put("startIndex", startIndex);
+                jsonobj.put("binary", new JSONArray(images));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
