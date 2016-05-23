@@ -53,7 +53,7 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
             }
         }
         else {
-            viewHolder.imgPickImage.setImageResource(R.drawable.no_media);
+            viewHolder.imgPickImage.setImageResource(R.drawable.icon_no_image);
         }
     }
 

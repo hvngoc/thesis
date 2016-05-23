@@ -32,7 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class NewsDetailActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
+public class NewsDetailActivity extends BaseActivity {
 
 
     ImageView userAvatar;
@@ -138,28 +138,19 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         if (imageUrls.size() == 0){
             TextSliderView textSliderView = new TextSliderView(this);
             textSliderView.image(R.drawable.icon_no_image)
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle().putString("extra", "No IMAGE");
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
             mDemoSlider.addSlider(textSliderView);
         }else {
             for (String name : imageUrls) {
                 TextSliderView textSliderView = new TextSliderView(this);
                 textSliderView.image(name)
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(this);
-                textSliderView.bundle(new Bundle());
-                textSliderView.getBundle().putString("extra", name);
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
                 mDemoSlider.addSlider(textSliderView);
             }
         }
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
-//        this listener will be called in on resume
-//        mDemoSlider.addOnPageChangeListener(this);
     }
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
@@ -192,7 +183,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     protected void onResume() {
         super.onResume();
         Log.i("DETAIL ACTIVITY", "RESUME");
-        mDemoSlider.addOnPageChangeListener(this);
         setActionBarTitle(getString(R.string.title_activity_detail));
     }
 
@@ -201,7 +191,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     protected void onStop() {
         super.onStop();
         Log.i("DETAIL ACTIVITY", "STOP");
-        mDemoSlider.removeOnPageChangeListener(this);
+        mDemoSlider.stopAutoCycle();
     }
 
     @Override
@@ -235,22 +225,6 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
     protected int getLayoutResource() {
         return R.layout.activity_detail_news;
     }
-
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {}
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-    @Override
-    public void onPageSelected(int position) {
-        Log.d("Slider Demo", "Page Changed: " + position);
-    }
-
 //*******************************************************************************************************************************//
 
     private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
