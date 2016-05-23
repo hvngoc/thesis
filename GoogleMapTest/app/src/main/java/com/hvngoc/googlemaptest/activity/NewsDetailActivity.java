@@ -166,13 +166,13 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         Picasso.with(GLOBAL.CurrentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
         Log.i("AVATAR", currentPost.getUserAvatar());
         title.setText(currentPost.getContent());
-        txtFeeling.setText("feeling " + currentPost.feeling + " on");
+        txtFeeling.setText(getString(R.string.feeling) +" "+ currentPost.getFeeling() + " "+ getString(R.string.on));
         txtCommentDay.setText(currentPost.getPostDate());
         txtAddressLocation.setText(new GeolocatorAddressHelper(this, currentPost.Latitude, currentPost.Longitude).GetAddress());
         txtNumLike.setText("" + currentPost.numLike);
         txtNumShared.setText("" + currentPost.numShare);
         txtNumComment.setText("" + currentPost.numComment);
-        txtRelationship.setText(currentPost.relationShip + " on tag:");
+        txtRelationship.setText(currentPost.getRelationShip() + " " + getString(R.string.in_tag));
         txtTag.setText(currentPost.tag);
         setLikeButton();
     }
@@ -193,6 +193,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
         super.onResume();
         Log.i("DETAIL ACTIVITY", "RESUME");
         mDemoSlider.addOnPageChangeListener(this);
+        setActionBarTitle(getString(R.string.title_activity_detail));
     }
 
 
@@ -344,7 +345,7 @@ public class NewsDetailActivity extends BaseActivity implements BaseSliderView.O
             super.onPostExecute(result);
             if(result) {
                 currentPost.numShare += 1;
-                Toast.makeText(getBaseContext(), "share ok!!!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.share_ok),Toast.LENGTH_LONG).show();
                 txtNumShared.setText(currentPost.numShare + "");
             }
         }

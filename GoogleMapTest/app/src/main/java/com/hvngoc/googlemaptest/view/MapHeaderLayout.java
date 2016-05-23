@@ -79,7 +79,7 @@ public class MapHeaderLayout extends RelativeLayout {
     private void init(){
         inflate(getContext(), R.layout.layout_map_header, this);
         autocompleteFragment = (PlaceAutocompleteFragment)((Activity)GLOBAL.CurrentContext).getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setHint("tap here for searching");
+        autocompleteFragment.setHint(getContext().getString(R.string.hint_type_search_map));
 
         search_text_header = (AutoCompleteTextView) findViewById(R.id.search_text_header);
         search_text_header.setDropDownBackgroundResource(R.color.white);

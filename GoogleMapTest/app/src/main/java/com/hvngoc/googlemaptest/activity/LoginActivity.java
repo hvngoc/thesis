@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 import com.hvngoc.googlemaptest.model.User;
 
 import org.json.JSONException;
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
+//    @Bind(R.id.checkbox_remember_me) CheckBox checkbox_remember_me;
+//    @Bind(R.id.txt_forgotpassword) TextView txt_forgotpassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+//        _emailText.setHint(getString(R.string.hint_email));
+//        _passwordText.setHint(getString(R.string.hint_password));
+//        checkbox_remember_me.setText(getString(R.string.hint_remember_login));
+//        _loginButton.setText(getString(R.string.hint_btn_login));
+//        _signupLink.setText(getString(R.string.hint_create_account));
+//        txt_forgotpassword.setText(getString(R.string.hint_forget_password));
     }
 
     @Override
@@ -84,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
 
         new LoginAsyncTask().execute();
@@ -99,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
@@ -111,14 +122,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getString(R.string.invalid_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 32) {
-            _passwordText.setError("between 4 and 32 alphanumeric characters");
+            _passwordText.setError(getString(R.string.between_4_32));
             valid = false;
         } else {
             _passwordText.setError(null);

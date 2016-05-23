@@ -67,7 +67,7 @@
         </activity>
         <activity
             android:name=".activity.NewsDetailActivity"
-            android:label="Detail"
+            android:label="@string/title_activity_detail"
             android:theme="@style/MyMaterialTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.NEWS_DETAIL" />
@@ -91,7 +91,7 @@
         </activity>
         <activity
             android:name=".activity.SignupActivity"
-            android:label="@string/title_activity_singup"
+            android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.Dark" >
         </activity>
 

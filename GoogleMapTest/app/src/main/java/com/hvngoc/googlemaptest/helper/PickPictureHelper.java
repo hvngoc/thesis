@@ -75,7 +75,7 @@ public class PickPictureHelper extends DialogFragment {
                 pickIntent.setType("image/*");
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 takePicture.setType("image/*");
-                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                Intent chooserIntent = Intent.createChooser(getIntent, getString(R.string.hint_choose_picture));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent, takePicture});
 
                 startActivityForResult(chooserIntent, 100);

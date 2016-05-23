@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HOMFY</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_maps">Bản đồ</string>
+    <string name="title_activity_main">HOMFY</string>
+    <string name="title_activity_detail">Chi tiết</string>
+    <string name="title_activity_main_page">Trang chủ</string>
+    <string name="title_activity_login">Đăng nhập</string>
+    <string name="title_activity_sign_up">Đăng ký</string>
 
     <string name="action_settings">Cài đặt</string>
     <string name="action_search">Tìm kiếm</string>
@@ -100,8 +104,8 @@
     <string name="menu_search_by_post">Tìm theo bài</string>
     <string name="menu_search_by_place">Tìm theo địa điểm</string>
 
-    <string name="feeling_funny">vui vẻ</string>
-    <string name="feeling_happy">hạnh phúc</string>
+    <string name="feeling_funny">thích thú</string>
+    <string name="feeling_happy">vui vẻ</string>
     <string name="feeling_money">có tiền</string>
     <string name="feeling_normal">bình thường</string>
     <string name="feeling_refuse">vô dụng</string>
@@ -126,10 +130,47 @@
     <string name="notification_string_my_post">Tại đây, có thể là khoảnh khắc đáng nhớ của bạn</string>
     <string name="notification_string_friend_post">có thể nơi này sẽ làm bạn cảm thấy thú vị</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_detail_news">DetailNewsActivity</string>
-    <string name="title_activity_main_page">MainPageActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_singup">SingupActivity</string>
+    <string name="friend_request">kết bạn</string>
+    <string name="friend_find">tìm bạn</string>
+    <string name="friend_suggested">đề nghị</string>
+
+    <string name="dialog_delete_request">Bạn có muốn xóa yêu cầu kết bạn này?</string>
+    <string name="dialog_confirm_request">Đồng ý yêu cầu kết bạn này</string>
+    <string name="dialog_add_friend">Xác nhận ửi yêu cầu kết bạn ?</string>
+    <string name="dialog_delete_friend">Hủy kết bạn với người này</string>
+    <string name="unknown">Không xác định</string>
+    <string name="warning">Chú ý</string>
+    <string name="setting_gps">Cho phép sử dụng GPS để xác định vị trí hiện tại</string>
+    <string name="un_friend">Hủy kết bạn</string>
+    <string name="send_request_ok">Gửi yêu cầu thành công</string>
+    <string name="input_email">nhập email để tìm kiếm</string>
+    <string name="invalid_email">Oop! Email không tồn tại</string>
+    <string name="searching">Tìm kiếm&#8230;</string>
+    <string name="loading">Đang tải&#8230;</string>
+    <string name="view_wall">Xem tường</string>
+    <string name="confirm_friend">Xác nhận</string>
+    <string name="delete_request_friend">Xóa yêu cầu</string>
+    <string name="between_4_32">nhập từ 4 đến 32 ký tự</string>
+    <string name="new_password_same">Trùng với mật khẩu hiện tại</string>
+    <string name="password_not_match">oop!! mật khẩu không trùng nhau</string>
+    <string name="change_pass_ok">Đổi mật khẩu thành công</string>
+    <string name="password_incorrect">Mật khẩu không chính xác</string>
+    <string name="feeling">cảm thấy</string>
+    <string name="upload_image_error">Tải hình lỗi</string>
+    <string name="on">vào lúc</string>
+    <string name="in_tag">với chủ đề:</string>
+    <string name="authenticating">Đang xác nhận&#8230;</string>
+    <string name="login_failed">Đăng nhập thất bại</string>
+    <string name="sure_logout">Đóng ứng dụng với tài khoản hiện tại?</string>
+    <string name="finding_around">Tìm kiếm xung quanh</string>
+    <string name="bounding_all">Xem tất cả</string>
+    <string name="share_ok">chia sẻ thành công!!!</string>
+    <string name="sign_up_failed">Đăng ký thất bại</string>
+    <string name="read_policy">Bạn phải đọc chính sách bảo mật trước tiên</string>
+    <string name="read">Đọc</string>
+    <string name="email_used">Email đã được sử dụng</string>
+
+    <string name="relation_post">Đăng bài</string>
+    <string name="relation_share">Chia sẻ</string>
+
 </resources>

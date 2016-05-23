@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/navigation_header1"
                 android:text="@string/navigation_header_page"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
@@ -62,6 +63,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_home_black"/>
                     <TextView
+                        android:id="@+id/navigation_home"
                         android:text="@string/title_home"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -89,6 +91,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_account_box_black"/>
                     <TextView
+                        android:id="@+id/navigation_profile"
                         android:text="@string/title_profile"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -116,6 +119,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_person_black"/>
                     <TextView
+                        android:id="@+id/navigation_wall"
                         android:text="@string/title_wall"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -143,6 +147,7 @@
                         android:tint="@color/Gray"
                         android:src="@android:drawable/ic_dialog_map"/>
                     <TextView
+                        android:id="@+id/navigation_map"
                         android:text="@string/title_map"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -154,6 +159,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
+                android:id="@+id/navigation_header2"
                 android:text="@string/navigation_header_your"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
@@ -180,6 +186,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_friend_black"/>
                     <TextView
+                        android:id="@+id/navigation_friend"
                         android:text="@string/title_friends"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -207,6 +214,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_notifications_black"/>
                     <TextView
+                        android:id="@+id/navigation_notification"
                         android:text="@string/title_notifications"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -234,6 +242,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_message_black"/>
                     <TextView
+                        android:id="@+id/navigation_message"
                         android:text="@string/title_messages"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -245,6 +254,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
+                android:id="@+id/navigation_header3"
                 android:text="@string/navigation_header_option"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
@@ -271,6 +281,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_language_black"/>
                     <TextView
+                        android:id="@+id/navigation_language"
                         android:text="@string/title_language"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -298,6 +309,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_settings_black"/>
                     <TextView
+                        android:id="@+id/navigation_setting"
                         android:text="@string/title_settings"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -324,6 +336,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_change_password_black"/>
                     <TextView
+                        android:id="@+id/navigation_change_pass"
                         android:text="@string/title_change_pass_work"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -351,6 +364,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_info_black"/>
                     <TextView
+                        android:id="@+id/navigation_about"
                         android:text="@string/title_about"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -378,6 +392,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_help_black"/>
                     <TextView
+                        android:id="@+id/navigation_help"
                         android:text="@string/title_help"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -405,6 +420,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_report_black"/>
                     <TextView
+                        android:id="@+id/navigation_report"
                         android:text="@string/title_report"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -416,6 +432,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
+                android:id="@+id/navigation_header4"
                 android:text="@string/navigation_header_system"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"
@@ -442,6 +459,7 @@
                         android:tint="@color/Gray"
                         android:src="@drawable/ic_logout_black"/>
                     <TextView
+                        android:id="@+id/navigation_log_out"
                         android:text="@string/title_logout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -469,6 +487,7 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_exit_to_app_black"/>
                     <TextView
+                        android:id="@+id/navigation_close"
                         android:text="@string/title_close"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -480,6 +499,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <TextView
+                android:id="@+id/navigation_header5"
                 android:text="@string/hint_copyright"
                 android:layout_marginTop="5dip"
                 android:paddingStart="10dip"

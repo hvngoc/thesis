@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.helper;
 import android.os.AsyncTask;
 import android.view.View;
 
+import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.custom.ConfirmDialog;
 
@@ -26,7 +27,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public  void runDeleteRequestAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for deleting this request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, GLOBAL.CurrentContext.getString(R.string.dialog_delete_request));
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +39,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public  void runConfirmRequestAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for confirming this request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, GLOBAL.CurrentContext.getString(R.string.dialog_confirm_request));
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +51,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public void runAddFriendAsyncTask( ) {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for making a friend request?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, GLOBAL.CurrentContext.getString(R.string.dialog_add_friend));
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +63,7 @@ public class FriendHelpersAsyncTask {
     }
 
     public void runDeleteFriendAsyncTask() {
-        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, "Are you sure for deleting from friend list?");
+        confirmDialog = new ConfirmDialog(GLOBAL.CurrentContext, GLOBAL.CurrentContext.getString(R.string.dialog_delete_friend));
         confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

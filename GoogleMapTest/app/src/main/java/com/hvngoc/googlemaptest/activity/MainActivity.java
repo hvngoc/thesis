@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MAIN ACTIVITY", "MAIN ACTIVITY CREATE");
 
         Intent intent;
+        GLOBAL.CurrentContext = this;
+        GLOBAL.initNOTIFICATION();
         GLOBAL.startedUserHelper = new StartedUserHelper(this);
         if (GLOBAL.startedUserHelper.getUser())
             intent = new Intent(this, MainPageActivity.class);

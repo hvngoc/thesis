@@ -121,9 +121,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private ArrayList<MenuObject> getMenuObjects() {
         MenuObject close = new MenuObject();
         close.setResource(android.R.drawable.ic_delete);
-        MenuObject find = new MenuObject("Finding around");
+        MenuObject find = new MenuObject(getString(R.string.finding_around));
         find.setResource(android.R.drawable.ic_menu_myplaces);
-        MenuObject bound = new MenuObject("Bounding All");
+        MenuObject bound = new MenuObject(getString(R.string.bounding_all));
         bound.setResource(android.R.drawable.ic_menu_mapmode);
         ArrayList<MenuObject> list =  new ArrayList<>();
         list.add(close);
@@ -332,7 +332,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         for(Post item : currentListPost) {
             MarkerOptions markerOption = new MarkerOptions()
                     .position(new LatLng(item.Latitude, item.Longitude))
-                    .icon(BitmapDescriptorFactory.fromResource(GLOBAL.EMOTION.get(item.feeling)))
+                    .icon(BitmapDescriptorFactory.fromResource((int)GLOBAL.EMOTION.get(item.getSaveFeeling()).get(1)))
                     .title(item.getContent());
 
             Marker marker = googleMap.addMarker(markerOption);

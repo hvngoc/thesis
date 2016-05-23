@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="Happy"
+                android:text="@string/feeling_happy"
                 android:textSize="18sp"
                 android:textColor="@android:color/white" />
             <ImageView
@@ -81,7 +81,7 @@
                 <TextView
                     android:id="@+id/txtCreatePostTag"
                     android:textColor="@android:color/white"
-                    android:text="No Tag"
+                    android:text="####"
                     android:padding="5dip"
                     android:textSize="18sp"
                     android:layout_width="wrap_content"

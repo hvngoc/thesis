@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
@@ -12,12 +13,12 @@ public class Post implements Serializable {
     private String content;
     private String listImages;
     private String postDate;
-    public String feeling;
+    private String feeling;
     public Double Latitude, Longitude;
 
     public String userName;
     private String userAvatar;
-    public String relationShip;
+    private String relationShip;
 
     public int numLike, numShare, numComment;
 
@@ -39,10 +40,10 @@ public class Post implements Serializable {
         this.setPostDate(postDate);
         this.Latitude = Latitude;
         this.Longitude = Longitude;
-        this.feeling = feeling;
+        this.setFeeling(feeling);
         this.userName = userName;
         this.setUserAvatar(userAvatar);
-        this.relationShip = relationShip;
+        this.setRelationShip(relationShip);
 
         this.numLike = numLike;
         this.numShare = numShare;
@@ -105,5 +106,28 @@ public class Post implements Serializable {
 
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
+    }
+
+    public String getRelationShip() {
+        return GLOBAL.RELATIONSHIP.get(relationShip);
+    }
+
+    public void setRelationShip(String relationShip) {
+        this.relationShip = relationShip;
+    }
+
+    public String getFeeling() {
+        return (String)GLOBAL.EMOTION.get(feeling).get(0);
+    }
+
+    public void setFeeling(String feeling) {
+        for (String item : GLOBAL.EMOTION.keySet()) {
+            if (GLOBAL.EMOTION.get(item).get(0).equals(feeling))
+                this.feeling = item;
+        }
+    }
+
+    public String getSaveFeeling(){
+        return this.feeling;
     }
 }

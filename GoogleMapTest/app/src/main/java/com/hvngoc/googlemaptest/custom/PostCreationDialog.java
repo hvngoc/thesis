@@ -148,10 +148,10 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 menu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        post.feeling = item.getTitle().toString();
-                        btnCreatePostGetFeeling.setImageResource(GLOBAL.EMOTION.get(post.feeling));
+                        post.setFeeling(item.getTitle().toString());
+                        btnCreatePostGetFeeling.setImageResource((int)GLOBAL.EMOTION.get(post.getSaveFeeling()).get(1));
                         TextView text = (TextView) view.findViewById(R.id.txtCreatePostFeeling);
-                        text.setText(post.feeling);
+                        text.setText(post.getFeeling());
                         menu.dismiss();
                         return true;
                     }
@@ -267,7 +267,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
             }
             else {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Upload Image Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -324,7 +324,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 jsonobj.put("date", post.getPostDate());
                 jsonobj.put("Latitude", post.Latitude);
                 jsonobj.put("Longitude", post.Longitude);
-                jsonobj.put("feeling", post.feeling);
+                jsonobj.put("feeling", post.getSaveFeeling());
                 jsonobj.put("listImages", getListImages());
                 jsonobj.put("tag", tag);
             } catch (JSONException e) {
@@ -366,7 +366,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         progressDialog = new ProgressDialog(getContext(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Uploading...");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
     }
 
@@ -385,7 +385,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
 
     private void InitContentView(){
         view.findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
-        post.feeling = getString(R.string.feeling_happy);
+        post.setFeeling(getString(R.string.feeling_happy));
 
         SetLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
 
@@ -429,8 +429,8 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
         this.googleMap.clear();
         MarkerOptions markerOption = new MarkerOptions()
                 .position(new LatLng(post.Latitude, post.Longitude))
-                .icon(BitmapDescriptorFactory.fromResource(GLOBAL.EMOTION.get(post.feeling)))
-                .title(post.feeling);
+                .icon(BitmapDescriptorFactory.fromResource((int)GLOBAL.EMOTION.get(post.getSaveFeeling()).get(1)))
+                .title(post.getFeeling());
         this.googleMap.addMarker(markerOption);
     }
 

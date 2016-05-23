@@ -26,6 +26,8 @@ public class FragmentDrawer extends Fragment {
     private DrawerLayout mDrawerLayout;
     private View containerView;
 
+    private View layout;
+
     public FragmentDrawer() {
 
     }
@@ -47,7 +49,7 @@ public class FragmentDrawer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflating view layout
-        View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         pictureProfile = (ImageView) layout.findViewById(R.id.ic_profile_picture);
         nameTxtView = (TextView) layout.findViewById(R.id.nametxt);
 
@@ -182,6 +184,49 @@ public class FragmentDrawer extends Fragment {
         nameTxtView.setText(GLOBAL.CurrentUser.getName());
     }
 
+    public void setLanguageAgain(){
+        TextView textView;
+        textView = (TextView) layout.findViewById(R.id.navigation_header1);
+        textView.setText(getString(R.string.navigation_header_page));
+        textView = (TextView) layout.findViewById(R.id.navigation_home);
+        textView.setText(getString(R.string.title_home));
+        textView = (TextView) layout.findViewById(R.id.navigation_profile);
+        textView.setText(getString(R.string.title_profile));
+        textView = (TextView) layout.findViewById(R.id.navigation_wall);
+        textView.setText(getString(R.string.title_wall));
+        textView = (TextView) layout.findViewById(R.id.navigation_map);
+        textView.setText(getString(R.string.title_map));
+        textView = (TextView) layout.findViewById(R.id.navigation_header2);
+        textView.setText(getString(R.string.navigation_header_your));
+        textView = (TextView) layout.findViewById(R.id.navigation_friend);
+        textView.setText(getString(R.string.title_friends));
+        textView = (TextView) layout.findViewById(R.id.navigation_notification);
+        textView.setText(getString(R.string.title_notifications));
+        textView = (TextView) layout.findViewById(R.id.navigation_message);
+        textView.setText(getString(R.string.title_messages));
+        textView = (TextView) layout.findViewById(R.id.navigation_header3);
+        textView.setText(R.string.navigation_header_option);
+        textView = (TextView) layout.findViewById(R.id.navigation_language);
+        textView.setText(getString(R.string.title_language));
+        textView = (TextView) layout.findViewById(R.id.navigation_setting);
+        textView.setText(getString(R.string.title_settings));
+        textView = (TextView) layout.findViewById(R.id.navigation_change_pass);
+        textView.setText(getString(R.string.title_change_pass_work));
+        textView = (TextView) layout.findViewById(R.id.navigation_about);
+        textView.setText(getString(R.string.title_about));
+        textView = (TextView) layout.findViewById(R.id.navigation_help);
+        textView.setText(getString(R.string.title_help));
+        textView = (TextView) layout.findViewById(R.id.navigation_report);
+        textView.setText(getString(R.string.title_report));
+        textView = (TextView) layout.findViewById(R.id.navigation_header4);
+        textView.setText(getString(R.string.navigation_header_system));
+        textView = (TextView) layout.findViewById(R.id.navigation_log_out);
+        textView.setText(getString(R.string.title_logout));
+        textView = (TextView) layout.findViewById(R.id.navigation_close);
+        textView.setText(getString(R.string.title_close));
+        textView = (TextView) layout.findViewById(R.id.navigation_header5);
+        textView.setText(getString(R.string.hint_copyright));
+    }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);

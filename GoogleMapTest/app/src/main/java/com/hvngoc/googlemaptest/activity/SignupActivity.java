@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LanguageHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.model.User;
@@ -62,12 +63,20 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+//        _nameText.setHint(getString(R.string.hint_name));
+//        _emailText.setHint(getString(R.string.hint_email));
+//        _passwordText.setHint(getString(R.string.hint_password));
+//        _input_password_confirm.setHint(getString(R.string.hint_confirm_password));
+//        checkbox_signup.setText(getString(R.string.hint_read_policy));
+//        checkbox_signup.setText(getString(R.string.hint_create_account_back));
+//        _loginLink.setText(getString(R.string.hint_login_back));
     }
     private  ProgressDialog progressDialog = null;
     public void signup() {
 
         if (!validate()) {
-            onSignupFailed("Sign up failed");
+            onSignupFailed(getString(R.string.sign_up_failed));
             return;
         }
 
@@ -81,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
 
 
@@ -112,29 +121,29 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String confirm = _input_password_confirm.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+        if (name.isEmpty() || name.length() < 4 || name.length() > 32) {
+            _nameText.setError(getString(R.string.between_4_32));
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getString(R.string.invalid_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 32) {
-            _passwordText.setError("between 4 and 32 alphanumeric characters");
+            _passwordText.setError(getString(R.string.between_4_32));
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
         if (!password.equals(confirm)){
-            _input_password_confirm.setError("oop!! password is not matching");
+            _input_password_confirm.setError(getString(R.string.password_not_match));
             valid = false;
         }else {
             _input_password_confirm.setError(null);
@@ -143,8 +152,8 @@ public class SignupActivity extends AppCompatActivity {
         if (!checkbox_signup.isChecked()){
             valid = false;
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "You must read privacy policy first", Snackbar.LENGTH_LONG)
-                    .setAction("Read", new View.OnClickListener() {
+                    .make(coordinatorLayout, getString(R.string.read_policy), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.read), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
@@ -210,10 +219,8 @@ public class SignupActivity extends AppCompatActivity {
                 onSignupSuccess();
             }
             else {
-                onSignupFailed("Email have been used");
+                onSignupFailed(getString(R.string.email_used));
             }
         }
-
-
     }
 }

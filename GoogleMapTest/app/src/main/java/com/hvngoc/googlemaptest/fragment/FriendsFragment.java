@@ -58,7 +58,8 @@ public class FriendsFragment extends Fragment {
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-            listTitle = new String[]{"request", "find", "friends", "suggested"};
+            listTitle = new String[]{getString(R.string.friend_request), getString(R.string.friend_find),
+                    getString(R.string.hint_friend), getString(R.string.friend_suggested)};
             listFragment = new Fragment[]{new FriendRequestFragment(), new FriendFindFragment(),
                     new FriendListFragment(), new FriendSuggestFragment()};
         }
