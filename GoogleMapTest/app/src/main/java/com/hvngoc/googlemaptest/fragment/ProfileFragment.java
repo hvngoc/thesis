@@ -133,6 +133,8 @@ public class ProfileFragment extends Fragment {
                         String imageURI = pickPictureHelper.getOnlyOnePicture();
                         //if uri = null then set default avatar for this instance
                         bitmap = BitmapFactory.decodeFile(imageURI);
+                        if(bitmap.getWidth() > 240 || bitmap.getHeight() > 240)
+                            bitmap = Bitmap.createScaledBitmap(bitmap, 240, 240, true);
                         avatar.setImageBitmap(bitmap);
                         pickPictureHelper.dismiss();
                     }

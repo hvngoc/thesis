@@ -55,11 +55,18 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
         else {
             viewHolder.imgPickImage.setImageResource(R.drawable.no_media);
         }
-
     }
 
     public List<Bitmap> getListBitmaps() {
-        return null;
+        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        for (int i = 0; i < mItems.size(); i++) {
+            Bitmap bitmap = BitmapFactory.decodeFile(mItems.get(i));
+            if(bitmap.getWidth() > 480 || bitmap.getHeight() > 300) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 480, 300, true);
+            }
+            bitmaps.add(bitmap);
+        }
+        return bitmaps;
     }
 
 

@@ -161,7 +161,7 @@
                             custom:auto_cycle="true"
                             custom:indicator_visibility="visible"
                             custom:pager_animation_span="1100"
-                            android:layout_height="340dp"/>
+                            android:layout_height="300dp"/>
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
