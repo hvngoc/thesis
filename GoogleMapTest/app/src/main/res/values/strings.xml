@@ -172,4 +172,9 @@
     <string name="relation_post">posted</string>
     <string name="relation_share">shared</string>
 
+    <string name="help_post">share your best memories for friends and hold onto them forever</string>
+    <string name="help_create">create post with tag and base on map</string>
+    <string name="help_friend">connect with all people around the world for trying the best destination</string>
+    <string name="help_map">visualize location on map and show suitable place for you</string>
+
 </resources>

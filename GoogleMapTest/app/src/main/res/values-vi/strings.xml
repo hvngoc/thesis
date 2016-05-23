@@ -173,4 +173,9 @@
     <string name="relation_post">Đăng bài</string>
     <string name="relation_share">Chia sẻ</string>
 
+    <string name="help_post">chia sẻ những khoảng khắc tuyệt vời và lưu giữ điều đó mãi mãi</string>
+    <string name="help_create">tạo những bài viết gắn liền với tọa độ thực tế</string>
+    <string name="help_friend">kết nối với bạn bè và trải nghiệm những địa điểm thú vị khác</string>
+    <string name="help_map">thể hiện trên bản đồ và tìm kiếm địa điểm phù hợp</string>
+
 </resources>

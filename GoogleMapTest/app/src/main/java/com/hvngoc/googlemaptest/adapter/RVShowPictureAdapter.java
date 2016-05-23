@@ -110,7 +110,7 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
             }
         }
         else {
-            viewHolder.imgPickPicture.setImageResource(R.drawable.no_media);
+            viewHolder.imgPickPicture.setImageResource(R.drawable.icon_no_image);
         }
 
 
