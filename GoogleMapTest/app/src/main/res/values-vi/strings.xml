@@ -169,4 +169,8 @@
     <string name="read_policy">Bạn phải đọc chính sách bảo mật trước tiên</string>
     <string name="read">Đọc</string>
     <string name="email_used">Email đã được sử dụng</string>
+
+    <string name="relation_post">Đăng bài</string>
+    <string name="relation_share">Chia sẻ</string>
+
 </resources>

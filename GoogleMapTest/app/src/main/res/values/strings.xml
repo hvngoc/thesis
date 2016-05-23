@@ -168,4 +168,8 @@
     <string name="read_policy">You must read privacy policy first</string>
     <string name="read">Read</string>
     <string name="email_used">Email have been used</string>
+
+    <string name="relation_post">posted</string>
+    <string name="relation_share">shared</string>
+
 </resources>

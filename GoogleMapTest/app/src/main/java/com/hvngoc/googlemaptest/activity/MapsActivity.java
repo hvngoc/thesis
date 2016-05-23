@@ -332,7 +332,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
         for(Post item : currentListPost) {
             MarkerOptions markerOption = new MarkerOptions()
                     .position(new LatLng(item.Latitude, item.Longitude))
-                    .icon(BitmapDescriptorFactory.fromResource(GLOBAL.EMOTION.get(item.feeling)))
+                    .icon(BitmapDescriptorFactory.fromResource((int)GLOBAL.EMOTION.get(item.getSaveFeeling()).get(1)))
                     .title(item.getContent());
 
             Marker marker = googleMap.addMarker(markerOption);

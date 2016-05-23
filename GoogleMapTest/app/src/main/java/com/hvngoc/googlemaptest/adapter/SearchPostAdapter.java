@@ -42,7 +42,7 @@ public class SearchPostAdapter extends ArrayAdapter<Post> {
         txt_search_username.setText(item.userName);
 
         TextView txt_search_posted = (TextView) convertView.findViewById(R.id.txt_search_posted);
-        txt_search_posted.setText(item.relationShip + GLOBAL.CurrentContext.getString(R.string.in_tag));
+        txt_search_posted.setText(item.getRelationShip() + " " + GLOBAL.CurrentContext.getString(R.string.in_tag));
 
         TextView txt_search_list_tag = (TextView) convertView.findViewById(R.id.txt_search_list_tag);
         txt_search_list_tag.setText(item.tag);

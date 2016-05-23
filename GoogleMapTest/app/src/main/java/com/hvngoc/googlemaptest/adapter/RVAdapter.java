@@ -59,7 +59,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         newsViewHolder.username.setText(post.userName);
         Picasso.with(GLOBAL.CurrentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
         newsViewHolder.news_title.setText(post.getContent());
-        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) +" "+ post.feeling + " " + GLOBAL.CurrentContext.getString(R.string.on));
+        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " "+ post.getFeeling() + " " + GLOBAL.CurrentContext.getString(R.string.on));
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getFirstImageUrl())
