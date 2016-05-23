@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +11,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hoang Van Ngoc on 22/04/2016.
  */
 public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.ViewHolder>{
     ArrayList<String> mItems;
-    ArrayList<Bitmap> bitmaps;
+    ImageLoader imageLoader;
 
     public RVPickImageAdapter(ArrayList<String> mItems) {
         super();
         this.mItems = mItems;
-        bitmaps = new ArrayList<>();
+        imageLoader = ImageLoader.getInstance();
     }
 
     @Override
@@ -36,14 +43,25 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         String item = mItems.get(i);
-        Bitmap bitmap = BitmapFactory.decodeFile(item);
-        viewHolder.imgPickImage.setImageBitmap(bitmap);
-        bitmaps.add(bitmap);
+        if(item != null && !item.equals(""))  {
+            final File image = DiskCacheUtils.findInCache(item, imageLoader.getDiskCache());
+            if (image!= null && image.exists()) {
+                Picasso.with(GLOBAL.CurrentContext).load(image).fit().centerCrop().into(viewHolder.imgPickImage);
+            }
+            else {
+                imageLoader.displayImage("file://" + item, viewHolder.imgPickImage);
+            }
+        }
+        else {
+            viewHolder.imgPickImage.setImageResource(R.drawable.no_media);
+        }
+
     }
 
-    public ArrayList<Bitmap> getListBitmaps() {
-        return bitmaps;
+    public List<Bitmap> getListBitmaps() {
+        return null;
     }
+
 
     @Override
     public int getItemCount() {
@@ -64,7 +82,6 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     mItems.remove(position);
-                    bitmaps.remove(position);
                     notifyDataSetChanged();
                 }
             });

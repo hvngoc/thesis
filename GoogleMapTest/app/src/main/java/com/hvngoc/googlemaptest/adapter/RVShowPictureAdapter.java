@@ -1,7 +1,9 @@
 package com.hvngoc.googlemaptest.adapter;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,17 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -22,11 +34,13 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
     private boolean isMultipleClick;
     private int curPosition;
     private CheckBox preCheckbox;
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 
     public RVShowPictureAdapter(ArrayList<String> mItems, boolean isMultipleClick) {
         super();
         this.mItems = mItems;
         this.isMultipleClick = isMultipleClick;
+        initImageLoader();
         if(this.isMultipleClick) {
             mChecked = new ArrayList<>();
             int size = mItems.size();
@@ -37,6 +51,19 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
         else{
             curPosition = -1;
         }
+    }
+
+    private void initImageLoader() {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(GLOBAL.CurrentContext)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        if(imageLoader == null)
+            Log.i("IMAGE", "NULLLLLLLLLLLLLLLLLLLL");
+        ImageLoader.getInstance().init(config);
     }
 
     public void addItemString(String item){
@@ -70,9 +97,23 @@ public class RVShowPictureAdapter extends RecyclerView.Adapter<RVShowPictureAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         String item = mItems.get(i);
-        viewHolder.imgPickPicture.setImageBitmap(BitmapFactory.decodeFile(item));
+        Log.i("URL", item);
+        if(item != null && !item.equals(""))  {
+            final File image = DiskCacheUtils.findInCache(item, imageLoader.getDiskCache());
+            if (image!= null && image.exists()) {
+                Picasso.with(GLOBAL.CurrentContext).load(image).fit().centerCrop().into(viewHolder.imgPickPicture);
+            }
+            else {
+                imageLoader.displayImage("file://" + item, viewHolder.imgPickPicture);
+            }
+        }
+        else {
+            viewHolder.imgPickPicture.setImageResource(R.drawable.no_media);
+        }
+
+
     }
 
     @Override

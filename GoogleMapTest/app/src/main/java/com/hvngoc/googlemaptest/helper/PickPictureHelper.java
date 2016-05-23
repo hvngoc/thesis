@@ -22,6 +22,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.adapter.RVShowPictureAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Hoang Van Ngoc on 21/04/2016.
@@ -147,6 +148,7 @@ public class PickPictureHelper extends DialogFragment {
             } while (cur.moveToNext());
         }
         cur.close();
+        Collections.reverse(listPicture);
         return listPicture;
     }
 }

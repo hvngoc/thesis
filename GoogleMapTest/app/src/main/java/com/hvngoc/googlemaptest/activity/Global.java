@@ -3,11 +3,17 @@ package com.hvngoc.googlemaptest.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.util.SparseIntArray;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
 import com.hvngoc.googlemaptest.model.User;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.HashMap;
 
@@ -23,7 +29,7 @@ public class GLOBAL {
 
     public static StartedUserHelper startedUserHelper = null;
 
-    public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
+    public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
 
     public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
 
@@ -51,6 +57,9 @@ public class GLOBAL {
             put(CONSTANT.NOTIFICATION_MY_POST, CONSTANT.NOTIFICATION_STRING_MY_POST);
         }
     };
+
+
+
 
 //    public static SparseIntArray EMOTION = new SparseIntArray(){
 //        {

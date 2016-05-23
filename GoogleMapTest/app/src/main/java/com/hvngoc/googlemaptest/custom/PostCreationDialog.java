@@ -45,6 +45,7 @@ import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.model.Post;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -213,7 +214,6 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 }
             }
         });
-
         return view;
     }
 

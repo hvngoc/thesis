@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        finish();
+        //finish();
         GLOBAL.startedUserHelper.saveUser(GLOBAL.CurrentUser);
         Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
         startActivity(intent);

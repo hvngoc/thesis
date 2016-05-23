@@ -203,7 +203,7 @@ public class ProfileFragment extends Fragment {
             GLOBAL.CurrentUser.setName(profile.name);
             GLOBAL.CurrentUser.setAvatar(profile.avatar);
         }
-        if (profile.gender.equals("male"))
+        if (profile.gender != null && profile.gender.equals("male"))
             radioMale.setChecked(true);
         else
             radioFemale.setChecked(true);
@@ -416,6 +416,7 @@ public class ProfileFragment extends Fragment {
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
+                Log.i("PROFILE", "" + res);
                 profile = gson.fromJson(res, Profile.class);
                 SetContentProfileView();
             }
