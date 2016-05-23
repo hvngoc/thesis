@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.content.Context;
+
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
 import com.hvngoc.googlemaptest.model.User;
@@ -29,6 +30,7 @@ public class GLOBAL {
 
     public static HashMap<String, String> RELATIONSHIP = null;
 
+    public static HashMap<String, ArrayList<Object>> EMOTION = null;
 
     public static void initNOTIFICATION(){
         NOTIFICATION = new HashMap<String, String>(){
