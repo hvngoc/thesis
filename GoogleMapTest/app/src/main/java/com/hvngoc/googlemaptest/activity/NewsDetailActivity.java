@@ -32,10 +32,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class NewsDetailActivity extends BaseActivity {
 
 
-    ImageView userAvatar;
+    CircleImageView userAvatar;
     TextView username;
     TextView txtFeeling;
     TextView txtCommentDay;
@@ -70,7 +72,7 @@ public class NewsDetailActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         currentPost = (Post) extras.getSerializable("currentPost");
 
-        userAvatar = (ImageView) findViewById(R.id.avatar);
+        userAvatar = (CircleImageView) findViewById(R.id.avatar);
         username = (TextView) findViewById(R.id.username);
         txtFeeling = (TextView) findViewById(R.id.txtFeeling);
         txtCommentDay = (TextView) findViewById(R.id.txtCommentDay);

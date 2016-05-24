@@ -30,10 +30,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FriendFindFragment extends Fragment {
 
     CardView cardFindFriend, cardFindNothing;
-    ImageView img_find_avatar;
+    CircleImageView img_find_avatar;
     TextView txt_find_name;
     TextView txt_friendNum, txt_friendMutual;
     TextView txt_addFriend, txt_addMoreDetail;
@@ -56,7 +58,7 @@ public class FriendFindFragment extends Fragment {
 
         cardFindFriend = (CardView) view.findViewById(R.id.cardFindFriend);
         cardFindNothing = (CardView) view.findViewById(R.id.cardFindNothing);
-        img_find_avatar = (ImageView) view.findViewById(R.id.img_find_avatar);
+        img_find_avatar = (CircleImageView) view.findViewById(R.id.img_find_avatar);
         txt_find_name = (TextView) view.findViewById(R.id.txt_find_name);
         txt_friendNum = (TextView) view.findViewById(R.id.txt_friendNum);
         txt_friendMutual = (TextView) view.findViewById(R.id.txt_friendMutual);

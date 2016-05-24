@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dip"
                 android:text="@string/hint_sure_logout" />
-            <ImageView
-                android:scaleType="fitCenter"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:scaleType="centerCrop"
                 android:layout_width="100dip"
                 android:id="@+id/img_logout_avatar"
                 android:layout_height="100dip"

@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder> {
 
@@ -79,7 +81,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     class NewsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public CardView cv;
-        public ImageView userAvatar;
+        public CircleImageView userAvatar;
         public TextView username;
         public TextView txtFeeling;
         public TextView txtCommentDay;
@@ -99,7 +101,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
             cv = (CardView)itemView.findViewById(R.id.card_item);
-            userAvatar = (ImageView) itemView.findViewById(R.id.avatar);
+            userAvatar = (CircleImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.username);
             txtFeeling = (TextView) itemView.findViewById(R.id.txtFeeling);
             txtCommentDay = (TextView) itemView.findViewById(R.id.txtCommentDay);

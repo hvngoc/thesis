@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Hoang Van Ngoc on 10/05/2016.
  */
@@ -35,7 +37,7 @@ public class SearchPostAdapter extends ArrayAdapter<Post> {
         convertView = layoutInflater.inflate(R.layout.card_item_search_post, null);
 
         Post item = postList.get(position);
-        ImageView img_search_avatar = (ImageView) convertView.findViewById(R.id.img_search_avatar);
+        CircleImageView img_search_avatar = (CircleImageView) convertView.findViewById(R.id.img_search_avatar);
         Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(img_search_avatar);
 
         TextView txt_search_username = (TextView) convertView.findViewById(R.id.txt_search_username);

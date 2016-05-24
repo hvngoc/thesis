@@ -15,6 +15,8 @@ import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
 
     private final View myContentsView;
@@ -32,7 +34,7 @@ public class MapInfoWindowsLayout implements GoogleMap.InfoWindowAdapter {
         TextView txtInfoUsername = (TextView) myContentsView.findViewById(R.id.txtInfoUsername);
         txtInfoUsername.setText(this.post.userName);
 
-        ImageView imgViewInfoAvatar = (ImageView) myContentsView.findViewById(R.id.imgViewInfoAvatar);
+        CircleImageView imgViewInfoAvatar = (CircleImageView) myContentsView.findViewById(R.id.imgViewInfoAvatar);
 
         Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getUserAvatar())

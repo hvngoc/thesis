@@ -20,6 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Hoang Van Ngoc on 24/03/2016.
  */
@@ -68,7 +70,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public ImageView img_friendAvatar;
+        public CircleImageView img_friendAvatar;
         public TextView txt_friendUserName;
         public TextView txt_friendNum;
         public TextView txt_friendMutual;
@@ -77,7 +79,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
-            img_friendAvatar = (ImageView)itemView.findViewById(R.id.img_friendAvatar);
+            img_friendAvatar = (CircleImageView)itemView.findViewById(R.id.img_friendAvatar);
             txt_friendUserName = (TextView)itemView.findViewById(R.id.txt_friendUserName);
             txt_friendNum = (TextView)itemView.findViewById(R.id.txt_friendNum);
             txt_friendMutual = (TextView) itemView.findViewById(R.id.txt_friendMutual);

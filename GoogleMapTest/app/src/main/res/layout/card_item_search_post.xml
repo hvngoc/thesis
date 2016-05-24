@@ -19,11 +19,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_search_avatar"
                     android:layout_width="32dip"
                     android:layout_height="32dip"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/icon_profile" />
                 <TextView
                     android:id="@+id/txt_search_username"
@@ -32,6 +32,7 @@
                     android:textColor="#002aff"
                     android:text="Tuong V. Nguyen"
                     android:textSize="20sp"
+                    android:layout_marginStart="5dip"
                     android:layout_marginEnd="5dp"/>
             </LinearLayout>
             <HorizontalScrollView

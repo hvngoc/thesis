@@ -26,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Hoang Van Ngoc on 01/04/2016.
  */
@@ -68,7 +70,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
 
     class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
-        public ImageView imgAvatar;
+        public CircleImageView imgAvatar;
         public TextView txtUserName, txtNotificationString;
         public ImageView btnNotificationDelete;
         public TextView txtNotificationDate;
@@ -77,7 +79,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
-            imgAvatar = (ImageView)itemView.findViewById(R.id.imgAvatar);
+            imgAvatar = (CircleImageView)itemView.findViewById(R.id.imgAvatar);
             txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
             txtNotificationString = (TextView)itemView.findViewById(R.id.txtNotificationString);
             btnNotificationDelete = (ImageView) itemView.findViewById(R.id.btnNotificationDelete);

@@ -17,10 +17,12 @@ import com.hvngoc.googlemaptest.activity.LoginActivity;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class LogoutFragment extends Fragment {
 
-    ImageView img_logout_avatar;
+    CircleImageView img_logout_avatar;
     TextView txt_logout_name;
     Button btn_logout_logout;
 
@@ -37,7 +39,7 @@ public class LogoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_logout, container, false);
-        img_logout_avatar = (ImageView) rootView.findViewById(R.id.img_logout_avatar);
+        img_logout_avatar = (CircleImageView) rootView.findViewById(R.id.img_logout_avatar);
         txt_logout_name = (TextView) rootView.findViewById(R.id.txt_logout_name);
         btn_logout_logout = (Button) rootView.findViewById(R.id.btn_logout_logout);
 

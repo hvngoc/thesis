@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.ViewHolder>{
     List<Comment> mItems;
 
@@ -58,14 +60,14 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView imgAvatar;
+        public CircleImageView imgAvatar;
         public TextView txtUserName;
         public TextView txtCommentSring;
         public TextView txtCommentDay;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgAvatar = (ImageView)itemView.findViewById(R.id.imgAvatar);
+            imgAvatar = (CircleImageView)itemView.findViewById(R.id.imgAvatar);
             txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
             txtCommentSring = (TextView)itemView.findViewById(R.id.txtCommentString);
             txtCommentDay = (TextView) itemView.findViewById(R.id.txtCommentDay);

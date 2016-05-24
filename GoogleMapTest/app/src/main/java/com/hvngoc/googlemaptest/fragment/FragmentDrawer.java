@@ -17,9 +17,11 @@ import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FragmentDrawer extends Fragment {
 
-    private ImageView pictureProfile;
+    private CircleImageView pictureProfile;
     private TextView nameTxtView;
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -50,7 +52,7 @@ public class FragmentDrawer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflating view layout
         layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        pictureProfile = (ImageView) layout.findViewById(R.id.ic_profile_picture);
+        pictureProfile = (CircleImageView) layout.findViewById(R.id.ic_profile_picture);
         nameTxtView = (TextView) layout.findViewById(R.id.nametxt);
 
         CardView card_nav_home = (CardView) layout.findViewById(R.id.card_nav_home);

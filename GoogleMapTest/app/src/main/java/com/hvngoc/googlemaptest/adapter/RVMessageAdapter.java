@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by 12125_000 on 5/17/2016.
  */
@@ -69,13 +71,13 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView imgAvatar;
+        public CircleImageView imgAvatar;
         public TextView txtUserName;
         public TextView txtMessage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgAvatar = (ImageView)itemView.findViewById(R.id.imgAvatar);
+            imgAvatar = (CircleImageView)itemView.findViewById(R.id.imgAvatar);
             txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
             txtMessage = (TextView)itemView.findViewById(R.id.txtMessage);
             itemView.setOnClickListener(new View.OnClickListener() {
