@@ -22,16 +22,16 @@ public class StartedUserHelper {
 
     public StartedUserHelper(Context context){
         sharedRef = context.getSharedPreferences(SHARED_REFERENCES, Context.MODE_PRIVATE);
-        editor = sharedRef.edit();
     }
 
     public  void saveUser(User user){
+        editor = sharedRef.edit();
         editor.putString(ID, user.getId());
         editor.putString(NAME, user.getName());
         editor.putString(AVATAR, user.getAvatar());
         editor.putFloat(DEFAULT_LATITUDE, (float) user.getDefaultLatitude());
         editor.putFloat(DEFAULT_LONGITUDE, (float) user.getDefaultLongitude());
-        editor.commit();
+        editor.apply();
     }
 
     public boolean getUser(){
@@ -47,7 +47,8 @@ public class StartedUserHelper {
     }
 
     public  void clear(){
+        editor = sharedRef.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 }

@@ -13,6 +13,7 @@ import com.hvngoc.googlemaptest.custom.AboutDialog;
 import com.hvngoc.googlemaptest.custom.ChangeLanguageDialog;
 import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
 import com.hvngoc.googlemaptest.custom.ConfirmDialog;
+import com.hvngoc.googlemaptest.custom.DefaultLocationDialog;
 import com.hvngoc.googlemaptest.custom.HelpDialog;
 import com.hvngoc.googlemaptest.custom.ReportDialog;
 import com.hvngoc.googlemaptest.custom.SettingDialog;
@@ -120,6 +121,10 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
             case CONSTANT.NAVIGATION_CHANGE_PASSWORD:
                 ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
                 changePasswordDialog.show(getSupportFragmentManager(), "ChangePasswordDialog");
+                return;
+            case CONSTANT.NAVIGATION_CHANGE_LOCATION:
+                DefaultLocationDialog defaultLocationDialog = new DefaultLocationDialog();
+                defaultLocationDialog.show(getSupportFragmentManager(), "DefaultLocationDialog");
                 return;
             case CONSTANT.NAVIGATION_ABOUT:
                 AboutDialog aboutDialog = new AboutDialog();

@@ -59,120 +59,128 @@ public class FragmentDrawer extends Fragment {
         card_nav_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HOME);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HOME);
             }
         });
         CardView card_nav_profile = (CardView) layout.findViewById(R.id.card_nav_profile);
         card_nav_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_PROFILE);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_PROFILE);
             }
         });
         CardView card_nav_wall = (CardView) layout.findViewById(R.id.card_nav_wall);
         card_nav_wall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_WALL);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_WALL);
             }
         });
         CardView card_nav_map = (CardView) layout.findViewById(R.id.card_nav_map);
         card_nav_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MAP);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MAP);
             }
         });
         CardView card_nav_friends = (CardView) layout.findViewById(R.id.card_nav_friends);
         card_nav_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_FRIEND);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_FRIEND);
             }
         });
         CardView card_nav_notification = (CardView) layout.findViewById(R.id.card_nav_notification);
         card_nav_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_NOTIFICATION);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_NOTIFICATION);
             }
         });
         CardView card_nav_message = (CardView) layout.findViewById(R.id.card_nav_message);
         card_nav_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MESSAGE);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MESSAGE);
             }
         });
         CardView card_nav_language = (CardView) layout.findViewById(R.id.card_nav_language);
         card_nav_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LANGUAGE);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LANGUAGE);
             }
         });
         CardView card_nav_settings = (CardView) layout.findViewById(R.id.card_nav_settings);
         card_nav_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_SETTING);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_SETTING);
             }
         });
         CardView card_nav_change_password = (CardView) layout.findViewById(R.id.card_nav_change_password);
         card_nav_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CHANGE_PASSWORD);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CHANGE_PASSWORD);
+            }
+        });
+        CardView card_nav_change_location = (CardView) layout.findViewById(R.id.card_nav_change_location);
+        card_nav_change_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CHANGE_LOCATION);
             }
         });
         CardView card_nav_about = (CardView) layout.findViewById(R.id.card_nav_about);
         card_nav_about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_ABOUT);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_ABOUT);
             }
         });
         CardView card_nav_help = (CardView) layout.findViewById(R.id.card_nav_help);
         card_nav_help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HELP);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_HELP);
             }
         });
         CardView card_nav_report = (CardView) layout.findViewById(R.id.card_nav_report);
         card_nav_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_REPORT);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_REPORT);
             }
         });
         CardView card_nav_logout = (CardView) layout.findViewById(R.id.card_nav_logout);
         card_nav_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LOGOUT);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_LOGOUT);
             }
         });
         CardView card_nav_close = (CardView) layout.findViewById(R.id.card_nav_close);
         card_nav_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CLOSE);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_CLOSE);
             }
         });
         return layout;
@@ -214,6 +222,8 @@ public class FragmentDrawer extends Fragment {
         textView.setText(getString(R.string.title_settings));
         textView = (TextView) layout.findViewById(R.id.navigation_change_pass);
         textView.setText(getString(R.string.title_change_pass_work));
+        textView = (TextView) layout.findViewById(R.id.navigation_change_location);
+        textView.setText(getString(R.string.title_change_location));
         textView = (TextView) layout.findViewById(R.id.navigation_about);
         textView.setText(getString(R.string.title_about));
         textView = (TextView) layout.findViewById(R.id.navigation_help);

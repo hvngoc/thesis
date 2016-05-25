@@ -41,6 +41,7 @@ public class CONSTANT {
     public static final int NAVIGATION_MESSAGE = 7;
     public static final int NAVIGATION_SETTING = 8;
     public static final int NAVIGATION_CHANGE_PASSWORD = 9;
+    public static final int NAVIGATION_CHANGE_LOCATION = 16;
     public static final int NAVIGATION_LANGUAGE = 10;
     public static final int NAVIGATION_ABOUT = 11;
     public static final int NAVIGATION_HELP = 12;

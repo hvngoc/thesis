@@ -448,7 +448,7 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
 
     private void InitilizeMap() {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()), 14));
+                    new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()), 15));
         (view.findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 

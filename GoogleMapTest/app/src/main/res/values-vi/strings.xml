@@ -22,6 +22,7 @@
     <string name="title_messages">Tin nhắn</string>
     <string name="title_settings">Cài đặt</string>
     <string name="title_change_pass_work">Đổi mật khẩu</string>
+    <string name="title_change_location">Tọa Độ Mặc Định</string>
     <string name="title_language">Ngôn ngữ</string>
     <string name="title_about">Thông tin</string>
     <string name="title_help">Trợ giúp</string>
