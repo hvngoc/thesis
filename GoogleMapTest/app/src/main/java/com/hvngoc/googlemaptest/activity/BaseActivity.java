@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private String TAG = MainPageActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
 
     @Override
@@ -56,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         LanguageHelper.onCreate(this);
     }
 
-    private void initBroadcastReceiver() {
+    protected void initBroadcastReceiver() {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -94,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private MessageDelegationHelper messageDelegationHelper;
+    protected MessageDelegationHelper messageDelegationHelper;
     public void setMessageDelegationHelper(MessageDelegationHelper helper) {
         this.messageDelegationHelper = helper;
     }
@@ -103,19 +103,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     // starting the service to register with GCM
     public void registerGCM() {
-//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if (GcmIntentService.class.getName().equals(service.service.getClassName())) {
-//                return;
-//            }
-//        }
         /*make sure only one server start. it's destroy after finishing work*/
         Intent intent = new Intent(this, GcmIntentService.class);
         intent.putExtra("key", "register");
         startService(intent);
     }
 
-    private boolean checkPlayServices() {
+    public boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -219,31 +213,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        action_notification = menu.findItem(R.id.action_notification);
-        action_notification.setIcon(android.R.drawable.star_big_off);
-        message_notification = menu.findItem(R.id.message_notification);
-        message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_notification:
-                Log.i("BASE ACTIVITY", "CLICK NOTIFICATION");
-                replaceCurrentFragment(new NotificationsFragment(), getString(R.string.title_notifications));
-                return true;
-            case R.id.message_notification:
-                message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-                replaceCurrentFragment(new MessagesFragment(), getString(R.string.title_messages));
-                return true;
-            case R.id.action_options:
-                Log.i("BASE ACTIVITY", "CLICK OPTIONS");
-                if (getSupportFragmentManager().findFragmentByTag(ContextMenuDialogFragment.TAG) == null && mMenuDialogFragment != null) {
-                    mMenuDialogFragment.show(getSupportFragmentManager(), ContextMenuDialogFragment.TAG);
-                }
-                return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

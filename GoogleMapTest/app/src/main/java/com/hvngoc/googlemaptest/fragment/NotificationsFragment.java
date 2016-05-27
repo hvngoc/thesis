@@ -78,8 +78,6 @@ public class NotificationsFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_notification);
-        item.setIcon(android.R.drawable.star_big_off);
         super.onPrepareOptionsMenu(menu);
     }
 

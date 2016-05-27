@@ -3,25 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainPageActivity">
 
-
-    <item
-        android:id="@+id/message_notification"
-        android:title="click"
-        android:icon="@drawable/ic_chat_white"
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="always" />
-
-
-    <item
-        android:id="@+id/action_notification"
-        android:title="click"
-        android:icon="@android:drawable/star_big_on"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_options"
-        android:title="click"
-        android:icon="@drawable/ic_setting_dark"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

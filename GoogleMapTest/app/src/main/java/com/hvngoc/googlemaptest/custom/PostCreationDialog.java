@@ -322,6 +322,9 @@ public class PostCreationDialog extends DialogFragment implements OnMapReadyCall
                 post = gson.fromJson(res, Post.class);
                 delegationHelper.doSomeThing();
             }
+            else {
+                Toast.makeText(GLOBAL.CurrentContext, "Create Post Error!", Toast.LENGTH_SHORT).show();
+            }
             progressDialog.dismiss();
         }
 

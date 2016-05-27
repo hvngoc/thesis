@@ -1,14 +1,20 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.custom.AboutDialog;
 import com.hvngoc.googlemaptest.custom.ChangeLanguageDialog;
 import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
@@ -27,6 +33,9 @@ import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.fragment.WallFragment;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.LanguageHelper;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarBadge;
+import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -45,16 +54,53 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurrentContext = this;
         drawerFragment.setPictureProfile();
+        initBottomBar(savedInstanceState);
+    }
+
+    BottomBar bottomBar;
+    private void initBottomBar(Bundle savedInstanceState) {
+        bottomBar = BottomBar.attach(this, savedInstanceState);
+        bottomBar.noTopOffset();
+        bottomBar.setItemsFromMenu(R.menu.menu_bottom_bar, new OnMenuTabSelectedListener() {
+            @Override
+            public void onMenuItemSelected(int itemId) {
+                Fragment fragment = new HomeFragment();
+                String title = "Home";
+                switch (itemId) {
+                    case R.id.home_item:
+                        fragment = new HomeFragment();
+                        title = "Home";
+                        break;
+                    case R.id.chat_item:
+                        fragment = new MessagesFragment();
+                        title = "Message";
+                        break;
+                    case R.id.notification_item:
+                        fragment = new NotificationsFragment();
+                        title = "Notification";
+                        break;
+                    case R.id.map_item:
+                        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+                        startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
+                        break;
+                }
+                replaceCurrentFragment(fragment, title);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("MAIN PAGE", "RESUME");
         // display the first navigation drawer view on app launch
         displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+        setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
         drawerFragment.setLanguageAgain();
+    }
+
+    private void setBottomBar(int position) {
+        bottomBar.selectTabAtPosition(0, true);
     }
 
     @Override
@@ -158,9 +204,38 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         replaceCurrentFragment(fragment, title);
     }
 
-
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void initBroadcastReceiver() {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+                    Bundle bundle = intent.getExtras();
+                    String message = bundle.getString("message");
+                    String param = bundle.getString("param");
+                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+                        BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(2, "#E91E63", 1);
+                        unreadMessages.show();
+                        unreadMessages.setAnimationDuration(200);
+                    }
+                    else if (message.equals(CONSTANT.NOTIFICATION_HOME)){
+
+                    }
+                    else {
+                        BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 1);
+                        unreadMessages.show();
+                        unreadMessages.setAnimationDuration(200);
+                    }
+                    if(messageDelegationHelper != null)
+                        messageDelegationHelper.doSomething(message, param);
+                }
+            }
+        };
+
+        if (checkPlayServices()) {
+            registerGCM();
+        }
     }
+
 }

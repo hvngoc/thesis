@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.hvngoc.googlemaptest"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -41,6 +41,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.roughike:bottom-bar:1.2.1'
     compile project(':libmenu')
     compile project(':materialpicker')
     compile project(':libcircleimage')

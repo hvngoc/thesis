@@ -186,23 +186,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()){
-            case R.id.action_notification:
-                Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_NOTIFICATION;
-                intent = new Intent(MapsActivity.this, MainPageActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-            case R.id.message_notification:
-                Log.i("MAPS ACTIVITY", "CLICK NOTIFICATION");
-                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
-                intent = new Intent(MapsActivity.this, MainPageActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

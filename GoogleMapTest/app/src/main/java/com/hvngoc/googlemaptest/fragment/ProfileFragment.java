@@ -339,6 +339,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        /*
         MenuItem action_options = menu.findItem(R.id.action_options);
         action_options.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -350,6 +351,7 @@ public class ProfileFragment extends Fragment {
                 return true;
             }
         });
+        */
     }
 
 

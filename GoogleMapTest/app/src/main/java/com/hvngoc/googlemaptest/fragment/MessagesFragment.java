@@ -83,8 +83,6 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem message_notification = menu.findItem(R.id.message_notification);
-        message_notification.getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
     }
 
     @Override
