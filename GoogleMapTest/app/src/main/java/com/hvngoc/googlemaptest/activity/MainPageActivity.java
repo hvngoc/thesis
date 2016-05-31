@@ -1,26 +1,21 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.app.WallpaperInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
-import com.hvngoc.googlemaptest.custom.AboutDialog;
 import com.hvngoc.googlemaptest.custom.ChangeLanguageDialog;
 import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
-import com.hvngoc.googlemaptest.custom.ConfirmDialog;
 import com.hvngoc.googlemaptest.custom.DefaultLocationDialog;
-import com.hvngoc.googlemaptest.custom.HelpDialog;
 import com.hvngoc.googlemaptest.custom.ReportDialog;
 import com.hvngoc.googlemaptest.custom.SettingDialog;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
@@ -30,9 +25,7 @@ import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
-import com.hvngoc.googlemaptest.fragment.WallFragment;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
-import com.hvngoc.googlemaptest.helper.LanguageHelper;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
@@ -41,6 +34,7 @@ import com.roughike.bottombar.OnMenuTabSelectedListener;
 public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private FragmentDrawer drawerFragment;
+    public static boolean needToRefresh = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +48,7 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurrentContext = this;
         drawerFragment.setPictureProfile();
+        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         initBottomBar(savedInstanceState);
     }
 
@@ -92,11 +87,17 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     @Override
     protected void onResume() {
         super.onResume();
-        // display the first navigation drawer view on app launch
-        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
-        setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
-        drawerFragment.setLanguageAgain();
+        if(needToRefresh) {
+            needToRefresh = false;
+            finish();
+            startActivity(getIntent());
+        }
+        else {
+            // display the first navigation drawer view on app launch
+            setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+            GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+            drawerFragment.setLanguageAgain();
+        }
     }
 
     private void setBottomBar(int position) {
@@ -131,9 +132,9 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 title = getString(R.string.title_profile);
                 break;
             case CONSTANT.NAVIGATION_WALL:
-                fragment = WallFragment.getInstance(GLOBAL.CurrentUser.getId());
-                title = getString(R.string.title_wall);
-                break;
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+                startWallActivity();
+                return;
             case CONSTANT.NAVIGATION_MAP:
                 startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
                 return;
@@ -172,14 +173,6 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 DefaultLocationDialog defaultLocationDialog = new DefaultLocationDialog();
                 defaultLocationDialog.show(getSupportFragmentManager(), "DefaultLocationDialog");
                 return;
-            case CONSTANT.NAVIGATION_ABOUT:
-                AboutDialog aboutDialog = new AboutDialog();
-                aboutDialog.show(getSupportFragmentManager(), "AboutDialog");
-                return;
-            case CONSTANT.NAVIGATION_HELP:
-                HelpDialog helpDialog = new HelpDialog();
-                helpDialog.show(getSupportFragmentManager(), "HelpDialog");
-                return;
             case CONSTANT.NAVIGATION_REPORT:
                 ReportDialog reportDialog = new ReportDialog();
                 reportDialog.show(getSupportFragmentManager(), "ReportDialog");
@@ -188,21 +181,18 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 fragment = new LogoutFragment();
                 title = getString(R.string.title_logout);
                 break;
-            case CONSTANT.NAVIGATION_CLOSE:
-                ConfirmDialog confirmDialog = new ConfirmDialog(MainPageActivity.this, getString(R.string.sure_logout));
-                confirmDialog.setOnButtonOKClick(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                confirmDialog.show();
-                return;
             default:
                 break;
         }
         replaceCurrentFragment(fragment, title);
     }
+
+    private void startWallActivity() {
+        Intent intent = new Intent(this, WallActivity.class);
+        intent.putExtra("id", GLOBAL.CurrentUser.getId());
+        startActivity(intent);
+    }
+
 
     @Override
     protected void initBroadcastReceiver() {

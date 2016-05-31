@@ -34,18 +34,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
-public class WallFragment extends Fragment {
+public class MyWallFragment extends Fragment {
 
     private RecyclerView listPosts;
     private RVAdapter adapter;
     private String currentID;
     private LinearLayout listNothing;
 
-    public WallFragment() {
+    public MyWallFragment() {
         // Required empty public constructor
     }
-    public static WallFragment getInstance(String currentID) {
-        WallFragment fragment = new WallFragment();
+    public static MyWallFragment getInstance(String currentID) {
+        MyWallFragment fragment = new MyWallFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", currentID);
         fragment.setArguments(bundle);
@@ -68,13 +68,12 @@ public class WallFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        currentID = args.getString("id");
+        currentID = GLOBAL.CurrentUser.getId();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((BaseActivity)getActivity()).setActionBarTitle(getString(R.string.title_wall));
         View rootView = inflater.inflate(R.layout.fragment_wall, container, false);
         listPosts = (RecyclerView) rootView.findViewById(R.id.list_wall_post);
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
@@ -173,6 +172,7 @@ public class WallFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        /*
         ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
@@ -182,6 +182,7 @@ public class WallFragment extends Fragment {
                 }
             }
         });
+        */
     }
 
     @Override

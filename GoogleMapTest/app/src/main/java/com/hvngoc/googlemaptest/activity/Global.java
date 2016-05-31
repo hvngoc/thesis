@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.StartedUserHelper;
+import com.hvngoc.googlemaptest.model.Profile;
 import com.hvngoc.googlemaptest.model.User;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class GLOBAL {
 
     public static User CurrentUser = null;
 
+    public static Profile CurrentUserProfile = null;
+
     public static int MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
 
     public static StartedUserHelper startedUserHelper = null;
@@ -25,7 +28,7 @@ public class GLOBAL {
     public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
     public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
     //public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
-    //public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/api/images/";
+    //public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/images/";
 
     public static HashMap<String, String> NOTIFICATION = null;
 

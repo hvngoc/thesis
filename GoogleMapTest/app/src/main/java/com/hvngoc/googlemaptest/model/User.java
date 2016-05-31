@@ -8,7 +8,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 public class User {
     private String id;
     private String name;
-    private String avatar;
+    public String avatar;
 
     public User(){
 

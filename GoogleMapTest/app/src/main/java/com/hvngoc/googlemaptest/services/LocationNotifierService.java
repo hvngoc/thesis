@@ -80,7 +80,8 @@ public class LocationNotifierService extends Service implements LocationListener
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        locationResultReceiver = intent.getParcelableExtra("LocationResultReceiver");
+        if(intent != null)
+            locationResultReceiver = intent.getParcelableExtra("LocationResultReceiver");
         if (Manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Log.i("GPS is on", "GPS on");
             Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
@@ -189,7 +190,8 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-                locationResultReceiver.send(200, new Bundle());
+                if(locationResultReceiver != null)
+                    locationResultReceiver.send(200, new Bundle());
             }
         }
     }

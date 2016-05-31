@@ -153,11 +153,10 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="2dip"
         android:clickable="true"
-        android:tint="@color/accent"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_check_ok" />
+        android:src="@drawable/ic_done_white_24dp" />
     <fragment
         android:layout_margin="6dip"
         android:layout_below="@+id/layoutCreatePost"

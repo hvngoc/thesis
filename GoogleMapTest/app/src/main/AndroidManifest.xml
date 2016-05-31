@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>-->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--
      needed for older devices -
@@ -27,6 +27,7 @@
     <uses-permission android:name="com.hvngoc.googlemaptest.gcm.permission.C2D_MESSAGE" />
     <!-- END Added for GCM -->
 
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -37,17 +38,19 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:largeHeap="true"
-        android:allowBackup="true"
         android:name=".app.MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme" >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <service android:name=".services.LocationNotifierService"/>
+
+        <service android:name=".services.LocationNotifierService" />
+
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps"
@@ -114,8 +117,8 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
-        <service android:name=".gcm.MyGcmPushReceiver"
+        <service
+            android:name=".gcm.MyGcmPushReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -125,7 +128,25 @@
         <!-- END Added for GCM -->
         <activity android:name=".activity.ChatActivity" >
         </activity>
+        <activity android:name=".activity.WallActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainPageActivity" />
+        </activity>
+        <activity android:name=".activity.EditProfileActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.WallActivity" />
+        </activity>
+        <activity android:name=".imagechooser.CustomGalleryActivity" >
+            <intent-filter>
 
+                <action android:name="cunoraz.ACTION_PICK" />
+                <action android:name="cunoraz.ACTION_MULTIPLE_PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

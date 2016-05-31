@@ -20,10 +20,11 @@ public class LocationHelper implements LocationListener {
 
     private Context context;
     private Location currentLocation;
+    private LocationManager Manager;
 
     public LocationHelper(Context context){
         this.context = context;
-        LocationManager Manager = (LocationManager)context.getSystemService(Service.LOCATION_SERVICE);
+        Manager = (LocationManager)context.getSystemService(Service.LOCATION_SERVICE);
         try{
             if (Manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
@@ -41,7 +42,7 @@ public class LocationHelper implements LocationListener {
         if(currentLocation == null){
             showSetting();
         }
-        Manager.removeUpdates(this);
+
     }
 
     private void showSetting(){
@@ -80,6 +81,7 @@ public class LocationHelper implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         this.currentLocation = location;
+        Manager.removeUpdates(this);
     }
 
     @Override

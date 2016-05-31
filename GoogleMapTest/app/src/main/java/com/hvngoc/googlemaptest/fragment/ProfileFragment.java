@@ -14,7 +14,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -235,7 +234,7 @@ public class ProfileFragment extends Fragment {
                 switch (position) {
                     case 1:
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container_body, WallFragment.getInstance(currentID));
+                        fragmentTransaction.replace(R.id.container_body, MyWallFragment.getInstance(currentID));
                         fragmentTransaction.commit();
                         break;
                     case 2:

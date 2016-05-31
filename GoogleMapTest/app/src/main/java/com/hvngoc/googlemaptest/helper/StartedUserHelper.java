@@ -28,7 +28,7 @@ public class StartedUserHelper {
         editor = sharedRef.edit();
         editor.putString(ID, user.getId());
         editor.putString(NAME, user.getName());
-        editor.putString(AVATAR, user.getAvatar());
+        editor.putString(AVATAR, user.avatar);
         editor.putFloat(DEFAULT_LATITUDE, (float) user.getDefaultLatitude());
         editor.putFloat(DEFAULT_LONGITUDE, (float) user.getDefaultLongitude());
         editor.apply();

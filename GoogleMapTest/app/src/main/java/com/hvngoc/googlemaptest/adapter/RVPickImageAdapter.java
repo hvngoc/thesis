@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -44,7 +43,8 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         String item = mItems.get(i);
         if(item != null && !item.equals(""))  {
-            final File image = DiskCacheUtils.findInCache(item, imageLoader.getDiskCache());
+            //final File image = DiskCacheUtils.findInCache(item, imageLoader.getDiskCache());
+            final File image = null;
             if (image!= null && image.exists()) {
                 Picasso.with(GLOBAL.CurrentContext).load(image).fit().centerCrop().into(viewHolder.imgPickImage);
             }

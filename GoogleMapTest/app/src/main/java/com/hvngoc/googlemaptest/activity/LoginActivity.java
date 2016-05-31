@@ -178,7 +178,6 @@ public class LoginActivity extends AppCompatActivity {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 GLOBAL.CurrentUser = gson.fromJson(res, User.class);
-
                 onLoginSuccess();
             }
             else {

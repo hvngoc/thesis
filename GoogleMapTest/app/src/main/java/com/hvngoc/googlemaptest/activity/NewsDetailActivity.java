@@ -188,7 +188,6 @@ public class NewsDetailActivity extends BaseActivity {
         setActionBarTitle(getString(R.string.title_activity_detail));
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
