@@ -2,18 +2,16 @@ package com.hvngoc.googlemaptest.activity;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -34,20 +32,17 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
+import com.hvngoc.googlemaptest.helper.SquareHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.hvngoc.googlemaptest.view.MapFooterLayout;
 import com.hvngoc.googlemaptest.view.MapHeaderLayout;
-import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
-import com.yalantis.contextmenu.lib.MenuParams;
-import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap googleMap;
@@ -63,6 +58,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -136,9 +132,17 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     private class SearchPostByDistanceAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
         private LatLng latLng;
+        private SquareHelper squareHelper;
+
+        private double LatitudeUp, LatitudeDown, LongitudeRight, LongitudeLeft;
 
         public SearchPostByDistanceAsyncTask(LatLng latLng){
             this.latLng = new LatLng(LocationRoundHelper.Round(latLng.latitude), LocationRoundHelper.Round(latLng.longitude));
+            squareHelper = new SquareHelper(latLng, SEARCH_DISTANCE);
+            LatitudeUp = LocationRoundHelper.Round(squareHelper.getLatUp());
+            LatitudeDown = LocationRoundHelper.Round(squareHelper.getLatDown());
+            LongitudeRight = LocationRoundHelper.Round(squareHelper.getLonRight());
+            LongitudeLeft = LocationRoundHelper.Round(squareHelper.getLonLeft());
         }
 
         @Override
@@ -154,7 +158,10 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("Latitude", latLng.latitude);
                 jsonobj.put("Longitude", latLng.longitude);
-                jsonobj.put("distance", SEARCH_DISTANCE);
+                jsonobj.put("LatitudeUp", LatitudeUp);
+                jsonobj.put("LatitudeDown", LatitudeDown);
+                jsonobj.put("LongitudeRight", LongitudeRight);
+                jsonobj.put("LongitudeLeft", LongitudeLeft);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -187,35 +194,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_maps;
-    }
-
-    @Override
-    protected void InitRunCustomMenu(){
-        MenuParams menuParams = new MenuParams();
-        menuParams.setActionBarSize(60);
-        menuParams.setMenuObjects(getMenuObjects());
-        menuParams.setClosableOutside(false);
-        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
-        mMenuDialogFragment.setItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(View clickedView, int position) {
-                switch (position) {
-                    case 1:
-                        LocationHelper location = new LocationHelper(MapsActivity.this);
-                        LatLng latLng = new LatLng(location.GetLatitude(), location.GetLongitude());
-                        onMapLongClick(latLng);
-                        break;
-                    case 2:
-                        ZoomAnimateLevelToFitMarkers();
-                        break;
-                }
-            }
-        });
     }
 
     @Override

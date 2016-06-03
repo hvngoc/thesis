@@ -2,8 +2,10 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,9 +19,9 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.PostCreationActivity;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
@@ -68,6 +70,13 @@ public class HomeFragment extends Fragment {
         listnews.setHasFixedSize(true);
         adapter = new RVAdapter();
         listnews.setAdapter(adapter);
+        FloatingActionButton createPost = (FloatingActionButton) rootView.findViewById(R.id.createPost);
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), PostCreationActivity.class));
+            }
+        });
         return rootView;
     }
 
@@ -87,14 +96,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((BaseActivity) context).setMessageDelegationHelper(new MessageDelegationHelper() {
-            @Override
-            public void doSomething(String message, String param) {
-                if (message.equals(CONSTANT.NOTIFICATION_HOME)) {
-                    new LoadPostAsyncTask().execute();
-                }
-            }
-        });
     }
 
     @Override

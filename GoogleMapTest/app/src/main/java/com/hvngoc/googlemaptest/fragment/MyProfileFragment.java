@@ -18,20 +18,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.EditProfileActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.WallActivity;
-import com.hvngoc.googlemaptest.helper.DatePickerHelper;
-import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -130,7 +123,6 @@ public class MyProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("PROFILE", "RESUME");
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.WallActivity;
+import com.hvngoc.googlemaptest.fragment.MyProfileFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
@@ -30,15 +33,13 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     private int visibilityAdd;
     private int visibilityDelete;
     private int visibilityAddRequest;
-    private FragmentManager fragmentManager;
     private int type;
-    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest, FragmentManager manager, int type) {
+    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest, int type) {
         super();
         mItems = listItems;
         this.visibilityAdd = visibilityAdd;
         this.visibilityAddRequest = visibilityAddRequest;
         this.visibilityDelete = visibilityDelete;
-        this.fragmentManager = manager;
         this.type = type;
     }
 
@@ -147,9 +148,14 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
             int position = getAdapterPosition();
             String id = mItems.get(position).getId();
             Log.i("ONCLICK", "ONCLICK");
+            Intent intent = new Intent(GLOBAL.CurrentContext, WallActivity.class);
+            intent.putExtra("id", id);
+            GLOBAL.CurrentContext.startActivity(intent);
+            /*
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(id, type));
             fragmentTransaction.commit();
+            */
         }
     }
 }

@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
@@ -69,15 +69,21 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        Log.i("MESSAGE FRAGMENT", "ON ATTATCH");
+        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param) {
+            public void doSomething(String message, String param, String targetID) {
                 if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)){
                     progressDialog.show();
                     new LoadMessageAsyncTask().execute();
                 }
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override

@@ -20,12 +20,14 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
+import com.hvngoc.googlemaptest.helper.SquareHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,9 +165,18 @@ public class LocationNotifierService extends Service implements LocationListener
         private HTTPPostHelper helper;
         private Double latitude, longitude;
 
+        private SquareHelper squareHelper;
+        private double LatitudeUp, LatitudeDown, LongitudeRight, LongitudeLeft;
+
         public MakeNotificationPost(Double latitude, Double longitude){
             this.latitude = LocationRoundHelper.Round(latitude);
             this.longitude = LocationRoundHelper.Round(longitude);
+
+            squareHelper = new SquareHelper(new LatLng(this.latitude, this.longitude), 500);
+            LatitudeUp = LocationRoundHelper.Round(squareHelper.getLatUp());
+            LatitudeDown = LocationRoundHelper.Round(squareHelper.getLatDown());
+            LongitudeRight = LocationRoundHelper.Round(squareHelper.getLonRight());
+            LongitudeLeft = LocationRoundHelper.Round(squareHelper.getLonLeft());
         }
 
         @Override
@@ -176,7 +187,10 @@ public class LocationNotifierService extends Service implements LocationListener
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("Latitude", latitude);
                 jsonobj.put("Longitude", longitude);
-                jsonobj.put("distance", 1000);
+                jsonobj.put("LatitudeUp", LatitudeUp);
+                jsonobj.put("LatitudeDown", LatitudeDown);
+                jsonobj.put("LongitudeRight", LongitudeRight);
+                jsonobj.put("LongitudeLeft", LongitudeLeft);
                 jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -190,8 +204,7 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-                if(locationResultReceiver != null)
-                    locationResultReceiver.send(200, new Bundle());
+                locationResultReceiver.send(200, new Bundle());
             }
         }
     }

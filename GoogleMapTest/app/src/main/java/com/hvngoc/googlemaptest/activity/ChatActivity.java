@@ -1,9 +1,14 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,10 +23,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.ChatArrayAdapter;
+import com.hvngoc.googlemaptest.app.Config;
+import com.hvngoc.googlemaptest.app.MyApplication;
+import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
+import com.roughike.bottombar.BottomBarBadge;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +38,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
 
@@ -38,15 +47,19 @@ public class ChatActivity extends BaseActivity {
     private EditText chatText;
     private Button buttonSend;
     private String toUserID;
+    protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
     private boolean side = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        initBroadcastReceiver();
         initToolbar();
         toUserID = getIntent().getExtras().getString("fromUserID");
         Log.i("toUSERID", toUserID);
+        Log.i("CURRENTID", GLOBAL.CurrentUser.getId());
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage);
@@ -76,27 +89,60 @@ public class ChatActivity extends BaseActivity {
         });
 
         new LoadMessageAsyncTask().execute();
-        setMessageDelegationHelper(new MessageDelegationHelper() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registernewGCM();
+    }
+
+    public void registernewGCM() {
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+        MyApplication.getInstance().getPrefManager().clear();
+    }
+
+    protected void initBroadcastReceiver() {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
-            public void doSomething(String message, String param) {
-                if (param.equals(toUserID)) {
-                    new LoadOneMessageAsyncTask().execute();
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+                    Bundle bundle = intent.getExtras();
+                    String message = bundle.getString("message");
+                    String param = bundle.getString("param");
+                    String targetID = bundle.getString("targetID");
+                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE) && GLOBAL.CurrentUser.getId().equals(targetID)) {
+                        if (param.equals(toUserID)) {
+                            new LoadOneMessageAsyncTask().execute();
+                        }
+                    }
                 }
             }
-        });
+        };
+        registerGCM();
+    }
+
+    public void registerGCM() {
+        /*make sure only one server start. it's destroy after finishing work*/
+        Intent intent = new Intent(this, GcmIntentService.class);
+        intent.putExtra("key", "register");
+        startService(intent);
     }
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setActionBarTitle(getString(R.string.title_messages));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        getSupportActionBar().setTitle(getString(R.string.title_messages));
     }
+
 
     private boolean sendChatMessage(){
         if(chatText.getText().length() > 0)
@@ -116,15 +162,6 @@ public class ChatActivity extends BaseActivity {
         finish();
     }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_chat;
-    }
-
-    @Override
-    protected void InitRunCustomMenu() {
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
@@ -209,6 +246,11 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mRegistrationBroadcastReceiver = null;
+    }
 
     private class SendMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;

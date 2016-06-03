@@ -108,7 +108,7 @@ public class FriendSuggestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.VISIBLE, View.INVISIBLE, View.INVISIBLE, getActivity().getSupportFragmentManager(), CONSTANT.TYPE_SUGGEST);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.VISIBLE, View.INVISIBLE, View.INVISIBLE, CONSTANT.TYPE_SUGGEST);
                 recyclerListFriend.setAdapter(adapter);
             }
             else {

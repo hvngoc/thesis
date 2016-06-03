@@ -1,18 +1,27 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.app.ActivityManager;
 import android.app.WallpaperInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
+import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.custom.ChangeLanguageDialog;
 import com.hvngoc.googlemaptest.custom.ChangePasswordDialog;
 import com.hvngoc.googlemaptest.custom.DefaultLocationDialog;
@@ -25,22 +34,29 @@ import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.fragment.ProfileFragment;
+import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
+import com.hvngoc.googlemaptest.services.LocationNotifierService;
+import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 
-public class MainPageActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainPageActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private FragmentDrawer drawerFragment;
     public static boolean needToRefresh = false;
+    private String TAG = MainPageActivity.class.getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Activity:", " MainPageActivity");
-
+        setContentView(R.layout.activity_main_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerFragment = (FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -48,8 +64,11 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurrentContext = this;
         drawerFragment.setPictureProfile();
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
         displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         initBottomBar(savedInstanceState);
+        StartLocationServiceHelper();
+        initBroadcastReceiver();
     }
 
     BottomBar bottomBar;
@@ -74,6 +93,10 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                         fragment = new NotificationsFragment();
                         title = "Notification";
                         break;
+                    case R.id.friend_item:
+                        fragment = new FriendsFragment();
+                        title = "Friend";
+                        break;
                     case R.id.map_item:
                         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
                         startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
@@ -87,6 +110,8 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
     @Override
     protected void onResume() {
         super.onResume();
+        registernewGCM();
+        GLOBAL.CurrentContext = this;
         if(needToRefresh) {
             needToRefresh = false;
             finish();
@@ -95,24 +120,16 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         else {
             // display the first navigation drawer view on app launch
             setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+            displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
             GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
             drawerFragment.setLanguageAgain();
         }
     }
 
     private void setBottomBar(int position) {
-        bottomBar.selectTabAtPosition(0, true);
+        bottomBar.selectTabAtPosition(position, true);
     }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void InitRunCustomMenu() {
-
-    }
 
     @Override
     public void onDrawerItemSelected(int position) {
@@ -127,29 +144,11 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                 fragment = new HomeFragment();
                 title = getString(R.string.title_home);
                 break;
-            case CONSTANT.NAVIGATION_PROFILE:
-                fragment = ProfileFragment.getInstance(GLOBAL.CurrentUser.getId(), CONSTANT.TYPE_ME);
-                title = getString(R.string.title_profile);
-                break;
             case CONSTANT.NAVIGATION_WALL:
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
                 startWallActivity();
                 return;
-            case CONSTANT.NAVIGATION_MAP:
-                startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
-                return;
-            case CONSTANT.NAVIGATION_FRIEND:
-                fragment = new FriendsFragment();
-                title = getString(R.string.title_friends);
-                break;
-            case CONSTANT.NAVIGATION_NOTIFICATION:
-                fragment = new NotificationsFragment();
-                title = getString(R.string.title_notifications);
-                break;
-            case CONSTANT.NAVIGATION_MESSAGE:
-                fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
-                break;
+
             case CONSTANT.NAVIGATION_LANGUAGE:
                 ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();
                 changeLanguageDialog.show(getSupportFragmentManager(), "ChangeLanguageDialog");
@@ -187,15 +186,25 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         replaceCurrentFragment(fragment, title);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        messageDelegationHelper = null;
+    }
+
     private void startWallActivity() {
         Intent intent = new Intent(this, WallActivity.class);
         intent.putExtra("id", GLOBAL.CurrentUser.getId());
         startActivity(intent);
     }
 
+    private MessageDelegationHelper messageDelegationHelper = null;
+    public void setMessageDelegationHelper(MessageDelegationHelper messageHelper) {
+        this.messageDelegationHelper = messageHelper;
+    }
 
-    @Override
     protected void initBroadcastReceiver() {
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -204,21 +213,28 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
                     Bundle bundle = intent.getExtras();
                     String message = bundle.getString("message");
                     String param = bundle.getString("param");
-                    if(message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
-                        BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(2, "#E91E63", 1);
-                        unreadMessages.show();
-                        unreadMessages.setAnimationDuration(200);
+                    String targetID = bundle.getString("targetID");
+                    if(GLOBAL.CurrentUser.getId().equals(targetID)) {
+                        if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+                            if (messageDelegationHelper != null)
+                                messageDelegationHelper.doSomething(message, param, targetID);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_MESSAGE, "#E91E63", 1);
+                            unreadMessages.show();
+                            unreadMessages.setAnimationDuration(200);
+                        } else if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
+                            if (messageDelegationHelper != null)
+                                messageDelegationHelper.doSomething(message, param, targetID);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_FRIEND, "#E91E63", 1);
+                            unreadMessages.show();
+                            unreadMessages.setAnimationDuration(200);
+                        } else {
+                            if (messageDelegationHelper != null)
+                                messageDelegationHelper.doSomething(message, param, targetID);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_NOTIFICATION, "#E91E63", 1);
+                            unreadMessages.show();
+                            unreadMessages.setAnimationDuration(200);
+                        }
                     }
-                    else if (message.equals(CONSTANT.NOTIFICATION_HOME)){
-
-                    }
-                    else {
-                        BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 1);
-                        unreadMessages.show();
-                        unreadMessages.setAnimationDuration(200);
-                    }
-                    if(messageDelegationHelper != null)
-                        messageDelegationHelper.doSomething(message, param);
                 }
             }
         };
@@ -226,6 +242,91 @@ public class MainPageActivity extends BaseActivity implements FragmentDrawer.Fra
         if (checkPlayServices()) {
             registerGCM();
         }
+    }
+
+    public void registerGCM() {
+        /*make sure only one server start. it's destroy after finishing work*/
+        Intent intent = new Intent(this, GcmIntentService.class);
+        intent.putExtra("key", "register");
+        startService(intent);
+    }
+
+    public boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported. Google Play Services not installed!");
+                Toast.makeText(getApplicationContext(), "This device is not supported. Google Play Services not installed!", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void registernewGCM() {
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+        MyApplication.getInstance().getPrefManager().clear();
+    }
+
+
+    private DelegationHelper delegationHelper;
+    public void setDelegationHelper(DelegationHelper helper) {
+        this.delegationHelper = helper;
+    }
+
+
+    private void StartLocationServiceHelper() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (LocationNotifierService.class.getName().equals(service.service.getClassName())) {
+                return;
+            }
+        }
+        LocationResultReceiver locationResultReceiver = new LocationResultReceiver(null);
+        locationResultReceiver.setDelegationReceiver(new LocationResultReceiver.DelegationReceiver() {
+            @Override
+            public void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == 200) {
+                    BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 1);
+                    unreadMessages.show();
+                    unreadMessages.setAnimationDuration(200);
+                    if(delegationHelper != null)
+                        delegationHelper.doSomeThing();
+                }
+            }
+        });
+        Intent intentService = new Intent(getApplicationContext(), LocationNotifierService.class);
+        intentService.putExtra("LocationResultReceiver", locationResultReceiver);
+        startService(intentService);
+    }
+
+    protected void replaceCurrentFragment(Fragment fragment, String title) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.commit();
+
+            // set the toolbar title
+            if(title != null)
+                setActionBarTitle(title);
+        }
+    }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
 }

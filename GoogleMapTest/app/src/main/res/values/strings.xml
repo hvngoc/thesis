@@ -48,7 +48,7 @@
     <string name="hint_create_account_back">Create Account</string>
     <string name="hint_login_back">Already a member? Login</string>
     <string name="hint_commented">commented on</string>
-    <string name="hint_friend">friend</string>
+    <string name="hint_friend">friends</string>
     <string name="hint_mutual_friend">mutual friends.</string>
     <string name="hint_find_friend">May be you know this person?</string>
     <string name="hint_add_friend">add friend</string>
@@ -81,15 +81,15 @@
     <string name="hint_new_password">New Password</string>
     <string name="hint_comment">Comment</string>
     <string name="hint_type_comment">  write a comment here &#8230;</string>
-    <string name="hint_confirm_again">Confirm Again</string>
+    <string name="hint_confirm_again">Confirm</string>
     <string name="hint_ok">OK</string>
     <string name="hint_choose_picture">Choose Picture</string>
     <string name="hint_browse">Browse</string>
     <string name="hint_create_post">Create a new post</string>
-    <string name="hint_on_mind">What is on your mind??</string>
-    <string name="hint_use_location_default">Use default location.</string>
-    <string name="hint_use_your_location">Get your Location.</string>
-    <string name="hint_use_location_map">Get on map.</string>
+    <string name="hint_on_mind">Which place do you want to share?</string>
+    <string name="hint_use_location_default">Default location</string>
+    <string name="hint_use_your_location">Current location</string>
+    <string name="hint_use_location_map">Get on map</string>
     <string name="hint_help_report">Help us to improve this application:</string>
     <string name="hint_help_description">Description</string>
     <string name="hint_run_background">Allow running in background</string>
@@ -147,6 +147,7 @@
     <string name="invalid_email">Oops! invalid email.</string>
     <string name="searching">Searching&#8230;</string>
     <string name="loading">Loading&#8230;</string>
+    <string name="uploading">Uploading&#8230;</string>
     <string name="view_wall">View wall</string>
     <string name="confirm_friend">Confirm</string>
     <string name="delete_request_friend">Delete Request</string>
@@ -164,7 +165,7 @@
     <string name="sure_logout">Are you sure for closing app without logout?</string>
     <string name="finding_around">Finding around</string>
     <string name="bounding_all">Bounding All</string>
-    <string name="share_ok">share OK!!!</string>
+    <string name="share_ok">Share OK!</string>
     <string name="sign_up_failed">Sign up failed</string>
     <string name="read_policy">You must read privacy policy first</string>
     <string name="read">Read</string>

@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
@@ -70,11 +70,10 @@ public class FriendRequestFragment extends Fragment {
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param) {
-                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) ||
-                        message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)){
+            public void doSomething(String message, String param, String targetID) {
+                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
                     new LoadFriendRequestAsyncTask().execute();
                 }
             }
@@ -119,7 +118,7 @@ public class FriendRequestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE, getActivity().getSupportFragmentManager(), CONSTANT.TYPE_REQUEST);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE, CONSTANT.TYPE_REQUEST);
                 recyclerListFriend.setAdapter(adapter);
             }
 //            else {

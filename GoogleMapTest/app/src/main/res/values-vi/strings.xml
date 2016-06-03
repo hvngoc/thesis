@@ -148,6 +148,7 @@
     <string name="invalid_email">Oop! Email không tồn tại</string>
     <string name="searching">Tìm kiếm&#8230;</string>
     <string name="loading">Đang tải&#8230;</string>
+    <string name="uploading">Đang tải&#8230;</string>
     <string name="view_wall">Xem tường</string>
     <string name="confirm_friend">Xác nhận</string>
     <string name="delete_request_friend">Xóa yêu cầu</string>

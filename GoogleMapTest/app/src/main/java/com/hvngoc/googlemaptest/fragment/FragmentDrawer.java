@@ -59,13 +59,6 @@ public class FragmentDrawer extends Fragment {
 
 
         LinearLayout card_nav_profile = (LinearLayout) layout.findViewById(R.id.card_nav_profile);
-        card_nav_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawer(containerView);
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_PROFILE);
-            }
-        });
         LinearLayout card_nav_wall = (LinearLayout) layout.findViewById(R.id.card_nav_wall);
         card_nav_wall.setOnClickListener(new View.OnClickListener() {
             @Override

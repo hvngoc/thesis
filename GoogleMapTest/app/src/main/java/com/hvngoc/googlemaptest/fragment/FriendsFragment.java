@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 
 
@@ -39,29 +40,27 @@ public class FriendsFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_friend_add_black);
-        tabLayout.getTabAt(0).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_friend_search_black);
-        tabLayout.getTabAt(1).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_friend_black);
-        tabLayout.getTabAt(2).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_person_black);
-        tabLayout.getTabAt(3).getIcon().setColorFilter(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.Gray), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_group_white);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_add_white_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_group_add_white_24dp);
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_FRIEND;
+    }
 
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
-        private final int TAB_COUNT = 4;
+        private final int TAB_COUNT = 3;
         private String[] listTitle;
         private Fragment[] listFragment;
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-            listTitle = new String[]{getString(R.string.friend_request), getString(R.string.friend_find),
-                    getString(R.string.hint_friend), getString(R.string.friend_suggested)};
-            listFragment = new Fragment[]{new FriendRequestFragment(), new FriendFindFragment(),
-                    new FriendListFragment(), new FriendSuggestFragment()};
+            listTitle = new String[]{getString(R.string.hint_friend), getString(R.string.friend_request), getString(R.string.friend_suggested)};
+            listFragment = new Fragment[]{new FriendListFragment(), new FriendRequestFragment(), new FriendSuggestFragment()};
         }
 
         @Override

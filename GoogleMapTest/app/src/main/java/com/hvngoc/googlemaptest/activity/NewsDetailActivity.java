@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,28 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends AppCompatActivity {
 
 
     CircleImageView userAvatar;
@@ -43,8 +36,6 @@ public class NewsDetailActivity extends BaseActivity {
     TextView txtCommentDay;
     TextView txtAddressLocation;
     TextView title;
-
-    TextView txtRelationship, txtTag;
 
     Button btnLike;
     TextView txtNumLike;
@@ -62,7 +53,7 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_detail_news);
         Log.i("DETAIL ACTIVITY", "CREATE");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -78,9 +69,6 @@ public class NewsDetailActivity extends BaseActivity {
         txtCommentDay = (TextView) findViewById(R.id.txtCommentDay);
         txtAddressLocation = (TextView) findViewById(R.id.txtAddressLocation);
         title = (TextView) findViewById(R.id.title);
-
-        txtRelationship = (TextView) findViewById(R.id.txtRelationship);
-        txtTag = (TextView) findViewById(R.id.txtTag);
 
         btnLike = (Button) findViewById(R.id.btnLike);
         txtNumLike = (TextView) findViewById(R.id.txtNumLike);
@@ -159,14 +147,12 @@ public class NewsDetailActivity extends BaseActivity {
         Picasso.with(GLOBAL.CurrentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
         Log.i("AVATAR", currentPost.getUserAvatar());
         title.setText(currentPost.getContent());
-        txtFeeling.setText(getString(R.string.feeling) +" "+ currentPost.getFeeling() + " "+ getString(R.string.on));
+        txtFeeling.setText(getString(R.string.feeling) +" "+ currentPost.getFeeling());
         txtCommentDay.setText(currentPost.getPostDate());
         txtAddressLocation.setText(new GeolocatorAddressHelper(this, currentPost.Latitude, currentPost.Longitude).GetAddress());
         txtNumLike.setText("" + currentPost.numLike);
         txtNumShared.setText("" + currentPost.numShare);
         txtNumComment.setText("" + currentPost.numComment);
-        txtRelationship.setText(currentPost.getRelationShip() + " " + getString(R.string.in_tag));
-        txtTag.setText(currentPost.tag);
         setLikeButton();
     }
 
@@ -184,8 +170,13 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        GLOBAL.CurrentContext = this;
         Log.i("DETAIL ACTIVITY", "RESUME");
         setActionBarTitle(getString(R.string.title_activity_detail));
+    }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
@@ -200,15 +191,8 @@ public class NewsDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void InitRunCustomMenu() {
 
-    }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_detail_news;
-    }
 //*******************************************************************************************************************************//
 
     private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {

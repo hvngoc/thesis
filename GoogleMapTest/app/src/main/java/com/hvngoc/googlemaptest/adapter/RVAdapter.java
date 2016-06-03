@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         newsViewHolder.username.setText(post.userName);
         Picasso.with(GLOBAL.CurrentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
         newsViewHolder.news_title.setText(post.getContent());
-        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " "+ post.getFeeling() + " " + GLOBAL.CurrentContext.getString(R.string.on));
+        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " "+ post.getFeeling());
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getFirstImageUrl())
@@ -88,6 +90,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         public ImageView placephoto;
         public TextView txtAddressLocation;
         public TextView news_title;
+        public HashTagHelper hashTagHelper;
 
         public Button btnLike;
         public TextView txtNumLike;
@@ -108,7 +111,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
             placephoto = (ImageView) itemView.findViewById(R.id.place_photo);
             txtAddressLocation = (TextView) itemView.findViewById(R.id.txtAddressLocation);
             news_title = (TextView) itemView.findViewById(R.id.news_title);
-
+            hashTagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.blue), null);
+            hashTagHelper.handle(news_title);
             btnLike = (Button) itemView.findViewById(R.id.btnLike);
             txtNumLike = (TextView) itemView.findViewById(R.id.txtNumLike);
             btnShare = (Button) itemView.findViewById(R.id.btnShare);

@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,14 +18,12 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
-import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.PostCreationActivity;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
 import com.hvngoc.googlemaptest.custom.PostCreationDialog;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Post;
 
 import org.json.JSONException;
@@ -44,10 +43,10 @@ public class MyWallFragment extends Fragment {
     public MyWallFragment() {
         // Required empty public constructor
     }
-    public static MyWallFragment getInstance(String currentID) {
+    public static MyWallFragment getInstance(String id) {
         MyWallFragment fragment = new MyWallFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id", currentID);
+        bundle.putString("id", id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -56,7 +55,6 @@ public class MyWallFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("WALL", "RESUME WAL");
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_WALL;
     }
 
     @Override
@@ -68,7 +66,7 @@ public class MyWallFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        currentID = GLOBAL.CurrentUser.getId();
+        currentID = args.getString("id");
     }
 
     @Override
@@ -83,29 +81,6 @@ public class MyWallFragment extends Fragment {
         listPosts.setHasFixedSize(true);
 
         listNothing = (LinearLayout)rootView.findViewById(R.id.list_wall_nothing);
-
-        FloatingActionButton btnCreateNewPost = (FloatingActionButton) rootView.findViewById(R.id.btnCreateNewPost);
-        btnCreateNewPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final PostCreationDialog dialog = new PostCreationDialog();
-                dialog.setDelegationHelper(new DelegationHelper() {
-                    @Override
-                    public void doSomeThing() {
-                        SetContentView(View.VISIBLE, View.INVISIBLE);
-                        Post post = dialog.getPost();
-                        adapter.addToFirst(post);
-                        listPosts.invalidate();
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show(getFragmentManager(), "PostCreationDialog");
-            }
-        });
-
-        if (!currentID.equals(GLOBAL.CurrentUser.getId()))
-            btnCreateNewPost.setVisibility(View.INVISIBLE);
-
         return rootView;
     }
 
@@ -172,17 +147,6 @@ public class MyWallFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*
-        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
-            @Override
-            public void doSomething(String message, String param) {
-                if (message.equals(CONSTANT.NOTIFICATION_HOME) && param.equals(currentID)){
-                    progressDialog.show();
-                    new LoadPostAsyncTask().execute();
-                }
-            }
-        });
-        */
     }
 
     @Override

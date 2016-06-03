@@ -15,9 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:padding="5dp"
         android:gravity="center">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/txtCommentDay"
+            android:layout_marginLeft="4dip"
+            android:text="27/02/2016"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,27 +43,15 @@
                 android:layout_gravity="center"
                 android:textSize="15dp"
                 android:layout_marginLeft="10dp"
-                android:textColor="#0004ff" />
+                android:textColor="@color/primary_text" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-7dip"
-            android:layout_marginLeft="28dip"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtFeeling"
-                android:text="feeling happy on"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtCommentDay"
-                android:layout_marginLeft="4dip"
-                android:text="27/02/2016"/>
-        </LinearLayout>
-
+            android:id="@+id/txtFeeling"
+            android:layout_marginLeft="42dp"
+            android:layout_gravity="left"
+            android:text="feeling happy"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

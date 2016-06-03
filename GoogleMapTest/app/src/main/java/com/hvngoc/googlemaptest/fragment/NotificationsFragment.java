@@ -11,16 +11,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
@@ -84,23 +82,26 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        ((BaseActivity)context).setDelegationHelper(new DelegationHelper() {
+        ((MainPageActivity)context).setDelegationHelper(new DelegationHelper() {
             @Override
             public void doSomeThing() {
                 progressDialog.show();
                 new LoadNotificationsAsyncTask().execute();
             }
         });
-        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+
+        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param) {
-                if (!message.equals(CONSTANT.NOTIFICATION_HOME) && !message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
+            public void doSomething(String message, String param, String targetID) {
+                if(GLOBAL.CurrentUser.getId().equals(targetID)) {
                     progressDialog.show();
                     new LoadNotificationsAsyncTask().execute();
                 }
             }
         });
     }
+
+
 
     @Override
     public void onDetach() {

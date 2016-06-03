@@ -140,12 +140,15 @@
         </activity>
         <activity android:name=".imagechooser.CustomGalleryActivity" >
             <intent-filter>
-
                 <action android:name="cunoraz.ACTION_PICK" />
                 <action android:name="cunoraz.ACTION_MULTIPLE_PICK" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.MyFriendActivity" >
+        </activity>
+        <activity android:name=".activity.PostCreationActivity" >
         </activity>
     </application>
 

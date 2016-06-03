@@ -22,23 +22,21 @@ public class CONSTANT {
     public static final int TYPE_SUGGEST = 3;
 
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
-    public static final String DATE_TIME_VIEW_FORMAT = "HH:mm:ss dd/MM/yyyy";
+    public static final String DATE_TIME_VIEW_FORMAT = "dd/MM/yyyy";
 
     public static final String NOTIFICATION_COMMENT = "comment";
     public static final String NOTIFICATION_ADD_FRIEND = "add";
     public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
     public static final String NOTIFICATION_MY_POST = "mine";
     public static final String NOTIFICATION_FRIEND_POST = "friend";
-    public static final String NOTIFICATION_HOME = "home";
     public static final String NOTIFICATION_MESSAGE = "message";
 
-    public static final int NAVIGATION_HOME = 1;
-    public static final int NAVIGATION_PROFILE = 2;
-    public static final int NAVIGATION_WALL = 3;
+    public static final int NAVIGATION_HOME = 0;
+    public static final int NAVIGATION_WALL = 300;
     public static final int NAVIGATION_MAP = 4;
-    public static final int NAVIGATION_FRIEND = 5;
-    public static final int NAVIGATION_NOTIFICATION = 6;
-    public static final int NAVIGATION_MESSAGE = 7;
+    public static final int NAVIGATION_FRIEND = 3;
+    public static final int NAVIGATION_NOTIFICATION = 1;
+    public static final int NAVIGATION_MESSAGE = 2;
     public static final int NAVIGATION_SETTING = 8;
     public static final int NAVIGATION_CHANGE_PASSWORD = 9;
     public static final int NAVIGATION_CHANGE_LOCATION = 16;

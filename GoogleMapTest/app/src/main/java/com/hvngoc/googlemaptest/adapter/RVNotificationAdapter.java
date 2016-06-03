@@ -60,7 +60,6 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
         Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
         viewHolder.txtUserName.setText(item.getUserName());
         viewHolder.txtNotificationString.setText(item.getContent());
-        viewHolder.txtNotificationDate.setText(ParseDateTimeHelper.parse(item.getDate()));
     }
 
     @Override
@@ -73,7 +72,6 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
         public CircleImageView imgAvatar;
         public TextView txtUserName, txtNotificationString;
         public ImageView btnNotificationDelete;
-        public TextView txtNotificationDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,7 +81,6 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
             txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
             txtNotificationString = (TextView)itemView.findViewById(R.id.txtNotificationString);
             btnNotificationDelete = (ImageView) itemView.findViewById(R.id.btnNotificationDelete);
-            txtNotificationDate = (TextView) itemView.findViewById(R.id.txtNotificationDate);
 
             btnNotificationDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

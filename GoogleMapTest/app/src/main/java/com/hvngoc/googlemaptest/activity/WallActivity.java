@@ -49,7 +49,7 @@ public class WallActivity extends AppCompatActivity {
     TextView username;
     TextView userSlogan;
     TextView numPost, numFollower, numFriend;
-    String currentID;
+    String currentID = null;
     private ViewPager viewPager;
 
 
@@ -131,10 +131,9 @@ public class WallActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        MyProfileFragment profile = MyProfileFragment.getInstance(GLOBAL.CurrentUser.getId(), CONSTANT.TYPE_ME);
-        adapter.addFrag(new MyImagesFragment(), "Tab 1");
-        adapter.addFrag(new MyWallFragment(), "Tab 2");
-        adapter.addFrag(profile, "Tab 3");
+        adapter.addFrag(MyWallFragment.getInstance(currentID), "Posts");
+        adapter.addFrag(new MyImagesFragment(), "Images");
+        adapter.addFrag(MyProfileFragment.getInstance(currentID, CONSTANT.TYPE_ME), "Profile");
         viewPager.setAdapter(adapter);
     }
 
@@ -149,6 +148,7 @@ public class WallActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        GLOBAL.CurrentContext = this;
         if(needToRefresh) {
             needToRefresh = false;
             finish();
@@ -159,8 +159,8 @@ public class WallActivity extends AppCompatActivity {
     static class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final int[] imageResId = {
-                R.drawable.ic_border_all_white_24dp,
                 R.drawable.ic_view_stream_white_24dp,
+                R.drawable.ic_border_all_white_24dp,
                 R.drawable.ic_account_box_white_24dp
         };
         private final List<Fragment> mFragmentList = new ArrayList<>();

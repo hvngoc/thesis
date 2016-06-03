@@ -25,10 +25,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.BaseActivity;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.ChatActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
@@ -165,7 +165,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ((BaseActivity)getActivity()).setActionBarTitle(getString(R.string.title_profile));
+        ((MainPageActivity)getActivity()).setActionBarTitle(getString(R.string.title_profile));
 
         return view;
     }
@@ -358,7 +358,8 @@ public class ProfileFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i("PROFILE", "ATTACH");
-        ((BaseActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        /*
+        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND) && param.equals(currentID)) {
@@ -373,13 +374,13 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+        */
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.i("PROFILE", "RESUME");
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_PROFILE;
     }
 
     @Override
