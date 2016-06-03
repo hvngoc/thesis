@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable-land\\mdtp_done_background_color_dark.xml",
+        "source": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable-land\\mdtp_done_background_color_dark.xml"
+    },
+    {
         "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable-land\\mdtp_done_background_color_dark.xml",
         "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable-land\\mdtp_done_background_color_dark.xml"
     },

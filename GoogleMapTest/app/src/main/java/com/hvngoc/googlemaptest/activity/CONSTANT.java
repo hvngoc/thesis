@@ -22,7 +22,7 @@ public class CONSTANT {
     public static final int TYPE_SUGGEST = 3;
 
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
-    public static final String DATE_TIME_VIEW_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_TIME_VIEW_FORMAT = "HH:mm dd/MM/yyyy";
 
     public static final String NOTIFICATION_COMMENT = "comment";
     public static final String NOTIFICATION_ADD_FRIEND = "add";

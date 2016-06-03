@@ -22,7 +22,6 @@
                     android:id="@+id/imgAvatar"
                     android:layout_width="32dip"
                     android:layout_height="32dip"
-                    android:scaleType="fitXY"
                     android:src="@drawable/icon_profile" />
                 <TextView
                     android:id="@+id/txtUserName"

@@ -40,7 +40,7 @@
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_homfy"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -149,6 +149,11 @@
         <activity android:name=".activity.MyFriendActivity" >
         </activity>
         <activity android:name=".activity.PostCreationActivity" >
+        </activity>
+        <activity
+            android:label="@string/hint_comment"
+            android:name=".activity.CommentActivity"
+            android:theme="@style/AppTheme.Dark">
         </activity>
     </application>
 

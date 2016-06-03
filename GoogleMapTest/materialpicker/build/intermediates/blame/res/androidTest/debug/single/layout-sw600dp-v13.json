@@ -4,6 +4,10 @@
         "source": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\bundles\\debug\\res\\layout-sw600dp-v13\\mdtp_date_picker_dialog.xml"
     },
     {
+        "merged": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-sw600dp-v13\\mdtp_date_picker_dialog.xml",
+        "source": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\bundles\\debug\\res\\layout-sw600dp-v13\\mdtp_date_picker_dialog.xml"
+    },
+    {
         "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-sw600dp-v13\\mdtp_date_picker_dialog.xml",
         "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\bundles\\debug\\res\\layout-sw600dp-v13\\mdtp_date_picker_dialog.xml"
     }

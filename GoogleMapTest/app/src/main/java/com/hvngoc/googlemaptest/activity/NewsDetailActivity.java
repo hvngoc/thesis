@@ -18,7 +18,6 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.custom.CommentDialogLayout;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
@@ -97,8 +96,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentDialogLayout dialog = new CommentDialogLayout(GLOBAL.CurrentContext, currentPost.getPostID(), txtNumComment);
-                dialog.show();
+                Intent intent = new Intent(NewsDetailActivity.this, CommentActivity.class);
+                intent.putExtra("postID", currentPost.getPostID());
+                startActivityForResult(intent, 299);
             }
         });
 
@@ -191,9 +191,15 @@ public class NewsDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 299 && resultCode == 300){
+            int numComment = data.getExtras().getInt("numComment");
+            txtNumComment.setText(numComment + "");
+        }
+    }
 
-
-//*******************************************************************************************************************************//
+    //*******************************************************************************************************************************//
 
     private class LikeThisPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;

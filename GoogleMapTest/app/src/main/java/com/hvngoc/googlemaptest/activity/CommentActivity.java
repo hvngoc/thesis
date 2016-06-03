@@ -1,27 +1,21 @@
-package com.hvngoc.googlemaptest.custom;
+package com.hvngoc.googlemaptest.activity;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.CONSTANT;
-import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVCommentAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.Comment;
 
@@ -31,43 +25,30 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-
-public class CommentDialogLayout extends Dialog {
+/**
+ * Created by Hoang Van Ngoc on 03/06/2016.
+ */
+public class CommentActivity extends AppCompatActivity{
 
     private RecyclerView mRecyclerView;
     private RVCommentAdapter mAdapter;
 
     private String postID;
-    private Context context;
-    private TextView txtNumComment;
 
-    public CommentDialogLayout(Context context, String postID, TextView txtNumComment) {
-        super(context);
-        this.context = context;
-        this.postID = postID;
-        this.txtNumComment = txtNumComment;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        setContentView(R.layout.layout_custom_comment_dialog);
+        setContentView(R.layout.activity_comment);
+        initToolbar();
+
+        Bundle bundle = getIntent().getExtras();
+        postID = bundle.getString("postID");
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RVCommentAdapter();
         mRecyclerView.setAdapter(mAdapter);
-
-        Button btnClose = (Button) findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
 
         Button btnCommentSend = (Button) findViewById(R.id.btnCommentSend);
         btnCommentSend.setOnClickListener(new View.OnClickListener() {
@@ -78,16 +59,21 @@ public class CommentDialogLayout extends Dialog {
         });
 
         new LoadCommentAsyncTask().execute();
+    }
 
-        ((MainPageActivity)this.context).setMessageDelegationHelper(new MessageDelegationHelper() {
-            @Override
-            public void doSomething(String message, String param, String targetID) {
-                if (message.equals(CONSTANT.NOTIFICATION_COMMENT) && param.equals(postID) && GLOBAL.CurrentUser.getId().equals(targetID)){
-                    new LoadLastCommentAsyncTask().execute();
-                }
-            }
-        });
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.hint_comment));
+    }
 
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("numComment", mAdapter.getItemCount());
+        setResult(300, resultIntent);
+        finish();
+        super.onBackPressed();
     }
 
     private class LoadLastCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -123,8 +109,6 @@ public class CommentDialogLayout extends Dialog {
                 Comment comment = gson.fromJson(res, Comment.class);
                 int position = mAdapter.addComment(comment);
                 mRecyclerView.scrollToPosition(position);
-                int numComment = position + 1;
-                txtNumComment.setText("" + numComment);
             }
         }
     }
@@ -163,8 +147,6 @@ public class CommentDialogLayout extends Dialog {
                 }.getType();
                 ArrayList<Comment> listComment = gson.fromJson(res, listType);
                 int position =  mAdapter.addListComment(listComment);
-                int numComment = position + 1;
-                txtNumComment.setText("" + numComment);
                 mRecyclerView.scrollToPosition(position);
             }
         }
@@ -212,8 +194,6 @@ public class CommentDialogLayout extends Dialog {
                 Comment comment = gson.fromJson(res, Comment.class);
                 int position = mAdapter.addComment(comment);
                 mRecyclerView.scrollToPosition(position);
-                int numComment = position + 1;
-                txtNumComment.setText("" + numComment);
                 etxtWriteComment.setText("");
             }
         }
