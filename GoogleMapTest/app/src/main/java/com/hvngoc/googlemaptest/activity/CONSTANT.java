@@ -9,7 +9,7 @@ public class CONSTANT {
     public static final String EMOTION_STRING_HAPPY = "happy";
     public static final String EMOTION_STRING_MONEY = "money";
     public static final String EMOTION_STRING_NORMAL = "normal";
-    public static final String EMOTION_STRING_REFUSE = "refuse";
+    public static final String EMOTION_STRING_REFUSE = "confused";
     public static final String EMOTION_STRING_SAD = "sad";
     public static final String EMOTION_STRING_SCARED = "SCARED";
     public static final String EMOTION_STRING_SLEEPY = "sleepy";
