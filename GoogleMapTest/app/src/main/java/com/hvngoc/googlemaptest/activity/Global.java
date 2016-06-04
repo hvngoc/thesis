@@ -25,10 +25,10 @@ public class GLOBAL {
 
     public static StartedUserHelper startedUserHelper = null;
 
-    public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
-    public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
-    //public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
-    //public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/images/";
+    //public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
+    //public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
+    public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
+    public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/images/";
 
     public static HashMap<String, String> NOTIFICATION = null;
 

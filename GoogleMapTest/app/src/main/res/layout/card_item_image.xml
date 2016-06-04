@@ -22,7 +22,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="80dip"
         android:background="@drawable/comment_bg_close"
-        android:textSize="20dip"
+        android:textSize="20sp"
         android:text="×"
-        android:textColor="#ff0000" />
+        android:textColor="#000000" />
 </android.support.v7.widget.CardView>

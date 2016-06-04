@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,6 +35,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
 import com.hvngoc.googlemaptest.custom.IconizedMenu;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
@@ -47,6 +50,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import org.json.JSONArray;
@@ -55,6 +60,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +96,10 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         createSamplePost();
         initContentView();
         initImageLoader();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.hint_create_post));
     }
 
     private void initImageLoader() {
@@ -211,21 +221,30 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         super.onActivityResult(requestCode, resultCode, data);
         listImageUrls = new ArrayList<String>();
         if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
-            String[] all_path = data.getStringArrayExtra("all_path");
+            ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
+            recyclerCreatePostImage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
+            recyclerCreatePostImage.setHasFixedSize(true);
+            adapter = new RVPickImageAdapter(image_path);
 
-            ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
-
-            for (String string : all_path) {
-                CustomGallery item = new CustomGallery();
-                item.sdcardPath = string;
-                listImageUrls.add(string);
-                dataT.add(item);
-            }
-            galleryAdapter.addAll(dataT);
-            listImageUrls = galleryAdapter.getImageStringSelected();
-            adapter = new RVPickImageAdapter(listImageUrls);
+            adapter.setOnClickImage(new RVPickImageAdapter.OnClickImage() {
+                @Override
+                public void doSomething(String uri) {
+                    startCropImageActivity(Uri.fromFile(new File(uri)));
+                }
+            });
             recyclerCreatePostImage.setAdapter(adapter);
         }
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                ((ImageView) findViewById(R.id.quick_start_cropped_image)).setImageURI(result.getUri());
+//              }
+    }
+
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
     }
 
     public List<String> getStringImages(List<Bitmap> bitmaps){
@@ -283,7 +302,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 Type listType = new TypeToken<ArrayList<String>>(){}.getType();
                 List<String> imageUrls = gson.fromJson(res, listType);
                 listImageUrls.addAll(imageUrls);
-                //listImageUrls.add(imageUrl);
                 if(listImageUrls.size() == size) {
                     new CreatePostAsyncTask().execute();
                 }

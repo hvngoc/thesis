@@ -1,7 +1,15 @@
 [
     {
+        "merged": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_material_button_background.xml",
+        "source": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable\\mdtp_material_button_background.xml"
+    },
+    {
         "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_material_button_selected.xml",
         "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable\\mdtp_material_button_selected.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_material_button_selected.xml",
+        "source": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable\\mdtp_material_button_selected.xml"
     },
     {
         "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_material_button_background.xml",
@@ -18,6 +26,10 @@
     {
         "merged": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_done_background_color_dark.xml",
         "source": "F:\\THESIS_GIT\\Thesis_Public\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable\\mdtp_done_background_color_dark.xml"
+    },
+    {
+        "merged": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_done_background_color_dark.xml",
+        "source": "D:\\_AndroidApplication\\thesis\\GoogleMapTest\\materialpicker\\src\\main\\res\\drawable\\mdtp_done_background_color_dark.xml"
     },
     {
         "merged": "D:\\_AndroidApplication\\New folder\\thesis\\GoogleMapTest\\materialpicker\\build\\intermediates\\res\\merged\\debug\\drawable\\mdtp_done_background_color_dark.xml",

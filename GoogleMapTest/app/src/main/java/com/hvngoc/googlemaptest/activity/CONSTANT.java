@@ -9,7 +9,7 @@ public class CONSTANT {
     public static final String EMOTION_STRING_HAPPY = "happy";
     public static final String EMOTION_STRING_MONEY = "money";
     public static final String EMOTION_STRING_NORMAL = "normal";
-    public static final String EMOTION_STRING_REFUSE = "refuse";
+    public static final String EMOTION_STRING_REFUSE = "confused";
     public static final String EMOTION_STRING_SAD = "sad";
     public static final String EMOTION_STRING_SCARED = "SCARED";
     public static final String EMOTION_STRING_SLEEPY = "sleepy";
@@ -25,7 +25,7 @@ public class CONSTANT {
     public static final int TYPE_SUGGEST = 3;
 
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
-    public static final String DATE_TIME_VIEW_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_TIME_VIEW_FORMAT = "HH:mm dd/MM/yyyy";
 
     public static final String NOTIFICATION_COMMENT = "comment";
     public static final String NOTIFICATION_ADD_FRIEND = "add";

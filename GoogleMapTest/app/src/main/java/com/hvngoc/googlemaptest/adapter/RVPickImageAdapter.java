@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
@@ -23,7 +25,7 @@ import java.util.List;
  * Created by Hoang Van Ngoc on 22/04/2016.
  */
 public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.ViewHolder>{
-    ArrayList<String> mItems;
+    public ArrayList<String> mItems;
     ImageLoader imageLoader;
 
     public RVPickImageAdapter(ArrayList<String> mItems) {
@@ -69,6 +71,13 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
         return bitmaps;
     }
 
+    public interface OnClickImage{
+        void doSomething(String uri);
+    }
+    private OnClickImage onClickImage;
+    public void setOnClickImage(OnClickImage onClickImage){
+        this.onClickImage = onClickImage;
+    }
 
     @Override
     public int getItemCount() {
@@ -80,9 +89,16 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
         public ImageView imgPickImage;
         public Button btnPickClose;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             imgPickImage = (ImageView)itemView.findViewById(R.id.imgPickImage);
+            imgPickImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    onClickImage.doSomething(mItems.get(position));
+                }
+            });
             btnPickClose = (Button) itemView.findViewById(R.id.btnPickClose);
             btnPickClose.setOnClickListener(new View.OnClickListener() {
                 @Override

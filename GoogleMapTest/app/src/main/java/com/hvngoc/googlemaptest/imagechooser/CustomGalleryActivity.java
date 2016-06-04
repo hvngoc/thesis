@@ -1,9 +1,11 @@
 package com.hvngoc.googlemaptest.imagechooser;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,8 +39,9 @@ public class CustomGalleryActivity extends Activity {
 	Handler handler;
 	CustomGalleryAdapter adapter;
 	ImageView imgNoMedia;
-	Button btnGalleryOk;
+	Button btnGalleryOk, btnTakePicture, btnCancel;
 	String action;
+
 	private ImageLoader imageLoader;
 	public static final String ACTION_PICK = "cunoraz.ACTION_PICK";
 	public static final String ACTION_MULTIPLE_PICK = "cunoraz.ACTION_MULTIPLE_PICK";
@@ -84,7 +88,21 @@ public class CustomGalleryActivity extends Activity {
 	}
 
 	private void init() {
-
+		btnCancel = (Button) findViewById(R.id.btnCancel);
+		btnCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+				setResult(RESULT_CANCELED);
+			}
+		});
+		btnTakePicture = (Button) findViewById(R.id.btnTakePicture);
+		btnTakePicture.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				CropImage.startPickImageActivity(CustomGalleryActivity.this);
+			}
+		});
 		handler = new Handler();
 		gridGallery = (GridView) findViewById(R.id.gridGallery);
 		gridGallery.setFastScrollEnabled(true);
@@ -96,7 +114,7 @@ public class CustomGalleryActivity extends Activity {
 		if (action.equalsIgnoreCase(CustomGalleryActivity.ACTION_MULTIPLE_PICK)) {
 
 			findViewById(R.id.llBottomContainer).setVisibility(View.VISIBLE);
-			gridGallery.setOnItemClickListener(mItemMulClickListener);
+			//gridGallery.setOnItemClickListener(mItemMulClickListener);
 			adapter.setMultiplePick(true);
 
 		} else if (action.equalsIgnoreCase(CustomGalleryActivity.ACTION_PICK)) {
@@ -147,25 +165,27 @@ public class CustomGalleryActivity extends Activity {
 		public void onClick(View v) {
 			ArrayList<CustomGallery> selected = adapter.getSelected();
 
-			String[] allPath = new String[selected.size()];
-			for (int i = 0; i < allPath.length; i++) {
-				allPath[i] = selected.get(i).sdcardPath;
+			ArrayList<String> allPath = new ArrayList<String>();
+			for (int i = 0; i < selected.size(); i++) {
+				allPath.add(selected.get(i).sdcardPath);
 			}
-
-			Intent data = new Intent().putExtra("all_path", allPath);
+			Intent data = new Intent();
+			data.putStringArrayListExtra("image_path", allPath);
 			setResult(RESULT_OK, data);
 			finish();
 
 		}
 	};
+	/*
 	AdapterView.OnItemClickListener mItemMulClickListener = new AdapterView.OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 			adapter.changeSelection(v, position);
-
+			Log.i("Click", "" + position);
 		}
 	};
+	*/
 
 	AdapterView.OnItemClickListener mItemSingleClickListener = new AdapterView.OnItemClickListener() {
 
@@ -212,4 +232,19 @@ public class CustomGalleryActivity extends Activity {
 		return galleryList;
 	}
 
+
+
+	@Override
+	@SuppressLint("NewApi")
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		// handle result of pick image chooser
+		if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+			Uri imageUri = CropImage.getPickImageResultUri(this, data);
+
+			CustomGallery item = new CustomGallery();
+			item.sdcardPath = imageUri.getPath();
+			adapter.add(item);
+		}
+	}
 }

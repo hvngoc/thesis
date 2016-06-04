@@ -5,17 +5,28 @@
     android:layout_height="fill_parent"
     android:background="@color/primary"
     android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/accent"
-        android:gravity="center"
-        android:text="Choose your images"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/accent"
+            android:gravity="center"
+            android:text="Choose your images"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnTakePicture"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_photo_camera_white_24dp"/>
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -52,15 +63,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="fill_horizontal"
         android:padding="5dp" >
-
         <Button
             android:id="@+id/btnGalleryOk"
-            android:textColor="@android:color/white"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:text="OK" />
+            android:text="@string/hint_ok" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnCancel"
+            android:text="@string/hint_cancel"/>
     </LinearLayout>
 
 </LinearLayout>

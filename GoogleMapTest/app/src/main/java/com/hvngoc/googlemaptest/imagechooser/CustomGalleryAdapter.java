@@ -3,6 +3,7 @@ package com.hvngoc.googlemaptest.imagechooser;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,27 +77,21 @@ public class CustomGalleryAdapter extends BaseAdapter {
 
 	public ArrayList<CustomGallery> getSelected() {
 		ArrayList<CustomGallery> dataList = new ArrayList<CustomGallery>();
-
+		Log.i("DATA IMAGE", "" + data.size());
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).isSeleted) {
                 dataList.add(data.get(i));
 			}
 		}
-
+		Log.i("IMAGE SELECTED", "" + dataList.size());
 		return dataList;
 	}
 
-	public ArrayList<String> getImageStringSelected() {
-		ArrayList<String> dataList = new ArrayList<String>();
-
-		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).isSeleted) {
-				dataList.add(data.get(i).sdcardPath);
-			}
-		}
-
-		return dataList;
+	public void add(CustomGallery item) {
+		this.data.add(0, item);
+		notifyDataSetChanged();
 	}
+
 
 	public void addAll(ArrayList<CustomGallery> files) {
 
@@ -112,19 +107,20 @@ public class CustomGalleryAdapter extends BaseAdapter {
 	}
 
 	public void changeSelection(View v, int position) {
+		CustomGallery item = data.get(position);
 
-		if (data.get(position).isSeleted) {
-			data.get(position).isSeleted = false;
+		if (item.isSeleted) {
+			item.isSeleted = false;
 		} else {
-			data.get(position).isSeleted = true;
+			item.isSeleted = true;
 		}
-
+		data.set(position, item);
 		((ViewHolder) v.getTag()).imgCheck.setSelected(data
 				.get(position).isSeleted);
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		final ViewHolder holder;
 		if (convertView == null) {
@@ -133,7 +129,6 @@ public class CustomGalleryAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.imgQueue = (ImageView) convertView
 					.findViewById(R.id.imgQueue);
-
 			holder.imgCheck = (CheckBox) convertView
 					.findViewById(R.id.imgCheck);
 
@@ -149,7 +144,13 @@ public class CustomGalleryAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.imgQueue.setTag(position);
-
+		holder.imgQueue.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				holder.imgCheck.setChecked(!holder.imgCheck.isChecked());
+				data.get(position).isSeleted = !data.get(position).isSeleted;
+			}
+		});
 		try {
 
 			imageLoader.displayImage("file://" + data.get(position).sdcardPath,
@@ -172,13 +173,15 @@ public class CustomGalleryAdapter extends BaseAdapter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		convertView.setClickable(true);
 		return convertView;
 	}
 
-	public class ViewHolder {
+	public class ViewHolder{
 		ImageView imgQueue;
 		CheckBox imgCheck;
+
+
 	}
 
 	public void clearCache() {

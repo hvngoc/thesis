@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/layout_comment"
+            android:layout_margin="6dip" />
+        <RelativeLayout
+            android:id="@+id/layout_comment"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="6dip"
+                android:layout_marginLeft="5dp"
+                android:layout_toStartOf="@+id/btnCommentSend"
+                android:layout_width="match_parent"
+                android:layout_height="36dip"
+                android:hint="@string/hint_type_comment"
+                android:textColor="@color/primary_text"
+                android:id="@+id/etxtWriteComment" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/hint_button_send"
+                android:id="@+id/btnCommentSend"
+                android:textColor="@color/primary_text" />
+        </RelativeLayout>
+</RelativeLayout>

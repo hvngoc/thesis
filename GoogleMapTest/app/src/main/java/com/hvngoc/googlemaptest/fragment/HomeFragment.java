@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private FragmentManager fragmentManager;
+
     private RVAdapter adapter;
 
     public HomeFragment() {
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        fragmentManager = getActivity().getSupportFragmentManager();
     }
 
     @Override
@@ -140,13 +142,14 @@ public class HomeFragment extends Fragment {
                  ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
                 adapter.addListPost(CurrentListPost);
             }
+            /*
             else {
                 // Notify send request failed!
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
                 fragmentTransaction.commit();
             }
+            */
             progressDialog.dismiss();
         }
     }
