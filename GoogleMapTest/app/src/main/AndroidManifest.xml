@@ -150,6 +150,8 @@
         </activity>
         <activity android:name=".activity.PostCreationActivity" >
         </activity>
+        <activity android:name=".activity.PickImageActivity" >
+        </activity>
     </application>
 
 </manifest>

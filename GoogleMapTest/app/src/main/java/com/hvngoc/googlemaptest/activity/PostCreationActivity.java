@@ -1,6 +1,8 @@
 package com.hvngoc.googlemaptest.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
@@ -37,7 +39,14 @@ import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.helper.PickPictureHelper;
+import com.hvngoc.googlemaptest.imagechooser.CustomGallery;
+import com.hvngoc.googlemaptest.imagechooser.CustomGalleryAdapter;
 import com.hvngoc.googlemaptest.model.Post;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import org.json.JSONArray;
@@ -59,7 +68,10 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
     private EditText editTextCreatePost;
     private Post post;
     private RVPickImageAdapter adapter;
+    private CustomGalleryAdapter galleryAdapter;
+    private RecyclerView recyclerCreatePostImage;
     private ArrayList<String> listImageUrls = new ArrayList<String>();
+    ImageLoader imageLoader;
     private List<String> tags;
     private ImageView btnCreatePostGetFeeling;
     private FloatingActionButton btnCreatePostOK;
@@ -77,6 +89,22 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         initComponent();
         createSamplePost();
         initContentView();
+        initImageLoader();
+    }
+
+    private void initImageLoader() {
+        // for universal image loader
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
+        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
+                this).defaultDisplayImageOptions(defaultOptions).memoryCache(
+                new WeakMemoryCache());
+
+        ImageLoaderConfiguration config = builder.build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(config);
+        galleryAdapter = new CustomGalleryAdapter(this, imageLoader);
     }
 
     private void initContentView() {
@@ -101,6 +129,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void initComponent() {
+        recyclerCreatePostImage = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
         txtCreatePostFeeling = (TextView) findViewById(R.id.txtCreatePostFeeling);
         btnCreatePostGetFeeling = (ImageView) findViewById(R.id.btnCreatePostGetFeeling);
         btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
@@ -133,21 +162,8 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PickPictureHelper pickPictureHelper = PickPictureHelper.getInstance(true);
-                pickPictureHelper.setOnOKClickListener(new Button.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ArrayList<String> listImages = pickPictureHelper.getmItemsChecked();
-
-                        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
-                        mRecyclerView.setHasFixedSize(true);
-                        adapter = new RVPickImageAdapter(listImages);
-                        mRecyclerView.setAdapter(adapter);
-                        pickPictureHelper.dismiss();
-                    }
-                });
-                pickPictureHelper.show(getSupportFragmentManager(), "pickPictureHelper");
+                Intent i = new Intent(CONSTANT.ACTION_MULTIPLE_PICK);
+                startActivityForResult(i, 200);
             }
         });
 
@@ -188,6 +204,28 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        listImageUrls = new ArrayList<String>();
+        if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
+            String[] all_path = data.getStringArrayExtra("all_path");
+
+            ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
+
+            for (String string : all_path) {
+                CustomGallery item = new CustomGallery();
+                item.sdcardPath = string;
+                listImageUrls.add(string);
+                dataT.add(item);
+            }
+            galleryAdapter.addAll(dataT);
+            listImageUrls = galleryAdapter.getImageStringSelected();
+            adapter = new RVPickImageAdapter(listImageUrls);
+            recyclerCreatePostImage.setAdapter(adapter);
+        }
     }
 
     public List<String> getStringImages(List<Bitmap> bitmaps){

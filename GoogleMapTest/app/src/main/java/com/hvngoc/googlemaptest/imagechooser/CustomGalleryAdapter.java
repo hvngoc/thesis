@@ -1,6 +1,8 @@
 package com.hvngoc.googlemaptest.imagechooser;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomGalleryAdapter extends BaseAdapter {
 
@@ -28,6 +31,18 @@ public class CustomGalleryAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mContext = c;
 		this.imageLoader = imageLoader;
+	}
+
+	public List<Bitmap> getListBitmaps() {
+		List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+		for (int i = 0; i < data.size(); i++) {
+			Bitmap bitmap = BitmapFactory.decodeFile(data.get(i).sdcardPath);
+			if(bitmap.getWidth() > 480 || bitmap.getHeight() > 300) {
+				bitmap = Bitmap.createScaledBitmap(bitmap, 480, 300, true);
+			}
+			bitmaps.add(bitmap);
+		}
+		return bitmaps;
 	}
 
 	@Override
@@ -57,12 +72,26 @@ public class CustomGalleryAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+
+
 	public ArrayList<CustomGallery> getSelected() {
 		ArrayList<CustomGallery> dataList = new ArrayList<CustomGallery>();
 
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).isSeleted) {
                 dataList.add(data.get(i));
+			}
+		}
+
+		return dataList;
+	}
+
+	public ArrayList<String> getImageStringSelected() {
+		ArrayList<String> dataList = new ArrayList<String>();
+
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).isSeleted) {
+				dataList.add(data.get(i).sdcardPath);
 			}
 		}
 
