@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +52,7 @@ public class FriendFindFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class FriendFindFragment extends Fragment {
         img_add_Friend = (ImageView) view.findViewById(R.id.img_add_Friend);
         editFriendSearch = (EditText) view.findViewById(R.id.editFriendSearch);
         btnFriendSearch = (ImageView) view.findViewById(R.id.btnFriendSearch);
+
+
 
         txt_addFriend.setOnClickListener(new View.OnClickListener() {
             @Override

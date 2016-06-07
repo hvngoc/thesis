@@ -28,6 +28,7 @@ import com.hvngoc.googlemaptest.custom.DefaultLocationDialog;
 import com.hvngoc.googlemaptest.custom.ReportDialog;
 import com.hvngoc.googlemaptest.custom.SettingDialog;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
+import com.hvngoc.googlemaptest.fragment.FriendFindFragment;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.HomeFragment;
 import com.hvngoc.googlemaptest.fragment.LogoutFragment;
@@ -42,6 +43,9 @@ import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarBadge;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 
 public class MainPageActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -75,6 +79,17 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
     private void initBottomBar(Bundle savedInstanceState) {
         bottomBar = BottomBar.attach(this, savedInstanceState);
         bottomBar.noTopOffset();
+        KeyboardVisibilityEvent.setEventListener(
+                this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if(isOpen)
+                            bottomBar.hide();
+                        else
+                            bottomBar.show();
+                    }
+                });
         bottomBar.setItemsFromMenu(R.menu.menu_bottom_bar, new OnMenuTabSelectedListener() {
             @Override
             public void onMenuItemSelected(int itemId) {

@@ -40,9 +40,10 @@ public class FriendsFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_group_white);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_add_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_group_add_white_24dp);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_group_add_white_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_group_white);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_add_white_24dp);
         return rootView;
     }
 
@@ -53,14 +54,14 @@ public class FriendsFragment extends Fragment {
     }
 
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
-        private final int TAB_COUNT = 3;
+        private final int TAB_COUNT = 4;
         private String[] listTitle;
         private Fragment[] listFragment;
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-            listTitle = new String[]{getString(R.string.hint_friend), getString(R.string.friend_request), getString(R.string.friend_suggested)};
-            listFragment = new Fragment[]{new FriendListFragment(), new FriendRequestFragment(), new FriendSuggestFragment()};
+            listTitle = new String[]{getString(R.string.friend_find), getString(R.string.friend_suggested), getString(R.string.hint_friend), getString(R.string.friend_request)};
+            listFragment = new Fragment[]{new FriendFindFragment(), new FriendSuggestFragment(), new FriendListFragment(), new FriendRequestFragment()};
         }
 
         @Override
