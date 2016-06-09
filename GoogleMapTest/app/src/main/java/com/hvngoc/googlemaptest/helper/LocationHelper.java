@@ -15,8 +15,8 @@ import com.hvngoc.googlemaptest.R;
 
 
 public class LocationHelper implements LocationListener {
-    private static final int TIME_UPDATER = 5000;
-    private static final int DISTANCE_UPDATER = 20;
+    private static final int TIME_UPDATER = 100;
+    private static final int DISTANCE_UPDATER = 10;
 
     private Context context;
     private Location currentLocation;

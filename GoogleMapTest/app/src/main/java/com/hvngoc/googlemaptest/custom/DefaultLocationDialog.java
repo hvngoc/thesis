@@ -101,7 +101,6 @@ public class DefaultLocationDialog extends DialogFragment implements OnMapReadyC
         this.googleMap.getUiSettings().setCompassEnabled(true);
         this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
         this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
-        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.setMyLocationEnabled(true);
         this.googleMap.setTrafficEnabled(true);

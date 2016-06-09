@@ -1,12 +1,10 @@
 package com.hvngoc.googlemaptest.fragment;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +48,7 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_FRIEND;
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_FRIEND;
     }
 
     private class SampleViewPaperAdapter extends FragmentPagerAdapter {
@@ -60,7 +58,7 @@ public class FriendsFragment extends Fragment {
 
         public SampleViewPaperAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
-            listTitle = new String[]{getString(R.string.friend_find), getString(R.string.friend_suggested), getString(R.string.hint_friend), getString(R.string.friend_request)};
+            listTitle = new String[]{getString(R.string.friend_find), getString(R.string.friend_suggested), getString(R.string.friend_friends), getString(R.string.friend_request)};
             listFragment = new Fragment[]{new FriendFindFragment(), new FriendSuggestFragment(), new FriendListFragment(), new FriendRequestFragment()};
         }
 

@@ -191,25 +191,21 @@ public class EditProfileActivity extends AppCompatActivity {
             if(aBoolean) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
-                Profile profile2 = gson.fromJson(res, Profile.class);
-                updateProfile(profile2);
-                loadUserProfile();
-                MainPageActivity.needToRefresh = true;
-                WallActivity.needToRefresh = true;
+                profile = gson.fromJson(res, Profile.class);
+                updateProfile();
             }
             else {
                 Toast.makeText(GLOBAL.CurrentContext, "Error", Toast.LENGTH_SHORT).show();
             }
             progressDialog.dismiss();
             finish();
+            Intent intent = new Intent(EditProfileActivity.this, WallActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("id", GLOBAL.CurrentUser.getId());
+            startActivity(intent);
         }
 
-        private void updateProfile(Profile p) {
-            profile.name = p.name;
-            profile.avatar = p.avatar;
-            profile.address = p.address;
-            profile.birthday = p.birthday;
-            profile.gender = p.gender;
+        private void updateProfile() {
             GLOBAL.CurrentUser.setName(profile.name);
             GLOBAL.CurrentUser.setAvatar(profile.avatar);
             GLOBAL.startedUserHelper.saveUser(GLOBAL.CurrentUser);

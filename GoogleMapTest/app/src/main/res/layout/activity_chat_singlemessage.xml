@@ -3,24 +3,31 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/singleMessageContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_friendAvatar"
+            android:layout_marginLeft="3dp"
+            android:layout_width="32dip"
+            android:layout_centerVertical="true"
+            android:layout_height="32dip"
+            android:src="@drawable/icon_profile" />
 
         <TextView
             android:id="@+id/singleMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:layout_margin="5dip"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_toEndOf="@+id/img_friendAvatar"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/bubble_a"
             android:paddingLeft="10dip"
             android:text="Hello bubbles!"
             android:textColor="@android:color/primary_text_light" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

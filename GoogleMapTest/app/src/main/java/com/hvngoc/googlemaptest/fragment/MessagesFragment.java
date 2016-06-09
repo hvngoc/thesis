@@ -2,17 +2,16 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
+import com.hvngoc.googlemaptest.activity.FriendMessageActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
@@ -57,7 +57,7 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_MESSAGE;
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_MESSAGE;
     }
 
     @Override
@@ -99,6 +99,14 @@ public class MessagesFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
         recyclerListMessage.setLayoutManager(llm);
         recyclerListMessage.setHasFixedSize(true);
+        FloatingActionButton newMessage = (FloatingActionButton) rootView.findViewById(R.id.newMessage);
+        newMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GLOBAL.CurrentContext, FriendMessageActivity.class);
+                startActivity(intent);
+            }
+        });
         // Inflate the layout for this fragment
         return rootView;
     }

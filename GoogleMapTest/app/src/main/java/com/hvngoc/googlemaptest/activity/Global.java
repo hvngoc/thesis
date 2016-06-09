@@ -15,20 +15,21 @@ import java.util.HashMap;
  * Created by 12125_000 on 1/9/2016.
  */
 public class GLOBAL {
+
     public static Context CurrentContext = null;
 
     public static User CurrentUser = null;
 
     public static Profile CurrentUserProfile = null;
 
-    public static int MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+    public static int MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
 
     public static StartedUserHelper startedUserHelper = null;
 
-    //public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
-    //public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
-    public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
-    public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/images/";
+    public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
+    public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
+    //public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
+    //public static final String SERVER_IMAGE_URL = "https://my-node-server.herokuapp.com/images/";
 
     public static HashMap<String, String> NOTIFICATION = null;
 
@@ -44,6 +45,7 @@ public class GLOBAL {
                 put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CurrentContext.getString(R.string.notification_string_confirm_friend));
                 put(CONSTANT.NOTIFICATION_FRIEND_POST, CurrentContext.getString(R.string.notification_string_friend_post));
                 put(CONSTANT.NOTIFICATION_MY_POST, CurrentContext.getString(R.string.notification_string_my_post));
+                put(CONSTANT.NOTIFICATION_MESSAGE, "adasdasdasdasdasdasdasda");
             }
         };
         RELATIONSHIP = new HashMap<String, String>(){

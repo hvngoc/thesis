@@ -1,8 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.WallActivity;
-import com.hvngoc.googlemaptest.fragment.MyProfileFragment;
-import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.model.Friend;
@@ -151,11 +147,7 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
             Intent intent = new Intent(GLOBAL.CurrentContext, WallActivity.class);
             intent.putExtra("id", id);
             GLOBAL.CurrentContext.startActivity(intent);
-            /*
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(id, type));
-            fragmentTransaction.commit();
-            */
+
         }
     }
 }

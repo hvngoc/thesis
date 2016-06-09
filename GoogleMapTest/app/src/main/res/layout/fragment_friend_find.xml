@@ -109,6 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:layout_gravity="center"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -122,6 +123,7 @@
             <TextView
                 android:text="@string/hint_nothing_found"
                 android:textSize="30sp"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -131,22 +133,24 @@
         android:id="@+id/friends_bar"
         android:paddingStart="10dip"
         android:paddingEnd="10dip"
-        android:background="#088A85"
         android:layout_alignParentBottom="true"
+        android:elevation="3dp"
         android:layout_height="50dip">
         <EditText
             android:id="@+id/editFriendSearch"
             android:layout_alignParentStart="true"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
+            android:layout_centerVertical="true"
             android:hint="@string/hint_type_email"
             android:layout_toStartOf="@+id/btnFriendSearch"
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/btnFriendSearch"
             android:layout_alignParentRight="true"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:src="@android:drawable/ic_menu_search" />
+            android:tint="@color/secondary_text"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:src="@drawable/ic_search" />
     </RelativeLayout>
 </RelativeLayout>

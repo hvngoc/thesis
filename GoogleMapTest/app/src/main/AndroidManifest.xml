@@ -127,6 +127,9 @@
 
         <!-- END Added for GCM -->
         <activity android:name=".activity.ChatActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainPageActivity" />
         </activity>
         <activity android:name=".activity.WallActivity" >
             <meta-data
@@ -153,14 +156,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
         </activity>
-		<activity
-            android:label="@string/hint_comment"
+        <activity
             android:name=".activity.CommentActivity"
-            android:theme="@style/AppTheme.Dark">
+            android:label="@string/hint_comment" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.NewsDetailActivity" />
         </activity>
         <activity android:name=".activity.PickImageActivity" >
         </activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity android:name=".activity.FriendMessageActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainPageActivity" />
+        </activity>
     </application>
 
 </manifest>

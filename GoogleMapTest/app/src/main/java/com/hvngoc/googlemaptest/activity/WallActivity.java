@@ -40,14 +40,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class WallActivity extends AppCompatActivity {
-    public static boolean needToRefresh = false;
     public static Profile currentPofile = null;
     TabLayout tlUserProfileTabs;
     CircleImageView userAvatar;
     View vUserDetails;
     View vUserProfileRoot;
     TextView username;
-    TextView userSlogan;
+    TextView userEmail;
     TextView numPost, numFollower, numFriend;
     String currentID = null;
     private ViewPager viewPager;
@@ -83,7 +82,7 @@ public class WallActivity extends AppCompatActivity {
         vUserDetails = (View) findViewById(R.id.vUserDetails);
         vUserProfileRoot = (View) findViewById(R.id.vUserProfileRoot);
         username = (TextView) findViewById(R.id.username);
-        userSlogan = (TextView) findViewById(R.id.userSlogan);
+        userEmail = (TextView) findViewById(R.id.userEmail);
         numFollower = (TextView) findViewById(R.id.numFollower);
         numPost = (TextView) findViewById(R.id.numPost);
         numFriend = (TextView) findViewById(R.id.numFriend);
@@ -97,6 +96,7 @@ public class WallActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(userAvatar);
         username.setText(currentPofile.name);
+        userEmail.setText(currentPofile.email);
         numFollower.setText("" + currentPofile.numFollow);
         numFriend.setText("" + currentPofile.numFriend);
         numPost.setText("" + currentPofile.numPost);
@@ -124,7 +124,7 @@ public class WallActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_wall));
+        getSupportActionBar().setTitle("");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +132,8 @@ public class WallActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setText(getString(R.string.title_wall));
     }
 
     @Override
@@ -146,11 +148,6 @@ public class WallActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         GLOBAL.CurrentContext = this;
-        if(needToRefresh) {
-            needToRefresh = false;
-            finish();
-            startActivity(getIntent());
-        }
     }
 
     static class ViewPagerAdapter extends FragmentPagerAdapter {

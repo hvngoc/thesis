@@ -10,6 +10,8 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.app.Config;
 
+import java.util.ArrayList;
+
 /**
  * Created by 12125_000 on 5/10/2016.
  */
@@ -33,6 +35,7 @@ public class MyGcmPushReceiver extends GcmListenerService {
         String message = bundle.getString("message");
         String param = bundle.getString("param");
         String targetID = bundle.getString("targetID");
+        Log.i("RECEIVE   ", targetID.toString());
 
         String timestamp = bundle.getString("created_at");
         Log.e(TAG, "From: " + from);

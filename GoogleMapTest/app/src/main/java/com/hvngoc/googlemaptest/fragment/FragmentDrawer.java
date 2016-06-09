@@ -58,7 +58,6 @@ public class FragmentDrawer extends Fragment {
         nameTxtView = (TextView) layout.findViewById(R.id.nametxt);
 
 
-        LinearLayout card_nav_profile = (LinearLayout) layout.findViewById(R.id.card_nav_profile);
         LinearLayout card_nav_wall = (LinearLayout) layout.findViewById(R.id.card_nav_wall);
         card_nav_wall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +67,12 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
-        LinearLayout card_nav_friends = (LinearLayout) layout.findViewById(R.id.card_nav_friends);
-        card_nav_friends.setOnClickListener(new View.OnClickListener() {
+        LinearLayout card_nav_map = (LinearLayout) layout.findViewById(R.id.card_nav_map);
+        card_nav_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(containerView);
-                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_FRIEND);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_MAP);
             }
         });
 
@@ -119,8 +118,8 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
-        TextView logout = (TextView) layout.findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
+        TextView navigation_logout = (TextView) layout.findViewById(R.id.navigation_logout);
+        navigation_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(containerView);
@@ -145,12 +144,10 @@ public class FragmentDrawer extends Fragment {
 
     public void setLanguageAgain(){
         TextView textView;
-        textView = (TextView) layout.findViewById(R.id.navigation_profile);
-        textView.setText(getString(R.string.title_profile));
         textView = (TextView) layout.findViewById(R.id.navigation_wall);
         textView.setText(getString(R.string.title_wall));
-        textView = (TextView) layout.findViewById(R.id.navigation_friend);
-        textView.setText(getString(R.string.title_friends));
+        textView = (TextView) layout.findViewById(R.id.navigation_map);
+        textView.setText(getString(R.string.title_map));
         textView = (TextView) layout.findViewById(R.id.navigation_language);
         textView.setText(getString(R.string.title_language));
         textView = (TextView) layout.findViewById(R.id.navigation_setting);
@@ -161,6 +158,8 @@ public class FragmentDrawer extends Fragment {
         textView.setText(getString(R.string.title_change_location));
         textView = (TextView) layout.findViewById(R.id.navigation_report);
         textView.setText(getString(R.string.title_report));
+        textView = (TextView) layout.findViewById(R.id.navigation_logout);
+        textView.setText(getString(R.string.title_logout));
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {

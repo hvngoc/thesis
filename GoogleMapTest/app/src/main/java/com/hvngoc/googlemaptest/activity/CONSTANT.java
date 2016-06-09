@@ -34,21 +34,19 @@ public class CONSTANT {
     public static final String NOTIFICATION_FRIEND_POST = "friend";
     public static final String NOTIFICATION_MESSAGE = "message";
 
-    public static final int NAVIGATION_HOME = 0;
+    public static final int BOTTOM_HOME = 0;
+    public static final int BOTTOM_FRIEND = 3;
+    public static final int BOTTOM_NOTIFICATION = 1;
+    public static final int BOTTOM_MESSAGE = 2;
+
     public static final int NAVIGATION_WALL = 300;
     public static final int NAVIGATION_MAP = 4;
-    public static final int NAVIGATION_FRIEND = 3;
-    public static final int NAVIGATION_NOTIFICATION = 1;
-    public static final int NAVIGATION_MESSAGE = 2;
     public static final int NAVIGATION_SETTING = 8;
     public static final int NAVIGATION_CHANGE_PASSWORD = 9;
     public static final int NAVIGATION_CHANGE_LOCATION = 16;
     public static final int NAVIGATION_LANGUAGE = 10;
-    public static final int NAVIGATION_ABOUT = 11;
-    public static final int NAVIGATION_HELP = 12;
     public static final int NAVIGATION_REPORT = 13;
     public static final int NAVIGATION_LOGOUT = 14;
-    public static final int NAVIGATION_CLOSE = 15;
 
     public static final String RELATIONSHIP_POST = "posted";
     public static final String RELATIONSHIP_SHARE= "shared";

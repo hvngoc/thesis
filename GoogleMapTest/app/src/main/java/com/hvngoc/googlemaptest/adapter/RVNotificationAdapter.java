@@ -14,9 +14,8 @@ import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.fragment.ProfileFragment;
+import com.hvngoc.googlemaptest.activity.WallActivity;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.NotificationItem;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
@@ -97,13 +96,10 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
             NotificationItem item = mItems.get(position);
             new DeleteNotificationAsyncTask(item.getDataID(), position).execute();
             switch (item.getSaveContent()){
-                case CONSTANT.NOTIFICATION_ADD_FRIEND:
-                    fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(item.getDataID(), CONSTANT.TYPE_REQUEST));
-                    fragmentTransaction.commit();
-                    break;
                 case CONSTANT.NOTIFICATION_CONFIRM_FRIEND:
-                    fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(item.getDataID(), CONSTANT.TYPE_FRIEND));
-                    fragmentTransaction.commit();
+                    Intent intent = new Intent(GLOBAL.CurrentContext, WallActivity.class);
+                    intent.putExtra("id", item.getDataID());
+                    GLOBAL.CurrentContext.startActivity(intent);
                     break;
                 default:
                     new GetPostDetailAsyncTask(item.getDataID()).execute();

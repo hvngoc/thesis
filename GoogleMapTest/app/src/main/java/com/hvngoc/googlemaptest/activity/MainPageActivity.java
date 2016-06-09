@@ -1,7 +1,6 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.app.ActivityManager;
-import android.app.WallpaperInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,13 +27,11 @@ import com.hvngoc.googlemaptest.custom.DefaultLocationDialog;
 import com.hvngoc.googlemaptest.custom.ReportDialog;
 import com.hvngoc.googlemaptest.custom.SettingDialog;
 import com.hvngoc.googlemaptest.fragment.FragmentDrawer;
-import com.hvngoc.googlemaptest.fragment.FriendFindFragment;
 import com.hvngoc.googlemaptest.fragment.FriendsFragment;
 import com.hvngoc.googlemaptest.fragment.HomeFragment;
 import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
-import com.hvngoc.googlemaptest.fragment.ProfileFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
@@ -47,11 +44,12 @@ import com.roughike.bottombar.OnMenuTabSelectedListener;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
+import java.util.ArrayList;
+
 
 public class MainPageActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private FragmentDrawer drawerFragment;
-    public static boolean needToRefresh = false;
     private String TAG = MainPageActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -67,8 +65,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
         GLOBAL.CurrentContext = this;
-        drawerFragment.setPictureProfile();
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
         displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         initBottomBar(savedInstanceState);
         StartLocationServiceHelper();
@@ -84,7 +81,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 new KeyboardVisibilityEventListener() {
                     @Override
                     public void onVisibilityChanged(boolean isOpen) {
-                        if(isOpen)
+                        if (isOpen)
                             bottomBar.hide();
                         else
                             bottomBar.show();
@@ -94,27 +91,23 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
             @Override
             public void onMenuItemSelected(int itemId) {
                 Fragment fragment = new HomeFragment();
-                String title = "Home";
+                String title = getString(R.string.title_home);
                 switch (itemId) {
                     case R.id.home_item:
                         fragment = new HomeFragment();
-                        title = "Home";
+                        title = getString(R.string.title_home);
                         break;
                     case R.id.chat_item:
                         fragment = new MessagesFragment();
-                        title = "Message";
+                        title = getString(R.string.title_messages);
                         break;
                     case R.id.notification_item:
                         fragment = new NotificationsFragment();
-                        title = "Notification";
+                        title = getString(R.string.title_notifications);
                         break;
                     case R.id.friend_item:
                         fragment = new FriendsFragment();
-                        title = "Friend";
-                        break;
-                    case R.id.map_item:
-                        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
-                        startActivity(new Intent(MainPageActivity.this, MapsActivity.class));
+                        title = getString(R.string.title_friends);
                         break;
                 }
                 replaceCurrentFragment(fragment, title);
@@ -127,18 +120,12 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         super.onResume();
         registernewGCM();
         GLOBAL.CurrentContext = this;
-        if(needToRefresh) {
-            needToRefresh = false;
-            finish();
-            startActivity(getIntent());
-        }
-        else {
             // display the first navigation drawer view on app launch
-            setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
-            displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
-            GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
-            drawerFragment.setLanguageAgain();
-        }
+        setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
+        drawerFragment.setLanguageAgain();
+        drawerFragment.setPictureProfile();
     }
 
     private void setBottomBar(int position) {
@@ -155,15 +142,30 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         Fragment fragment = null;
         String title = null;
         switch (position) {
-            case CONSTANT.NAVIGATION_HOME:
+            case CONSTANT.BOTTOM_HOME:
                 fragment = new HomeFragment();
                 title = getString(R.string.title_home);
                 break;
+            case CONSTANT.BOTTOM_MESSAGE:
+                fragment = new MessagesFragment();
+                title = getString(R.string.title_messages);
+                break;
+            case CONSTANT.BOTTOM_FRIEND:
+                fragment = new FriendsFragment();
+                title = getString(R.string.title_friends);
+                break;
+            case CONSTANT.BOTTOM_NOTIFICATION:
+                fragment = new NotificationsFragment();
+                title = getString(R.string.title_notifications);
+                break;
             case CONSTANT.NAVIGATION_WALL:
-                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.NAVIGATION_HOME;
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
                 startWallActivity();
                 return;
-
+            case CONSTANT.NAVIGATION_MAP:
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
+                startActivity(new Intent(this, MapsActivity.class));
+                return;
             case CONSTANT.NAVIGATION_LANGUAGE:
                 ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();
                 changeLanguageDialog.show(getSupportFragmentManager(), "ChangeLanguageDialog");
@@ -229,23 +231,24 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                     String message = bundle.getString("message");
                     String param = bundle.getString("param");
                     String targetID = bundle.getString("targetID");
-                    if(GLOBAL.CurrentUser.getId().equals(targetID)) {
+                    Log.i("RECEIVE   ", targetID.toString());
+                    if(targetID.contains(GLOBAL.CurrentUser.getId())) {
                         if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param, targetID);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_MESSAGE, "#E91E63", 1);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_MESSAGE, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);
                         } else if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param, targetID);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_FRIEND, "#E91E63", 1);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_FRIEND, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);
                         } else {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param, targetID);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.NAVIGATION_NOTIFICATION, "#E91E63", 1);
+                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);
                         }
@@ -314,7 +317,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == 200) {
-                    BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 1);
+                    BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", 1);
                     unreadMessages.show();
                     unreadMessages.setAnimationDuration(200);
                     if(delegationHelper != null)

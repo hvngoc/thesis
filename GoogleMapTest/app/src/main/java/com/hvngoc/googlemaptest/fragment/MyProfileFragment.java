@@ -86,7 +86,8 @@ public class MyProfileFragment extends Fragment {
         edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GLOBAL.CurrentContext, EditProfileActivity.class));
+                Intent intent = new Intent(GLOBAL.CurrentContext, EditProfileActivity.class);
+                startActivity(intent);
             }
         });
         setContentProfileView();

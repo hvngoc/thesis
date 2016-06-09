@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 
 /**
  * Created by Hoang Van Ngoc on 06/05/2016.
@@ -33,16 +34,16 @@ public class ConfirmDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_confirm_dialog);
 
-        ImageButton btn_confirm_ok = (ImageButton) findViewById(R.id.btn_confirm_ok);
-        btn_confirm_ok.setOnClickListener(onOKClickListener);
-
-        ImageButton btn_confirm_cancel = (ImageButton) findViewById(R.id.btn_confirm_cancel);
-        btn_confirm_cancel.setOnClickListener(new View.OnClickListener() {
+        TextView btn_setting_cancel = (TextView) findViewById(R.id.btn_setting_cancel);
+        btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
+        TextView btn_setting_change = (TextView) findViewById(R.id.btn_setting_change);
+        btn_setting_change.setOnClickListener(onOKClickListener);
 
         TextView txtConfirm = (TextView) findViewById(R.id.txtConfirm);
         txtConfirm.setText(confirm);

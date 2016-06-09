@@ -10,22 +10,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.ChatMessage;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 12125_000 on 5/11/2016.
  */
 public class ChatArrayAdapter extends ArrayAdapter {
     private TextView chatText;
+    private CircleImageView avatar;
     private List chatMessageList = new ArrayList();
-    private LinearLayout singleMessageContainer;
+    private RelativeLayout singleMessageContainer;
     private Context context;
 
 
@@ -65,12 +71,15 @@ public class ChatArrayAdapter extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.activity_chat_singlemessage, parent, false);
         }
-        singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
+        avatar = (CircleImageView) row.findViewById(R.id.img_friendAvatar);
+        Picasso.with(GLOBAL.CurrentContext).load(getItem(position).getSenderAvatar()).error(R.drawable.icon_profile).into(avatar);
+        singleMessageContainer = (RelativeLayout) row.findViewById(R.id.singleMessageContainer);
         ChatMessage chatMessageObj = getItem(position);
         chatText = (TextView) row.findViewById(R.id.singleMessage);
         chatText.setText(chatMessageObj.getMessage());
         chatText.setBackgroundResource(chatMessageObj.isLeft() ? R.drawable.bubble_b : R.drawable.bubble_a);
         singleMessageContainer.setGravity(chatMessageObj.isLeft() ? Gravity.LEFT : Gravity.RIGHT);
+        avatar.setVisibility(chatMessageObj.isLeft() ? View.VISIBLE : View.INVISIBLE);
         return row;
     }
 

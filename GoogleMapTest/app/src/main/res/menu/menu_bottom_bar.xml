@@ -3,23 +3,18 @@
     <item
         android:id="@+id/home_item"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="" />
     <item
         android:id="@+id/notification_item"
         android:icon="@drawable/ic_notification"
-        android:title="Notification" />
+        android:title="" />
     <item
         android:id="@+id/chat_item"
         android:icon="@drawable/ic_chatting"
-        android:title="Chat" />
+        android:title="" />
     <item
         android:id="@+id/friend_item"
         android:icon="@drawable/ic_friend"
-        android:title="Friend"
+        android:title=""
         />
-    <item
-        android:id="@+id/map_item"
-        android:icon="@drawable/ic_location"
-        android:title="Map"/>
-
 </menu>

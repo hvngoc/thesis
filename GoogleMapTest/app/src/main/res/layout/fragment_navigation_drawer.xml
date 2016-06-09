@@ -36,30 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
                 <LinearLayout
-                    android:id="@+id/card_nav_profile"
-                    android:clickable="true"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:tint="@color/Gray"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_account_box_black"/>
-                    <TextView
-                        android:id="@+id/navigation_profile"
-                        android:text="@string/title_profile"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dip"
-                        android:layout_gravity="center"
-                        android:padding="6dp"
-                        android:textSize="16sp" />
-                </LinearLayout>
-                <LinearLayout
                     android:id="@+id/card_nav_wall"
                     android:clickable="true"
                     android:layout_marginTop="5dp"
@@ -84,7 +60,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/card_nav_friends"
+                    android:id="@+id/card_nav_map"
                     android:clickable="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dip"
@@ -96,10 +72,10 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:tint="@color/Gray"
-                        android:src="@drawable/ic_friend_black"/>
+                        android:src="@drawable/ic_location_on_white_24dp"/>
                     <TextView
-                        android:id="@+id/navigation_friend"
-                        android:text="@string/title_friends"
+                        android:id="@+id/navigation_map"
+                        android:text="@string/title_map"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dip"
@@ -168,7 +144,7 @@
                     android:textSize="16sp"
                     android:layout_gravity="center" />
             <TextView
-                android:id="@+id/logout"
+                android:id="@+id/navigation_logout"
                 android:text="@string/title_logout"
                 android:layout_marginTop="4dip"
                 android:clickable="true"

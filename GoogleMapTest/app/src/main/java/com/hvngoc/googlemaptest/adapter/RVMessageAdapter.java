@@ -87,6 +87,7 @@ public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.View
                     String fromUserID = mItems.get(position).getSenderID();
                     Intent intent = new Intent(GLOBAL.CurrentContext, ChatActivity.class);
                     intent.putExtra("fromUserID", fromUserID);
+                    intent.putExtra("name", mItems.get(position).getSenderName());
                     GLOBAL.CurrentContext.startActivity(intent);
                 }
             });

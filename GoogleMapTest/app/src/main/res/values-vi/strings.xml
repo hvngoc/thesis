@@ -84,7 +84,7 @@
     <string name="hint_comment">Bình luận</string>
     <string name="hint_type_comment">  viết một bình luận &#8230;</string>
     <string name="hint_confirm_again">Xác nhận</string>
-    <string name="hint_ok">OK</string>
+    <string name="hint_ok">Đồng ý</string>
     <string name="hint_choose_picture">Chọn hình ảnh</string>
     <string name="hint_browse">Duyệt</string>
     <string name="hint_create_post">Tạo bài mới</string>
@@ -132,9 +132,10 @@
     <string name="notification_string_my_post">Tại đây, có thể là khoảnh khắc đáng nhớ của bạn</string>
     <string name="notification_string_friend_post">có thể nơi này sẽ làm bạn cảm thấy thú vị</string>
 
-    <string name="friend_request">kết bạn</string>
-    <string name="friend_find">tìm bạn</string>
-    <string name="friend_suggested">đề nghị</string>
+    <string name="friend_request">Kết bạn</string>
+    <string name="friend_find">Tìm bạn</string>
+    <string name="friend_suggested">Đề nghị</string>
+    <string name="friend_friends">Bạn bè</string>
 
     <string name="dialog_delete_request">Bạn có muốn xóa yêu cầu kết bạn này?</string>
     <string name="dialog_confirm_request">Đồng ý yêu cầu kết bạn này</string>

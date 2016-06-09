@@ -1,1 +1,1 @@
-include ':app', ':library', ':libmenu', ':materialpicker', ':libcircleimage'
+include ':app', ':library', ':materialpicker', ':libcircleimage'

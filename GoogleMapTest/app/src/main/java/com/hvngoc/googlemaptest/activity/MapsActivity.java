@@ -37,7 +37,6 @@ import com.hvngoc.googlemaptest.helper.SquareHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.hvngoc.googlemaptest.view.MapFooterLayout;
 import com.hvngoc.googlemaptest.view.MapHeaderLayout;
-import com.yalantis.contextmenu.lib.MenuObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,19 +113,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         map_activity.addView(mapHeaderLayout, params);
     }
 
-    private ArrayList<MenuObject> getMenuObjects() {
-        MenuObject close = new MenuObject();
-        close.setResource(android.R.drawable.ic_delete);
-        MenuObject find = new MenuObject(getString(R.string.finding_around));
-        find.setResource(android.R.drawable.ic_menu_myplaces);
-        MenuObject bound = new MenuObject(getString(R.string.bounding_all));
-        bound.setResource(android.R.drawable.ic_menu_mapmode);
-        ArrayList<MenuObject> list =  new ArrayList<>();
-        list.add(close);
-        list.add(find);
-        list.add(bound);
-        return list;
-    }
+//    private ArrayList<MenuObject> getMenuObjects() {
+//        MenuObject close = new MenuObject();
+//        close.setResource(android.R.drawable.ic_delete);
+//        MenuObject find = new MenuObject(getString(R.string.finding_around));
+//        find.setResource(android.R.drawable.ic_menu_myplaces);
+//        MenuObject bound = new MenuObject(getString(R.string.bounding_all));
+//        bound.setResource(android.R.drawable.ic_menu_mapmode);
+//        ArrayList<MenuObject> list =  new ArrayList<>();
+//        list.add(close);
+//        list.add(find);
+//        list.add(bound);
+//        return list;
+//    }
 //    ***************************************************************************************************************   //
 
     private class SearchPostByDistanceAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -210,7 +209,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.googleMap.getUiSettings().setCompassEnabled(true);
         this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
         this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
-        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.setMyLocationEnabled(true);
         this.googleMap.setTrafficEnabled(true);

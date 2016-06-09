@@ -54,7 +54,7 @@ public class ChatMessage {
     }
 
     public String getSenderAvatar() {
-        return senderAvatar;
+        return GLOBAL.SERVER_IMAGE_URL + senderAvatar;
     }
 
     public void setSenderAvatar(String senderAvatar) {

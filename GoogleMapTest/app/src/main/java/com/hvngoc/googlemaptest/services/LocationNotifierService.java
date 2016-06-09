@@ -37,8 +37,8 @@ import org.json.JSONObject;
  */
 public class LocationNotifierService extends Service implements LocationListener {
 
-    private static final int TIME_UPDATER = 10000;
-    private static final int DISTANCE_UPDATER = 50;
+    private static final int TIME_UPDATER = 60000;
+    private static final int DISTANCE_UPDATER = 500;
 
     private LocationManager Manager;
     private GpsStatus.Listener gpsListener;

@@ -54,8 +54,8 @@
     <string name="hint_find_friend">May be you know this person?</string>
     <string name="hint_add_friend">add friend</string>
     <string name="hint_detail">detail</string>
-    <string name="hint_nothing_found">we found nothing.</string>
-    <string name="hint_type_email">type email here.</string>
+    <string name="hint_nothing_found">we found nothing</string>
+    <string name="hint_type_email">type email here</string>
     <string name="hint_sure_logout">Are you sure you want to log out?</string>
     <string name="hint_logout">Log out</string>
     <string name="hint_copyright">CopyRight \u00a9 2016 - HCMUS</string>
@@ -131,9 +131,10 @@
     <string name="notification_string_my_post">here!! it has been one of the best memory in your life</string>
     <string name="notification_string_friend_post">here!! maybe it make you feel excited</string>
 
-    <string name="friend_request">request</string>
-    <string name="friend_find">find</string>
-    <string name="friend_suggested">suggested</string>
+    <string name="friend_request">Request</string>
+    <string name="friend_find">Find</string>
+    <string name="friend_suggested">Suggested</string>
+    <string name="friend_friends">Friends</string>
 
     <string name="dialog_delete_request">Are you sure for deleting this request?</string>
     <string name="dialog_confirm_request">Are you sure for confirming this request?</string>

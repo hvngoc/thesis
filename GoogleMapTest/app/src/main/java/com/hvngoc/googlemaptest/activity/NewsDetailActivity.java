@@ -57,6 +57,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.title_activity_detail));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         GLOBAL.CurrentContext = this;
 

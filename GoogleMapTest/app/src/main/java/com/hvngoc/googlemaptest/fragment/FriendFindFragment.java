@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.WallActivity;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
@@ -102,13 +104,9 @@ public class FriendFindFragment extends Fragment {
         txt_addMoreDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int type = CONSTANT.TYPE_FRIEND;
-                if (friend.getIsFriend() == 0) {
-                    type = CONSTANT.TYPE_SUGGEST;
-                }
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, ProfileFragment.getInstance(friend.getId(), type));
-                fragmentTransaction.commit();
+                Intent intent = new Intent(GLOBAL.CurrentContext, WallActivity.class);
+                intent.putExtra("id", friend.getId());
+                GLOBAL.CurrentContext.startActivity(intent);
             }
         });
         btnFriendSearch.setOnClickListener(new View.OnClickListener() {
