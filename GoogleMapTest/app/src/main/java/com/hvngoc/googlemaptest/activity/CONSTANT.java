@@ -27,12 +27,15 @@ public class CONSTANT {
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String DATE_TIME_VIEW_FORMAT = "HH:mm dd/MM/yyyy";
 
-    public static final String NOTIFICATION_COMMENT = "comment";
-    public static final String NOTIFICATION_ADD_FRIEND = "add";
-    public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
     public static final String NOTIFICATION_MY_POST = "mine";
     public static final String NOTIFICATION_FRIEND_POST = "friend";
+
     public static final String NOTIFICATION_MESSAGE = "message";
+    public static final String NOTIFICATION_ADD_FRIEND = "add";
+    public static final String NOTIFICATION_COMMENT = "comment";
+    public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
+    public static final String NOTIFICATION_LIKE = "like";
+    public static final String NOTIFICATION_SHARE = "share";
 
     public static final int BOTTOM_HOME = 0;
     public static final int BOTTOM_FRIEND = 3;

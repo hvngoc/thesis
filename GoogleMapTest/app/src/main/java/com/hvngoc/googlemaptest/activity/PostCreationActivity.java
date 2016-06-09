@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -35,14 +32,11 @@ import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.RVPickImageAdapter;
 import com.hvngoc.googlemaptest.custom.IconizedMenu;
-import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
-import com.hvngoc.googlemaptest.helper.PickPictureHelper;
-import com.hvngoc.googlemaptest.imagechooser.CustomGallery;
 import com.hvngoc.googlemaptest.imagechooser.CustomGalleryAdapter;
 import com.hvngoc.googlemaptest.model.Post;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -50,17 +44,13 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,23 +219,13 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
             adapter.setOnClickImage(new RVPickImageAdapter.OnClickImage() {
                 @Override
                 public void doSomething(String uri) {
-                    startCropImageActivity(Uri.fromFile(new File(uri)));
+//                    startCropImageActivity(Uri.fromFile(new File(uri)));
                 }
             });
             recyclerCreatePostImage.setAdapter(adapter);
         }
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ) {
-//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//            if (resultCode == RESULT_OK) {
-//                ((ImageView) findViewById(R.id.quick_start_cropped_image)).setImageURI(result.getUri());
-//              }
     }
 
-    private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-    }
 
     public List<String> getStringImages(List<Bitmap> bitmaps){
         ArrayList<String> images = new ArrayList<String>();

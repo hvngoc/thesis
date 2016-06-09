@@ -43,7 +43,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.roughike:bottom-bar:1.2.1'
     compile 'com.github.danylovolokh:hashtag-helper:1.1.0'
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.2.+'
     compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:1.0.1'
     compile project(':materialpicker')
     compile project(':libcircleimage')

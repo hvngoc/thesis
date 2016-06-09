@@ -29,7 +29,6 @@ import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.Comment;
-import com.roughike.bottombar.BottomBarBadge;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,7 +79,13 @@ public class CommentActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.hint_comment));
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -211,11 +216,11 @@ public class CommentActivity extends AppCompatActivity{
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (result) {
-                String res = helper.getResponse();
-                Gson gson = new Gson();
-                Comment comment = gson.fromJson(res, Comment.class);
-                //int position = mAdapter.addComment(comment);
-                //mRecyclerView.scrollToPosition(position);
+//                String res = helper.getResponse();
+//                Gson gson = new Gson();
+//                Comment comment = gson.fromJson(res, Comment.class);
+//                int position = mAdapter.addComment(comment);
+//                mRecyclerView.scrollToPosition(position);
                 etxtWriteComment.setText("");
             }
         }

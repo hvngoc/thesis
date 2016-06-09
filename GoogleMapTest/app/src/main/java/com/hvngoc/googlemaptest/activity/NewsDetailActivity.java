@@ -20,15 +20,15 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
+
 public class NewsDetailActivity extends AppCompatActivity {
-
-
     CircleImageView userAvatar;
     TextView username;
     TextView txtFeeling;
@@ -217,6 +217,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("postID", currentPost.getPostID());
+                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -283,6 +284,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("postID", currentPost.getPostID());
+                jsonobj.put("day", ParseDateTimeHelper.getCurrent());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -27,7 +27,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +99,7 @@ public class CustomGalleryActivity extends Activity {
 		btnTakePicture.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CropImage.startPickImageActivity(CustomGalleryActivity.this);
+//				CropImage.startPickImageActivity(CustomGalleryActivity.this);
 			}
 		});
 		handler = new Handler();
@@ -239,12 +238,12 @@ public class CustomGalleryActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		// handle result of pick image chooser
-		if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-			Uri imageUri = CropImage.getPickImageResultUri(this, data);
-
-			CustomGallery item = new CustomGallery();
-			item.sdcardPath = imageUri.getPath();
-			adapter.add(item);
-		}
+//		if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//			Uri imageUri = CropImage.getPickImageResultUri(this, data);
+//
+//			CustomGallery item = new CustomGallery();
+//			item.sdcardPath = imageUri.getPath();
+//			adapter.add(item);
+//		}
 	}
 }

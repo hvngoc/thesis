@@ -17,19 +17,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
-import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.PickPictureHelper;
-import com.hvngoc.googlemaptest.imagechooser.CustomGallery;
 import com.hvngoc.googlemaptest.imagechooser.CustomGalleryActivity;
-import com.hvngoc.googlemaptest.imagechooser.CustomGalleryAdapter;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -46,7 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity {
-    public static boolean needToRefresh = false;
     ImageView avatar;
     FloatingActionButton pick_image;
     EditText username;

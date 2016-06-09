@@ -25,16 +25,10 @@
     <string name="title_change_pass_work">Đổi mật khẩu</string>
     <string name="title_change_location">Tọa Độ Mặc Định</string>
     <string name="title_language">Ngôn ngữ</string>
-    <string name="title_about">Thông tin</string>
-    <string name="title_help">Trợ giúp</string>
     <string name="title_report">Báo cáo</string>
     <string name="title_logout">Đăng xuất</string>
     <string name="title_close">Đóng</string>
 
-    <string name="navigation_header_page">Trang</string>
-    <string name="navigation_header_your">Cá nhân</string>
-    <string name="navigation_header_option">Chức năng</string>
-    <string name="navigation_header_system">Hệ thống</string>
 
     <string name="hint_type_message">Viết tin nhắn</string>
     <string name="hint_button_send">GỬI</string>
@@ -59,7 +53,6 @@
     <string name="hint_type_email">Gõ email để tìm kiếm</string>
     <string name="hint_sure_logout">Bạn thực sự muốn đăng xuất tài khoản?</string>
     <string name="hint_logout">Đăng xuất</string>
-    <string name="hint_copyright">Bản quyền \u00a9 2016 - HCMUS</string>
     <string name="hint_follow">theo dõi</string>
     <string name="hint_post">bài post</string>
     <string name="hint_gender">Giới tính</string>
@@ -67,15 +60,6 @@
     <string name="hint_female">Nữ</string>
     <string name="hint_birthday">Sinh nhật</string>
     <string name="hint_address">Địa chỉ</string>
-    <string name="hint_author">Tác giả:</string>
-    <string name="hint_hvngoc">\u2022 \t Hoàng Văn Ngọc</string>
-    <string name="hint_nvtuong">\u2022 \t Nguyễn Văn Tường</string>
-    <string name="hint_description">Mô tả: Mạng xã hội chia sẻ những trãi nghiệm cuộc sống</string>
-    <string name="hint_version">Phiên bản: 1.0.0</string>
-    <string name="hint_more">Thêm:</string>
-    <string name="hint_about_student">\u2022 \t Chúng tôi là sinh viên lớp cử nhân tài năng khóa 2012, khoa công nghệ thông tin, trường đại học khoa học tự nhiên, đại học quốc gia thành phố Hồ Chí Minh</string>
-    <string name="hint_about_app">\u2022 \t Ứng dụng này là sản phẩm của quá trình nghiên cứu và thực hiện trong luận văn tốt nghiêp cử nhân tin học.</string>
-    <string name="hint_dbtien">\u2022 \t Hướng dẫn: Tiến sĩ Đinh Bá Tiến</string>
     <string name="hint_close">ĐÓNG</string>
     <string name="hint_change">THAY ĐỔI</string>
     <string name="hint_cancel">HỦY BỎ</string>
@@ -85,11 +69,8 @@
     <string name="hint_type_comment">  viết một bình luận &#8230;</string>
     <string name="hint_confirm_again">Xác nhận</string>
     <string name="hint_ok">Đồng ý</string>
-    <string name="hint_choose_picture">Chọn hình ảnh</string>
-    <string name="hint_browse">Duyệt</string>
-    <string name="hint_create_post">Tạo bài mới</string>
-    <string name="hint_on_mind">Bạn đang nghĩ gì?</string>
-    <string name="hint_use_location_default">Tọa độ mặc định</string>
+    <string name="hint_create_post">Tạo bài viết mới</string>
+    <string name="hint_on_mind">Đây sẽ là địa điểm tuyệt vời cho tất cả mọi người</string>
     <string name="hint_use_your_location">Tọa độ hiện tại</string>
     <string name="hint_use_location_map">Tọa độ mới</string>
     <string name="hint_help_report">Giúp ứng dụng tốt hơn:</string>
@@ -106,9 +87,9 @@
     <string name="menu_search_by_post">Tìm theo bài</string>
     <string name="menu_search_by_place">Tìm theo địa điểm</string>
 
-    <string name="feeling_funny">thích thú</string>
+    <string name="feeling_funny">thú vị</string>
     <string name="feeling_happy">vui vẻ</string>
-    <string name="feeling_money">có tiền</string>
+    <string name="feeling_money">giàu có</string>
     <string name="feeling_normal">bình thường</string>
     <string name="feeling_refuse">bối rối</string>
     <string name="feeling_sad">buồn</string>
@@ -126,11 +107,13 @@
     <string name="tag_event">sự kiện</string>
     <string name="tag_sport">thể thao</string>
 
-    <string name="notification_string_comment">vừa bình luận trên bài post của bạn.</string>
+    <string name="notification_string_comment">bình luận về bài viết.</string>
     <string name="notification_string_add_friend">muốn kết bạn với bạn.</string>
-    <string name="notification_string_confirm_friend">vừa chấp nhận yêu cầu kết bạn.</string>
+    <string name="notification_string_confirm_friend">chấp nhận yêu cầu kết bạn.</string>
     <string name="notification_string_my_post">Tại đây, có thể là khoảnh khắc đáng nhớ của bạn</string>
     <string name="notification_string_friend_post">có thể nơi này sẽ làm bạn cảm thấy thú vị</string>
+    <string name="notification_string_like">ấn tượng về bài viết của bạn</string>
+    <string name="notification_string_share">chia sẻ bài viết của bạn</string>
 
     <string name="friend_request">Kết bạn</string>
     <string name="friend_find">Tìm bạn</string>
@@ -151,7 +134,6 @@
     <string name="searching">Tìm kiếm&#8230;</string>
     <string name="loading">Đang tải&#8230;</string>
     <string name="uploading">Đang tải&#8230;</string>
-    <string name="view_wall">Xem tường</string>
     <string name="confirm_friend">Xác nhận</string>
     <string name="delete_request_friend">Xóa yêu cầu</string>
     <string name="between_4_32">nhập từ 4 đến 32 ký tự</string>
@@ -176,10 +158,5 @@
 
     <string name="relation_post">Đăng bài</string>
     <string name="relation_share">Chia sẻ</string>
-
-    <string name="help_post">chia sẻ những khoảng khắc tuyệt vời và lưu giữ điều đó mãi mãi</string>
-    <string name="help_create">tạo những bài viết gắn liền với tọa độ thực tế</string>
-    <string name="help_friend">kết nối với bạn bè và trải nghiệm những địa điểm thú vị khác</string>
-    <string name="help_map">thể hiện trên bản đồ và tìm kiếm địa điểm phù hợp</string>
 
 </resources>

@@ -55,7 +55,7 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerView.setHasFixedSize(true);
 
-        rvNotificationAdapter = new RVNotificationAdapter(getActivity().getSupportFragmentManager().beginTransaction());
+        rvNotificationAdapter = new RVNotificationAdapter();
         recyclerView.setAdapter(rvNotificationAdapter);
 
         return rootView;
@@ -92,8 +92,8 @@ public class NotificationsFragment extends Fragment {
 
         ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param, String targetID) {
-                if(GLOBAL.CurrentUser.getId().equals(targetID)) {
+            public void doSomething(String message, String param) {
+                if (!message.equals(CONSTANT.NOTIFICATION_MESSAGE) && !message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
                     progressDialog.show();
                     new LoadNotificationsAsyncTask().execute();
                 }

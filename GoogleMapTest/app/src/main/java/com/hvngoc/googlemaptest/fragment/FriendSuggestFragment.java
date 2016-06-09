@@ -17,8 +17,10 @@ import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVFriendAdapter;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.Friend;
 
 import org.json.JSONException;
@@ -67,7 +69,14 @@ public class FriendSuggestFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
+                    new LoadFriendAsyncTask().execute();
+                }
+            }
+        });
     }
 
     @Override

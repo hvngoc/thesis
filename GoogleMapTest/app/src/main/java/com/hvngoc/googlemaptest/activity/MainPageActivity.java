@@ -64,9 +64,6 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         drawerFragment = (FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
-        GLOBAL.CurrentContext = this;
-        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
-        displayView(GLOBAL.MAIN_PAGE_POSITION_VIEW);
         initBottomBar(savedInstanceState);
         StartLocationServiceHelper();
         initBroadcastReceiver();
@@ -231,23 +228,22 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                     String message = bundle.getString("message");
                     String param = bundle.getString("param");
                     String targetID = bundle.getString("targetID");
-                    Log.i("RECEIVE   ", targetID.toString());
                     if(targetID.contains(GLOBAL.CurrentUser.getId())) {
                         if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
                             if (messageDelegationHelper != null)
-                                messageDelegationHelper.doSomething(message, param, targetID);
+                                messageDelegationHelper.doSomething(message, param);
                             BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_MESSAGE, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);
                         } else if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
                             if (messageDelegationHelper != null)
-                                messageDelegationHelper.doSomething(message, param, targetID);
+                                messageDelegationHelper.doSomething(message, param);
                             BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_FRIEND, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);
                         } else {
                             if (messageDelegationHelper != null)
-                                messageDelegationHelper.doSomething(message, param, targetID);
+                                messageDelegationHelper.doSomething(message, param);
                             BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", 1);
                             unreadMessages.show();
                             unreadMessages.setAnimationDuration(200);

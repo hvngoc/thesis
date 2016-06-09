@@ -33,15 +33,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAdapter.ViewHolder>{
 
     private ArrayList<NotificationItem> mItems;
-    private FragmentTransaction fragmentTransaction;
 
-    public RVNotificationAdapter(FragmentTransaction fragmentTransaction) {
+    public RVNotificationAdapter() {
         super();
-        this.fragmentTransaction = fragmentTransaction;
         this.mItems = new ArrayList<>();
     }
 
     public void addListItem(ArrayList<NotificationItem> list){
+        mItems.clear();
         mItems.addAll(list);
         notifyDataSetChanged();
     }

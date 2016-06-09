@@ -52,7 +52,9 @@ public class LogoutFragment extends Fragment {
                 GLOBAL.CurrentUser = null;
                 getActivity().finish();
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), LocationNotifierService.class));
-                getActivity().startActivity(new Intent(getContext(), LoginActivity.class));
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().startActivity(i);
             }
         });
 

@@ -2,10 +2,8 @@ package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
-import com.hvngoc.googlemaptest.activity.PostCreationActivity;
 import com.hvngoc.googlemaptest.adapter.RVAdapter;
-import com.hvngoc.googlemaptest.custom.PostCreationDialog;
-import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.model.Post;
 

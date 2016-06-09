@@ -24,16 +24,10 @@
     <string name="title_change_pass_work">Change Password</string>
     <string name="title_change_location">Default Location</string>
     <string name="title_language">Language</string>
-    <string name="title_about">About</string>
-    <string name="title_help">Help</string>
     <string name="title_report">Report</string>
     <string name="title_logout">Log Out</string>
     <string name="title_close">Close</string>
 
-    <string name="navigation_header_page">Page</string>
-    <string name="navigation_header_your">Your</string>
-    <string name="navigation_header_option">Option</string>
-    <string name="navigation_header_system">System</string>
 
     <string name="hint_type_message">Write a message</string>
     <string name="hint_button_send">SEND</string>
@@ -49,7 +43,7 @@
     <string name="hint_create_account_back">Create Account</string>
     <string name="hint_login_back">Already a member? Login</string>
     <string name="hint_commented">commented on</string>
-    <string name="hint_friend">friends</string>
+    <string name="hint_friend">friends.</string>
     <string name="hint_mutual_friend">mutual friends.</string>
     <string name="hint_find_friend">May be you know this person?</string>
     <string name="hint_add_friend">add friend</string>
@@ -58,7 +52,6 @@
     <string name="hint_type_email">type email here</string>
     <string name="hint_sure_logout">Are you sure you want to log out?</string>
     <string name="hint_logout">Log out</string>
-    <string name="hint_copyright">CopyRight \u00a9 2016 - HCMUS</string>
     <string name="hint_follow">follow</string>
     <string name="hint_post">post</string>
     <string name="hint_gender">Gender</string>
@@ -66,15 +59,6 @@
     <string name="hint_female">Female</string>
     <string name="hint_birthday">Date Of Birth</string>
     <string name="hint_address">Address</string>
-    <string name="hint_author">Author:</string>
-    <string name="hint_hvngoc">\u2022 \t Ngoc V. Hoang</string>
-    <string name="hint_nvtuong">\u2022 \t Tuong V. Nguyen</string>
-    <string name="hint_description">Description: social network for enjoying our experience life.</string>
-    <string name="hint_version">Version: 1.0.0</string>
-    <string name="hint_more">More:</string>
-    <string name="hint_about_student">\u2022 \t We are computer science students in honors program 2012, faculty of Information technology, university of science - VNU HCMC</string>
-    <string name="hint_about_app">\u2022 \t This application is our research product of bachelor thesis major in computer science.</string>
-    <string name="hint_dbtien">\u2022 \t Supervisor: Dr. Tien B. Dinh</string>
     <string name="hint_close">CLOSE</string>
     <string name="hint_change">CHANGE</string>
     <string name="hint_cancel">CANCEL</string>
@@ -84,11 +68,8 @@
     <string name="hint_type_comment">  write a comment here &#8230;</string>
     <string name="hint_confirm_again">Confirm</string>
     <string name="hint_ok">OK</string>
-    <string name="hint_choose_picture">Choose Picture</string>
-    <string name="hint_browse">Browse</string>
     <string name="hint_create_post">Create a new post</string>
-    <string name="hint_on_mind">Which place do you want to share?</string>
-    <string name="hint_use_location_default">Default location</string>
+    <string name="hint_on_mind">This is the best destination for all</string>
     <string name="hint_use_your_location">Current location</string>
     <string name="hint_use_location_map">Get on map</string>
     <string name="hint_help_report">Help us to improve this application:</string>
@@ -125,11 +106,13 @@
     <string name="tag_event">event</string>
     <string name="tag_sport">sport</string>
 
-    <string name="notification_string_comment">has just commented on your post.</string>
+    <string name="notification_string_comment">has just commented on a post.</string>
     <string name="notification_string_add_friend">want to become friend with you.</string>
     <string name="notification_string_confirm_friend">has just accepted your request</string>
     <string name="notification_string_my_post">here!! it has been one of the best memory in your life</string>
     <string name="notification_string_friend_post">here!! maybe it make you feel excited</string>
+    <string name="notification_string_like">has just liked your post.</string>
+    <string name="notification_string_share">has just shared your post.</string>
 
     <string name="friend_request">Request</string>
     <string name="friend_find">Find</string>
@@ -150,7 +133,6 @@
     <string name="searching">Searching&#8230;</string>
     <string name="loading">Loading&#8230;</string>
     <string name="uploading">Uploading&#8230;</string>
-    <string name="view_wall">View wall</string>
     <string name="confirm_friend">Confirm</string>
     <string name="delete_request_friend">Delete Request</string>
     <string name="between_4_32">between 4 and 32 alphanumeric characters</string>
@@ -175,12 +157,6 @@
 
     <string name="relation_post">posted</string>
     <string name="relation_share">shared</string>
-
-    <string name="help_post">share your best memories for friends and hold onto them forever</string>
-    <string name="help_create">create post with tag and base on map</string>
-    <string name="help_friend">connect with all people around the world for trying the best destination</string>
-    <string name="help_map">visualize location on map and show suitable place for you</string>
-
 
 
 

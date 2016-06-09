@@ -72,7 +72,7 @@ public class FriendRequestFragment extends Fragment {
         super.onAttach(context);
         ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param, String targetID) {
+            public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
                     new LoadFriendRequestAsyncTask().execute();
                 }

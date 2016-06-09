@@ -82,10 +82,8 @@ public class FriendListFragment extends Fragment {
         Log.i("FRIEND LIST", "ATTATCH");
         ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param, String targetID) {
-                Log.i("LIST FRIEND", message + "   " + param);
+            public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
-                    Log.i("LIST FRIEND", message + "   " + param);
                     new LoadFriendAsyncTask().execute();
                 }
             }

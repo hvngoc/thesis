@@ -72,7 +72,7 @@ public class MessagesFragment extends Fragment {
         Log.i("MESSAGE FRAGMENT", "ON ATTATCH");
         ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
-            public void doSomething(String message, String param, String targetID) {
+            public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)){
                     progressDialog.show();
                     new LoadMessageAsyncTask().execute();

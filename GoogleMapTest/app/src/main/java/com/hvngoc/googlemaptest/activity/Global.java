@@ -20,8 +20,6 @@ public class GLOBAL {
 
     public static User CurrentUser = null;
 
-    public static Profile CurrentUserProfile = null;
-
     public static int MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
 
     public static StartedUserHelper startedUserHelper = null;
@@ -40,12 +38,12 @@ public class GLOBAL {
     public static void initNOTIFICATION(){
         NOTIFICATION = new HashMap<String, String>(){
             {
-                put(CONSTANT.NOTIFICATION_ADD_FRIEND, CurrentContext.getString(R.string.notification_string_add_friend));
                 put(CONSTANT.NOTIFICATION_COMMENT, CurrentContext.getString(R.string.notification_string_comment));
                 put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CurrentContext.getString(R.string.notification_string_confirm_friend));
                 put(CONSTANT.NOTIFICATION_FRIEND_POST, CurrentContext.getString(R.string.notification_string_friend_post));
                 put(CONSTANT.NOTIFICATION_MY_POST, CurrentContext.getString(R.string.notification_string_my_post));
-                put(CONSTANT.NOTIFICATION_MESSAGE, "adasdasdasdasdasdasdasda");
+                put(CONSTANT.NOTIFICATION_LIKE, CurrentContext.getString(R.string.notification_string_like));
+                put(CONSTANT.NOTIFICATION_SHARE, CurrentContext.getString(R.string.notification_string_share));
             }
         };
         RELATIONSHIP = new HashMap<String, String>(){
