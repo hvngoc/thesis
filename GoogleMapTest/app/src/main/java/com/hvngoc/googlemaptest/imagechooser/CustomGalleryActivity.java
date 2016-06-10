@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.imagechooser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -19,6 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,6 +31,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +48,8 @@ public class CustomGalleryActivity extends Activity {
 	private ImageLoader imageLoader;
 	public static final String ACTION_PICK = "cunoraz.ACTION_PICK";
 	public static final String ACTION_MULTIPLE_PICK = "cunoraz.ACTION_MULTIPLE_PICK";
+
+	private static final int CAMERA_REQUEST = 1888;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -99,21 +105,20 @@ public class CustomGalleryActivity extends Activity {
 		btnTakePicture.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				CropImage.startPickImageActivity(CustomGalleryActivity.this);
+				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(cameraIntent, CAMERA_REQUEST);
 			}
 		});
 		handler = new Handler();
 		gridGallery = (GridView) findViewById(R.id.gridGallery);
 		gridGallery.setFastScrollEnabled(true);
 		adapter = new CustomGalleryAdapter(getApplicationContext(), imageLoader);
-		PauseOnScrollListener listener = new PauseOnScrollListener(imageLoader,
-				true, true);
+		PauseOnScrollListener listener = new PauseOnScrollListener(imageLoader, true, true);
 		gridGallery.setOnScrollListener(listener);
 
 		if (action.equalsIgnoreCase(CustomGalleryActivity.ACTION_MULTIPLE_PICK)) {
 
 			findViewById(R.id.llBottomContainer).setVisibility(View.VISIBLE);
-			//gridGallery.setOnItemClickListener(mItemMulClickListener);
 			adapter.setMultiplePick(true);
 
 		} else if (action.equalsIgnoreCase(CustomGalleryActivity.ACTION_PICK)) {
@@ -175,22 +180,13 @@ public class CustomGalleryActivity extends Activity {
 
 		}
 	};
-	/*
-	AdapterView.OnItemClickListener mItemMulClickListener = new AdapterView.OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-			adapter.changeSelection(v, position);
-			Log.i("Click", "" + position);
-		}
-	};
-	*/
 
 	AdapterView.OnItemClickListener mItemSingleClickListener = new AdapterView.OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 			CustomGallery item = adapter.getItem(position);
+			Log.i("CUSTOM GALLERY", "SINGLE CLICK");
 			Intent data = new Intent().putExtra("single_path", item.sdcardPath);
 			setResult(RESULT_OK, data);
 			finish();
@@ -232,18 +228,35 @@ public class CustomGalleryActivity extends Activity {
 	}
 
 
+	public Uri getImageUri(Context inContext, Bitmap inImage) {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+		String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,
+				getString(R.string.app_name) + ParseDateTimeHelper.getCurrent(), null);
+		return Uri.parse(path);
+	}
+
+	public String getRealPathFromURI(Uri uri) {
+		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+		cursor.moveToFirst();
+		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+		String file_path = cursor.getString(idx);
+		cursor.close();
+		return file_path;
+	}
 
 	@Override
 	@SuppressLint("NewApi")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
+			Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-		// handle result of pick image chooser
-//		if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//			Uri imageUri = CropImage.getPickImageResultUri(this, data);
-//
-//			CustomGallery item = new CustomGallery();
-//			item.sdcardPath = imageUri.getPath();
-//			adapter.add(item);
-//		}
+			Uri tempUri = getImageUri(getApplicationContext(), photo);
+			String path = getRealPathFromURI(tempUri);
+
+			CustomGallery item = new CustomGallery();
+			item.sdcardPath = path;
+			adapter.add(item);
+		}
 	}
 }

@@ -37,6 +37,7 @@ import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
+import com.hvngoc.googlemaptest.imagechooser.CustomGalleryActivity;
 import com.hvngoc.googlemaptest.imagechooser.CustomGalleryAdapter;
 import com.hvngoc.googlemaptest.model.Post;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -162,7 +163,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CONSTANT.ACTION_MULTIPLE_PICK);
+                Intent i = new Intent(CustomGalleryActivity.ACTION_MULTIPLE_PICK);
                 startActivityForResult(i, 200);
             }
         });

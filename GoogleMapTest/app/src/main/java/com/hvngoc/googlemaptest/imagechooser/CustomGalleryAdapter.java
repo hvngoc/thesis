@@ -20,7 +20,6 @@ import java.util.List;
 
 public class CustomGalleryAdapter extends BaseAdapter {
 
-	private Context mContext;
 	private LayoutInflater infalter;
 	private ArrayList<CustomGallery> data = new ArrayList<CustomGallery>();
 	ImageLoader imageLoader;
@@ -28,22 +27,8 @@ public class CustomGalleryAdapter extends BaseAdapter {
 	private boolean isActionMultiplePick;
 
 	public CustomGalleryAdapter(Context c, ImageLoader imageLoader) {
-		infalter = (LayoutInflater) c
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mContext = c;
+		infalter = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.imageLoader = imageLoader;
-	}
-
-	public List<Bitmap> getListBitmaps() {
-		List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-		for (int i = 0; i < data.size(); i++) {
-			Bitmap bitmap = BitmapFactory.decodeFile(data.get(i).sdcardPath);
-			if(bitmap.getWidth() > 480 || bitmap.getHeight() > 300) {
-				bitmap = Bitmap.createScaledBitmap(bitmap, 480, 300, true);
-			}
-			bitmaps.add(bitmap);
-		}
-		return bitmaps;
 	}
 
 	@Override
@@ -65,25 +50,14 @@ public class CustomGalleryAdapter extends BaseAdapter {
 		this.isActionMultiplePick = isMultiplePick;
 	}
 
-	public void selectAll(boolean selection) {
-		for (int i = 0; i < data.size(); i++) {
-			data.get(i).isSeleted = selection;
-		}
-
-		notifyDataSetChanged();
-	}
-
-
 
 	public ArrayList<CustomGallery> getSelected() {
 		ArrayList<CustomGallery> dataList = new ArrayList<CustomGallery>();
-		Log.i("DATA IMAGE", "" + data.size());
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).isSeleted) {
                 dataList.add(data.get(i));
 			}
 		}
-		Log.i("IMAGE SELECTED", "" + dataList.size());
 		return dataList;
 	}
 
@@ -94,7 +68,6 @@ public class CustomGalleryAdapter extends BaseAdapter {
 
 
 	public void addAll(ArrayList<CustomGallery> files) {
-
 		try {
 			this.data.clear();
 			this.data.addAll(files);
@@ -102,21 +75,7 @@ public class CustomGalleryAdapter extends BaseAdapter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		notifyDataSetChanged();
-	}
-
-	public void changeSelection(View v, int position) {
-		CustomGallery item = data.get(position);
-
-		if (item.isSeleted) {
-			item.isSeleted = false;
-		} else {
-			item.isSeleted = true;
-		}
-		data.set(position, item);
-		((ViewHolder) v.getTag()).imgCheck.setSelected(data
-				.get(position).isSeleted);
 	}
 
 	@Override
@@ -180,17 +139,5 @@ public class CustomGalleryAdapter extends BaseAdapter {
 	public class ViewHolder{
 		ImageView imgQueue;
 		CheckBox imgCheck;
-
-
-	}
-
-	public void clearCache() {
-		imageLoader.clearDiscCache();
-		imageLoader.clearMemoryCache();
-	}
-
-	public void clear() {
-		data.clear();
-		notifyDataSetChanged();
 	}
 }

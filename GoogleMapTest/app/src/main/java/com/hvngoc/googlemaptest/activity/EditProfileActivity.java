@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
     RadioButton radioMale, radioFemale;
     EditText birthdate;
     EditText address;
-    ImageButton save, cancel;
+    FloatingActionButton save;
     Bitmap bitmap;
     ImageLoader imageLoader;
     Profile profile;
@@ -62,6 +63,21 @@ public class EditProfileActivity extends AppCompatActivity {
         initComponents();
         initImageLoader();
         loadUserProfile();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.title_profile));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(EditProfileActivity.this, WallActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("id", GLOBAL.CurrentUser.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadUserProfile() {
@@ -105,8 +121,7 @@ public class EditProfileActivity extends AppCompatActivity {
         radioFemale = (RadioButton) findViewById(R.id.radioFemale);
         birthdate = (EditText) findViewById(R.id.birthdate);
         address = (EditText) findViewById(R.id.address);
-        save = (ImageButton) findViewById(R.id.save);
-        cancel = (ImageButton) findViewById(R.id.cancel);
+        save = (FloatingActionButton) findViewById(R.id.save);
 
         birthdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,13 +150,11 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
-    String singlePath;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            singlePath = data.getStringExtra("single_path");
+            String singlePath = data.getStringExtra("single_path");
             bitmap = BitmapFactory.decodeFile(singlePath);
             if(bitmap.getWidth() > 240 || bitmap.getHeight() > 240)
                 bitmap = Bitmap.createScaledBitmap(bitmap, 240, 240, true);

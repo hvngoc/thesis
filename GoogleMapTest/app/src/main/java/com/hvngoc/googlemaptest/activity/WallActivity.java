@@ -1,28 +1,21 @@
 package com.hvngoc.googlemaptest.activity;
 
 import android.app.ProgressDialog;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.custom.CircleTransformation;
-import com.hvngoc.googlemaptest.custom.RevealBackgroundView;
 import com.hvngoc.googlemaptest.fragment.MyImagesFragment;
 import com.hvngoc.googlemaptest.fragment.MyProfileFragment;
 import com.hvngoc.googlemaptest.fragment.MyWallFragment;

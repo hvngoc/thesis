@@ -16,9 +16,6 @@ public class CONSTANT {
     public static final String EMOTION_STRING_SURPRISE = "surprise";
     public static final String EMOTION_STRING_TERRIBLE = "terrible";
 
-    public static final String ACTION_MULTIPLE_PICK = "cunoraz.ACTION_MULTIPLE_PICK";
-    public static final String ACTION_PICK = "cunoraz.ACTION_PICK";
-
     public static final int TYPE_ME = 0;
     public static final int TYPE_REQUEST = 1;
     public static final int TYPE_FRIEND = 2;
