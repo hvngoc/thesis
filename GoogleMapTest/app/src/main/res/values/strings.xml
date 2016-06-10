@@ -80,7 +80,6 @@
     <string name="hint_setting_near_post">Auto notify when you get near by post:</string>
     <string name="hint_setting_past">Auto notify your memory in the past:</string>
     <string name="hint_setting_send">Send your location for new post:</string>
-    <string name="hint_change_radius">change radius for searching:</string>
     <string name="hint_type_search_map">type here for searching</string>
 
     <string name="menu_search_by_post">Search by post</string>

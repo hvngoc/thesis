@@ -165,7 +165,6 @@
         </activity>
         <activity android:name=".activity.PickImageActivity" >
         </activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".activity.FriendMessageActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -81,7 +81,6 @@
     <string name="hint_setting_near_post">Bật thông báo khi đến gần bài đăng:</string>
     <string name="hint_setting_past">Thông báo bài đăng trong khoản thời gian:</string>
     <string name="hint_setting_send">Cho phép gửi tọa độ hiện tại mỗi:</string>
-    <string name="hint_change_radius">Thay đổi bán kính tìm kiếm:</string>
     <string name="hint_type_search_map">Tìm kiếm trên bản đồ</string>
 
     <string name="menu_search_by_post">Tìm theo bài</string>

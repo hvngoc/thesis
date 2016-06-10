@@ -2,18 +2,28 @@ package com.hvngoc.googlemaptest.activity;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,14 +39,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.adapter.SearchPostAdapter;
+import com.hvngoc.googlemaptest.custom.IconizedMenu;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
-import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.SquareHelper;
 import com.hvngoc.googlemaptest.model.Post;
-import com.hvngoc.googlemaptest.view.MapFooterLayout;
-import com.hvngoc.googlemaptest.view.MapHeaderLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,15 +53,15 @@ import org.json.JSONObject;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
-    private GoogleMap googleMap;
+    private final int MIN_DISTANCE = 100;
+    private IconizedMenu iconizedMenu;
+    private AutoCompleteTextView search_text_header;
 
+    private GoogleMap googleMap;
     private int SEARCH_DISTANCE = 100;
 
     private HashMap<Marker, Post> markerManager = new HashMap<>();
     private ArrayList<Post> currentListPost = new ArrayList<>();
-
-    private MapHeaderLayout mapHeaderLayout;
-    private MapFooterLayout mapFooterLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,45 +69,41 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         GLOBAL.CurrentContext = this;
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        InitRunMapHeader();
         InitRunMapFooter();
     }
 
-    private  void InitRunMapFooter(){
-        mapFooterLayout = new MapFooterLayout(this);
-        mapFooterLayout.setDelegationHelper(new DelegationHelper() {
+    private void InitRunMapFooter(){
+        final TextView textDistance = (TextView) findViewById(R.id.textDistance);
+        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void doSomeThing() {
-                SEARCH_DISTANCE = mapFooterLayout.getSearchDistance();
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                SEARCH_DISTANCE = progress * MIN_DISTANCE + MIN_DISTANCE;
+                textDistance.setText(SEARCH_DISTANCE + "m");
             }
-        });
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        RelativeLayout map_activity = (RelativeLayout) findViewById(R.id.layout_map_activity);
-        map_activity.addView(mapFooterLayout, params);
-        mapFooterLayout.setVisibility(View.INVISIBLE);
-    }
 
-    private void InitRunMapHeader(){
-        mapHeaderLayout = new MapHeaderLayout(this);
-        mapHeaderLayout.setDelegationHelper(new DelegationHelper() {
             @Override
-            public void doSomeThing() {
-                currentListPost = mapHeaderLayout.getCurrentListPost();
-                AddMarker();
-                ZoomAnimateLevelToFitMarkers();
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        mapHeaderLayout.setOnPlaceSelectionListener(new PlaceSelectionListener() {
+
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setHint(getString(R.string.hint_type_search_map));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                mapHeaderLayout.setTextPlaceFragment(place);
+                autocompleteFragment.setText(place.getAddress().toString());
                 onMapLongClick(place.getLatLng());
             }
 
@@ -107,26 +112,131 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.BELOW, R.id.toolbar);
-        RelativeLayout map_activity = (RelativeLayout) findViewById(R.id.layout_map_activity);
-        map_activity.addView(mapHeaderLayout, params);
+
+        search_text_header = (AutoCompleteTextView) findViewById(R.id.search_text_header);
+        search_text_header.setDropDownBackgroundResource(R.color.white);
+        search_text_header.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Post post = (Post) search_text_header.getAdapter().getItem(position);
+                currentListPost.clear();
+                currentListPost.add(post);
+                AddMarker();
+                ZoomAnimateLevelToFitMarkers();
+                search_text_header.setText("");
+            }
+        });
+        search_text_header.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                search_text_header.showDropDown();
+                return false;
+            }
+        });
+        search_text_header.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if (text.length() > 30)
+                    text = text.substring(0, 30);
+                if (text.length() > 0)
+                    new SearchPostAsyncTask(text).execute();
+            }
+        });
+
+        ImageView img_header_search = (ImageView) findViewById(R.id.img_header_search);
+        img_header_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddMarker();
+                ZoomAnimateLevelToFitMarkers();
+            }
+        });
+
+        ImageView img_header_action = (ImageView) findViewById(R.id.img_header_action);
+        img_header_action.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        img_header_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iconizedMenu.show();
+            }
+        });
+
+        iconizedMenu = new IconizedMenu(this, img_header_action);
+        iconizedMenu.getMenuInflater().inflate(R.menu.menu_map_search_engine, iconizedMenu.getMenu());
+        iconizedMenu.setOnMenuItemClickListener(new IconizedMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                RunSearchOption(item.getItemId());
+                iconizedMenu.dismiss();
+                return false;
+            }
+        });
+        RunSearchOption(R.id.map_search_post);
     }
 
-//    private ArrayList<MenuObject> getMenuObjects() {
-//        MenuObject close = new MenuObject();
-//        close.setResource(android.R.drawable.ic_delete);
-//        MenuObject find = new MenuObject(getString(R.string.finding_around));
-//        find.setResource(android.R.drawable.ic_menu_myplaces);
-//        MenuObject bound = new MenuObject(getString(R.string.bounding_all));
-//        bound.setResource(android.R.drawable.ic_menu_mapmode);
-//        ArrayList<MenuObject> list =  new ArrayList<>();
-//        list.add(close);
-//        list.add(find);
-//        list.add(bound);
-//        return list;
-//    }
+    private void RunSearchOption(int id){
+        switch (id){
+            case R.id.map_search_post:
+                setEnableView(View.INVISIBLE, View.VISIBLE);
+                break;
+            case R.id.map_search_place:
+                setEnableView(View.VISIBLE, View.INVISIBLE);
+                break;
+        }
+    }
+    private void setEnableView(int viewPlace, int viewSearch){
+        findViewById(R.id.place_autocomplete_fragment).setVisibility(viewPlace);
+        search_text_header.setVisibility(viewSearch);
+        findViewById(R.id.img_header_search).setVisibility(viewSearch);
+    }
+
 //    ***************************************************************************************************************   //
+
+    private class SearchPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+        private String text;
+        public SearchPostAsyncTask(String text){
+            this.text = text;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String serverUrl = GLOBAL.SERVER_URL + "SearchPost";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("params", text);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
+                currentListPost = gson.fromJson(res, listType);
+                search_text_header.setAdapter(new SearchPostAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, currentListPost));
+                search_text_header.showDropDown();
+            }
+        }
+    }
 
     private class SearchPostByDistanceAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -187,18 +297,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-//    ************************************************************************************************************    //
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 //******************************************************************************************************************//
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -223,7 +321,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, GET_CAMERA_ZOOM()));
         currentListPost.clear();
         new SearchPostByDistanceAsyncTask(latLng).execute();
-        mapFooterLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
