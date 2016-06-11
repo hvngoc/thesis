@@ -157,11 +157,17 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 break;
             case CONSTANT.NAVIGATION_WALL:
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
-                startWallActivity();
+                Intent intent = new Intent(this, WallActivity.class);
+                intent.putExtra("id", GLOBAL.CurrentUser.getId());
+                startActivity(intent);
                 return;
             case CONSTANT.NAVIGATION_MAP:
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
                 startActivity(new Intent(this, MapsActivity.class));
+                return;
+            case CONSTANT.NAVIGATION_TOUR:
+                GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
+                Log.i("MAIN PAGE", "TOUR");
                 return;
             case CONSTANT.NAVIGATION_LANGUAGE:
                 ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();
@@ -204,12 +210,6 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
     protected void onPause() {
         super.onPause();
         messageDelegationHelper = null;
-    }
-
-    private void startWallActivity() {
-        Intent intent = new Intent(this, WallActivity.class);
-        intent.putExtra("id", GLOBAL.CurrentUser.getId());
-        startActivity(intent);
     }
 
     private MessageDelegationHelper messageDelegationHelper = null;

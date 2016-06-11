@@ -33,6 +33,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.squareup.picasso.Picasso;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,11 +74,7 @@ public class EditProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(EditProfileActivity.this, WallActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("id", GLOBAL.CurrentUser.getId());
-                startActivity(intent);
+                onBackPressed();
             }
         });
     }
@@ -147,6 +146,18 @@ public class EditProfileActivity extends AppCompatActivity {
                 new UpdateProfileAsyncTask().execute();
             }
         });
+
+        KeyboardVisibilityEvent.setEventListener(
+                this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (isOpen)
+                            save.setVisibility(View.INVISIBLE);
+                        else
+                            save.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
 
@@ -154,7 +165,8 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            String singlePath = data.getStringExtra("single_path");
+            ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
+            String singlePath = image_path.get(0);
             bitmap = BitmapFactory.decodeFile(singlePath);
             if(bitmap.getWidth() > 240 || bitmap.getHeight() > 240)
                 bitmap = Bitmap.createScaledBitmap(bitmap, 240, 240, true);

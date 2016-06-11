@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,11 +39,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.adapter.SearchPostAdapter;
 import com.hvngoc.googlemaptest.custom.IconizedMenu;
 import com.hvngoc.googlemaptest.custom.MapInfoWindowsLayout;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.SquareHelper;
 import com.hvngoc.googlemaptest.model.Post;
@@ -81,7 +84,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void InitRunMapFooter(){
         final TextView textDistance = (TextView) findViewById(R.id.textDistance);
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        VerticalSeekBar seekBar = (VerticalSeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -147,9 +150,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
+                Log.i("CHANGE" , text);
                 if (text.length() > 30)
                     text = text.substring(0, 30);
-                if (text.length() > 0)
+                if (!text.contains("com.hvngoc.googlemaptest") && !text.equals(""))
                     new SearchPostAsyncTask(text).execute();
             }
         });
@@ -287,6 +291,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Type listType = new TypeToken<ArrayList<Post>>() {
                 }.getType();
                 currentListPost = gson.fromJson(res, listType);
+                search_text_header.setAdapter(new SearchPostAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, currentListPost));
                 AddMarker();
             }
             else {
@@ -313,6 +318,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         this.googleMap.setIndoorEnabled(true);
         this.googleMap.setBuildingsEnabled(false);
+
+        this.googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                LocationHelper locationHelper = new LocationHelper(MapsActivity.this);
+                Double latitude = locationHelper.GetLatitude();
+                Double longitude = locationHelper.GetLongitude();
+                if (latitude == 0.0 && longitude == 0.0) {
+                    latitude = GLOBAL.CurrentUser.getDefaultLatitude();
+                    longitude = GLOBAL.CurrentUser.getDefaultLongitude();
+                }
+                onMapLongClick(new LatLng(latitude, longitude));
+                return false;
+            }
+        });
 
         SetMarkerStartScreen();
     }
@@ -401,9 +421,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return 18;
         if (SEARCH_DISTANCE == 200)
             return 17;
-        if (SEARCH_DISTANCE < 600)
+        if (SEARCH_DISTANCE < 500)
             return 16;
-        return 15;
+        if (SEARCH_DISTANCE < 900)
+            return 15;
+        return 14;
     }
 }
 

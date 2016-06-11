@@ -47,6 +47,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,6 +94,17 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.hint_create_post));
+        KeyboardVisibilityEvent.setEventListener(
+                this,
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (isOpen)
+                            btnCreatePostOK.setVisibility(View.INVISIBLE);
+                        else
+                            btnCreatePostOK.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     private void initImageLoader() {
@@ -312,17 +326,9 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
 
     private class CreatePostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         HTTPPostHelper helper;
-        String tag = "[";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            tags = hastagHelper.getAllHashTags();
-            for (String string : tags) {
-                tag += "'" + string + "',";
-            }
-            if (tag.length() > 1)
-                tag = tag.substring(0, tag.length() - 1);
-            tag += "]";
         }
 
         @Override
@@ -353,7 +359,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 jsonobj.put("Longitude", post.Longitude);
                 jsonobj.put("feeling", post.getSaveFeeling());
                 jsonobj.put("listImages", getListImages());
-                jsonobj.put("tag", tag);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

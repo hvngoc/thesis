@@ -123,8 +123,9 @@ public class CustomGalleryActivity extends Activity {
 
 		} else if (action.equalsIgnoreCase(CustomGalleryActivity.ACTION_PICK)) {
 
-			findViewById(R.id.llBottomContainer).setVisibility(View.GONE);
-			gridGallery.setOnItemClickListener(mItemSingleClickListener);
+//			findViewById(R.id.llBottomContainer).setVisibility(View.GONE);
+//			gridGallery.setOnItemClickListener(mItemSingleClickListener);
+			findViewById(R.id.llBottomContainer).setVisibility(View.VISIBLE);
 			adapter.setMultiplePick(false);
 
 		}
@@ -168,7 +169,11 @@ public class CustomGalleryActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			ArrayList<CustomGallery> selected = adapter.getSelected();
-
+			if (selected.size() == 0){
+				setResult(RESULT_CANCELED);
+				finish();
+				return;
+			}
 			ArrayList<String> allPath = new ArrayList<String>();
 			for (int i = 0; i < selected.size(); i++) {
 				allPath.add(selected.get(i).sdcardPath);
@@ -181,17 +186,17 @@ public class CustomGalleryActivity extends Activity {
 		}
 	};
 
-	AdapterView.OnItemClickListener mItemSingleClickListener = new AdapterView.OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-			CustomGallery item = adapter.getItem(position);
-			Log.i("CUSTOM GALLERY", "SINGLE CLICK");
-			Intent data = new Intent().putExtra("single_path", item.sdcardPath);
-			setResult(RESULT_OK, data);
-			finish();
-		}
-	};
+//	AdapterView.OnItemClickListener mItemSingleClickListener = new AdapterView.OnItemClickListener() {
+//
+//		@Override
+//		public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+//			CustomGallery item = adapter.getItem(position);
+//			Log.i("CUSTOM GALLERY", "SINGLE CLICK");
+//			Intent data = new Intent().putExtra("single_path", item.sdcardPath);
+//			setResult(RESULT_OK, data);
+//			finish();
+//		}
+//	};
 
 	private ArrayList<CustomGallery> getGalleryPhotos() {
 		ArrayList<CustomGallery> galleryList = new ArrayList<CustomGallery>();

@@ -76,6 +76,15 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
+        LinearLayout card_nav_tour = (LinearLayout) layout.findViewById(R.id.card_nav_tour);
+        card_nav_tour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(CONSTANT.NAVIGATION_TOUR);
+            }
+        });
+
         TextView card_nav_language = (TextView) layout.findViewById(R.id.navigation_language);
         card_nav_language.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +169,8 @@ public class FragmentDrawer extends Fragment {
         textView.setText(getString(R.string.title_report));
         textView = (TextView) layout.findViewById(R.id.navigation_logout);
         textView.setText(getString(R.string.title_logout));
+        textView = (TextView) layout.findViewById(R.id.navigation_tour);
+        textView.setText(getString(R.string.title_tour));
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {

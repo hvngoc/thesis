@@ -41,6 +41,7 @@ public class CONSTANT {
 
     public static final int NAVIGATION_WALL = 300;
     public static final int NAVIGATION_MAP = 4;
+    public static final int NAVIGATION_TOUR = 4000;
     public static final int NAVIGATION_SETTING = 8;
     public static final int NAVIGATION_CHANGE_PASSWORD = 9;
     public static final int NAVIGATION_CHANGE_LOCATION = 16;

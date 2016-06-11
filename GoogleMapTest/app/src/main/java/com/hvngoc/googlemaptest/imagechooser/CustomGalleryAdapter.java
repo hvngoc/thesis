@@ -78,6 +78,9 @@ public class CustomGalleryAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	int oldPosition = -1;
+	ViewHolder oldHolder;
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -91,11 +94,13 @@ public class CustomGalleryAdapter extends BaseAdapter {
 			holder.imgCheck = (CheckBox) convertView
 					.findViewById(R.id.imgCheck);
 
-			if (isActionMultiplePick) {
-				holder.imgCheck.setVisibility(View.VISIBLE);
-			} else {
-				holder.imgCheck.setVisibility(View.GONE);
-			}
+//			if (isActionMultiplePick) {
+//				holder.imgCheck.setVisibility(View.VISIBLE);
+//			} else {
+//				holder.imgCheck.setVisibility(View.GONE);
+//			}
+
+			holder.imgCheck.setVisibility(View.VISIBLE);
 
 			convertView.setTag(holder);
 
@@ -108,6 +113,14 @@ public class CustomGalleryAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				holder.imgCheck.setChecked(!holder.imgCheck.isChecked());
 				data.get(position).isSeleted = !data.get(position).isSeleted;
+				if (!isActionMultiplePick){
+					if (oldPosition != -1){
+						data.get(oldPosition).isSeleted = false;
+						oldHolder.imgCheck.setChecked(false);
+					}
+					oldPosition = position;
+					oldHolder = holder;
+				}
 			}
 		});
 		try {

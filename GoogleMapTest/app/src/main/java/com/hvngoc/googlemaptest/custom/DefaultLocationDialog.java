@@ -22,6 +22,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 
 import org.json.JSONException;
@@ -107,6 +108,22 @@ public class DefaultLocationDialog extends DialogFragment implements OnMapReadyC
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         this.googleMap.setIndoorEnabled(true);
         this.googleMap.setBuildingsEnabled(false);
+
+        this.googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                LocationHelper locationHelper = new LocationHelper(getContext());
+                Double latitude = locationHelper.GetLatitude();
+                Double longitude = locationHelper.GetLongitude();
+                if (latitude == 0.0 && longitude == 0.0) {
+                    latitude = GLOBAL.CurrentUser.getDefaultLatitude();
+                    longitude = GLOBAL.CurrentUser.getDefaultLongitude();
+                }
+                onMapLongClick(new LatLng(latitude, longitude));
+                return false;
+            }
+        });
+
         InitilizeMap();
     }
     private void AddCurrentMarker(){
