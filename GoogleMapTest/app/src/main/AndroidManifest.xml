@@ -151,8 +151,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyFriendActivity" >
-        </activity>
         <activity android:name=".activity.PostCreationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -165,8 +163,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.NewsDetailActivity" />
         </activity>
-        <activity android:name=".activity.PickImageActivity" >
-        </activity>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".activity.FriendMessageActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

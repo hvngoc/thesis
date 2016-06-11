@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.helper.DatePickerHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
+import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.imagechooser.CustomGalleryActivity;
 import com.hvngoc.googlemaptest.model.Profile;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -31,6 +34,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -40,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,27 +152,41 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        KeyboardVisibilityEvent.setEventListener(
-                this,
-                new KeyboardVisibilityEventListener() {
+        KeyboardVisibilityEvent.setEventListener(this, new KeyboardVisibilityEventListener() {
                     @Override
                     public void onVisibilityChanged(boolean isOpen) {
-                        if (isOpen)
-                            save.setVisibility(View.INVISIBLE);
-                        else
-                            save.setVisibility(View.VISIBLE);
-                    }
-                });
+                if (isOpen)
+                    save.setVisibility(View.INVISIBLE);
+                else
+                    save.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(),
+                getString(R.string.app_name) + ParseDateTimeHelper.getTempTime()));
+        Crop.of(source, destination).asSquare().start(this);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
             ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
             String singlePath = image_path.get(0);
             bitmap = BitmapFactory.decodeFile(singlePath);
+            if(bitmap.getWidth() > 240 || bitmap.getHeight() > 240)
+                bitmap = Bitmap.createScaledBitmap(bitmap, 240, 240, true);
+            avatar.setImageBitmap(bitmap);
+            beginCrop(Uri.fromFile(new File(singlePath)));
+        }
+        else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK){
+            Uri output = Crop.getOutput(data);
+            avatar.setImageURI(output);
+            avatar.buildDrawingCache();
+            bitmap = avatar.getDrawingCache();
             if(bitmap.getWidth() > 240 || bitmap.getHeight() > 240)
                 bitmap = Bitmap.createScaledBitmap(bitmap, 240, 240, true);
             avatar.setImageBitmap(bitmap);

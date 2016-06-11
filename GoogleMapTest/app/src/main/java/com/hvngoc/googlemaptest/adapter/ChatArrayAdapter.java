@@ -3,13 +3,11 @@ package com.hvngoc.googlemaptest.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -69,7 +67,7 @@ public class ChatArrayAdapter extends ArrayAdapter {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.activity_chat_singlemessage, parent, false);
+            row = inflater.inflate(R.layout.card_item_chat_singlemessage, parent, false);
         }
         avatar = (CircleImageView) row.findViewById(R.id.img_friendAvatar);
         Picasso.with(GLOBAL.CurrentContext).load(getItem(position).getSenderAvatar()).error(R.drawable.icon_profile).into(avatar);

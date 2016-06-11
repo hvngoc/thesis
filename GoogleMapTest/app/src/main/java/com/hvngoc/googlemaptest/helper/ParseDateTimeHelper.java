@@ -24,4 +24,8 @@ public class ParseDateTimeHelper {
     public static String getCurrent(){
         return new SimpleDateFormat(CONSTANT.DATE_TIME_SAVE_FORMAT, Locale.US).format(new Date());
     }
+
+    public static String getTempTime(){
+        return new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss", Locale.US).format(new Date());
+    }
 }
