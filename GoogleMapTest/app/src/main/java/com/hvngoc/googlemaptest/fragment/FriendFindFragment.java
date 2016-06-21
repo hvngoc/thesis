@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -145,13 +146,11 @@ public class FriendFindFragment extends Fragment {
     private void ChangeLayoutUnFriend(){
         if (friend.getIsFriend() == 0){
             txt_addFriend.setText(getString(R.string.hint_add_friend));
-            txt_addFriend.setTextColor(Color.parseColor("#030fff"));
-            img_add_Friend.setImageResource(R.drawable.ic_friend_add_black);
+            img_add_Friend.setImageResource(R.drawable.ic_add_black_24dp);
         }
         else {
             txt_addFriend.setText(getString(R.string.un_friend));
-            txt_addFriend.setTextColor(Color.RED);
-            img_add_Friend.setImageResource(R.drawable.ic_friend_delete);
+            img_add_Friend.setImageResource(R.drawable.ic_clear_black_24dp);
         }
     }
 

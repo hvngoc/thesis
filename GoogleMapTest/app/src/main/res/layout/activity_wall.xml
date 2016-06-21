@@ -191,7 +191,7 @@
                     app:tabGravity="fill"
                     app:tabIndicatorColor="@color/accent"
                     app:tabMode="fixed"
-                    android:background="@color/primary_dark" />
+                    android:background="@color/primary" />
 
             </FrameLayout>
 

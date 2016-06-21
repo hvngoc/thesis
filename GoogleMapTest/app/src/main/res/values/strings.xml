@@ -14,7 +14,7 @@
 
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-    <string name="title_images">Images</string>
+    <string name="title_images">Tour</string>
     <string name="title_wall">Wall</string>
     <string name="title_map">Map</string>
     <string name="title_tour">Tour</string>
@@ -44,11 +44,11 @@
     <string name="hint_create_account_back">Create Account</string>
     <string name="hint_login_back">Already a member? Login</string>
     <string name="hint_commented">commented on</string>
-    <string name="hint_friend">friends.</string>
-    <string name="hint_mutual_friend">mutual friends.</string>
+    <string name="hint_friend">friends</string>
+    <string name="hint_mutual_friend">mutual friends</string>
     <string name="hint_find_friend">May be you know this person?</string>
-    <string name="hint_add_friend">add friend</string>
-    <string name="hint_detail">detail</string>
+    <string name="hint_add_friend">Add friend</string>
+    <string name="hint_detail">Detail</string>
     <string name="hint_nothing_found">we found nothing</string>
     <string name="hint_type_email">type email here</string>
     <string name="hint_sure_logout">Are you sure you want to log out?</string>
@@ -126,7 +126,7 @@
     <string name="unknown">UNKNOWN</string>
     <string name="warning">Warning</string>
     <string name="setting_gps">Setting GPS to determine your location??</string>
-    <string name="un_friend">unFriend</string>
+    <string name="un_friend">Unfriend</string>
     <string name="send_request_ok">send request OK</string>
     <string name="input_email">please input email.</string>
     <string name="invalid_email">Oops! invalid email.</string>

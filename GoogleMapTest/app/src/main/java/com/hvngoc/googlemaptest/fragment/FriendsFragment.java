@@ -38,7 +38,7 @@ public class FriendsFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_friend);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_white_24dp);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_group_add_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_group_white);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_add_white_24dp);

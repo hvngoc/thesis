@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
@@ -29,7 +30,7 @@ public class SettingDialog extends DialogFragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.setContentView(R.layout.layout_custom_setting_dialog);
 
-        TextView btn_setting_cancel = (TextView) dialog.findViewById(R.id.btn_setting_cancel);
+        Button btn_setting_cancel = (Button) dialog.findViewById(R.id.btn_setting_cancel);
         btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

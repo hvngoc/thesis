@@ -34,7 +34,7 @@ public class ConfirmDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_confirm_dialog);
 
-        TextView btn_setting_cancel = (TextView) findViewById(R.id.btn_setting_cancel);
+        Button btn_setting_cancel = (Button) findViewById(R.id.btn_setting_cancel);
         btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class ConfirmDialog extends Dialog {
             }
         });
 
-        TextView btn_setting_change = (TextView) findViewById(R.id.btn_setting_change);
+        Button btn_setting_change = (Button) findViewById(R.id.btn_setting_change);
         btn_setting_change.setOnClickListener(onOKClickListener);
 
         TextView txtConfirm = (TextView) findViewById(R.id.txtConfirm);
