@@ -156,6 +156,6 @@
             android:tint="@color/secondary_text"
             android:layout_width="24dip"
             android:layout_height="24dip"
-            android:src="@drawable/ic_search_white_36dp" />
+            android:src="@drawable/ic_search_white_24dp" />
     </RelativeLayout>
 </RelativeLayout>

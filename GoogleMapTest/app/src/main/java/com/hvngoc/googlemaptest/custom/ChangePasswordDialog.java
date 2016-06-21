@@ -43,7 +43,7 @@ public class ChangePasswordDialog extends DialogFragment {
         input_new_password = (TextView) dialog.findViewById(R.id.input_new_password);
         input_confirm_password = (TextView) dialog.findViewById(R.id.input_confirm_password);
 
-        Button btn_setting_cancel = (Button) dialog.findViewById(R.id.btn_setting_cancel);
+        TextView btn_setting_cancel = (TextView) dialog.findViewById(R.id.btn_setting_cancel);
         btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ public class ChangePasswordDialog extends DialogFragment {
             }
         });
 
-        Button btn_setting_change = (Button) dialog.findViewById(R.id.btn_setting_change);
+        TextView btn_setting_change = (TextView) dialog.findViewById(R.id.btn_setting_change);
         btn_setting_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

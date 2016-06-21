@@ -58,7 +58,5 @@
                 android:layout_marginLeft="40dip"
                 android:textColor="@color/primary_text"/>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
 </LinearLayout>

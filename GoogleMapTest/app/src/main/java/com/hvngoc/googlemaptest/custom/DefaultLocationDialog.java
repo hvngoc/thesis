@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +48,7 @@ public class DefaultLocationDialog extends DialogFragment implements OnMapReadyC
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.setContentView(R.layout.layout_custom_default_location);
 
-        Button btn_setting_cancel = (Button) dialog.findViewById(R.id.btn_setting_cancel);
+        TextView btn_setting_cancel = (TextView) dialog.findViewById(R.id.btn_setting_cancel);
         btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +56,7 @@ public class DefaultLocationDialog extends DialogFragment implements OnMapReadyC
             }
         });
 
-        Button btn_setting_change = (Button) dialog.findViewById(R.id.btn_setting_change);
+        TextView btn_setting_change = (TextView) dialog.findViewById(R.id.btn_setting_change);
         btn_setting_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

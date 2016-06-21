@@ -35,54 +35,54 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/card_nav_wall"
-                    android:clickable="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dip"
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:tint="@color/Gray"
-                        android:src="@drawable/ic_person_black"/>
-                    <TextView
-                        android:id="@+id/navigation_wall"
-                        android:text="@string/title_wall"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dip"
-                        android:padding="6dp"
-                        android:textSize="16sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/card_nav_map"
-                    android:clickable="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dip"
-                    android:layout_width="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:tint="@color/Gray"
-                        android:src="@drawable/ic_location_on_white_24dp"/>
-                    <TextView
-                        android:id="@+id/navigation_map"
-                        android:text="@string/title_map"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dip"
-                        android:padding="6dp"
-                        android:layout_gravity="center"
-                        android:textSize="16sp" />
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/card_nav_wall"
+                android:clickable="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dip"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/Gray"
+                    android:src="@drawable/ic_person_black"/>
+                <TextView
+                    android:id="@+id/navigation_wall"
+                    android:text="@string/title_wall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dip"
+                    android:padding="6dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/card_nav_map"
+                android:clickable="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dip"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/Gray"
+                    android:src="@drawable/ic_location_on_white_24dp"/>
+                <TextView
+                    android:id="@+id/navigation_map"
+                    android:text="@string/title_map"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dip"
+                    android:padding="6dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp" />
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/card_nav_tour"
                 android:clickable="true"
@@ -112,61 +112,61 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="3dp"
                 android:background="@android:color/darker_gray" />
-                    <TextView
-                        android:id="@+id/navigation_language"
-                        android:text="@string/title_language"
-                        android:clickable="true"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dip"
-                        android:layout_marginTop="3dip"
-                        android:padding="6dp"
-                        android:textSize="16sp"
-                        android:layout_gravity="center" />
-                    <TextView
-                        android:id="@+id/navigation_setting"
-                        android:text="@string/title_settings"
-                        android:clickable="true"
-                        android:layout_marginTop="4dip"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dip"
-                        android:layout_gravity="center"
-                        android:padding="6dp"
-                        android:textSize="16sp" />
-                    <TextView
-                        android:id="@+id/navigation_change_pass"
-                        android:text="@string/title_change_pass_work"
-                        android:layout_marginTop="4dip"
-                        android:clickable="true"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dip"
-                        android:padding="6dp"
-                        android:textSize="16sp"
-                        android:layout_gravity="center" />
-                    <TextView
-                        android:id="@+id/navigation_change_location"
-                        android:text="@string/title_change_location"
-                        android:layout_marginTop="4dip"
-                        android:clickable="true"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dip"
-                        android:padding="6dp"
-                        android:textSize="16sp"
-                        android:layout_gravity="center" />
-                <TextView
-                    android:id="@+id/navigation_report"
-                    android:text="@string/title_report"
-                    android:layout_marginTop="4dip"
-                    android:clickable="true"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dip"
-                    android:padding="6dp"
-                    android:textSize="16sp"
-                    android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/navigation_language"
+                android:text="@string/title_language"
+                android:clickable="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:layout_marginTop="3dip"
+                android:padding="6dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/navigation_setting"
+                android:text="@string/title_settings"
+                android:clickable="true"
+                android:layout_marginTop="4dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/navigation_change_pass"
+                android:text="@string/title_change_pass_work"
+                android:layout_marginTop="4dip"
+                android:clickable="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:padding="6dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/navigation_change_location"
+                android:text="@string/title_change_location"
+                android:layout_marginTop="4dip"
+                android:clickable="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:padding="6dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/navigation_report"
+                android:text="@string/title_report"
+                android:layout_marginTop="4dip"
+                android:clickable="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:padding="6dp"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
             <TextView
                 android:id="@+id/navigation_logout"
                 android:text="@string/title_logout"

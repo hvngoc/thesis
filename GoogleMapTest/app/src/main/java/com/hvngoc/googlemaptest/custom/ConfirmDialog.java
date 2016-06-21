@@ -7,12 +7,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
-import com.hvngoc.googlemaptest.activity.GLOBAL;
 
 /**
  * Created by Hoang Van Ngoc on 06/05/2016.
@@ -34,7 +31,7 @@ public class ConfirmDialog extends Dialog {
         getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         setContentView(R.layout.layout_custom_confirm_dialog);
 
-        Button btn_setting_cancel = (Button) findViewById(R.id.btn_setting_cancel);
+        TextView btn_setting_cancel = (TextView) findViewById(R.id.btn_setting_cancel);
         btn_setting_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +39,7 @@ public class ConfirmDialog extends Dialog {
             }
         });
 
-        Button btn_setting_change = (Button) findViewById(R.id.btn_setting_change);
+        TextView btn_setting_change = (TextView) findViewById(R.id.btn_setting_change);
         btn_setting_change.setOnClickListener(onOKClickListener);
 
         TextView txtConfirm = (TextView) findViewById(R.id.txtConfirm);

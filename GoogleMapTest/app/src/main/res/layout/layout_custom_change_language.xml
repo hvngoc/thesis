@@ -50,20 +50,22 @@
                 android:layout_marginBottom="5dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
+                <TextView
                     android:id="@+id/btn_setting_change"
                     android:layout_marginEnd="20dip"
                     android:layout_toStartOf="@+id/btn_setting_cancel"
                     android:text="@string/hint_change"
-                    android:textColor="@color/primary_text"
+                    android:textSize="20sp"
+                    android:textColor="@color/primary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <Button
+                <TextView
                     android:id="@+id/btn_setting_cancel"
                     android:layout_marginEnd="16dip"
                     android:layout_alignParentEnd="true"
                     android:text="@string/hint_cancel"
-                    android:textColor="@color/primary_text"
+                    android:textSize="20sp"
+                    android:textColor="@color/primary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
