@@ -26,13 +26,12 @@ dependencies {
     compile project(':library')
     testCompile 'junit:junit:4.12'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.android.support:cardview-v7:23.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.androidanimations:library:1.0.3@aar'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.apache.httpcomponents:httpclient:4.5'
@@ -45,6 +44,7 @@ dependencies {
     compile 'com.github.danylovolokh:hashtag-helper:1.1.0'
     compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:1.0.1'
     compile 'com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:0.7.0'
+    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     compile project(':materialpicker')
     compile project(':libcircleimage')
 }

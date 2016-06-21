@@ -27,10 +27,8 @@ import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
-import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
-import com.roughike.bottombar.BottomBarBadge;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
         Log.i("CURRENTID", GLOBAL.CurrentUser.getId());
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
-        chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage);
+        chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.card_item_chat_singlemessage);
         listView.setAdapter(chatArrayAdapter);
         chatText = (EditText) findViewById(R.id.chatText);
         chatText.setOnKeyListener(new View.OnKeyListener() {

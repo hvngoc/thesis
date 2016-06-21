@@ -3,8 +3,12 @@ package com.hvngoc.googlemaptest.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +50,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.soundcloud.android.crop.Crop;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -55,6 +61,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,20 +71,15 @@ import java.util.UUID;
 public class PostCreationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap googleMap;
-    private SupportMapFragment supportMapFragment;
-    private HashTagHelper hastagHelper;
     private EditText editTextCreatePost;
     private Post post;
     private RVPickImageAdapter adapter;
-    private CustomGalleryAdapter galleryAdapter;
     private RecyclerView recyclerCreatePostImage;
     private ArrayList<String> listImageUrls = new ArrayList<String>();
     ImageLoader imageLoader;
-    private List<String> tags;
     private ImageView btnCreatePostGetFeeling;
     private FloatingActionButton btnCreatePostOK;
     private TextView txtCreatePostFeeling;
-    private ImageView btnCreatePostGetImage;
 
     List<String> images;
     private ProgressDialog progressDialog;
@@ -90,10 +93,15 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         createSamplePost();
         initContentView();
         initImageLoader();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.hint_create_post));
+
+        recyclerCreatePostImage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
+        recyclerCreatePostImage.setHasFixedSize(true);
+
         KeyboardVisibilityEvent.setEventListener(
                 this,
                 new KeyboardVisibilityEventListener() {
@@ -119,14 +127,14 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         ImageLoaderConfiguration config = builder.build();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
-        galleryAdapter = new CustomGalleryAdapter(this, imageLoader);
+        CustomGalleryAdapter galleryAdapter = new CustomGalleryAdapter(this, imageLoader);
     }
 
     private void initContentView() {
         findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
         post.setFeeling(getString(R.string.feeling_happy));
         setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
         supportMapFragment.getMapAsync(this);
     }
 
@@ -135,8 +143,8 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         post.setPostID(UUID.randomUUID().toString());
         post.userName = GLOBAL.CurrentUser.getName();
         post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
-        hastagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(this, R.color.blue), null);
-        hastagHelper.handle(editTextCreatePost);
+        HashTagHelper hashTagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(this, R.color.blue), null);
+        hashTagHelper.handle(editTextCreatePost);
     }
 
     private void setMapVisibility(int value){
@@ -173,7 +181,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        btnCreatePostGetImage = (ImageView) findViewById(R.id.btnCreatePostGetImage);
+        ImageView btnCreatePostGetImage = (ImageView) findViewById(R.id.btnCreatePostGetImage);
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +200,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         post.setFeeling(item.getTitle().toString());
-                        btnCreatePostGetFeeling.setImageResource((int)GLOBAL.EMOTION.get(post.getSaveFeeling()).get(1));
+                        btnCreatePostGetFeeling.setImageResource((int) GLOBAL.EMOTION.get(post.getSaveFeeling()).get(1));
                         txtCreatePostFeeling.setText(post.getFeeling());
                         menu.dismiss();
                         return true;
@@ -227,20 +235,46 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         listImageUrls = new ArrayList<String>();
         if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
             ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
-            recyclerCreatePostImage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
-            recyclerCreatePostImage.setHasFixedSize(true);
             adapter = new RVPickImageAdapter(image_path);
-
+            recyclerCreatePostImage.setAdapter(adapter);
             adapter.setOnClickImage(new RVPickImageAdapter.OnClickImage() {
                 @Override
                 public void doSomething(String uri) {
-//                    startCropImageActivity(Uri.fromFile(new File(uri)));
+                    beginCrop(Uri.fromFile(new File(uri)));
                 }
             });
-            recyclerCreatePostImage.setAdapter(adapter);
+        }
+        else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
+            Uri output = Crop.getOutput(data);
+            Bitmap bitmap = BitmapFactory.decodeFile(output.getPath());
+            Uri tempUri = getImageUri(bitmap);
+            String path = getRealPathFromURI(tempUri);
+            adapter.add(path);
         }
     }
 
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage,
+                getString(R.string.app_name) + ParseDateTimeHelper.getTempTime(), null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        String file_path = cursor.getString(idx);
+        cursor.close();
+        return file_path;
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(),
+                getString(R.string.app_name) + ParseDateTimeHelper.getTempTime() + ".jpg"));
+        Crop.of(source, destination).asSquare().start(this);
+    }
 
     public List<String> getStringImages(List<Bitmap> bitmaps){
         ArrayList<String> images = new ArrayList<String>();
@@ -269,7 +303,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         TextView txtCreatePostLocation = (TextView) findViewById(R.id.txtCreatePostLocation);
         txtCreatePostLocation.setText(address);
     }
-
 
 /*-------------------------------------UPLOAD SERVICE---------------------------------*/
 

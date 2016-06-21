@@ -12,10 +12,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -55,7 +53,7 @@ public class CustomGalleryActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.gallery_grid);
+		setContentView(R.layout.gallery_activity);
 
 		action = getIntent().getAction();
 		if (action == null) {
@@ -232,12 +230,11 @@ public class CustomGalleryActivity extends Activity {
 		return galleryList;
 	}
 
-
-	public Uri getImageUri(Context inContext, Bitmap inImage) {
+	public Uri getImageUri(Bitmap inImage) {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-		String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,
-				getString(R.string.app_name) + ParseDateTimeHelper.getCurrent(), null);
+		String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage,
+				getString(R.string.app_name) + ParseDateTimeHelper.getTempTime(), null);
 		return Uri.parse(path);
 	}
 
@@ -256,7 +253,7 @@ public class CustomGalleryActivity extends Activity {
 		if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 			Bitmap photo = (Bitmap) data.getExtras().get("data");
 
-			Uri tempUri = getImageUri(getApplicationContext(), photo);
+			Uri tempUri = getImageUri(photo);
 			String path = getRealPathFromURI(tempUri);
 
 			CustomGallery item = new CustomGallery();

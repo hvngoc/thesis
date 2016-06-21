@@ -14,9 +14,9 @@
     <string name="drawer_close">Đóng</string>
 
     <string name="title_home">Trang chủ</string>
-    <string name="title_profile">Cá nhân</string>
+    <string name="title_profile">Thông tin</string>
     <string name="title_images">Hành trình</string>
-    <string name="title_wall">Tường</string>
+    <string name="title_wall">Bài viết</string>
     <string name="title_map">Bản đồ</string>
     <string name="title_tour">Hành Trình</string>
     <string name="title_friends">Bạn bè</string>
@@ -55,7 +55,7 @@
     <string name="hint_sure_logout">Bạn thực sự muốn đăng xuất tài khoản?</string>
     <string name="hint_logout">Đăng xuất</string>
     <string name="hint_follow">theo dõi</string>
-    <string name="hint_post">bài post</string>
+    <string name="hint_post">Bài viết</string>
     <string name="hint_gender">Giới tính</string>
     <string name="hint_male">Nam</string>
     <string name="hint_female">Nữ</string>

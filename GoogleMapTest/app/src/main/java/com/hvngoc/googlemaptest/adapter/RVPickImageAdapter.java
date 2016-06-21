@@ -34,6 +34,11 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
         imageLoader = ImageLoader.getInstance();
     }
 
+    public void add(String item){
+        mItems.add(0, item);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
@@ -45,14 +50,7 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         String item = mItems.get(i);
         if(item != null && !item.equals(""))  {
-            //final File image = DiskCacheUtils.findInCache(item, imageLoader.getDiskCache());
-            final File image = null;
-            if (image!= null && image.exists()) {
-                Picasso.with(GLOBAL.CurrentContext).load(image).fit().centerCrop().into(viewHolder.imgPickImage);
-            }
-            else {
-                imageLoader.displayImage("file://" + item, viewHolder.imgPickImage);
-            }
+            imageLoader.displayImage("file://" + item, viewHolder.imgPickImage);
         }
         else {
             viewHolder.imgPickImage.setImageResource(R.drawable.icon_no_image);
