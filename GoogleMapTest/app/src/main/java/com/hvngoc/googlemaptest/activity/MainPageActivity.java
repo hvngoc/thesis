@@ -44,9 +44,6 @@ import com.roughike.bottombar.OnMenuTabSelectedListener;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
-import java.util.ArrayList;
-
-
 public class MainPageActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private FragmentDrawer drawerFragment;
@@ -167,7 +164,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 return;
             case CONSTANT.NAVIGATION_TOUR:
                 GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_HOME;
-                Log.i("MAIN PAGE", "TOUR");
+                startActivity(new Intent(this, TourActivity.class));
                 return;
             case CONSTANT.NAVIGATION_LANGUAGE:
                 ChangeLanguageDialog changeLanguageDialog = new ChangeLanguageDialog();

@@ -66,16 +66,17 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_no_image"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:gravity="end"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtAddressLocation"
                 android:text="Ho Chi Minh City, Viet Nam"
-                android:textSize="15dip"
-                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColor="@color/white"
                 android:layout_alignBottom="@+id/place_photo"
-                android:layout_alignRight="@+id/place_photo"
-                android:layout_marginRight="5dip"
-                android:layout_marginBottom="5dip"/>
+                android:layout_alignEnd="@+id/place_photo"
+                android:alpha="0.7"
+                android:background="@color/Gray" />
             <TextView
                 android:id="@+id/news_title"
                 android:layout_width="match_parent"

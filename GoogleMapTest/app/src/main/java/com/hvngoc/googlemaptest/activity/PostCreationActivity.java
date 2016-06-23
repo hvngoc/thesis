@@ -127,11 +127,9 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         ImageLoaderConfiguration config = builder.build();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
-        CustomGalleryAdapter galleryAdapter = new CustomGalleryAdapter(this, imageLoader);
     }
 
     private void initContentView() {
-        findViewById(R.id.MapCreatePostMap).setVisibility(View.INVISIBLE);
         post.setFeeling(getString(R.string.feeling_happy));
         setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
@@ -147,39 +145,12 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         hashTagHelper.handle(editTextCreatePost);
     }
 
-    private void setMapVisibility(int value){
-        findViewById(R.id.MapCreatePostMap).setVisibility(value);
-    }
-
     private void initComponent() {
         recyclerCreatePostImage = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
         txtCreatePostFeeling = (TextView) findViewById(R.id.txtCreatePostFeeling);
         btnCreatePostGetFeeling = (ImageView) findViewById(R.id.btnCreatePostGetFeeling);
         btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
         editTextCreatePost = (EditText)findViewById(R.id.editTextCreatePost);
-        RadioGroup radioGroupCreatePost = (RadioGroup) findViewById(R.id.radioGroupCreatePost);
-        radioGroupCreatePost.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radioGetOnMapLocation:
-                        setMapVisibility(View.VISIBLE);
-                        btnCreatePostOK.bringToFront();
-                        break;
-                    case R.id.radioYourLocation:
-                        LocationHelper locationHelper = new LocationHelper(GLOBAL.CurrentContext);
-                        Double latitude = locationHelper.GetLatitude();
-                        Double longitude = locationHelper.GetLongitude();
-                        if (latitude == 0.0 && longitude == 0.0) {
-                            latitude = GLOBAL.CurrentUser.getDefaultLatitude();
-                            longitude = GLOBAL.CurrentUser.getDefaultLongitude();
-                        }
-                        setLocationTextView(latitude, longitude);
-                        setMapVisibility(View.INVISIBLE);
-                        break;
-                }
-            }
-        });
 
         ImageView btnCreatePostGetImage = (ImageView) findViewById(R.id.btnCreatePostGetImage);
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
@@ -308,8 +279,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
 
     private class UploadImagesAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        private String encodedImage;
-        private int index;
         private int size;
         private List<String> images;
         private int startIndex;
@@ -417,13 +386,26 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         this.googleMap.getUiSettings().setCompassEnabled(true);
         this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
         this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
-        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         this.googleMap.setMyLocationEnabled(true);
         this.googleMap.setTrafficEnabled(true);
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         this.googleMap.setIndoorEnabled(true);
         this.googleMap.setBuildingsEnabled(false);
+        this.googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                LocationHelper locationHelper = new LocationHelper(GLOBAL.CurrentContext);
+                Double latitude = locationHelper.GetLatitude();
+                Double longitude = locationHelper.GetLongitude();
+                if (latitude == 0.0 && longitude == 0.0) {
+                    latitude = GLOBAL.CurrentUser.getDefaultLatitude();
+                    longitude = GLOBAL.CurrentUser.getDefaultLongitude();
+                }
+                setLocationTextView(latitude, longitude);
+                return false;
+            }
+        });
         InitilizeMap();
     }
 

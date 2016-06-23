@@ -51,4 +51,7 @@ public class CONSTANT {
 
     public static final String RELATIONSHIP_POST = "posted";
     public static final String RELATIONSHIP_SHARE= "shared";
+
+    public static final int TOUR_STATUS_LIVE = 1;
+    public static final int TOUR_STATUS_STOP = 0;
 }

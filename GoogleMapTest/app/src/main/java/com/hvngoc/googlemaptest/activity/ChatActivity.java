@@ -242,6 +242,9 @@ public class ChatActivity extends AppCompatActivity {
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> messageList = gson.fromJson(res, listType);
                 chatArrayAdapter.addListMessage(messageList);
+                if (messageList == null || messageList.size() == 0){
+                    new LoadOneMessageAsyncTask().execute();
+                }
             }
         }
     }

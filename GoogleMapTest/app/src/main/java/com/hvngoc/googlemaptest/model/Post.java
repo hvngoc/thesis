@@ -61,6 +61,10 @@ public class Post implements Serializable {
         return content;
     }
 
+    public String getContentSmaller(){
+        return  content.length() > 20 ? content.substring(0, 20) + "..." : content;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

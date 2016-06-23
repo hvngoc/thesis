@@ -19,6 +19,7 @@
     <string name="title_wall">Bài viết</string>
     <string name="title_map">Bản đồ</string>
     <string name="title_tour">Hành Trình</string>
+    <string name="title_tour_creation">Tạo hành trình mới</string>
     <string name="title_friends">Bạn bè</string>
     <string name="title_notifications">Thông báo</string>
     <string name="title_messages">Tin nhắn</string>
@@ -160,5 +161,6 @@
     <string name="relation_share">Chia sẻ</string>
 
     <string name="gallery_images">Chọn hình ảnh</string>
+    <string name="minutes">phút</string>
 
 </resources>

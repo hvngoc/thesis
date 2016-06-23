@@ -9,7 +9,6 @@ import java.security.acl.LastOwnerException;
  * Created by 12125_000 on 5/11/2016.
  */
 public class ChatMessage {
-    private boolean left;
     private String message;
     private String senderName;
     private String senderAvatar;

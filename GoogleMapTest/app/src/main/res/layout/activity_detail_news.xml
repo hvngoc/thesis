@@ -38,7 +38,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtCommentDay"
-                            android:layout_gravity="right"
+                            android:layout_gravity="end"
                             android:text="27/02/2016"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -125,43 +125,47 @@
                                 android:textSize="20dp"
                                 android:textColor="#fa2b2b" />
                         </LinearLayout>
-
-
-                        <com.daimajia.slider.library.SliderLayout
-                            android:id="@+id/slider"
+                        <RelativeLayout
+                            android:layout_marginTop="5dip"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="10dp"
-                            custom:pager_animation="Accordion"
-                            android:layout_marginBottom="5dip"
-                            custom:auto_cycle="true"
-                            custom:indicator_visibility="visible"
-                            custom:pager_animation_span="1100"
-                            android:layout_height="300dp"/>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-60dip">
-                            <TextView
-                                android:id="@+id/txtAddressLocation"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="50dip"
+                            android:layout_height="wrap_content">
+                            <com.daimajia.slider.library.SliderLayout
+                                android:id="@+id/slider"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="10dp"
+                                custom:pager_animation="Accordion"
                                 android:layout_marginBottom="5dip"
+                                custom:auto_cycle="true"
+                                custom:indicator_visibility="visible"
+                                custom:pager_animation_span="1100"
+                                android:layout_height="300dp"/>
+                            <TextView
+                                android:layout_alignBottom="@+id/slider"
+                                android:id="@+id/txtAddressLocation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="48dip"
                                 android:text="Ho Chi Minh City, Viet Nam"
-                                android:textSize="15dip"
-                                android:layout_gravity="right|bottom"
-                                android:textColor="@color/black" />
+                                android:textSize="16sp"
+                                android:background="@color/Gray"
+                                android:alpha="0.7"
+                                android:gravity="end"
+                                android:layout_gravity="end|bottom"
+                                android:textColor="@color/white" />
                             <ImageView
+                                android:layout_alignBottom="@+id/slider"
+                                android:layout_alignEnd="@+id/slider"
                                 android:id="@+id/imgViewShowMap"
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
+                                android:background="@color/Gray"
+                                android:alpha="0.7"
                                 android:layout_gravity="bottom|end"
                                 android:src="@drawable/ic_place_white_48dp" />
-                        </FrameLayout>
+                        </RelativeLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
         </ScrollView>
-
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

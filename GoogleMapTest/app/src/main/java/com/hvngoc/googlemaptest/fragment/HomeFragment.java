@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
-                 ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
+                ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
                 adapter.addListPost(CurrentListPost);
             }
             /*

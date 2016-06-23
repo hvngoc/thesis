@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
@@ -44,7 +42,7 @@ public class SearchPostAdapter extends ArrayAdapter<Post> {
         txt_search_username.setText(item.userName);
 
         TextView txt_search_content = (TextView) convertView.findViewById(R.id.txt_search_content);
-        txt_search_content.setText(item.getContent());
+        txt_search_content.setText(item.getContentSmaller());
 
         return convertView;
     }

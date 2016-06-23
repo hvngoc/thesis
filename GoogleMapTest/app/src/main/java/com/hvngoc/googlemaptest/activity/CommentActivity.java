@@ -229,7 +229,6 @@ public class CommentActivity extends AppCompatActivity{
 
 
     protected void initBroadcastReceiver() {
-
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -239,10 +238,8 @@ public class CommentActivity extends AppCompatActivity{
                     String message = bundle.getString("message");
                     String param = bundle.getString("param");
                     String targetID = bundle.getString("targetID");
-                    Log.i("RECEIVE   ", targetID.toString());
                     if(targetID.contains(GLOBAL.CurrentUser.getId())) {
                         if (message.equals(CONSTANT.NOTIFICATION_COMMENT) && param.equals(postID)) {
-                            Log.i("RECEIVE MESSAGE", "MESSAGE OKKKK");
                             new  LoadLastCommentAsyncTask().execute();
                         }
                     }
