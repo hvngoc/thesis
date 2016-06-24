@@ -44,8 +44,7 @@ public class FriendMessageActivity extends AppCompatActivity {
     ProgressDialog progressDialog = null;
 
     private void loadFriend() {
-        progressDialog = new ProgressDialog(this,
-                R.style.AppTheme_Dark_Dialog);
+        progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();

@@ -1,5 +1,11 @@
 package com.hvngoc.googlemaptest.model;
 
+import android.location.Location;
+
+import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.GeolocatorAddressHelper;
+import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
+
 /**
  * Created by Hoang Van Ngoc on 22/06/2016.
  */
@@ -53,6 +59,24 @@ public class Tour {
         this.stopLongitude = stopLongitude;
     }
 
+    public String getAddressStart(){
+        return new GeolocatorAddressHelper(GLOBAL.CurrentContext, startLatitude, startLongitude).GetAddress();
+    }
+
+    public String getAddressTop(){
+        return new GeolocatorAddressHelper(GLOBAL.CurrentContext, stopLatitude, stopLongitude).GetAddress();
+    }
+
+    public double getDistanceNumber(){
+        Location start = new Location("start");
+        start.setLatitude(startLatitude);
+        start.setLongitude(startLongitude);
+        Location stop = new Location("stop");
+        stop.setLatitude(stopLatitude);
+        stop.setLongitude(stopLongitude);
+        return LocationRoundHelper.MetersToKM(start.distanceTo(stop));
+    }
+
     public String getId() {
         return id;
     }
@@ -62,7 +86,7 @@ public class Tour {
     }
 
     public String getUserAvatar() {
-        return userAvatar;
+        return GLOBAL.SERVER_IMAGE_URL + userAvatar;
     }
 
     public void setUserAvatar(String userAvatar) {

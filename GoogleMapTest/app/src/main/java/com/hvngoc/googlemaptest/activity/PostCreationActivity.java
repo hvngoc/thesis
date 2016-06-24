@@ -89,9 +89,9 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_creation);
         GLOBAL.CurrentContext = this;
-        initComponent();
+
         createSamplePost();
-        initContentView();
+        initComponent();
         initImageLoader();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -129,20 +129,12 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         imageLoader.init(config);
     }
 
-    private void initContentView() {
-        post.setFeeling(getString(R.string.feeling_happy));
-        setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
-        supportMapFragment.getMapAsync(this);
-    }
-
     private void createSamplePost(){
         post = new Post();
         post.setPostID(UUID.randomUUID().toString());
         post.userName = GLOBAL.CurrentUser.getName();
         post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
-        HashTagHelper hashTagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(this, R.color.blue), null);
-        hashTagHelper.handle(editTextCreatePost);
+        post.setFeeling(getString(R.string.feeling_happy));
     }
 
     private void initComponent() {
@@ -152,6 +144,9 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         btnCreatePostOK = (FloatingActionButton) findViewById(R.id.btnCreatePostOK);
         editTextCreatePost = (EditText)findViewById(R.id.editTextCreatePost);
 
+        HashTagHelper hashTagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(this, R.color.blue), null);
+        hashTagHelper.handle(editTextCreatePost);
+
         ImageView btnCreatePostGetImage = (ImageView) findViewById(R.id.btnCreatePostGetImage);
         btnCreatePostGetImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +155,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 startActivityForResult(i, 200);
             }
         });
-
 
         btnCreatePostGetFeeling.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +192,10 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 }
             }
         });
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
+        supportMapFragment.getMapAsync(this);
+        setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
     }
 
     @Override
@@ -407,6 +405,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
             }
         });
         InitilizeMap();
+        btnCreatePostOK.bringToFront();
     }
 
     @Override

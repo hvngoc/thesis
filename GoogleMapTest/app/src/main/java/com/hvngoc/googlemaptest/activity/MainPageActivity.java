@@ -35,6 +35,8 @@ import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
+import com.hvngoc.googlemaptest.helper.StartedSettingHelper;
+import com.hvngoc.googlemaptest.model.AppSetting;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.roughike.bottombar.BottomBar;
@@ -58,11 +60,13 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         setContentView(R.layout.activity_main_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         drawerFragment = (FragmentDrawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         drawerFragment.setDrawerListener(this);
+
         initBottomBar(savedInstanceState);
-        StartLocationServiceHelper();
+        StartLocationServiceHelper(false);
         initBroadcastReceiver();
     }
 
@@ -179,6 +183,12 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 return;
             case CONSTANT.NAVIGATION_SETTING:
                 SettingDialog settingDialog = new SettingDialog();
+                settingDialog.setDelegationHelper(new DelegationHelper() {
+                    @Override
+                    public void doSomeThing() {
+                        StartLocationServiceHelper(true);
+                    }
+                });
                 settingDialog.show(getSupportFragmentManager(), "SettingDialog");
                 return;
             case CONSTANT.NAVIGATION_CHANGE_PASSWORD:
@@ -298,13 +308,25 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
     }
 
 
-    private void StartLocationServiceHelper() {
+    private void StartLocationServiceHelper(boolean again) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (LocationNotifierService.class.getName().equals(service.service.getClassName())) {
-                return;
+                if (again){
+                    stopService(new Intent(getApplicationContext(), LocationNotifierService.class));
+                    break;
+                }
+                else {
+                    return;
+                }
             }
         }
+        StartedSettingHelper startedSettingHelper = new StartedSettingHelper(this);
+        AppSetting appSetting = startedSettingHelper.getSetting();
+
+        if (!appSetting.isBackground())
+            return;
+
         LocationResultReceiver locationResultReceiver = new LocationResultReceiver(null);
         locationResultReceiver.setDelegationReceiver(new LocationResultReceiver.DelegationReceiver() {
             @Override
@@ -320,6 +342,8 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         });
         Intent intentService = new Intent(getApplicationContext(), LocationNotifierService.class);
         intentService.putExtra("LocationResultReceiver", locationResultReceiver);
+        intentService.putExtra("time", appSetting.getTime());
+        intentService.putExtra("distance", appSetting.getDistance());
         startService(intentService);
     }
 

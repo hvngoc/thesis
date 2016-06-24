@@ -16,7 +16,8 @@
     <string name="title_home">Trang chủ</string>
     <string name="title_profile">Thông tin</string>
     <string name="title_images">Hành trình</string>
-    <string name="title_wall">Bài viết</string>
+    <string name="title_post">Bài viết</string>
+    <string name="title_wall">Trang cá nhân</string>
     <string name="title_map">Bản đồ</string>
     <string name="title_tour">Hành Trình</string>
     <string name="title_tour_creation">Tạo hành trình mới</string>
@@ -55,7 +56,7 @@
     <string name="hint_type_email">Gõ email để tìm kiếm</string>
     <string name="hint_sure_logout">Bạn thực sự muốn đăng xuất tài khoản?</string>
     <string name="hint_logout">Đăng xuất</string>
-    <string name="hint_follow">theo dõi</string>
+    <string name="hint_follow">người theo dõi</string>
     <string name="hint_post">Bài viết</string>
     <string name="hint_gender">Giới tính</string>
     <string name="hint_male">Nam</string>
@@ -70,7 +71,7 @@
     <string name="hint_comment">Bình luận</string>
     <string name="hint_type_comment">  viết một bình luận &#8230;</string>
     <string name="hint_confirm_again">Xác nhận</string>
-    <string name="hint_ok">Đồng ý</string>
+    <string name="hint_ok">ĐỒNG Ý</string>
     <string name="hint_create_post">Tạo bài viết mới</string>
     <string name="hint_on_mind">Đây sẽ là địa điểm tuyệt vời cho tất cả mọi người</string>
     <string name="hint_use_your_location">Tọa độ hiện tại</string>
@@ -81,7 +82,6 @@
     <string name="hint_on">Bật</string>
     <string name="hint_off">Tắt</string>
     <string name="hint_setting_near_post">Bật thông báo khi đến gần bài đăng:</string>
-    <string name="hint_setting_past">Thông báo bài đăng trong khoản thời gian:</string>
     <string name="hint_setting_send">Cho phép gửi tọa độ hiện tại mỗi:</string>
     <string name="hint_type_search_map">Tìm kiếm trên bản đồ</string>
 
@@ -99,15 +99,6 @@
     <string name="feeling_surprise">ngạc nhiên</string>
     <string name="feeling_terrible">kinh khủng</string>
 
-    <string name="tag_food">ăn uống</string>
-    <string name="tag_shopping">mua sắm</string>
-    <string name="tag_sale">khuyến mãi</string>
-    <string name="tag_dangerous">nguy hiểm</string>
-    <string name="tag_traveller">du lịch</string>
-    <string name="tag_entertainment">giải trí</string>
-    <string name="tag_event">sự kiện</string>
-    <string name="tag_sport">thể thao</string>
-
     <string name="notification_string_comment">bình luận về bài viết.</string>
     <string name="notification_string_add_friend">muốn kết bạn với bạn.</string>
     <string name="notification_string_confirm_friend">chấp nhận yêu cầu kết bạn.</string>
@@ -123,7 +114,7 @@
 
     <string name="dialog_delete_request">Bạn có muốn xóa yêu cầu kết bạn này?</string>
     <string name="dialog_confirm_request">Đồng ý yêu cầu kết bạn này</string>
-    <string name="dialog_add_friend">Xác nhận ửi yêu cầu kết bạn ?</string>
+    <string name="dialog_add_friend">Xác nhận gửi yêu cầu kết bạn ?</string>
     <string name="dialog_delete_friend">Hủy kết bạn với người này</string>
     <string name="unknown">Không xác định</string>
     <string name="warning">Chú ý</string>
@@ -143,9 +134,7 @@
     <string name="change_pass_ok">Đổi mật khẩu thành công</string>
     <string name="password_incorrect">Mật khẩu không chính xác</string>
     <string name="feeling">cảm thấy</string>
-    <string name="upload_image_error">Tải hình lỗi</string>
-    <string name="on">vào lúc</string>
-    <string name="in_tag">với chủ đề:</string>
+    <string name="upload_image_error">Tải hình ảnh lỗi</string>
     <string name="authenticating">Đang xác nhận&#8230;</string>
     <string name="login_failed">Đăng nhập thất bại</string>
     <string name="sure_logout">Đóng ứng dụng với tài khoản hiện tại?</string>
@@ -162,5 +151,15 @@
 
     <string name="gallery_images">Chọn hình ảnh</string>
     <string name="minutes">phút</string>
-
+    <string name="set_distance_tour">Cài đặt khoảng cách đến điểm dừng kế tiếp</string>
+    <string name="set_time_tour">Cài đặt thời gian đến điểm dừng kế tiếp</string>
+    <string name="title_tour_detail">Chi tiết hành trình</string>
+    <string name="tour_confirm">Dừng hành trình hiện tại và tiến hành tạo hành trình mới</string>
+    <string name="tour_status_live">trực tuyến</string>
+    <string name="tour_status_stop">đã kết thúc</string>
+    <string name="tour_from">bắt đầu</string>
+    <string name="tour_to">kết thúc</string>
+    <string name="tour_about">lộ trình</string>
+    <string name="tour_with">với</string>
+    <string name="tour_places">điểm dừng</string>
 </resources>

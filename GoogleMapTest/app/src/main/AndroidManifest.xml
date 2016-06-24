@@ -54,6 +54,7 @@
             android:value="@string/google_maps_key" />
 
         <service android:name=".services.LocationNotifierService" />
+        <service android:name=".services.TourCreationService"/>
 
         <activity
             android:name=".activity.MapsActivity"
@@ -68,6 +69,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -77,8 +79,10 @@
             android:theme="@style/MyMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.NEWS_DETAIL" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
@@ -159,7 +163,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.NewsDetailActivity" />
         </activity>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".activity.FriendMessageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -181,6 +185,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.TourActivity" />
         </activity>
+        <activity android:name=".activity.TourDetailActivity"
+            android:label="@string/title_tour_detail"
+            android:theme="@style/MyMaterialTheme"/>
     </application>
 
 </manifest>

@@ -24,6 +24,8 @@ public class GLOBAL {
 
     public static StartedUserHelper startedUserHelper = null;
 
+    public static String TOUR_ON_STARTING = null;
+
     public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
     public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
     //public static final String SERVER_URL = "https://my-node-server.herokuapp.com/api/";
@@ -31,25 +33,20 @@ public class GLOBAL {
 
     public static HashMap<String, String> NOTIFICATION = null;
 
-    public static HashMap<String, String> RELATIONSHIP = null;
-
     public static HashMap<String, ArrayList<Object>> EMOTION = null;
 
     public static void initNOTIFICATION(){
         NOTIFICATION = new HashMap<String, String>(){
             {
-                put(CONSTANT.NOTIFICATION_COMMENT, CurrentContext.getString(R.string.notification_string_comment));
                 put(CONSTANT.NOTIFICATION_CONFIRM_FRIEND, CurrentContext.getString(R.string.notification_string_confirm_friend));
                 put(CONSTANT.NOTIFICATION_FRIEND_POST, CurrentContext.getString(R.string.notification_string_friend_post));
                 put(CONSTANT.NOTIFICATION_MY_POST, CurrentContext.getString(R.string.notification_string_my_post));
+                put(CONSTANT.NOTIFICATION_COMMENT, CurrentContext.getString(R.string.notification_string_comment));
                 put(CONSTANT.NOTIFICATION_LIKE, CurrentContext.getString(R.string.notification_string_like));
                 put(CONSTANT.NOTIFICATION_SHARE, CurrentContext.getString(R.string.notification_string_share));
-            }
-        };
-        RELATIONSHIP = new HashMap<String, String>(){
-            {
-                put(CONSTANT.RELATIONSHIP_POST, CurrentContext.getString(R.string.relation_post));
-                put(CONSTANT.RELATIONSHIP_SHARE, CurrentContext.getString(R.string.relation_share));
+                put(CONSTANT.NOTIFICATION_COMMENT_TOUR, CurrentContext.getString(R.string.notification_string_comment));
+                put(CONSTANT.NOTIFICATION_LIKE_TOUR, CurrentContext.getString(R.string.notification_string_like));
+                put(CONSTANT.NOTIFICATION_SHARE_TOUR, CurrentContext.getString(R.string.notification_string_share));
             }
         };
         EMOTION = new HashMap<String, ArrayList<Object>>(){

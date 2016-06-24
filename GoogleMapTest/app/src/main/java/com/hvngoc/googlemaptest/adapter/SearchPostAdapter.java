@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.Post;
 import com.squareup.picasso.Picasso;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class SearchPostAdapter extends ArrayAdapter<Post> {
 
         TextView txt_search_content = (TextView) convertView.findViewById(R.id.txt_search_content);
         txt_search_content.setText(item.getContentSmaller());
+
+        HashTagHelper hashTagHelper = HashTagHelper.Creator.create(ContextCompat.getColor(GLOBAL.CurrentContext, R.color.blue), null);
+        hashTagHelper.handle(txt_search_content);
 
         return convertView;
     }

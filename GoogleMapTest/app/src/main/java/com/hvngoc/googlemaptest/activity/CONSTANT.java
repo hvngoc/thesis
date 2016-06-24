@@ -16,11 +16,6 @@ public class CONSTANT {
     public static final String EMOTION_STRING_SURPRISE = "surprise";
     public static final String EMOTION_STRING_TERRIBLE = "terrible";
 
-    public static final int TYPE_ME = 0;
-    public static final int TYPE_REQUEST = 1;
-    public static final int TYPE_FRIEND = 2;
-    public static final int TYPE_SUGGEST = 3;
-
     public static final String DATE_TIME_SAVE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String DATE_TIME_VIEW_FORMAT = "HH:mm dd/MM/yyyy";
 
@@ -29,10 +24,13 @@ public class CONSTANT {
 
     public static final String NOTIFICATION_MESSAGE = "message";
     public static final String NOTIFICATION_ADD_FRIEND = "add";
-    public static final String NOTIFICATION_COMMENT = "comment";
     public static final String NOTIFICATION_CONFIRM_FRIEND = "confirm";
+    public static final String NOTIFICATION_COMMENT = "comment";
     public static final String NOTIFICATION_LIKE = "like";
     public static final String NOTIFICATION_SHARE = "share";
+    public static final String NOTIFICATION_COMMENT_TOUR = "comment_tour";
+    public static final String NOTIFICATION_LIKE_TOUR = "like_tour";
+    public static final String NOTIFICATION_SHARE_TOUR = "share_tour";
 
     public static final int BOTTOM_HOME = 0;
     public static final int BOTTOM_FRIEND = 3;
@@ -49,9 +47,7 @@ public class CONSTANT {
     public static final int NAVIGATION_REPORT = 13;
     public static final int NAVIGATION_LOGOUT = 14;
 
-    public static final String RELATIONSHIP_POST = "posted";
-    public static final String RELATIONSHIP_SHARE= "shared";
-
-    public static final int TOUR_STATUS_LIVE = 1;
-    public static final int TOUR_STATUS_STOP = 0;
+//    public static final String RELATIONSHIP_POST = "posted";
+//    public static final String RELATIONSHIP_SHARE= "shared";
+    public static final String RELATIONSHIP_TOUR= "tour";
 }

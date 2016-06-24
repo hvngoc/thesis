@@ -29,14 +29,12 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     private int visibilityAdd;
     private int visibilityDelete;
     private int visibilityAddRequest;
-    private int type;
-    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest, int type) {
+    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest) {
         super();
         mItems = listItems;
         this.visibilityAdd = visibilityAdd;
         this.visibilityAddRequest = visibilityAddRequest;
         this.visibilityDelete = visibilityDelete;
-        this.type = type;
     }
 
     @Override

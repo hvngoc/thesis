@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.model;
 
+import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
@@ -62,6 +63,7 @@ public class Post implements Serializable {
     }
 
     public String getContentSmaller(){
+        if (content == null) return null;
         return  content.length() > 20 ? content.substring(0, 20) + "..." : content;
     }
 
@@ -71,6 +73,8 @@ public class Post implements Serializable {
 
 
     public String getFirstImageUrl() {
+        if (listImages == null)
+            return "null";
         int index = listImages.indexOf(';');
         if (index != -1)
             return GLOBAL.SERVER_IMAGE_URL + listImages.substring(0, index);
@@ -95,7 +99,8 @@ public class Post implements Serializable {
     }
 
     public ArrayList<String> getListImages() {
-        ArrayList<String> images = new ArrayList<String>(Arrays.asList(listImages.split(";")));
+        if (listImages == null) return new ArrayList<>();
+        ArrayList<String> images = new ArrayList<>(Arrays.asList(listImages.split(";")));
         ArrayList<String> urls = new ArrayList<String>();
         for (String temp: images) {
             urls.add(GLOBAL.SERVER_IMAGE_URL + temp);
@@ -109,7 +114,7 @@ public class Post implements Serializable {
     }
 
     public String getRelationShip() {
-        return GLOBAL.RELATIONSHIP.get(relationShip);
+        return relationShip;
     }
 
     public void setRelationShip(String relationShip) {
@@ -117,6 +122,8 @@ public class Post implements Serializable {
     }
 
     public String getFeeling() {
+        if (feeling == null)
+            return GLOBAL.CurrentContext.getString(R.string.feeling_normal);
         return (String)GLOBAL.EMOTION.get(feeling).get(0);
     }
 

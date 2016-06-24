@@ -15,6 +15,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.LoginActivity;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
+import com.hvngoc.googlemaptest.services.TourCreationService;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -52,6 +53,7 @@ public class LogoutFragment extends Fragment {
                 GLOBAL.CurrentUser = null;
                 getActivity().finish();
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), LocationNotifierService.class));
+                getActivity().stopService(new Intent(getContext().getApplicationContext(), TourCreationService.class));
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getActivity().startActivity(i);

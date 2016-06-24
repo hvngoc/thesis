@@ -42,7 +42,6 @@ public class WallActivity extends AppCompatActivity {
     TextView userEmail;
     TextView numPost, numFollower, numFriend;
     String currentID = null;
-    private ViewPager viewPager;
 
 
     @Override
@@ -72,8 +71,8 @@ public class WallActivity extends AppCompatActivity {
     private void initComponent() {
         tlUserProfileTabs = (TabLayout) findViewById(R.id.tlUserProfileTabs);
         userAvatar = (CircleImageView) findViewById(R.id.avatar);
-        vUserDetails = (View) findViewById(R.id.vUserDetails);
-        vUserProfileRoot = (View) findViewById(R.id.vUserProfileRoot);
+        vUserDetails = findViewById(R.id.vUserDetails);
+        vUserProfileRoot = findViewById(R.id.vUserProfileRoot);
         username = (TextView) findViewById(R.id.username);
         userEmail = (TextView) findViewById(R.id.userEmail);
         numFollower = (TextView) findViewById(R.id.numFollower);
@@ -97,16 +96,16 @@ public class WallActivity extends AppCompatActivity {
 
 
     private void setupViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         final int[] imageResId = {
                 R.drawable.ic_border_all_white_24dp,
                 R.drawable.ic_view_stream_white_24dp,
                 R.drawable.ic_account_box_white_24dp
         };
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(MyWallFragment.getInstance(currentID), getString(R.string.title_wall));
-        adapter.addFrag(new MyImagesFragment(), getString(R.string.title_images));
-        adapter.addFrag(MyProfileFragment.getInstance(currentID, CONSTANT.TYPE_ME), getString(R.string.title_profile));
+        adapter.addFrag(MyWallFragment.getInstance(currentID), getString(R.string.title_post));
+        adapter.addFrag(MyImagesFragment.getInstance(currentID), getString(R.string.title_images));
+        adapter.addFrag(MyProfileFragment.getInstance(currentID), getString(R.string.title_profile));
         viewPager.setAdapter(adapter);
         tlUserProfileTabs.setupWithViewPager(viewPager);
         for (int i = 0; i < tlUserProfileTabs.getTabCount(); i++) {

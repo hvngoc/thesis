@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_marginStart="8dip"
-                    android:text="set distance for next destination"
+                    android:text="@string/set_distance_tour"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_marginStart="8dip"
-                    android:text="set time for next destination"
+                    android:text="@string/set_time_tour"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"

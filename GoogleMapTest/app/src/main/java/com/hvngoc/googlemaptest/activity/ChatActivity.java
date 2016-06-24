@@ -200,7 +200,8 @@ public class ChatActivity extends AppCompatActivity {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 ChatMessage message = gson.fromJson(res, ChatMessage.class);
-                chatArrayAdapter.add(message);
+                if (message != null)
+                    chatArrayAdapter.add(message);
             }
         }
     }
@@ -241,10 +242,11 @@ public class ChatActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> messageList = gson.fromJson(res, listType);
-                chatArrayAdapter.addListMessage(messageList);
                 if (messageList == null || messageList.size() == 0){
                     new LoadOneMessageAsyncTask().execute();
                 }
+                else
+                    chatArrayAdapter.addListMessage(messageList);
             }
         }
     }

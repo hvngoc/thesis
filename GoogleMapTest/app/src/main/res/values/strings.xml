@@ -15,6 +15,7 @@
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_images">Tour</string>
+    <string name="title_post">Posts</string>
     <string name="title_wall">Wall</string>
     <string name="title_map">Map</string>
     <string name="title_tour">Tour</string>
@@ -54,8 +55,8 @@
     <string name="hint_type_email">type email here</string>
     <string name="hint_sure_logout">Are you sure you want to log out?</string>
     <string name="hint_logout">Log out</string>
-    <string name="hint_follow">follow</string>
-    <string name="hint_post">post</string>
+    <string name="hint_follow">followers</string>
+    <string name="hint_post">posts</string>
     <string name="hint_gender">Gender</string>
     <string name="hint_male">Male</string>
     <string name="hint_female">Female</string>
@@ -80,7 +81,6 @@
     <string name="hint_on">ON</string>
     <string name="hint_off">OFF</string>
     <string name="hint_setting_near_post">Auto notify when you get near by post:</string>
-    <string name="hint_setting_past">Auto notify your memory in the past:</string>
     <string name="hint_setting_send">Send your location for new post:</string>
     <string name="hint_type_search_map">type here for searching</string>
 
@@ -97,15 +97,6 @@
     <string name="feeling_sleepy">sleepy</string>
     <string name="feeling_surprise">surprise</string>
     <string name="feeling_terrible">terrible</string>
-
-    <string name="tag_food">food</string>
-    <string name="tag_shopping">shopping</string>
-    <string name="tag_sale">sale</string>
-    <string name="tag_dangerous">dangerous</string>
-    <string name="tag_traveller">traveller</string>
-    <string name="tag_entertainment">entertainment</string>
-    <string name="tag_event">event</string>
-    <string name="tag_sport">sport</string>
 
     <string name="notification_string_comment">has just commented on a post.</string>
     <string name="notification_string_add_friend">want to become friend with you.</string>
@@ -143,8 +134,6 @@
     <string name="password_incorrect">Current password is incorrect.</string>
     <string name="feeling">feeling</string>
     <string name="upload_image_error">Upload Image Error</string>
-    <string name="on">on</string>
-    <string name="in_tag">in tag:</string>
     <string name="authenticating">Authenticating&#8230;</string>
     <string name="login_failed">Login failed</string>
     <string name="sure_logout">Are you sure for closing app without logout?</string>
@@ -161,30 +150,15 @@
 
     <string name="gallery_images">Choose your images</string>
     <string name="minutes">minutes</string>
-
-
-    <string-array name="user_photos">
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xpf1/t51.2885-15/s306x306/e15/10665483_429615813855717_1490926670_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10891026_694434897342602_1094773634_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10894920_1382218332084671_10354293_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10895429_768163716566132_692639371_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899087_405295322969722_20422376_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899123_922231267802027_1123900984_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10903214_589111004559561_1485881959_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10914479_770066599745785_704061869_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10914587_1580079332227764_829762970_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10919231_605000369644967_1578007175_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10932142_330866587116424_1327271556_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10932410_1544715455813452_1107632347_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xfp1/t51.2885-15/s306x306/e15/891516_579817258815508_1989379587_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/1922172_719849754801056_911351010_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10914370_1519297625009641_722250486_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10903746_368501953321344_2002746420_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10903270_1397263717236338_950192395_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10903242_441936642627221_576882729_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899295_796858437028648_664655000_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899139_948470841831743_1406659049_n.jpg</item>
-        <item>http://scontent-a-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899123_922231267802027_1123900984_n.jpg</item>
-        <item>http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10899087_405295322969722_20422376_n.jpg</item>
-    </string-array>
+    <string name="set_distance_tour">Set distance for next destination</string>
+    <string name="set_time_tour">Set time for next destination</string>
+    <string name="title_tour_detail">Tour detail</string>
+    <string name="tour_confirm">You need stop current tour to start the new one</string>
+    <string name="tour_status_live">live</string>
+    <string name="tour_status_stop">stopped</string>
+    <string name="tour_from">from</string>
+    <string name="tour_to">to</string>
+    <string name="tour_about">about</string>
+    <string name="tour_with">with</string>
+    <string name="tour_places">places</string>
 </resources>

@@ -100,6 +100,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(NewsDetailActivity.this, CommentActivity.class);
                 intent.putExtra("postID", currentPost.getPostID());
+                intent.putExtra("relation", currentPost.getRelationShip());
                 startActivityForResult(intent, 299);
             }
         });
@@ -212,7 +213,11 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "likeThisPost";
+            String serverUrl = GLOBAL.SERVER_URL;
+            if (currentPost.getRelationShip().equals(CONSTANT.RELATIONSHIP_TOUR))
+                serverUrl += "likeTourPost";
+            else
+                serverUrl += "likeThisPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
@@ -279,7 +284,11 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "shareThisPost";
+            String serverUrl = GLOBAL.SERVER_URL;
+            if (currentPost.getRelationShip().equals(CONSTANT.RELATIONSHIP_TOUR))
+                serverUrl+= "shareTourPost";
+            else
+                serverUrl += "shareThisPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());

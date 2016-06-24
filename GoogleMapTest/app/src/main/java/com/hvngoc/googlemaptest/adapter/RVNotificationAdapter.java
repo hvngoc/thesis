@@ -101,7 +101,7 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
                     GLOBAL.CurrentContext.startActivity(intent);
                     break;
                 default:
-                    new GetPostDetailAsyncTask(item.getDataID()).execute();
+                    new GetPostDetailAsyncTask(item.getDataID(), item.getSaveContent()).execute();
                     break;
             }
         }
@@ -142,13 +142,18 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
 
     private class GetPostDetailAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        private String dataID;
-        public GetPostDetailAsyncTask(String id){
+        private String dataID, content;
+        public GetPostDetailAsyncTask(String id, String content){
             this.dataID = id;
+            this.content = content;
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "getPostDetail";
+            String serverUrl = GLOBAL.SERVER_URL;
+            if (content.contains(CONSTANT.RELATIONSHIP_TOUR))
+                serverUrl += "getPostTourDetail";
+            else
+                serverUrl += "getPostDetail";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());

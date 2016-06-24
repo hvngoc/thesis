@@ -118,7 +118,7 @@ public class FriendRequestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE, CONSTANT.TYPE_REQUEST);
+                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE);
                 recyclerListFriend.setAdapter(adapter);
             }
 //            else {

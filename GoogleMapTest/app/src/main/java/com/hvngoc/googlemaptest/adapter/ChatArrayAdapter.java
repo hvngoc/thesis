@@ -26,20 +26,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by 12125_000 on 5/11/2016.
  */
 public class ChatArrayAdapter extends ArrayAdapter {
-    private TextView chatText;
-    private CircleImageView avatar;
     private List chatMessageList = new ArrayList();
-    private RelativeLayout singleMessageContainer;
-    private Context context;
-
-
     @Override
     public void add(Object object) {
         super.add(object);
         chatMessageList.add(object);
         notifyDataSetChanged();
     }
-
 
     public void addListMessage(List<ChatMessage> listMessage) {
         if(listMessage != null) {
@@ -49,10 +42,8 @@ public class ChatArrayAdapter extends ArrayAdapter {
         }
     }
 
-
     public ChatArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        this.context = context;
     }
 
     public int getCount() {
@@ -69,19 +60,15 @@ public class ChatArrayAdapter extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.card_item_chat_singlemessage, parent, false);
         }
-        avatar = (CircleImageView) row.findViewById(R.id.img_friendAvatar);
+        CircleImageView avatar = (CircleImageView) row.findViewById(R.id.img_friendAvatar);
         Picasso.with(GLOBAL.CurrentContext).load(getItem(position).getSenderAvatar()).error(R.drawable.icon_profile).into(avatar);
-        singleMessageContainer = (RelativeLayout) row.findViewById(R.id.singleMessageContainer);
+        RelativeLayout singleMessageContainer = (RelativeLayout) row.findViewById(R.id.singleMessageContainer);
         ChatMessage chatMessageObj = getItem(position);
-        chatText = (TextView) row.findViewById(R.id.singleMessage);
+        TextView chatText = (TextView) row.findViewById(R.id.singleMessage);
         chatText.setText(chatMessageObj.getMessage());
         chatText.setBackgroundResource(chatMessageObj.isLeft() ? R.drawable.bubble_b : R.drawable.bubble_a);
         singleMessageContainer.setGravity(chatMessageObj.isLeft() ? Gravity.LEFT : Gravity.RIGHT);
         avatar.setVisibility(chatMessageObj.isLeft() ? View.VISIBLE : View.INVISIBLE);
         return row;
-    }
-
-    public Bitmap decodeToBitmap(byte[] decodedByte) {
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 }

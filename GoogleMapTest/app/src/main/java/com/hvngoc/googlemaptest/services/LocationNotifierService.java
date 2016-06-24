@@ -4,11 +4,9 @@ import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
@@ -37,11 +34,10 @@ import org.json.JSONObject;
  */
 public class LocationNotifierService extends Service implements LocationListener {
 
-    private static final int TIME_UPDATER = 60000;
-    private static final int DISTANCE_UPDATER = 500;
+    private int TIME_UPDATER = 60000;
+    private int DISTANCE_UPDATER = 500;
 
     private LocationManager Manager;
-    private GpsStatus.Listener gpsListener;
 
     private Vibrator vibrator;
 
@@ -59,31 +55,15 @@ public class LocationNotifierService extends Service implements LocationListener
         Log.i("SERVICE", "START");
         vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         Manager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        gpsListener = new GpsStatus.Listener() {
-            @Override
-            public void onGpsStatusChanged(int event) {
-                switch (event) {
-                    case GpsStatus.GPS_EVENT_STARTED: {
-                        Log.i("GPS STATUS", "STARTED");
-                        Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER,
-                                DISTANCE_UPDATER, LocationNotifierService.this);
-                    }
-                    case GpsStatus.GPS_EVENT_STOPPED: {
-                        Log.i("GPS STATUS", "STOPPED");
-                        if (Manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-                            Manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME_UPDATER,
-                                    DISTANCE_UPDATER, LocationNotifierService.this);
-                    }
-                }
-            }
-        };
-        Manager.addGpsStatusListener(gpsListener);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null)
+        if(intent != null) {
             locationResultReceiver = intent.getParcelableExtra("LocationResultReceiver");
+            TIME_UPDATER = intent.getIntExtra("time", 60000);
+            DISTANCE_UPDATER = intent.getIntExtra("distance", 500);
+        }
         if (Manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Log.i("GPS is on", "GPS on");
             Manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_UPDATER, DISTANCE_UPDATER, this);
@@ -101,7 +81,6 @@ public class LocationNotifierService extends Service implements LocationListener
         stopSelf();
         Log.i("service stop", "service stop");
         Manager.removeUpdates(this);
-        Manager.removeGpsStatusListener(gpsListener);
     }
 
     private void NotifyDevice(){
@@ -115,24 +94,6 @@ public class LocationNotifierService extends Service implements LocationListener
         }
         vibrator.vibrate(500);
     }
-
-//    private void showNotifier(){
-//        WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-//
-//        ImageView chatHead = new ImageView(this);
-//        chatHead.setImageResource(R.drawable.icon_profile);
-//
-//        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-//                WindowManager.LayoutParams.WRAP_CONTENT,
-//                WindowManager.LayoutParams.WRAP_CONTENT,
-//                WindowManager.LayoutParams.TYPE_PHONE,
-//                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-//                PixelFormat.TRANSLUCENT);
-//        params.gravity = Gravity.TOP | Gravity.START;
-//        params.x = 0;
-//        params.y = 100;
-//        windowManager.addView(chatHead, params);
-//    }
 
 //    *************************************************************************************************
 

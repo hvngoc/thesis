@@ -6,8 +6,10 @@ package com.hvngoc.googlemaptest.helper;
 public class LocationRoundHelper {
 
     public static Double Round(double value){
-
         return Math.round(value * 1000000) / 1000000.0;
     }
 
+    public static Double MetersToKM(double value){
+        return Math.round(value) / 1000.0;
+    }
 }

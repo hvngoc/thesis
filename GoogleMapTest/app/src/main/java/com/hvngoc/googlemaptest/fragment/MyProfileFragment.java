@@ -38,11 +38,10 @@ public class MyProfileFragment extends Fragment {
     }
 
 
-    public static MyProfileFragment getInstance(String id, int type) {
+    public static MyProfileFragment getInstance(String id) {
         MyProfileFragment fragment = new MyProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
-        bundle.putInt("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -56,7 +55,6 @@ public class MyProfileFragment extends Fragment {
     TextView address;
     FloatingActionButton edit_profile;
     String currentID;
-    int typeFriend;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,6 @@ public class MyProfileFragment extends Fragment {
         setHasOptionsMenu(true);
         Bundle args = getArguments();
         currentID = args.getString("id");
-        typeFriend = args.getInt("type");
         profile = WallActivity.currentPofile;
     }
 

@@ -97,14 +97,14 @@
                                 android:id="@+id/numPost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1167"
+                                android:text="0"
                                 android:textColor="#ffffff"
                                 android:textSize="20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="posts"
+                                android:text="@string/hint_post"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -120,14 +120,14 @@
                                 android:id="@+id/numFollower"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="396"
+                                android:text="3"
                                 android:textColor="#ffffff"
                                 android:textSize="20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="followers"
+                                android:text="@string/hint_follow"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -143,14 +143,14 @@
                                 android:id="@+id/numFriend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="485"
+                                android:text="4"
                                 android:textColor="#ffffff"
                                 android:textSize="20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="friends"
+                                android:text="@string/hint_friend"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp" />
                         </LinearLayout>

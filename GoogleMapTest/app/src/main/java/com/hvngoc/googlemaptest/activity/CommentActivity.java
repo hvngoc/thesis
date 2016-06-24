@@ -47,6 +47,7 @@ public class CommentActivity extends AppCompatActivity{
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
     private String postID;
+    private String relation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class CommentActivity extends AppCompatActivity{
 
         Bundle bundle = getIntent().getExtras();
         postID = bundle.getString("postID");
+        relation = bundle.getString("relation");
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -198,7 +200,11 @@ public class CommentActivity extends AppCompatActivity{
         }
 
         private Boolean postData() {
-            String serverUrl = GLOBAL.SERVER_URL + "createNewCommentOfPost";
+            String serverUrl = GLOBAL.SERVER_URL;
+            if (relation.equals(CONSTANT.RELATIONSHIP_TOUR))
+                serverUrl += "createNewCommentTourPost";
+            else
+                serverUrl += "createNewCommentOfPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("postID", postID);
