@@ -21,14 +21,13 @@ import com.squareup.picasso.Picasso;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder> {
 
-    List<Post> posts;
+    ArrayList<Post> posts;
 
     public RVAdapter(){
         posts = new ArrayList<>();
@@ -39,10 +38,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         notifyDataSetChanged();
     }
 
-    public  void addToFirst(Post item){
-        posts.add(0, item);
-        notifyDataSetChanged();
+    public ArrayList<Post> getListPost(){
+        return posts;
     }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

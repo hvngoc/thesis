@@ -1,6 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
 import com.hvngoc.googlemaptest.R;
+import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 
@@ -135,6 +136,6 @@ public class Post implements Serializable {
     }
 
     public String getSaveFeeling(){
-        return this.feeling;
+        return this.feeling == null ? CONSTANT.EMOTION_STRING_NORMAL : this.feeling;
     }
 }

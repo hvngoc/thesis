@@ -102,13 +102,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="17"
                         android:textSize="20sp"
+                        android:layout_marginEnd="20dp"
                         android:textColor="#fa2b2b" />
                     <Button
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:id="@+id/btnCommentStart"
                         android:backgroundTint="@color/Gray"
-                        android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_comment_black"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,6 +116,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="7"
+                        android:layout_marginEnd="20dp"
                         android:textSize="20sp"
                         android:textColor="#fa2b2b" />
                     <Button
@@ -123,7 +124,6 @@
                         android:layout_height="24dp"
                         android:id="@+id/btnShareStart"
                         android:backgroundTint="@color/Gray"
-                        android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_share_black"/>
                     <TextView
                         android:id="@+id/txtNumSharedStart"
@@ -224,6 +224,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="17"
+                        android:layout_marginEnd="20dp"
                         android:textSize="20sp"
                         android:textColor="#fa2b2b" />
                     <Button
@@ -231,7 +232,6 @@
                         android:layout_height="24dp"
                         android:id="@+id/btnCommentStop"
                         android:backgroundTint="@color/Gray"
-                        android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_comment_black"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -239,6 +239,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="7"
+                        android:layout_marginEnd="20dp"
                         android:textSize="20sp"
                         android:textColor="#fa2b2b" />
                     <Button
@@ -246,7 +247,6 @@
                         android:layout_height="24dp"
                         android:id="@+id/btnShareStop"
                         android:backgroundTint="@color/Gray"
-                        android:layout_marginEnd="20dp"
                         android:background="@drawable/ic_share_black"/>
                     <TextView
                         android:id="@+id/txtNumSharedStop"

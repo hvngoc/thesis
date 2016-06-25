@@ -37,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
@@ -67,6 +68,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<Post> currentListPost = new ArrayList<>();
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        GLOBAL.CurrentContext = this;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -74,12 +81,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        GLOBAL.CurrentContext = this;
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
         InitRunMapFooter();
+        Log.i("MAPs" , "CREATE ACTIVITY");
     }
 
     private void InitRunMapFooter(){
@@ -385,7 +391,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 InitilizeMap(new LatLng(currentPost.Latitude, currentPost.Longitude));
                 AddMarker();
             }
-        }catch (Exception e){
+            else {
+                currentListPost = (ArrayList<Post>) extras.getSerializable("currentTour");
+                if (currentListPost != null){
+                    ArrayList<LatLng> listLatLng = new ArrayList<>();
+                    for (Post post : currentListPost){
+                        listLatLng.add(new LatLng(post.Latitude, post.Longitude));
+                    }
+                    InitilizeMap(listLatLng.get(0));
+                    AddMarker();
+                    this.googleMap.addPolyline(new PolylineOptions().addAll(listLatLng).width(5).color(Color.BLUE));
+                }
+            }
+        }catch (Exception e) {
             InitilizeMap(new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()));
         }
     }
