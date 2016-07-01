@@ -128,6 +128,7 @@
                         </LinearLayout>
                         <RelativeLayout
                             android:layout_marginTop="5dip"
+                            android:id="@+id/slideContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <com.daimajia.slider.library.SliderLayout
@@ -154,14 +155,13 @@
                                 android:layout_gravity="end|bottom"
                                 android:textColor="@color/white" />
                             <ImageView
-                                android:layout_alignBottom="@+id/slider"
-                                android:layout_alignEnd="@+id/slider"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
                                 android:id="@+id/imgViewShowMap"
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:background="@color/Gray"
                                 android:alpha="0.7"
-                                android:layout_gravity="bottom|end"
                                 android:src="@drawable/ic_place_white_48dp" />
                         </RelativeLayout>
                     </LinearLayout>

@@ -85,6 +85,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         txtCommentDay = (TextView) findViewById(R.id.txtCommentDay);
         txtAddressLocation = (TextView) findViewById(R.id.txtAddressLocation);
         title = (TextView) findViewById(R.id.title);
+        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
         btnLike = (Button) findViewById(R.id.btnLike);
         txtNumLike = (TextView) findViewById(R.id.txtNumLike);
@@ -141,7 +142,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentPost.numShare += 1;
-                Toast.makeText(getBaseContext(), getString(R.string.share_ok),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.share_ok), Toast.LENGTH_LONG).show();
                 txtNumShared.setText(currentPost.numShare + "");
                 new ShareThisPostAsyncTask().execute();
             }
@@ -165,15 +166,18 @@ public class NewsDetailActivity extends AppCompatActivity {
         });
     }
 
+
+    private void setImageSliderVisibility(int type) {
+        mDemoSlider.setVisibility(type);
+        txtAddressLocation.setVisibility(type);
+    }
+
     private void getImageSlider() {
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         ArrayList<String> imageUrls = currentPost.getListImages();
         if (imageUrls.size() == 0){
-            mDemoSlider.setVisibility(View.GONE);
-            txtAddressLocation.setVisibility(View.GONE);
+            setImageSliderVisibility(View.GONE);
         }else {
-            mDemoSlider.setVisibility(View.VISIBLE);
-            txtAddressLocation.setVisibility(View.VISIBLE);
+            setImageSliderVisibility(View.VISIBLE);
             for (String name : imageUrls) {
                 TextSliderView textSliderView = new TextSliderView(this);
                 textSliderView.image(name)
