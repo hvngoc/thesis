@@ -17,6 +17,7 @@ public class Post implements Serializable {
     private String feeling;
     public Double Latitude, Longitude;
 
+    private String userID;
     public String userName;
     private String userAvatar;
     private String relationShip;
@@ -32,7 +33,7 @@ public class Post implements Serializable {
     public Post (String postID, String content, String listImages,
                  String postDate, Double Latitude, Double Longitude, String feeling,
                  String userName, String userAvatar, String relationShip,
-                 int numLike, int numShare, int numComment, int isYouLike) {
+                 int numLike, int numShare, int numComment, int isYouLike, String userID) {
         this.setPostID(postID);
         this.setContent(content);
         this.setListImages(listImages);
@@ -43,6 +44,8 @@ public class Post implements Serializable {
         this.userName = userName;
         this.setUserAvatar(userAvatar);
         this.setRelationShip(relationShip);
+
+        this.setUserID(userID);
 
         this.numLike = numLike;
         this.numShare = numShare;
@@ -137,5 +140,13 @@ public class Post implements Serializable {
 
     public String getSaveFeeling(){
         return this.feeling == null ? CONSTANT.EMOTION_STRING_NORMAL : this.feeling;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

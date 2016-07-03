@@ -95,7 +95,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 SEARCH_DISTANCE = progress * MIN_DISTANCE + MIN_DISTANCE;
-                textDistance.setText(SEARCH_DISTANCE + "m");
+                if (SEARCH_DISTANCE == 1000)
+                    textDistance.setText("1 km");
+                else
+                    textDistance.setText(SEARCH_DISTANCE + "m");
             }
 
             @Override

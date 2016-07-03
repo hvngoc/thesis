@@ -33,6 +33,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         posts = new ArrayList<>();
     }
 
+    public void addToFirst(Post post){
+        posts.add(0, post);
+        notifyDataSetChanged();
+    }
+
     public void addListPost(ArrayList<Post> list){
         posts.addAll(list);
         notifyDataSetChanged();

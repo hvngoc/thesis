@@ -143,7 +143,7 @@ public class TourActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Tour>>() {}.getType();
                 ArrayList<Tour> listTour = gson.fromJson(res, listType);
-                list_tours.setAdapter(new RVTourAdapter(listTour));
+                list_tours.setAdapter(new RVTourAdapter(listTour, "null"));
             }
             else {
                 SetContentView(View.INVISIBLE, View.VISIBLE);

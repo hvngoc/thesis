@@ -43,7 +43,6 @@ public class ChatActivity extends AppCompatActivity {
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
-    private Button buttonSend;
     private String toUserID;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -58,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         toUserID = getIntent().getExtras().getString("fromUserID");
         Log.i("toUSERID", toUserID);
         Log.i("CURRENTID", GLOBAL.CurrentUser.getId());
-        buttonSend = (Button) findViewById(R.id.buttonSend);
+        Button buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.card_item_chat_singlemessage);
         listView.setAdapter(chatArrayAdapter);

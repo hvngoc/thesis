@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <LinearLayout
+        android:id="@+id/layoutCreatePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/editTextCreatePost"
+            android:padding="7dip"
+            android:hint="@string/hint_on_mind"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:minLines="5"
+            android:maxLines="8"
+            android:gravity="top|start"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="@color/primary_text"
+            android:scrollHorizontally="false"
+            android:scrollbars="vertical" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/Gray">
+            <ImageView
+                android:id="@+id/btnCreatePostGetImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_photo_camera_white_24dp" />
+            <ImageView
+                android:layout_toEndOf="@+id/btnCreatePostGetImage"
+                android:id="@+id/btnCreatePostGetFeeling"
+                android:layout_centerVertical="true"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/markers_emotion_normal" />
+            <TextView
+                android:layout_toEndOf="@+id/btnCreatePostGetFeeling"
+                android:id="@+id/txtCreatePostFeeling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="@string/feeling_happy"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/recyclerCreatePostImage"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:background="@color/Gray"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:gravity="left"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/btnCreatePostGetLocation"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_location_on_white_24dp" />
+                <HorizontalScrollView
+                    android:layout_toEndOf="@+id/btnCreatePostGetLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txtCreatePostLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Ho Chi Minh City"
+                        android:textColor="@color/primary_text" />
+                </HorizontalScrollView>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnCreatePostOK"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="2dip"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_white_24dp" />
+    <fragment
+        android:layout_below="@+id/layoutCreatePost"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/MapCreatePostMap"
+        class ="com.google.android.gms.maps.SupportMapFragment" />
+</RelativeLayout>

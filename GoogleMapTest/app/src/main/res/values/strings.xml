@@ -161,4 +161,9 @@
     <string name="tour_about">about</string>
     <string name="tour_with">with</string>
     <string name="tour_places">places</string>
+
+    <string name="create_post_error">Create Post Error!</string>
+    <string name="create_post_success">Create Post Successfully!</string>
+    <string name="edit_post_activity">Edit your Post</string>
+    <string name="edit_post_error">Edit Post Error!</string>
 </resources>

@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PostCreationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class EditPostActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap googleMap;
     private EditText editTextCreatePost;
@@ -87,17 +87,26 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_creation);
+        setContentView(R.layout.activity_edit_post);
         GLOBAL.CurrentContext = this;
 
-        createSamplePost();
+        Bundle extras = getIntent().getExtras();
+        post = (Post) extras.getSerializable("currentPost");
+
         initComponent();
         initImageLoader();
+        builderDataToUI();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.hint_create_post));
+        getSupportActionBar().setTitle(getString(R.string.edit_post_activity));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         recyclerCreatePostImage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
         recyclerCreatePostImage.setHasFixedSize(true);
@@ -129,13 +138,6 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         imageLoader.init(config);
     }
 
-    private void createSamplePost(){
-        post = new Post();
-        post.setPostID(UUID.randomUUID().toString());
-        post.userName = GLOBAL.CurrentUser.getName();
-        post.setUserAvatar(GLOBAL.CurrentUser.getAvatar());
-        post.setFeeling(getString(R.string.feeling_happy));
-    }
 
     private void initComponent() {
         recyclerCreatePostImage = (RecyclerView) findViewById(R.id.recyclerCreatePostImage);
@@ -195,13 +197,20 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapCreatePostMap);
         supportMapFragment.getMapAsync(this);
-        setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
+    }
+
+    private void builderDataToUI(){
+        editTextCreatePost.setText(post.getContent());
+        btnCreatePostGetFeeling.setImageResource((int) GLOBAL.EMOTION.get(post.getSaveFeeling()).get(1));
+        txtCreatePostFeeling.setText(post.getFeeling());
+        setLocationTextView(post.Latitude, post.Longitude);
+        //set data to recycler PICK IMAGE
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        listImageUrls = new ArrayList<String>();
+        listImageUrls = new ArrayList<>();
         if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
             ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
             adapter = new RVPickImageAdapter(image_path);
@@ -273,6 +282,13 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         txtCreatePostLocation.setText(address);
     }
 
+    private void SendEditedPost(){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("editedPost", post);
+        setResult(222, resultIntent);
+        onBackPressed();
+    }
+
 /*-------------------------------------UPLOAD SERVICE---------------------------------*/
 
     private class UploadImagesAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -335,18 +351,20 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if(!aBoolean) {
-                Toast.makeText(GLOBAL.CurrentContext, getString(R.string.create_post_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GLOBAL.CurrentContext, getString(R.string.edit_post_error), Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(GLOBAL.CurrentContext, getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
-                finish();
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                post = gson.fromJson(res, Post.class);
+                SendEditedPost();
             }
             progressDialog.dismiss();
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "createPost";
+            String serverUrl = GLOBAL.SERVER_URL + "editPost";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("postID", post.getPostID());
@@ -395,8 +413,8 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 Double latitude = locationHelper.GetLatitude();
                 Double longitude = locationHelper.GetLongitude();
                 if (latitude == 0.0 && longitude == 0.0) {
-                    latitude = GLOBAL.CurrentUser.getDefaultLatitude();
-                    longitude = GLOBAL.CurrentUser.getDefaultLongitude();
+                    latitude = post.Latitude;
+                    longitude = post.Longitude;
                 }
                 setLocationTextView(latitude, longitude);
                 return false;
@@ -422,8 +440,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void InitilizeMap() {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude()), 15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(post.Latitude, post.Longitude), 15));
         (findViewById(R.id.MapCreatePostMap)).getViewTreeObserver().addOnGlobalLayoutListener(
                 new android.view.ViewTreeObserver.OnGlobalLayoutListener() {
 

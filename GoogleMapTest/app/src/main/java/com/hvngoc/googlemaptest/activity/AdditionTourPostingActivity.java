@@ -17,12 +17,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,7 +41,6 @@ import com.hvngoc.googlemaptest.helper.LocationHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.imagechooser.CustomGalleryActivity;
-import com.hvngoc.googlemaptest.imagechooser.CustomGalleryAdapter;
 import com.hvngoc.googlemaptest.model.Post;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -62,13 +59,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PostCreationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class AdditionTourPostingActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap googleMap;
     private EditText editTextCreatePost;
@@ -84,11 +80,15 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
     List<String> images;
     private ProgressDialog progressDialog;
 
+    private String tourID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_creation);
+        setContentView(R.layout.activity_addition_tour_posting);
         GLOBAL.CurrentContext = this;
+
+        tourID = getIntent().getExtras().getString("tourID");
 
         createSamplePost();
         initComponent();
@@ -98,6 +98,12 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.hint_create_post));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         recyclerCreatePostImage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext, LinearLayoutManager.HORIZONTAL, false));
         recyclerCreatePostImage.setHasFixedSize(true);
@@ -198,10 +204,19 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         setLocationTextView(GLOBAL.CurrentUser.getDefaultLatitude(), GLOBAL.CurrentUser.getDefaultLongitude());
     }
 
+    private void sendNewPostCreation(){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("post", post);
+        setResult(RESULT_OK, resultIntent);
+        onBackPressed();
+    }
+
+//    -------------------------------------------------------------------------------------------------------//
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        listImageUrls = new ArrayList<String>();
+        listImageUrls = new ArrayList<>();
         if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
             ArrayList<String> image_path = data.getStringArrayListExtra("image_path");
             adapter = new RVPickImageAdapter(image_path);
@@ -338,19 +353,21 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 Toast.makeText(GLOBAL.CurrentContext, getString(R.string.create_post_error), Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(GLOBAL.CurrentContext, getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
-                finish();
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                post = gson.fromJson(res, Post.class);
+                sendNewPostCreation();
             }
             progressDialog.dismiss();
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String serverUrl = GLOBAL.SERVER_URL + "createPost";
+            String serverUrl = GLOBAL.SERVER_URL + "createNewPostOnTour";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("postID", post.getPostID());
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("tourID", tourID);
                 jsonobj.put("content", post.getContent());
                 jsonobj.put("date", post.getPostDate());
                 jsonobj.put("Latitude", post.Latitude);

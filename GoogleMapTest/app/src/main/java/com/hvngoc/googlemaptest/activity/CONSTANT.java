@@ -48,6 +48,6 @@ public class CONSTANT {
     public static final int NAVIGATION_LOGOUT = 14;
 
 //    public static final String RELATIONSHIP_POST = "posted";
-//    public static final String RELATIONSHIP_SHARE= "shared";
+    public static final String RELATIONSHIP_SHARE= "shared";
     public static final String RELATIONSHIP_TOUR= "tour";
 }

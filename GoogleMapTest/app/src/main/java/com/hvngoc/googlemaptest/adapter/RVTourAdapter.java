@@ -28,9 +28,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RVTourAdapter extends RecyclerView.Adapter<RVTourAdapter.NewsItemViewHolder> {
 
     private ArrayList<Tour> listTour;
+    private String userID;
 
-    public RVTourAdapter(ArrayList<Tour> listTour) {
+    public RVTourAdapter(ArrayList<Tour> listTour, String userID) {
         this.listTour = listTour;
+        this.userID = userID;
     }
 
     @Override
@@ -122,6 +124,8 @@ public class RVTourAdapter extends RecyclerView.Adapter<RVTourAdapter.NewsItemVi
             String tourID = listTour.get(getAdapterPosition()).getId();
             Intent intent = new Intent(GLOBAL.CurrentContext, TourDetailActivity.class);
             intent.putExtra("tourID", tourID);
+            intent.putExtra("userID", userID);
+            intent.putExtra("status", listTour.get(getAdapterPosition()).getStatus());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             GLOBAL.CurrentContext.startActivity(intent);
         }

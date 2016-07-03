@@ -162,4 +162,9 @@
     <string name="tour_about">lộ trình</string>
     <string name="tour_with">với</string>
     <string name="tour_places">điểm dừng</string>
+
+    <string name="create_post_error">Đăng bài xảy ra lỗi</string>
+    <string name="create_post_success">Đăng bài thành công</string>
+    <string name="edit_post_activity">Chỉnh sửa bài viết</string>
+    <string name="edit_post_error">Cập nhật bài viết xảy ra lỗi</string>
 </resources>

@@ -115,7 +115,7 @@ public class MyImagesFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Tour>>() {}.getType();
                 ArrayList<Tour> listTour = gson.fromJson(res, listType);
-                list_tours.setAdapter(new RVTourAdapter(listTour));
+                list_tours.setAdapter(new RVTourAdapter(listTour, currentID));
             }
             else {
                 SetContentView(View.INVISIBLE, View.VISIBLE);

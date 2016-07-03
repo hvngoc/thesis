@@ -54,7 +54,7 @@
             android:value="@string/google_maps_key" />
 
         <service android:name=".services.LocationNotifierService" />
-        <service android:name=".services.TourCreationService"/>
+        <service android:name=".services.TourCreationService" />
 
         <activity
             android:name=".activity.MapsActivity"
@@ -185,9 +185,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.TourActivity" />
         </activity>
-        <activity android:name=".activity.TourDetailActivity"
+        <activity
+            android:name=".activity.TourDetailActivity"
             android:label="@string/title_tour_detail"
-            android:theme="@style/MyMaterialTheme"/>
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".activity.AdditionTourPostingActivity"
+            android:label="@string/hint_create_post"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.TourDetailActivity" />
+        </activity>
+        <activity android:name=".activity.EditPostActivity"
+            android:label="@string/edit_post_activity"
+            android:theme="@style/MyMaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.NewsDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

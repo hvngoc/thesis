@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -43,6 +44,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     Button btnComment;
     TextView txtNumComment;
 
+    FloatingActionButton fab_post_detail;
+
     ImageView imgShowMap;
     private Post currentPost;
     private SliderLayout mDemoSlider;
@@ -64,6 +67,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         currentPost = (Post) extras.getSerializable("currentPost");
 
+        initComponent();
+        getNewsDetailData();
+        getImageSlider();
+    }
+
+    private void initComponent(){
         userAvatar = (CircleImageView) findViewById(R.id.avatar);
         username = (TextView) findViewById(R.id.username);
         txtFeeling = (TextView) findViewById(R.id.txtFeeling);
@@ -91,9 +100,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                 GLOBAL.CurrentContext.startActivity(intent);
             }
         });
-
-        getNewsDetailData();
-        getImageSlider();
 
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +129,23 @@ public class NewsDetailActivity extends AppCompatActivity {
                 new ShareThisPostAsyncTask().execute();
             }
         });
+
+        fab_post_detail = (FloatingActionButton) findViewById(R.id.fab_post_detail);
+        if (!currentPost.getUserID().equals(GLOBAL.CurrentUser.getId())
+                || (currentPost.getRelationShip().equals(CONSTANT.RELATIONSHIP_SHARE))){
+            fab_post_detail.setVisibility(View.GONE);
+        }
+        else{
+            fab_post_detail.setVisibility(View.VISIBLE);
+        }
+        fab_post_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsDetailActivity.this, EditPostActivity.class);
+                intent.putExtra("currentPost", currentPost);
+                startActivityForResult(intent, 333);
+            }
+        });
     }
 
     private void getImageSlider() {
@@ -148,7 +171,6 @@ public class NewsDetailActivity extends AppCompatActivity {
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
         Picasso.with(GLOBAL.CurrentContext).load(currentPost.getUserAvatar()).error(R.drawable.icon_profile).into(userAvatar);
-        Log.i("AVATAR", currentPost.getUserAvatar());
         title.setText(currentPost.getContent());
         txtFeeling.setText(getString(R.string.feeling) +" "+ currentPost.getFeeling());
         txtCommentDay.setText(currentPost.getPostDate());
@@ -166,6 +188,10 @@ public class NewsDetailActivity extends AppCompatActivity {
             btnLike.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         else
             btnLike.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+    }
+
+    private void changeDataAfterEdited(Post editedPost){
+        // implement here to update current post from editedPost
     }
 
     //*************************************************************************************************************************//
@@ -199,6 +225,10 @@ public class NewsDetailActivity extends AppCompatActivity {
         if (requestCode == 299 && resultCode == 300){
             int numComment = data.getExtras().getInt("numComment");
             txtNumComment.setText(numComment + "");
+        }
+        else if (requestCode == 333 && resultCode == 222){
+            Post editedPost = (Post) data.getExtras().getSerializable("editedPost");
+            changeDataAfterEdited(editedPost);
         }
     }
 

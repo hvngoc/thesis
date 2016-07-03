@@ -14,4 +14,13 @@
         android:layout_width="match_parent"
         android:id="@+id/list_posts">
     </android.support.v7.widget.RecyclerView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_tour_detail"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dip"
+        android:src="@drawable/ic_add_white_36dp"
+        android:layout_marginEnd="10dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

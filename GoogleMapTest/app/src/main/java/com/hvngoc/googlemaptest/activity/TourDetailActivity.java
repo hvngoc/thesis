@@ -2,6 +2,7 @@ package com.hvngoc.googlemaptest.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 public class TourDetailActivity extends AppCompatActivity {
 
     private RVAdapter adapter = new RVAdapter();
-
     private String tourID;
 
     @Override
@@ -37,6 +37,24 @@ public class TourDetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         tourID = bundle.getString("tourID");
+        String currentID = bundle.getString("userID");
+        int status = bundle.getInt("status");
+
+        FloatingActionButton fab_tour_detail = (FloatingActionButton) findViewById(R.id.fab_tour_detail);
+        if (currentID.equals(GLOBAL.CurrentUser.getId()) && status == 1){
+            fab_tour_detail.setVisibility(View.VISIBLE);
+        }
+        else{
+            fab_tour_detail.setVisibility(View.GONE);
+        }
+        fab_tour_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TourDetailActivity.this, AdditionTourPostingActivity.class);
+                intent.putExtra("tourID", tourID);
+                startActivityForResult(intent, 555);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,7 +101,15 @@ public class TourDetailActivity extends AppCompatActivity {
         GLOBAL.CurrentContext = this;
     }
 
-//   ------------------------------------------------------------------------------------------//
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 555){
+            Post post = (Post) data.getSerializableExtra("post");
+            adapter.addToFirst(post);
+        }
+    }
+
+    //   ------------------------------------------------------------------------------------------//
 
     private class LoadTourPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
