@@ -167,4 +167,5 @@
     <string name="create_post_success">Đăng bài thành công</string>
     <string name="edit_post_activity">Chỉnh sửa bài viết</string>
     <string name="edit_post_error">Cập nhật bài viết xảy ra lỗi</string>
+    <string name="stop_current_post">Bạn có muốn dừng hành trình này không?</string>
 </resources>

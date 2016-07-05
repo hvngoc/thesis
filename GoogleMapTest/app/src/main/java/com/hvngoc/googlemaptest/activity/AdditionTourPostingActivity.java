@@ -189,12 +189,20 @@ public class AdditionTourPostingActivity extends AppCompatActivity implements On
                 post.Longitude = LocationRoundHelper.Round(post.Longitude);
                 post.setContent(editTextCreatePost.getText().toString());
                 showProgressDialog();
+                if (adapter == null ){
+                    new CreatePostAsyncTask().execute();
+                    return;
+                }
                 images = getStringImages(adapter.getListBitmaps());
-                int i = 0;
-                for (i = 0; i < images.size(); i += 5) {
-                    int size = (images.size() >= 5 + i) ? 5 : images.size();
-                    List<String> subList = images.subList(i, size);
-                    new UploadImagesAsyncTask(subList, i, images.size()).execute();
+                if (images.size() == 0){
+                    new CreatePostAsyncTask().execute();
+                }
+                else {
+                    for (int i = 0; i < images.size(); i += 5) {
+                        int size = (images.size() >= 5 + i) ? 5 : images.size();
+                        List<String> subList = images.subList(i, size);
+                        new UploadImagesAsyncTask(subList, i, images.size()).execute();
+                    }
                 }
             }
         });
@@ -387,7 +395,7 @@ public class AdditionTourPostingActivity extends AppCompatActivity implements On
         for (String item : listImageUrls){
             sss += item + ";";
         }
-        sss = sss.substring(0, sss.length() - 1);
+        sss = sss.length() > 0 ? sss.substring(0, sss.length() - 1) : "";
         return sss;
     }
 

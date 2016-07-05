@@ -68,7 +68,7 @@ public class Post implements Serializable {
 
     public String getContentSmaller(){
         if (content == null) return null;
-        return  content.length() > 20 ? content.substring(0, 20) + "..." : content;
+        return  content.length() > 30 ? content.substring(0, 30) + "..." : content;
     }
 
     public void setContent(String content) {
@@ -110,6 +110,10 @@ public class Post implements Serializable {
             urls.add(GLOBAL.SERVER_IMAGE_URL + temp);
         }
         return urls;
+    }
+
+    public String getListImagesString(){
+        return this.listImages;
     }
 
 

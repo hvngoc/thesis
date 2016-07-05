@@ -191,7 +191,13 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
     private void changeDataAfterEdited(Post editedPost){
-        // implement here to update current post from editedPost
+        currentPost.setContent(editedPost.getContent());
+        currentPost.setFeeling(editedPost.getSaveFeeling());
+        currentPost.Latitude = editedPost.Latitude;
+        currentPost.Longitude = editedPost.Longitude;
+        currentPost.setListImages(editedPost.getListImagesString());
+        getNewsDetailData();
+        getImageSlider();
     }
 
     //*************************************************************************************************************************//

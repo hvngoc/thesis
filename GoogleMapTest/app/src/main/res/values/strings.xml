@@ -166,4 +166,5 @@
     <string name="create_post_success">Create Post Successfully!</string>
     <string name="edit_post_activity">Edit your Post</string>
     <string name="edit_post_error">Edit Post Error!</string>
+    <string name="stop_current_post">Do you want to stop this tour?</string>
 </resources>
