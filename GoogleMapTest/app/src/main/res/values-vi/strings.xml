@@ -52,7 +52,7 @@
     <string name="hint_find_friend">có thể bạn biết người này?</string>
     <string name="hint_add_friend">Kết bạn</string>
     <string name="hint_detail">Chi tiết</string>
-    <string name="hint_nothing_found">Chúng tôi không tìm thấy bất thường ở đây</string>
+    <string name="hint_nothing_found">Chúng tôi không tìm thấy bất kỳ điều gì để hiển thị ở đây</string>
     <string name="hint_type_email">Gõ email để tìm kiếm</string>
     <string name="hint_sure_logout">Bạn thực sự muốn đăng xuất tài khoản?</string>
     <string name="hint_logout">Đăng xuất</string>

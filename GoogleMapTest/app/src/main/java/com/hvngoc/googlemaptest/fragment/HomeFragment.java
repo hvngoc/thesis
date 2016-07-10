@@ -34,11 +34,12 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentManager fragmentManager;
-
     private RVAdapter adapter;
 
     public HomeFragment() {
+        adapter = new RVAdapter();
+        Log.i("HOME", "CONSTRUCTOR");
+        startLoading();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragmentManager = getActivity().getSupportFragmentManager();
+        Log.i("HOME", "CREATE HOME");
     }
 
     @Override
@@ -64,12 +65,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
         RecyclerView listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
-        listnews.setLayoutManager(llm);
+        listnews.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         listnews.setHasFixedSize(true);
-        adapter = new RVAdapter();
+
         listnews.setAdapter(adapter);
+
         FloatingActionButton createPost = (FloatingActionButton) rootView.findViewById(R.id.createPost);
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,21 +83,19 @@ public class HomeFragment extends Fragment {
     }
 
     ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
-        progressDialog = new ProgressDialog(getActivity(),
+    private void startLoading() {
+        progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadPostAsyncTask().execute();
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.i("HOME", "ATTACH HOME");
     }
 
     @Override
@@ -140,14 +140,6 @@ public class HomeFragment extends Fragment {
                 ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
                 adapter.addListPost(CurrentListPost);
             }
-            /*
-            else {
-                // Notify send request failed!
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
-                fragmentTransaction.commit();
-            }
-            */
             progressDialog.dismiss();
         }
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,18 +31,27 @@ public class FriendMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_message);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.title_messages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         recycleView = (RecyclerView) findViewById(R.id.recycler_list_friend);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.setHasFixedSize(true);
+
         loadFriend();
     }
 
 
-    ProgressDialog progressDialog = null;
+    private ProgressDialog progressDialog = null;
 
     private void loadFriend() {
         progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);

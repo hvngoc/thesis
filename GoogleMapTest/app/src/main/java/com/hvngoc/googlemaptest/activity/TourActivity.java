@@ -39,6 +39,12 @@ public class TourActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         list_tours = (RecyclerView) findViewById(R.id.list_tours);
         list_tours.setLayoutManager(new LinearLayoutManager(this));

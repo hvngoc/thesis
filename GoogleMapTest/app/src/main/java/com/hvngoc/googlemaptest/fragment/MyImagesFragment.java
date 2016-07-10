@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class MyImagesFragment extends Fragment {
     private LinearLayout listNothing;
 
     public MyImagesFragment() {
-        // Required empty public constructor
+        Log.i("TOUR", "CONSTRUCTOR");
     }
 
     public static MyImagesFragment getInstance(String id){
@@ -49,6 +50,8 @@ public class MyImagesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         currentID = args.getString("id");
+        startLoading();
+        Log.i("TOUR", "CREATE");
     }
 
     private void SetContentView(int recycler, int nothing){
@@ -68,13 +71,13 @@ public class MyImagesFragment extends Fragment {
 
         listNothing = (LinearLayout)rootView.findViewById(R.id.list_wall_nothing);
 
+        Log.i("TOUR", "VIEW");
+
         return rootView;
     }
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -99,7 +102,7 @@ public class MyImagesFragment extends Fragment {
             String serverUrl = GLOBAL.SERVER_URL + "getAllMyTour";
             JSONObject jsonobj = new JSONObject();
             try {
-                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("userID", currentID);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

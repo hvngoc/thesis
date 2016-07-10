@@ -13,6 +13,7 @@ import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.model.ChatMessage;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -23,8 +24,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RVMessageAdapter extends RecyclerView.Adapter<RVMessageAdapter.ViewHolder> {
     List<ChatMessage> mItems;
 
-    public RVMessageAdapter(List<ChatMessage> listMessage) {
-        this.mItems = listMessage;
+    public RVMessageAdapter() {
+        this.mItems = new ArrayList<>();
+    }
+
+    public void addListItem(List<ChatMessage> listMessage){
+        mItems.clear();
+        mItems.addAll(listMessage);
+        notifyDataSetChanged();
     }
 
     @Override

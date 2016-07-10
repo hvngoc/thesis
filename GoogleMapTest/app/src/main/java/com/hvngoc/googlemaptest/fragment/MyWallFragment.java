@@ -1,7 +1,6 @@
 package com.hvngoc.googlemaptest.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +26,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-
 public class MyWallFragment extends Fragment {
 
     private RecyclerView listPosts;
@@ -36,7 +34,7 @@ public class MyWallFragment extends Fragment {
     private LinearLayout listNothing;
 
     public MyWallFragment() {
-        // Required empty public constructor
+        Log.i("WALL", "CONSTRUCTOR WAL");
     }
     public static MyWallFragment getInstance(String id) {
         MyWallFragment fragment = new MyWallFragment();
@@ -62,27 +60,28 @@ public class MyWallFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         currentID = args.getString("id");
+        adapter = new RVAdapter();
+        startLoading();
+        Log.i("WALL", "CREATE WAL");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wall, container, false);
+
         listPosts = (RecyclerView) rootView.findViewById(R.id.list_wall_post);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
-        listPosts.setLayoutManager(llm);
-        adapter = new RVAdapter();
-        listPosts.setAdapter(adapter);
+        listPosts.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         listPosts.setHasFixedSize(true);
+
+        listPosts.setAdapter(adapter);
 
         listNothing = (LinearLayout)rootView.findViewById(R.id.list_wall_nothing);
         return rootView;
     }
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
         progressDialog = new ProgressDialog(getActivity(),
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -137,15 +136,5 @@ public class MyWallFragment extends Fragment {
             }
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,38 +32,42 @@ import java.util.ArrayList;
 
 public class FriendRequestFragment extends Fragment {
 
-    private RecyclerView recyclerListFriend;
+    private RVFriendAdapter adapter;
 
     public FriendRequestFragment() {
-        // Required empty public constructor
+        adapter = new RVFriendAdapter(View.INVISIBLE, View.VISIBLE, View.VISIBLE);
+        Log.i("FRIEND REQUEST", "CONSTRUCTOR");
+        startLoading();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("FRIEND REQUEST", "CREATE");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_friend_list, container, false);
-        recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
-        recyclerListFriend.setLayoutManager(llm);
+
+        RecyclerView recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
+        recyclerListFriend.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerListFriend.setHasFixedSize(true);
+
+        recyclerListFriend.setAdapter(adapter);
+
+        Log.i("FRIEND SUGGEST", "CREATE VIEW");
+
         return rootView;
     }
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i("REAQUESTTT", "STARTT");
-        progressDialog = new ProgressDialog(getActivity(),
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
+        progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadFriendRequestAsyncTask().execute();
     }
@@ -74,6 +79,7 @@ public class FriendRequestFragment extends Fragment {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
+                    progressDialog.show();
                     new LoadFriendRequestAsyncTask().execute();
                 }
             }
@@ -118,14 +124,13 @@ public class FriendRequestFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.VISIBLE);
-                recyclerListFriend.setAdapter(adapter);
+                adapter.addListItem(listFriend);
             }
-//            else {
-//                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment_friend_list, new NothingsFragment());
-//                fragmentTransaction.commit();
-//            }
+            else {
+                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_friend_list, new NothingsFragment());
+                fragmentTransaction.commit();
+            }
             progressDialog.dismiss();
         }
     }

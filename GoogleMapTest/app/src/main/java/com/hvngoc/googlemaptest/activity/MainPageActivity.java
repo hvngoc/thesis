@@ -53,6 +53,8 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
+    private Fragment fragmentHome, fragmentNotification, fragmentMessage, fragmentFriend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,23 +90,31 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         bottomBar.setItemsFromMenu(R.menu.menu_bottom_bar, new OnMenuTabSelectedListener() {
             @Override
             public void onMenuItemSelected(int itemId) {
-                Fragment fragment = new HomeFragment();
+                Fragment fragment = null;
                 String title = getString(R.string.title_home);
                 switch (itemId) {
                     case R.id.home_item:
-                        fragment = new HomeFragment();
+                        if (fragmentHome == null)
+                            fragmentHome = new HomeFragment();
+                        fragment = fragmentHome;
                         title = getString(R.string.title_home);
                         break;
                     case R.id.chat_item:
-                        fragment = new MessagesFragment();
+                        if (fragmentMessage == null)
+                            fragmentMessage = new MessagesFragment();
+                        fragment = fragmentMessage;
                         title = getString(R.string.title_messages);
                         break;
                     case R.id.notification_item:
-                        fragment = new NotificationsFragment();
+                        if (fragmentNotification == null)
+                            fragmentNotification = new NotificationsFragment();
+                        fragment = fragmentNotification;
                         title = getString(R.string.title_notifications);
                         break;
                     case R.id.friend_item:
-                        fragment = new FriendsFragment();
+                        if (fragmentFriend == null)
+                            fragmentFriend = new FriendsFragment();
+                        fragment = fragmentFriend;
                         title = getString(R.string.title_friends);
                         break;
                 }
@@ -130,7 +140,6 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         bottomBar.selectTabAtPosition(position, true);
     }
 
-
     @Override
     public void onDrawerItemSelected(int position) {
         displayView(position);
@@ -141,19 +150,27 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         String title = null;
         switch (position) {
             case CONSTANT.BOTTOM_HOME:
-                fragment = new HomeFragment();
+                if (fragmentHome == null)
+                    fragmentHome = new HomeFragment();
+                fragment = fragmentHome;
                 title = getString(R.string.title_home);
                 break;
             case CONSTANT.BOTTOM_MESSAGE:
-                fragment = new MessagesFragment();
+                if (fragmentMessage == null)
+                    fragmentMessage = new MessagesFragment();
+                fragment = fragmentMessage;
                 title = getString(R.string.title_messages);
                 break;
             case CONSTANT.BOTTOM_FRIEND:
-                fragment = new FriendsFragment();
+                if (fragmentFriend == null)
+                    fragmentFriend = new FriendsFragment();
+                fragment = fragmentFriend;
                 title = getString(R.string.title_friends);
                 break;
             case CONSTANT.BOTTOM_NOTIFICATION:
-                fragment = new NotificationsFragment();
+                if (fragmentNotification == null)
+                    fragmentNotification = new NotificationsFragment();
+                fragment = fragmentNotification;
                 title = getString(R.string.title_notifications);
                 break;
             case CONSTANT.NAVIGATION_WALL:

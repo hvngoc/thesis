@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -37,13 +38,16 @@ public class NotificationsFragment extends Fragment {
     private RVNotificationAdapter rvNotificationAdapter;
 
     public NotificationsFragment() {
-        // Required empty public constructor
+        rvNotificationAdapter = new RVNotificationAdapter();
+        startLoading();
+        Log.i("NOTIFICATION", "CONSTRUCTOR");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.i("Notification", "CREATE");
     }
 
     @Override
@@ -55,21 +59,20 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerView.setHasFixedSize(true);
 
-        rvNotificationAdapter = new RVNotificationAdapter();
         recyclerView.setAdapter(rvNotificationAdapter);
+
+        Log.i("notification", "CREATE VIEW");
 
         return rootView;
     }
 
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
-        progressDialog = new ProgressDialog(getActivity(),
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
+        progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadNotificationsAsyncTask().execute();
     }
@@ -99,9 +102,8 @@ public class NotificationsFragment extends Fragment {
                 }
             }
         });
+        Log.i("notification", "ATTACH");
     }
-
-
 
     @Override
     public void onDetach() {
@@ -138,7 +140,6 @@ public class NotificationsFragment extends Fragment {
                 fragmentTransaction.replace(R.id.container_body, new NothingsFragment());
                 fragmentTransaction.commit();
             }
-
             progressDialog.dismiss();
         }
     }

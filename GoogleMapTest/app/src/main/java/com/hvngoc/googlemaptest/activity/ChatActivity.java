@@ -46,8 +46,6 @@ public class ChatActivity extends AppCompatActivity {
     private String toUserID;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
 
-    private boolean side = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,14 +150,8 @@ public class ChatActivity extends AppCompatActivity {
     private void sendChatMessageSuccess() {
         chatArrayAdapter.add(new ChatMessage(chatText.getText().toString()));
         chatText.setText("");
-        side = false;
     }
 //    *************************************************************************************************************
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

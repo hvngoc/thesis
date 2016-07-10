@@ -52,6 +52,7 @@ public class WallActivity extends AppCompatActivity {
         if(currentID == null)
             currentID = GLOBAL.CurrentUser.getId();
         GLOBAL.CurrentContext = this;
+
         initComponent();
         setupToolbar();
         setupViewPager();
@@ -127,14 +128,6 @@ public class WallActivity extends AppCompatActivity {
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(getString(R.string.title_wall));
     }
-
-    @Override
-    public void onBackPressed() {
-        this.finish();
-        super.onBackPressed();
-    }
-
-
 
     @Override
     protected void onResume() {

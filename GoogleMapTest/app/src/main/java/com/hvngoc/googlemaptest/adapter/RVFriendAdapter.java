@@ -17,6 +17,7 @@ import com.hvngoc.googlemaptest.helper.FriendHelpersAsyncTask;
 import com.hvngoc.googlemaptest.model.Friend;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,12 +30,19 @@ public class RVFriendAdapter extends RecyclerView.Adapter<RVFriendAdapter.ViewHo
     private int visibilityAdd;
     private int visibilityDelete;
     private int visibilityAddRequest;
-    public RVFriendAdapter(List<Friend> listItems, int visibilityAdd, int visibilityDelete, int visibilityAddRequest) {
+
+    public RVFriendAdapter(int visibilityAdd, int visibilityDelete, int visibilityAddRequest) {
         super();
-        mItems = listItems;
+        mItems = new ArrayList<>();
         this.visibilityAdd = visibilityAdd;
         this.visibilityAddRequest = visibilityAddRequest;
         this.visibilityDelete = visibilityDelete;
+    }
+
+    public void addListItem(List<Friend> listItems){
+        mItems.clear();
+        mItems.addAll(listItems);
+        notifyDataSetChanged();
     }
 
     @Override

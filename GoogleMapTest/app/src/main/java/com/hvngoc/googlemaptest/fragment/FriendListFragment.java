@@ -1,6 +1,6 @@
 package com.hvngoc.googlemaptest.fragment;
 
-import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -32,10 +32,12 @@ import java.util.ArrayList;
 
 public class FriendListFragment extends Fragment {
 
-    private RecyclerView recyclerListFriend;
+    private RVFriendAdapter adapter;
 
     public FriendListFragment() {
-        // Required empty public constructor
+        adapter = new RVFriendAdapter(View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
+        startLoading();
+        Log.i("FRIEND LIST", "CONSTRUCTOR");
     }
 
     @Override
@@ -48,24 +50,23 @@ public class FriendListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i("FRIEND LIST", "CREATE VIEW");
-        // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_friend_list, container, false);
-        recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
-        recyclerListFriend.setLayoutManager(llm);
+
+        RecyclerView recyclerListFriend = (RecyclerView) rootView.findViewById(R.id.recycler_list_friend);
+        recyclerListFriend.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerListFriend.setHasFixedSize(true);
+
+        recyclerListFriend.setAdapter(adapter);
+
         return rootView;
     }
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        Log.i("FRIEND LIST", "ONSTART");
-        super.onStart();
-        progressDialog = new ProgressDialog(getActivity(),
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
+        progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadFriendAsyncTask().execute();
     }
@@ -84,6 +85,7 @@ public class FriendListFragment extends Fragment {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
+                    progressDialog.show();
                     new LoadFriendAsyncTask().execute();
                 }
             }
@@ -128,8 +130,7 @@ public class FriendListFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Friend>>(){}.getType();
                 ArrayList<Friend> listFriend = gson.fromJson(res, listType);
-                RVFriendAdapter adapter = new RVFriendAdapter(listFriend, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
-                recyclerListFriend.setAdapter(adapter);
+                adapter.addListItem(listFriend);
             }
             progressDialog.dismiss();
         }

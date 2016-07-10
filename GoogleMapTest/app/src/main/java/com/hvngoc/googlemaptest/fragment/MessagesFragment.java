@@ -36,20 +36,20 @@ import java.util.ArrayList;
 
 public class MessagesFragment extends Fragment {
 
-    private RecyclerView recyclerListMessage;
+    private RVMessageAdapter adapter;
 
     public MessagesFragment() {
-        // Required empty public constructor
+        adapter = new RVMessageAdapter();
+        startLoading();
+        Log.i("MESSAGE", "CONSTRUCTOR");
     }
 
-    ProgressDialog progressDialog = null;
-    @Override
-    public void onStart() {
-        super.onStart();
-        progressDialog = new ProgressDialog(getActivity(),
+    private ProgressDialog progressDialog = null;
+    private void startLoading() {
+        progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadMessageAsyncTask().execute();
     }
@@ -58,22 +58,24 @@ public class MessagesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_MESSAGE;
+        Log.i("MESSAGE FRAGMENT", "ON RESUME");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.i("MESSAGE FRAGMENT", "ON CREATE");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i("MESSAGE FRAGMENT", "ON ATTATCH");
+        Log.i("MESSAGE FRAGMENT", "ON ATTACH");
         ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
-                if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)){
+                if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
                     progressDialog.show();
                     new LoadMessageAsyncTask().execute();
                 }
@@ -82,23 +84,16 @@ public class MessagesFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_messages, container, false);
-        recyclerListMessage = (RecyclerView) rootView.findViewById(R.id.recycler_message);
-        LinearLayoutManager llm = new LinearLayoutManager(GLOBAL.CurrentContext);
-        recyclerListMessage.setLayoutManager(llm);
+
+        RecyclerView recyclerListMessage = (RecyclerView) rootView.findViewById(R.id.recycler_message);
+        recyclerListMessage.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         recyclerListMessage.setHasFixedSize(true);
+
+        recyclerListMessage.setAdapter(adapter);
+
         FloatingActionButton newMessage = (FloatingActionButton) rootView.findViewById(R.id.newMessage);
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +102,7 @@ public class MessagesFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        // Inflate the layout for this fragment
+        Log.i("MESSAGE FRAGMENT", "ON VIEW");
         return rootView;
     }
 
@@ -144,8 +139,7 @@ public class MessagesFragment extends Fragment {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> listMessage = gson.fromJson(res, listType);
-                RVMessageAdapter adapter = new RVMessageAdapter(listMessage);
-                recyclerListMessage.setAdapter(adapter);
+                adapter.addListItem(listMessage);
             }
             progressDialog.dismiss();
         }
