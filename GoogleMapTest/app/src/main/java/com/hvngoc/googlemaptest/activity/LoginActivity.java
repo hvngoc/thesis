@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.authenticating));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
         new LoginAsyncTask().execute();

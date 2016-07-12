@@ -279,6 +279,7 @@ public class EditPostActivity extends AppCompatActivity implements OnMapReadyCal
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.uploading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
     }
 

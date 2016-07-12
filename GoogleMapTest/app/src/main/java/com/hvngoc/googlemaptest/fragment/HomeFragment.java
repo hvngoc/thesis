@@ -88,6 +88,7 @@ public class HomeFragment extends Fragment {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(getRetainInstance());
         progressDialog.show();
         new LoadPostAsyncTask().execute();
     }

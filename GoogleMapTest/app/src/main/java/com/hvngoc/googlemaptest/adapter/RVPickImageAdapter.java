@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.ViewHolder>{
     public ArrayList<String> mItems;
+    public List<Bitmap> bitmaps = null;
     ImageLoader imageLoader;
 
     public RVPickImageAdapter(ArrayList<String> mItems) {
@@ -58,15 +59,27 @@ public class RVPickImageAdapter extends RecyclerView.Adapter<RVPickImageAdapter.
     }
 
     public List<Bitmap> getListBitmaps() {
-        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        for (int i = 0; i < mItems.size(); i++) {
-            Bitmap bitmap = BitmapFactory.decodeFile(mItems.get(i));
-            if(bitmap.getWidth() > 480 || bitmap.getHeight() > 300) {
-                bitmap = Bitmap.createScaledBitmap(bitmap, 480, 300, true);
+        if(bitmaps == null) {
+            bitmaps = new ArrayList<Bitmap>();
+            for (int i = 0; i < mItems.size(); i++) {
+                Bitmap bitmap = BitmapFactory.decodeFile(mItems.get(i));
+                int width = bitmap.getWidth();
+                if (width > 480)
+                    bitmap = scaleImageWithRatio(bitmap, width / 480);
+                int height = bitmap.getHeight();
+                if (height > 300)
+                    bitmap = scaleImageWithRatio(bitmap, height / 300);
+                bitmaps.add(bitmap);
             }
-            bitmaps.add(bitmap);
         }
         return bitmaps;
+    }
+
+    private Bitmap scaleImageWithRatio(Bitmap bitmap, float ratio) {
+        int realWidth = Math.round(bitmap.getWidth() / ratio);
+        int realHeight = Math.round(bitmap.getHeight() / ratio);
+        bitmap = Bitmap.createScaledBitmap(bitmap, realWidth, realHeight, true);
+        return bitmap;
     }
 
     public interface OnClickImage{

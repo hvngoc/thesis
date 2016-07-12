@@ -147,6 +147,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 progressDialog = new ProgressDialog(GLOBAL.CurrentContext, R.style.AppTheme_Dark_Dialog);
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage("Uploading...");
+                progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
                 new UpdateProfileAsyncTask().execute();
             }

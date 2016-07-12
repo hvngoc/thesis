@@ -66,6 +66,7 @@ public class FriendListFragment extends Fragment {
         progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadFriendAsyncTask().execute();
@@ -74,14 +75,7 @@ public class FriendListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("FRIEND LIST", "ON RESUME");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i("FRIEND LIST", "ATTATCH");
-        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        ((MainPageActivity)mContext).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
@@ -90,12 +84,22 @@ public class FriendListFragment extends Fragment {
                 }
             }
         });
+        Log.i("FRIEND LIST", "ON RESUME");
+    }
+
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i("FRIEND LIST", "ATTATCH");
+        mContext = context;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-
+    public void onPause() {
+        super.onPause();
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
     }
 
     private class LoadFriendAsyncTask extends AsyncTask<Void, Void, Boolean> {

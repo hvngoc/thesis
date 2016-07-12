@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,6 +34,7 @@ import com.hvngoc.googlemaptest.fragment.LogoutFragment;
 import com.hvngoc.googlemaptest.fragment.MessagesFragment;
 import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
+import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.StartedSettingHelper;
@@ -70,6 +72,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         initBottomBar(savedInstanceState);
         StartLocationServiceHelper(false);
         initBroadcastReceiver();
+        registernewGCM();
     }
 
     BottomBar bottomBar;
@@ -121,12 +124,18 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 replaceCurrentFragment(fragment, title);
             }
         });
+        initBarBadgeHelper();
+    }
+
+    private void initBarBadgeHelper() {
+        BarBadgeHelper.Notification = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", BarBadgeHelper.notificationCount);
+        BarBadgeHelper.ChatMessage = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_MESSAGE, "#E91E63", BarBadgeHelper.chatMessageCount);
+        BarBadgeHelper.Friend = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_FRIEND, "#E91E63", BarBadgeHelper.friendCount);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        registernewGCM();
         GLOBAL.CurrentContext = this;
             // display the first navigation drawer view on app launch
         setBottomBar(GLOBAL.MAIN_PAGE_POSITION_VIEW);
@@ -242,10 +251,10 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
     }
 
     protected void initBroadcastReceiver() {
-
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Log.i("BROADCASTRECEIVER", "Createeeeeeeeeeee");
                 if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
                     Bundle bundle = intent.getExtras();
@@ -253,25 +262,25 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                     String param = bundle.getString("param");
                     String targetID = bundle.getString("targetID");
                     if(targetID.contains(GLOBAL.CurrentUser.getId())) {
+                        BottomBarBadge unreadMessages;
                         if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_MESSAGE, "#E91E63", 1);
-                            unreadMessages.show();
-                            unreadMessages.setAnimationDuration(200);
+                            unreadMessages = BarBadgeHelper.ChatMessage;
+                            unreadMessages.setCount(++BarBadgeHelper.chatMessageCount);
+                            Log.i("MESSAGEEEEEEEEEEEEEEE", "" + BarBadgeHelper.chatMessageCount);
                         } else if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_FRIEND, "#E91E63", 1);
-                            unreadMessages.show();
-                            unreadMessages.setAnimationDuration(200);
+                            unreadMessages = BarBadgeHelper.Friend;
+                            unreadMessages.setCount(++BarBadgeHelper.friendCount);
                         } else {
                             if (messageDelegationHelper != null)
                                 messageDelegationHelper.doSomething(message, param);
-                            BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", 1);
-                            unreadMessages.show();
-                            unreadMessages.setAnimationDuration(200);
+                            unreadMessages = BarBadgeHelper.Notification;
+                            unreadMessages.setCount(++BarBadgeHelper.notificationCount);
                         }
+                        unreadMessages.show();
                     }
                 }
             }
@@ -349,9 +358,9 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == 200) {
-                    BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_NOTIFICATION, "#E91E63", 1);
+                    BottomBarBadge unreadMessages = BarBadgeHelper.Notification;
+                    unreadMessages.setCount(++BarBadgeHelper.notificationCount);
                     unreadMessages.show();
-                    unreadMessages.setAnimationDuration(200);
                     if(delegationHelper != null)
                         delegationHelper.doSomeThing();
                 }

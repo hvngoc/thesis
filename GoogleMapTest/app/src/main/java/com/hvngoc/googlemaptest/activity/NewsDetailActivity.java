@@ -123,15 +123,26 @@ public class NewsDetailActivity extends AppCompatActivity {
                 if (isLiking)
                     return;
                 isLiking = true;
-                if (currentPost.isYouLike == 0)
+                if (currentPost.isYouLike == 0) {
+                    currentPost.numLike += 1;
+                    currentPost.isYouLike = 1;
                     new LikeThisPostAsyncTask().execute();
-                else
+                }
+                else {
+                    currentPost.numLike -= 1;
+                    currentPost.isYouLike = 0;
                     new UnLikeThisPostAsyncTask().execute();
+                }
+                txtNumLike.setText("" + currentPost.numLike);
+                setLikeButton();
             }
         });
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentPost.numShare += 1;
+                Toast.makeText(getBaseContext(), getString(R.string.share_ok),Toast.LENGTH_LONG).show();
+                txtNumShared.setText(currentPost.numShare + "");
                 new ShareThisPostAsyncTask().execute();
             }
         });
@@ -166,7 +177,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             for (String name : imageUrls) {
                 TextSliderView textSliderView = new TextSliderView(this);
                 textSliderView.image(name)
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                        .setScaleType(BaseSliderView.ScaleType.FitCenterCrop);
                 mDemoSlider.addSlider(textSliderView);
             }
         }
@@ -275,12 +286,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result) {
-                currentPost.numLike += 1;
-                currentPost.isYouLike = 1;
-                txtNumLike.setText("" + currentPost.numLike);
-            }
-            setLikeButton();
+//            if(result) {
+//                currentPost.numLike += 1;
+//                currentPost.isYouLike = 1;
+//                txtNumLike.setText("" + currentPost.numLike);
+//            }
+//            setLikeButton();
         }
     }
 
@@ -308,12 +319,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result) {
-                currentPost.numLike -= 1;
-                currentPost.isYouLike = 0;
-                txtNumLike.setText("" + currentPost.numLike);
-            }
-            setLikeButton();
+//            if(result) {
+//                currentPost.numLike -= 1;
+//                currentPost.isYouLike = 0;
+//                txtNumLike.setText("" + currentPost.numLike);
+//            }
+//            setLikeButton();
         }
     }
 
@@ -346,11 +357,11 @@ public class NewsDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result) {
-                currentPost.numShare += 1;
-                Toast.makeText(getBaseContext(), getString(R.string.share_ok),Toast.LENGTH_LONG).show();
-                txtNumShared.setText(currentPost.numShare + "");
-            }
+//            if(result) {
+//                currentPost.numShare += 1;
+//                Toast.makeText(getBaseContext(), getString(R.string.share_ok),Toast.LENGTH_LONG).show();
+//                txtNumShared.setText(currentPost.numShare + "");
+//            }
         }
     }
 }

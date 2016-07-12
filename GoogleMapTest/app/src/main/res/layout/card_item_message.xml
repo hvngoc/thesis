@@ -57,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
+                android:maxLines="1"
                 android:text="You are my home."
                 android:layout_marginLeft="42dip"
                 android:textColor="@color/secondary_text"/>

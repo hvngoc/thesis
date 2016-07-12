@@ -21,6 +21,7 @@ import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVNotificationAdapter;
+import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
@@ -51,6 +52,45 @@ public class NotificationsFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        BarBadgeHelper.notificationCount = 0;
+        ((MainPageActivity)mContext).setDelegationHelper(null);
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainPageActivity)mContext).setDelegationHelper(null);
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BarBadgeHelper.notificationCount = 0;
+        ((MainPageActivity)mContext).setDelegationHelper(new DelegationHelper() {
+            @Override
+            public void doSomeThing() {
+                progressDialog.show();
+                new LoadNotificationsAsyncTask().execute();
+            }
+        });
+
+        ((MainPageActivity)mContext).setMessageDelegationHelper(new MessageDelegationHelper() {
+            @Override
+            public void doSomething(String message, String param) {
+                if (!message.equals(CONSTANT.NOTIFICATION_MESSAGE) && !message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
+                    progressDialog.show();
+                    new LoadNotificationsAsyncTask().execute();
+                }
+            }
+        });
+        GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_NOTIFICATION;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
@@ -72,6 +112,7 @@ public class NotificationsFragment extends Fragment {
         progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadNotificationsAsyncTask().execute();
@@ -82,33 +123,18 @@ public class NotificationsFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-        ((MainPageActivity)context).setDelegationHelper(new DelegationHelper() {
-            @Override
-            public void doSomeThing() {
-                progressDialog.show();
-                new LoadNotificationsAsyncTask().execute();
-            }
-        });
 
-        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
-            @Override
-            public void doSomething(String message, String param) {
-                if (!message.equals(CONSTANT.NOTIFICATION_MESSAGE) && !message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
-                    progressDialog.show();
-                    new LoadNotificationsAsyncTask().execute();
-                }
-            }
-        });
+    private Context mContext;
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
         Log.i("notification", "ATTACH");
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
     private class LoadNotificationsAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;

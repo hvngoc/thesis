@@ -276,6 +276,7 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.uploading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
     }
 

@@ -91,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(SignupActivity.this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.authenticating));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
 

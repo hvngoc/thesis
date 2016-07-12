@@ -134,6 +134,7 @@ public class TourCreationActivity extends AppCompatActivity implements OnMapRead
                 progressDialog = new ProgressDialog(TourCreationActivity.this, R.style.AppTheme_Dark_Dialog);
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage(getString(R.string.loading));
+                progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
                 new CreateTourAsyncTask().execute();
             }

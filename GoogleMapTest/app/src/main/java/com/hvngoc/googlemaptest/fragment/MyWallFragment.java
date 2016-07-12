@@ -86,6 +86,7 @@ public class MyWallFragment extends Fragment {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new LoadPostAsyncTask().execute();
 

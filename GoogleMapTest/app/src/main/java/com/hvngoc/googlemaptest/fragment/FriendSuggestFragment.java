@@ -69,14 +69,25 @@ public class FriendSuggestFragment extends Fragment {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new LoadFriendAsyncTask().execute();
     }
 
+    private Context mContext;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        mContext = context;
+        Log.i("FRIEND SUGGEST", "ATTACH");
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainPageActivity)mContext).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_CONFIRM_FRIEND)) {
@@ -85,7 +96,12 @@ public class FriendSuggestFragment extends Fragment {
                 }
             }
         });
-        Log.i("FRIEND SUGGEST", "ATTACH");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
     }
 
     private class LoadFriendAsyncTask extends AsyncTask<Void, Void, Boolean> {

@@ -138,12 +138,20 @@ public class ChatActivity extends AppCompatActivity {
         String name = getIntent().getExtras().getString("name");
         getSupportActionBar().setTitle(name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
 
     private boolean sendChatMessage(){
-        if(chatText.getText().length() > 0)
+        if(chatText.getText().length() > 0) {
             new SendMessageAsyncTask().execute();
+            sendChatMessageSuccess();
+        }
         return true;
     }
 
@@ -245,7 +253,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mRegistrationBroadcastReceiver = null;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
 
     private class SendMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -280,9 +288,9 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result) {
-                sendChatMessageSuccess();
-            }
+//            if(result) {
+//                sendChatMessageSuccess();
+//            }
         }
     }
 }

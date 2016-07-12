@@ -57,6 +57,7 @@ public class FriendMessageActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new LoadFriendAsyncTask().execute();
     }

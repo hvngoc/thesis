@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
+import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 
 
 public class FriendsFragment extends Fragment {
@@ -53,9 +54,16 @@ public class FriendsFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        BarBadgeHelper.friendCount = 0;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.i("FRIEND", "RESUME");
+        BarBadgeHelper.friendCount = 0;
         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_FRIEND;
     }
 

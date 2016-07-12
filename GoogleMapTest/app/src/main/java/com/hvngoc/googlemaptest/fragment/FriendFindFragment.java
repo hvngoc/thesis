@@ -123,6 +123,7 @@ public class FriendFindFragment extends Fragment {
                     progressDialog = new ProgressDialog(getActivity(),
                             R.style.AppTheme_Dark_Dialog);
                     progressDialog.setIndeterminate(true);
+                    progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.setMessage(getString(R.string.searching));
                     progressDialog.show();
                     new SearchFriendByEmailAsyncTask(text).execute();

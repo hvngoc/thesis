@@ -23,6 +23,7 @@ import com.hvngoc.googlemaptest.activity.FriendMessageActivity;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.adapter.RVMessageAdapter;
+import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.model.ChatMessage;
@@ -50,6 +51,7 @@ public class MessagesFragment extends Fragment {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new LoadMessageAsyncTask().execute();
     }
@@ -57,22 +59,10 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        BarBadgeHelper.chatMessageCount = 0;
         GLOBAL.MAIN_PAGE_POSITION_VIEW = CONSTANT.BOTTOM_MESSAGE;
         Log.i("MESSAGE FRAGMENT", "ON RESUME");
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        Log.i("MESSAGE FRAGMENT", "ON CREATE");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i("MESSAGE FRAGMENT", "ON ATTACH");
-        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+        ((MainPageActivity)mContext).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
                 if (message.equals(CONSTANT.NOTIFICATION_MESSAGE)) {
@@ -82,6 +72,30 @@ public class MessagesFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BarBadgeHelper.chatMessageCount = 0;
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        Log.i("MESSAGE FRAGMENT", "ON CREATE");
+    }
+
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i("MESSAGE FRAGMENT", "ON ATTACH");
+        mContext = context;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

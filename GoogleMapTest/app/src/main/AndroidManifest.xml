@@ -59,14 +59,18 @@
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,6 +80,8 @@
         <activity
             android:name=".activity.NewsDetailActivity"
             android:label="@string/title_activity_detail"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.NEWS_DETAIL" />
@@ -90,14 +96,20 @@
         <activity
             android:name=".activity.MainPageActivity"
             android:label="@string/title_activity_main_page"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_sign_up"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
 
         <!-- START Added for GCM -->
@@ -128,22 +140,30 @@
         </service>
         <!-- END Added for GCM -->
 
-        <activity android:name=".activity.ChatActivity">
+        <activity android:name=".activity.ChatActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
         </activity>
-        <activity android:name=".activity.WallActivity">
+        <activity android:name=".activity.WallActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
         </activity>
-        <activity android:name=".activity.EditProfileActivity">
+        <activity android:name=".activity.EditProfileActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.WallActivity" />
         </activity>
-        <activity android:name=".imagechooser.CustomGalleryActivity">
+        <activity android:name=".imagechooser.CustomGalleryActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="cunoraz.ACTION_PICK" />
                 <action android:name="cunoraz.ACTION_MULTIPLE_PICK" />
@@ -151,20 +171,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PostCreationActivity">
+        <activity android:name=".activity.PostCreationActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
         </activity>
         <activity
             android:name=".activity.CommentActivity"
-            android:label="@string/hint_comment">
+            android:label="@string/hint_comment"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.NewsDetailActivity" />
         </activity>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".activity.FriendMessageActivity">
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.FriendMessageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
@@ -172,7 +200,9 @@
         <activity
             android:name=".activity.TourActivity"
             android:label="@string/title_tour"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainPageActivity" />
@@ -180,6 +210,8 @@
         <activity
             android:name=".activity.TourCreationActivity"
             android:label="@string/title_tour_creation"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -188,10 +220,14 @@
         <activity
             android:name=".activity.TourDetailActivity"
             android:label="@string/title_tour_detail"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".activity.AdditionTourPostingActivity"
             android:label="@string/hint_create_post"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -199,6 +235,8 @@
         </activity>
         <activity android:name=".activity.EditPostActivity"
             android:label="@string/edit_post_activity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

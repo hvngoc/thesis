@@ -284,6 +284,7 @@ public class AdditionTourPostingActivity extends AppCompatActivity implements On
         progressDialog = new ProgressDialog(this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getString(R.string.uploading));
         progressDialog.show();
     }

@@ -85,6 +85,8 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     String dataId = mItems.get(position).getDataID();
+                    mItems.remove(position);
+                    notifyDataSetChanged();
                     new DeleteNotificationAsyncTask(dataId, position).execute();
                 }
             });
@@ -133,10 +135,6 @@ public class RVNotificationAdapter extends RecyclerView.Adapter<RVNotificationAd
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result) {
-                mItems.remove(position);
-                notifyDataSetChanged();
-            }
         }
     }
 

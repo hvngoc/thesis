@@ -74,6 +74,7 @@ public class CommentActivity extends AppCompatActivity{
             }
         });
 
+        registernewGCM();
         new LoadCommentAsyncTask().execute();
     }
 
@@ -93,7 +94,6 @@ public class CommentActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        registernewGCM();
     }
 
     @Override
@@ -233,6 +233,11 @@ public class CommentActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
 
     protected void initBroadcastReceiver() {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {

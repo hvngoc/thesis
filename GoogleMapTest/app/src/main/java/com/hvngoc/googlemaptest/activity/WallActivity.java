@@ -65,6 +65,7 @@ public class WallActivity extends AppCompatActivity {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         new LoadProfileAsyncTask().execute();
     }

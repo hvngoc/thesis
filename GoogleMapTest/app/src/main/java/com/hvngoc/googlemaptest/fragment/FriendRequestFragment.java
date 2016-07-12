@@ -67,18 +67,21 @@ public class FriendRequestFragment extends Fragment {
         progressDialog = new ProgressDialog(GLOBAL.CurrentContext,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.show();
         new LoadFriendRequestAsyncTask().execute();
     }
 
+    private Context mContext;
+
     @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-        ((MainPageActivity)context).setMessageDelegationHelper(new MessageDelegationHelper() {
+    public void onResume() {
+        super.onResume();
+        ((MainPageActivity)mContext).setMessageDelegationHelper(new MessageDelegationHelper() {
             @Override
             public void doSomething(String message, String param) {
-                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)){
+                if (message.equals(CONSTANT.NOTIFICATION_ADD_FRIEND)) {
                     progressDialog.show();
                     new LoadFriendRequestAsyncTask().execute();
                 }
@@ -87,9 +90,15 @@ public class FriendRequestFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainPageActivity)mContext).setMessageDelegationHelper(null);
     }
 
     private class LoadFriendRequestAsyncTask extends AsyncTask<Void, Void, Boolean> {
