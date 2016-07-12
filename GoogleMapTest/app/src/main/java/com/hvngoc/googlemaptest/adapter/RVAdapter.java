@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -25,9 +26,11 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder> {
+public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<Post> posts;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     public RVAdapter(){
         posts = new ArrayList<>();
@@ -39,9 +42,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
     }
 
     public void addListPost(ArrayList<Post> list){
-        posts.clear();
+        //posts.clear();
+        Log.i("added List", "" + list.size());
         posts.addAll(list);
         notifyDataSetChanged();
+        Log.i("New List", "" + posts.size());
     }
 
     public ArrayList<Post> getListPost(){
@@ -50,25 +55,40 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
 
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+    public int getItemViewType(int position) {
+        return posts.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if(viewType == VIEW_TYPE_ITEM) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
+            return new NewsItemViewHolder(v);
+        }
+        else if (viewType == VIEW_TYPE_LOADING) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_loading_item, viewGroup, false);
+            return new LoadingViewHolder(v);
+        }
+        return null;
     }
 
     @Override
-    public NewsItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_post, viewGroup, false);
-        NewsItemViewHolder pvh = new NewsItemViewHolder(v);
-        Log.i("Position post : ", "" + i);
-        return pvh;
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
+        if(holder instanceof NewsItemViewHolder)
+            setNewsItemViewHolder((NewsItemViewHolder)holder, i);
+        else if(holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            loadingViewHolder.progressBar.setIndeterminate(true);
+        }
     }
 
-    @Override
-    public void onBindViewHolder(NewsItemViewHolder newsViewHolder, int i) {
-        Post post = posts.get(i);
+    private void setNewsItemViewHolder(NewsItemViewHolder newsViewHolder, int pos) {
+        Post post = posts.get(pos);
         newsViewHolder.username.setText(post.userName);
         Picasso.with(GLOBAL.CurrentContext).load(post.getUserAvatar()).error(R.drawable.icon_profile).into(newsViewHolder.userAvatar);
         newsViewHolder.news_title.setText(post.getContentSmaller());
-        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " "+ post.getFeeling());
+        newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " " + post.getFeeling());
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
         Picasso.with(GLOBAL.CurrentContext)
                 .load(post.getFirstImageUrl())
@@ -80,9 +100,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NewsItemViewHolder
         newsViewHolder.txtNumComment.setText(""+post.numComment);
     }
 
+
     @Override
     public int getItemCount() {
         return posts.size();
+    }
+
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+        }
     }
 
     class NewsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

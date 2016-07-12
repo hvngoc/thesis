@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,6 +34,8 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private RVAdapter adapter;
+    RecyclerView listnews;
+    private int page = 0;
 
     public HomeFragment() {
         adapter = new RVAdapter();
@@ -65,13 +66,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        RecyclerView listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
+        listnews = (RecyclerView) rootView.findViewById(R.id.list_news);
         listnews.setLayoutManager(new LinearLayoutManager(GLOBAL.CurrentContext));
         listnews.setHasFixedSize(true);
-
         listnews.setAdapter(adapter);
-
+        initLoadMoreItems();
         FloatingActionButton createPost = (FloatingActionButton) rootView.findViewById(R.id.createPost);
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +80,28 @@ public class HomeFragment extends Fragment {
         });
         return rootView;
     }
+
+    private boolean isLoading;
+    private int lastVisibleItem, totalItemCount;
+    private void initLoadMoreItems() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) listnews.getLayoutManager();
+        listnews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy > 0) {
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 5) && page != -1) {
+                        page++;
+                        isLoading = true;
+                        new LoadPostAsyncTask().execute();
+                    }
+                }
+            }
+        });
+    }
+
 
     ProgressDialog progressDialog = null;
     private void startLoading() {
@@ -123,6 +144,7 @@ public class HomeFragment extends Fragment {
             Log.i("userID", GLOBAL.CurrentUser.getId());
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+                jsonobj.put("page", page);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -133,12 +155,14 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-
+            isLoading = false;
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
+                if(CurrentListPost.size() < 10)
+                    page = -1;
                 adapter.addListPost(CurrentListPost);
             }
             progressDialog.dismiss();

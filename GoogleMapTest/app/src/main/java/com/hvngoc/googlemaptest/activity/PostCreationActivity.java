@@ -184,11 +184,11 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
         btnCreatePostOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgressDialog();
                 post.setPostDate(ParseDateTimeHelper.getCurrent());
                 post.Latitude = LocationRoundHelper.Round(post.Latitude);
                 post.Longitude = LocationRoundHelper.Round(post.Longitude);
                 post.setContent(editTextCreatePost.getText().toString());
-                showProgressDialog();
                 if (adapter == null ){
                     new CreatePostAsyncTask().execute();
                     return;
@@ -198,8 +198,8 @@ public class PostCreationActivity extends AppCompatActivity implements OnMapRead
                     new CreatePostAsyncTask().execute();
                 }
                 else {
-                    for (int i = 0; i < images.size(); i += 5) {
-                        int size = (images.size() >= 5 + i) ? 5 : images.size();
+                    for (int i = 0; i < images.size(); i += 3) {
+                        int size = (images.size() >= 3 + i) ? 3 : images.size();
                         List<String> subList = images.subList(i, size);
                         new UploadImagesAsyncTask(subList, i, images.size()).execute();
                     }
