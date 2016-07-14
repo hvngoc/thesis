@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,7 +35,8 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mItems.size() - 1;
     }
     public int addListComment(ArrayList<Comment> listComment){
-        int pos = 0;
+        int pos;
+        Collections.reverse(listComment);
         if(mItems.size() == 0 && listComment.size() != 0)
             pos = listComment.size() - 1;
         else

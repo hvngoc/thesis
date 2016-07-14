@@ -48,7 +48,7 @@ public class CommentActivity extends AppCompatActivity{
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
     private String postID;
     private String relation;
-    private int page = 0;
+    private boolean page = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +77,11 @@ public class CommentActivity extends AppCompatActivity{
         });
 
         registernewGCM();
-        new LoadCommentAsyncTask().execute();
+        new LoadCommentAsyncTask(0).execute();
     }
 
 
     private boolean isLoading;
-    private int lastVisibleItem, totalItemCount;
     private void initLoadMoreItems() {
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -90,12 +89,11 @@ public class CommentActivity extends AppCompatActivity{
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if(dy < 0) {
-                    totalItemCount = linearLayoutManager.getItemCount();
-                    lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                    if (!isLoading && lastVisibleItem == 1 && page != -1) {
-                        page++;
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                    if (!isLoading && lastVisibleItem == 1 && page) {
                         isLoading = true;
-                        new LoadCommentAsyncTask().execute();
+                        new LoadCommentAsyncTask(totalItemCount).execute();
                     }
                 }
             }
@@ -168,9 +166,10 @@ public class CommentActivity extends AppCompatActivity{
 
     private class LoadCommentAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private int skip;
+
+        public LoadCommentAsyncTask(int skip){
+            this.skip = skip;
         }
 
         @Override
@@ -183,7 +182,7 @@ public class CommentActivity extends AppCompatActivity{
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("postID", postID);
-                jsonobj.put("skip", page);
+                jsonobj.put("skip", skip);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -194,7 +193,6 @@ public class CommentActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            isLoading = false;
             if (result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
@@ -203,9 +201,10 @@ public class CommentActivity extends AppCompatActivity{
                 ArrayList<Comment> listComment = gson.fromJson(res, listType);
                 int position =  mAdapter.addListComment(listComment);
                 if(listComment.size() < 10)
-                    page = -1;
+                    page = false;
                 mRecyclerView.scrollToPosition(position);
             }
+            isLoading = false;
         }
     }
 

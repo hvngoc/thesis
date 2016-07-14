@@ -32,7 +32,7 @@ public class MyWallFragment extends Fragment {
     private RVAdapter adapter;
     private String currentID;
     private LinearLayout listNothing;
-    private int page = 0;
+    private boolean page = true;
 
     public MyWallFragment() {
         Log.i("WALL", "CONSTRUCTOR WAL");
@@ -81,8 +81,12 @@ public class MyWallFragment extends Fragment {
         return rootView;
     }
 
+    private void SetContentView(int recycler, int nothing){
+        listPosts.setVisibility(recycler);
+        listNothing.setVisibility(nothing);
+    }
+
     private boolean isLoading;
-    private int lastVisibleItem, totalItemCount;
     private void initLoadMoreItems() {
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) listPosts.getLayoutManager();
         listPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -90,12 +94,11 @@ public class MyWallFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if(dy > 0) {
-                    totalItemCount = linearLayoutManager.getItemCount();
-                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page != -1) {
-                        page++;
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page) {
                         isLoading = true;
-                        new LoadPostAsyncTask().execute();
+                        new LoadPostAsyncTask(totalItemCount).execute();
                     }
                 }
             }
@@ -110,16 +113,16 @@ public class MyWallFragment extends Fragment {
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        new LoadPostAsyncTask().execute();
+        new LoadPostAsyncTask(0).execute();
 
     }
 
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private int skip;
+        public LoadPostAsyncTask(int skip){
+            this.skip = skip;
         }
 
         @Override
@@ -133,7 +136,7 @@ public class MyWallFragment extends Fragment {
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", currentID);
-                jsonobj.put("page", page);
+                jsonobj.put("page", skip);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -144,16 +147,19 @@ public class MyWallFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            isLoading = false;
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> listPost = gson.fromJson(res, listType);
                 if(listPost.size() < 10)
-                    page = -1;
+                    page = false;
                 adapter.addListPost(listPost);
             }
+            else if (skip == 0){
+                SetContentView(View.INVISIBLE, View.VISIBLE);
+            }
+            isLoading = false;
             progressDialog.dismiss();
         }
     }

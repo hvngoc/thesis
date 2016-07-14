@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
 
     private RVAdapter adapter;
     RecyclerView listnews;
-    private int page = 0;
+    private boolean page = true;
 
     public HomeFragment() {
         adapter = new RVAdapter();
@@ -92,16 +92,15 @@ public class HomeFragment extends Fragment {
                 if(dy > 0) {
                     totalItemCount = linearLayoutManager.getItemCount();
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page != -1) {
-                        page++;
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page) {
                         isLoading = true;
-                        new LoadPostAsyncTask().execute();
+                        new LoadPostAsyncTask(totalItemCount).execute();
                     }
                 }
                 if (dy < 0){
                     int firstItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                     if (firstItem == 0 && !isLoading){
-                        page = 0;
+                        page = true;
                         isLoading = true;
                         adapter = new RVAdapter();
                         startLoading();
@@ -120,7 +119,7 @@ public class HomeFragment extends Fragment {
         progressDialog.setMessage(GLOBAL.CurrentContext.getString(R.string.loading));
         progressDialog.setCanceledOnTouchOutside(getRetainInstance());
         progressDialog.show();
-        new LoadPostAsyncTask().execute();
+        new LoadPostAsyncTask(0).execute();
     }
 
     @Override
@@ -137,9 +136,9 @@ public class HomeFragment extends Fragment {
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private int skip;
+        public LoadPostAsyncTask(int skip){
+            this.skip = skip;
         }
 
         @Override
@@ -153,7 +152,7 @@ public class HomeFragment extends Fragment {
             Log.i("userID", GLOBAL.CurrentUser.getId());
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
-                jsonobj.put("page", page);
+                jsonobj.put("page", skip);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -164,16 +163,16 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            isLoading = false;
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> CurrentListPost = gson.fromJson(res, listType);
                 if(CurrentListPost.size() < 10)
-                    page = -1;
+                    page = false;
                 adapter.addListPost(CurrentListPost);
             }
+            isLoading = false;
             progressDialog.dismiss();
         }
     }

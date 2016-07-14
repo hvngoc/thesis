@@ -45,7 +45,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatText;
     private String toUserID;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
-    private int page = 0;
+    private boolean page = true;
     private boolean isLoading = false;
 
     @Override
@@ -82,13 +82,12 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if(!isLoading && firstVisibleItem == 0 && totalItemCount != 0 && page != -1) {
+                if(!isLoading && firstVisibleItem == 0 && totalItemCount != 0 && page) {
                     Log.i("FIRST", firstVisibleItem + "");
                     Log.i("VISIBLE", "" + visibleItemCount);
                     Log.i("TOTAL", "" + totalItemCount);
-                    page++;
                     isLoading = true;
-                    new LoadMessageAsyncTask().execute();
+                    new LoadMessageAsyncTask(totalItemCount).execute();
                 }
             }
         });
@@ -101,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        new LoadMessageAsyncTask().execute();
+        new LoadMessageAsyncTask(0).execute();
     }
 
     @Override
@@ -227,9 +226,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private class LoadMessageAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        private int skip;
+        public LoadMessageAsyncTask(int skip){
+            this.skip = skip;
         }
 
         @Override
@@ -243,7 +242,7 @@ public class ChatActivity extends AppCompatActivity {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("targetUserID", toUserID);
-                jsonobj.put("skip", page);
+                jsonobj.put("skip", skip);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -259,16 +258,16 @@ public class ChatActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> messageList = gson.fromJson(res, listType);
-                if (messageList == null || messageList.size() == 0 && !isLoading){
+                if ((messageList == null || messageList.size() == 0) && skip == 0){
                     new LoadOneMessageAsyncTask().execute();
                 }
                 else {
-                    isLoading = false;
                     chatArrayAdapter.addListMessage(messageList);
                     if(messageList.size() < 20)
-                        page = -1;
+                        page = false;
                 }
             }
+            isLoading = false;
         }
     }
 

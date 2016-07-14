@@ -247,7 +247,9 @@ public class NewsDetailActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 299 && resultCode == 300){
             int numComment = data.getExtras().getInt("numComment");
-            txtNumComment.setText(numComment + "");
+            if (currentPost.numComment < numComment)
+                currentPost.numComment = numComment;
+            txtNumComment.setText(currentPost.numComment + "");
         }
         else if (requestCode == 333 && resultCode == 222){
             Post editedPost = (Post) data.getExtras().getSerializable("editedPost");
