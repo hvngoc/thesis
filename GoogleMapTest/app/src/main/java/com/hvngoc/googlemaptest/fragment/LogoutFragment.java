@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.LoginActivity;
+import com.hvngoc.googlemaptest.activity.MainPageActivity;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.TourCreationService;
 import com.squareup.picasso.Picasso;
@@ -54,7 +55,8 @@ public class LogoutFragment extends Fragment {
                 getActivity().finish();
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), LocationNotifierService.class));
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), TourCreationService.class));
-                Intent i = new Intent(getContext(), LoginActivity.class);
+                ((MainPageActivity)mContext).unregisterPlayService();
+                Intent i = new Intent(mContext, LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getActivity().startActivity(i);
             }
@@ -63,9 +65,12 @@ public class LogoutFragment extends Fragment {
         return rootView;
     }
 
+    private Context mContext;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
     }
 
     @Override

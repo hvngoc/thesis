@@ -98,6 +98,15 @@ public class HomeFragment extends Fragment {
                         new LoadPostAsyncTask().execute();
                     }
                 }
+                if (dy < 0){
+                    int firstItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (firstItem == 0 && !isLoading){
+                        page = 0;
+                        isLoading = true;
+                        adapter = new RVAdapter();
+                        startLoading();
+                    }
+                }
             }
         });
     }

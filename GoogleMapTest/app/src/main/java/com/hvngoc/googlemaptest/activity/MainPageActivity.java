@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.app.Config;
 import com.hvngoc.googlemaptest.app.MyApplication;
@@ -36,9 +38,12 @@ import com.hvngoc.googlemaptest.fragment.NotificationsFragment;
 import com.hvngoc.googlemaptest.gcm.GcmIntentService;
 import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 import com.hvngoc.googlemaptest.helper.DelegationHelper;
+import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.MessageDelegationHelper;
 import com.hvngoc.googlemaptest.helper.StartedSettingHelper;
 import com.hvngoc.googlemaptest.model.AppSetting;
+import com.hvngoc.googlemaptest.model.BottomMessage;
+import com.hvngoc.googlemaptest.model.User;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.LocationResultReceiver;
 import com.roughike.bottombar.BottomBar;
@@ -47,6 +52,9 @@ import com.roughike.bottombar.OnMenuTabSelectedListener;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainPageActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
@@ -73,6 +81,8 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         StartLocationServiceHelper(false);
         initBroadcastReceiver();
         registernewGCM();
+
+        startLoadingBottomMessage();
     }
 
     BottomBar bottomBar;
@@ -124,7 +134,7 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 replaceCurrentFragment(fragment, title);
             }
         });
-        initBarBadgeHelper();
+//        initBarBadgeHelper();
     }
 
     private void initBarBadgeHelper() {
@@ -132,6 +142,49 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         BarBadgeHelper.ChatMessage = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_MESSAGE, "#E91E63", BarBadgeHelper.chatMessageCount);
         BarBadgeHelper.Friend = bottomBar.makeBadgeForTabAt(CONSTANT.BOTTOM_FRIEND, "#E91E63", BarBadgeHelper.friendCount);
     }
+
+    private void startLoadingBottomMessage(){
+        new LoadStartNotificationBottomMessage().execute();
+    }
+
+//    *******************************************************************************************************************
+
+    private class LoadStartNotificationBottomMessage extends AsyncTask<Void, Void, Boolean> {
+        private HTTPPostHelper helper;
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return postData();
+        }
+
+        private Boolean postData() {
+            String serverUrl = GLOBAL.SERVER_URL + "loadStartNotification";
+            JSONObject jsonobj = new JSONObject();
+            try {
+                jsonobj.put("userID", GLOBAL.CurrentUser.getId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            helper = new HTTPPostHelper(serverUrl, jsonobj);
+            return helper.sendHTTTPostRequest();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                BottomMessage b = gson.fromJson(res, BottomMessage.class);
+                BarBadgeHelper.chatMessageCount += b.getNumMessage();
+                BarBadgeHelper.friendCount += b.getNumFriend();
+                BarBadgeHelper.notificationCount += b.getNumNotification();
+                initBarBadgeHelper();
+            }
+        }
+    }
+
+//    *********************************************************************************************************************
 
     @Override
     protected void onResume() {
@@ -245,12 +298,18 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
         messageDelegationHelper = null;
     }
 
+    public void unregisterPlayService(){
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
     private MessageDelegationHelper messageDelegationHelper = null;
     public void setMessageDelegationHelper(MessageDelegationHelper messageHelper) {
         this.messageDelegationHelper = messageHelper;
     }
 
     protected void initBroadcastReceiver() {
+        if (mRegistrationBroadcastReceiver != null)
+            unregisterPlayService();
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

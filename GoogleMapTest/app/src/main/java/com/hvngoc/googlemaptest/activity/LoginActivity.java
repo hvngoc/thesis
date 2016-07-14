@@ -185,7 +185,5 @@ public class LoginActivity extends AppCompatActivity {
                 onLoginFailed();
             }
         }
-
-
     }
 }
