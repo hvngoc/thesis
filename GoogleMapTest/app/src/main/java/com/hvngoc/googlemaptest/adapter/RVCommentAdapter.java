@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hvngoc.googlemaptest.R;
@@ -18,8 +19,10 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.ViewHolder>{
+public class RVCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     List<Comment> mItems;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     public RVCommentAdapter(){
         mItems = new ArrayList<>();
@@ -31,31 +34,68 @@ public class RVCommentAdapter extends RecyclerView.Adapter<RVCommentAdapter.View
         return mItems.size() - 1;
     }
     public int addListComment(ArrayList<Comment> listComment){
-        mItems.addAll(listComment);
+        int pos = 0;
+        if(mItems.size() == 0 && listComment.size() != 0)
+            pos = listComment.size() - 1;
+        else
+            pos = mItems.size();
+        mItems.addAll(0, listComment);
         notifyDataSetChanged();
-        return mItems.size() - 1;
+        return pos;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.card_item_comment, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+    public int getItemViewType(int position) {
+        return mItems.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Comment item = mItems.get(i);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if(viewType == VIEW_TYPE_ITEM) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_item_comment, viewGroup, false);
+            return new ViewHolder(v);
+        }
+        else if (viewType == VIEW_TYPE_LOADING) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_loading_item, viewGroup, false);
+            return new LoadingViewHolder(v);
+        }
+        return null;
+    }
+
+
+    private void setCommentViewHolder(ViewHolder viewHolder, int pos) {
+        Comment item = mItems.get(pos);
         viewHolder.txtCommentSring.setText(item.getContent());
         viewHolder.txtCommentDay.setText(item.getCommentDate());
         viewHolder.txtUserName.setText(item.getUserName());
         Picasso.with(GLOBAL.CurrentContext).load(item.getUserAvatar()).error(R.drawable.icon_profile).into(viewHolder.imgAvatar);
     }
 
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
+        if(holder instanceof ViewHolder)
+            setCommentViewHolder((ViewHolder) holder, i);
+        else if(holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            loadingViewHolder.progressBar.setIndeterminate(true);
+        }
+
+
+    }
+
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

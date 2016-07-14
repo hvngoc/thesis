@@ -48,6 +48,7 @@ public class CommentActivity extends AppCompatActivity{
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
     private String postID;
     private String relation;
+    private int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class CommentActivity extends AppCompatActivity{
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RVCommentAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        initLoadMoreItems();
 
         Button btnCommentSend = (Button) findViewById(R.id.btnCommentSend);
         btnCommentSend.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,28 @@ public class CommentActivity extends AppCompatActivity{
 
         registernewGCM();
         new LoadCommentAsyncTask().execute();
+    }
+
+
+    private boolean isLoading;
+    private int lastVisibleItem, totalItemCount;
+    private void initLoadMoreItems() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy < 0) {
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                    if (!isLoading && lastVisibleItem == 1 && page != -1) {
+                        page++;
+                        isLoading = true;
+                        new LoadCommentAsyncTask().execute();
+                    }
+                }
+            }
+        });
     }
 
     private void initToolbar() {
@@ -159,6 +183,7 @@ public class CommentActivity extends AppCompatActivity{
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("postID", postID);
+                jsonobj.put("skip", page);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -169,6 +194,7 @@ public class CommentActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            isLoading = false;
             if (result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
@@ -176,6 +202,8 @@ public class CommentActivity extends AppCompatActivity{
                 }.getType();
                 ArrayList<Comment> listComment = gson.fromJson(res, listType);
                 int position =  mAdapter.addListComment(listComment);
+                if(listComment.size() < 10)
+                    page = -1;
                 mRecyclerView.scrollToPosition(position);
             }
         }

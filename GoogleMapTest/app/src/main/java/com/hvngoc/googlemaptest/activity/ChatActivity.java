@@ -45,6 +45,8 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatText;
     private String toUserID;
     protected BroadcastReceiver mRegistrationBroadcastReceiver;
+    private int page = 0;
+    private boolean isLoading = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,23 @@ public class ChatActivity extends AppCompatActivity {
         });
         listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         listView.setAdapter(chatArrayAdapter);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(!isLoading && firstVisibleItem == 0 && totalItemCount != 0 && page != -1) {
+                    Log.i("FIRST", firstVisibleItem + "");
+                    Log.i("VISIBLE", "" + visibleItemCount);
+                    Log.i("TOTAL", "" + totalItemCount);
+                    page++;
+                    isLoading = true;
+                    new LoadMessageAsyncTask().execute();
+                }
+            }
+        });
         //to scroll the list view to bottom on data change
         chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -225,7 +243,7 @@ public class ChatActivity extends AppCompatActivity {
             try {
                 jsonobj.put("userID", GLOBAL.CurrentUser.getId());
                 jsonobj.put("targetUserID", toUserID);
-                jsonobj.put("skip", 0);
+                jsonobj.put("skip", page);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -241,11 +259,15 @@ public class ChatActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<ChatMessage>>(){}.getType();
                 ArrayList<ChatMessage> messageList = gson.fromJson(res, listType);
-                if (messageList == null || messageList.size() == 0){
+                if (messageList == null || messageList.size() == 0 && !isLoading){
                     new LoadOneMessageAsyncTask().execute();
                 }
-                else
+                else {
+                    isLoading = false;
                     chatArrayAdapter.addListMessage(messageList);
+                    if(messageList.size() < 20)
+                        page = -1;
+                }
             }
         }
     }

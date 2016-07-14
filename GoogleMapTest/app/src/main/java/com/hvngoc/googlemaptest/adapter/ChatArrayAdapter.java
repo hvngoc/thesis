@@ -1,5 +1,6 @@
 package com.hvngoc.googlemaptest.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,10 +36,11 @@ public class ChatArrayAdapter extends ArrayAdapter {
         notifyDataSetChanged();
     }
 
+
     public void addListMessage(List<ChatMessage> listMessage) {
         if(listMessage != null) {
             Collections.reverse(listMessage);
-            chatMessageList.addAll(listMessage);
+            chatMessageList.addAll(0,listMessage);
             notifyDataSetChanged();
         }
     }
@@ -54,7 +57,7 @@ public class ChatArrayAdapter extends ArrayAdapter {
         return (ChatMessage)this.chatMessageList.get(index);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    private View getMessageView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,5 +73,25 @@ public class ChatArrayAdapter extends ArrayAdapter {
         singleMessageContainer.setGravity(chatMessageObj.isLeft() ? Gravity.LEFT : Gravity.RIGHT);
         avatar.setVisibility(chatMessageObj.isLeft() ? View.VISIBLE : View.INVISIBLE);
         return row;
+    }
+
+    private View getLoadingView(View convertView, ViewGroup parent) {
+        View row = convertView;
+        ProgressBar progressBar;
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.layout_loading_item, parent, false);
+            progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
+            progressBar.setIndeterminate(true);
+        }
+        return row;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if(position < 0) {
+            return getLoadingView(convertView, parent);
+        }
+        else
+            return getMessageView(position, convertView, parent);
     }
 }

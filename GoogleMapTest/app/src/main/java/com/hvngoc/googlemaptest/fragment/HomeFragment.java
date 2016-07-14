@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
                 if(dy > 0) {
                     totalItemCount = linearLayoutManager.getItemCount();
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + 5) && page != -1) {
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page != -1) {
                         page++;
                         isLoading = true;
                         new LoadPostAsyncTask().execute();

@@ -32,6 +32,7 @@ public class MyWallFragment extends Fragment {
     private RVAdapter adapter;
     private String currentID;
     private LinearLayout listNothing;
+    private int page = 0;
 
     public MyWallFragment() {
         Log.i("WALL", "CONSTRUCTOR WAL");
@@ -75,9 +76,30 @@ public class MyWallFragment extends Fragment {
         listPosts.setHasFixedSize(true);
 
         listPosts.setAdapter(adapter);
-
+        initLoadMoreItems();
         listNothing = (LinearLayout)rootView.findViewById(R.id.list_wall_nothing);
         return rootView;
+    }
+
+    private boolean isLoading;
+    private int lastVisibleItem, totalItemCount;
+    private void initLoadMoreItems() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) listPosts.getLayoutManager();
+        listPosts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy > 0) {
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!isLoading && totalItemCount <= (lastVisibleItem + 3) && page != -1) {
+                        page++;
+                        isLoading = true;
+                        new LoadPostAsyncTask().execute();
+                    }
+                }
+            }
+        });
     }
 
     private ProgressDialog progressDialog = null;
@@ -92,10 +114,6 @@ public class MyWallFragment extends Fragment {
 
     }
 
-    private void SetContentView(int recycler, int nothing){
-        listPosts.setVisibility(recycler);
-        listNothing.setVisibility(nothing);
-    }
 
     private class LoadPostAsyncTask extends AsyncTask<Void, Void, Boolean> {
         private HTTPPostHelper helper;
@@ -110,10 +128,12 @@ public class MyWallFragment extends Fragment {
         }
 
         private Boolean postData() {
+            isLoading = false;
             String serverUrl = GLOBAL.SERVER_URL + "getAllPostOfUser";
             JSONObject jsonobj = new JSONObject();
             try {
                 jsonobj.put("userID", currentID);
+                jsonobj.put("page", page);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -124,16 +144,15 @@ public class MyWallFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-
+            isLoading = false;
             if(result) {
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
                 ArrayList<Post> listPost = gson.fromJson(res, listType);
+                if(listPost.size() < 10)
+                    page = -1;
                 adapter.addListPost(listPost);
-            }
-            else {
-                SetContentView(View.INVISIBLE, View.VISIBLE);
             }
             progressDialog.dismiss();
         }
