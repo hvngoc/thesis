@@ -1,5 +1,7 @@
 package com.hvngoc.googlemaptest.model;
 
+import android.util.Log;
+
 import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.CONSTANT;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
@@ -77,8 +79,8 @@ public class Post implements Serializable {
 
 
     public String getFirstImageUrl() {
-        if (listImages == null)
-            return "null";
+        if (listImages == null || listImages.length() == 0)
+            return "";
         int index = listImages.indexOf(';');
         if (index != -1)
             return GLOBAL.SERVER_IMAGE_URL + listImages.substring(0, index);
@@ -103,12 +105,13 @@ public class Post implements Serializable {
     }
 
     public ArrayList<String> getListImages() {
-        if (listImages == null) return new ArrayList<>();
+        if (listImages == null || listImages.length() == 0) return new ArrayList<>();
         ArrayList<String> images = new ArrayList<>(Arrays.asList(listImages.split(";")));
         ArrayList<String> urls = new ArrayList<String>();
-        for (String temp: images) {
-            urls.add(GLOBAL.SERVER_IMAGE_URL + temp);
+        for (int i = 0; i < images.size(); i++) {
+            urls.add(GLOBAL.SERVER_IMAGE_URL + images.get(i));
         }
+
         return urls;
     }
 

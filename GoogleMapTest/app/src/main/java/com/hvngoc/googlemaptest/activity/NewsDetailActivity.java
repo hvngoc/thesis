@@ -169,21 +169,21 @@ public class NewsDetailActivity extends AppCompatActivity {
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         ArrayList<String> imageUrls = currentPost.getListImages();
         if (imageUrls.size() == 0){
-            TextSliderView textSliderView = new TextSliderView(this);
-            textSliderView.image(R.drawable.icon_no_image)
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            mDemoSlider.addSlider(textSliderView);
+            mDemoSlider.setVisibility(View.GONE);
+            txtAddressLocation.setVisibility(View.GONE);
         }else {
+            mDemoSlider.setVisibility(View.VISIBLE);
+            txtAddressLocation.setVisibility(View.VISIBLE);
             for (String name : imageUrls) {
                 TextSliderView textSliderView = new TextSliderView(this);
                 textSliderView.image(name)
                         .setScaleType(BaseSliderView.ScaleType.FitCenterCrop);
                 mDemoSlider.addSlider(textSliderView);
             }
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setDuration(4000);
         }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setDuration(4000);
     }
     private void getNewsDetailData(){
         username.setText(currentPost.userName);
@@ -254,6 +254,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         else if (requestCode == 333 && resultCode == 222){
             Post editedPost = (Post) data.getExtras().getSerializable("editedPost");
             changeDataAfterEdited(editedPost);
+            GLOBAL.needFragmentRefresh = true;
         }
     }
 

@@ -35,6 +35,8 @@ public class GLOBAL {
 
     public static HashMap<String, ArrayList<Object>> EMOTION = null;
 
+    public static boolean needFragmentRefresh = false;
+
     public static void initNOTIFICATION(){
         NOTIFICATION = new HashMap<String, String>(){
             {

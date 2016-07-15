@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -39,6 +40,10 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void addToFirst(Post post){
         posts.add(0, post);
         notifyDataSetChanged();
+    }
+
+    public void clearListPost() {
+        posts.clear();
     }
 
     public void addListPost(ArrayList<Post> list){
@@ -90,10 +95,17 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         newsViewHolder.news_title.setText(post.getContentSmaller());
         newsViewHolder.txtFeeling.setText(GLOBAL.CurrentContext.getString(R.string.feeling) + " " + post.getFeeling());
         newsViewHolder.txtCommentDay.setText(post.getPostDate());
-        Picasso.with(GLOBAL.CurrentContext)
-                .load(post.getFirstImageUrl())
-                .error(R.drawable.icon_no_image)         // optional
-                .into(newsViewHolder.placephoto);
+        String firstImage = post.getFirstImageUrl();
+        if(firstImage != "") {
+            newsViewHolder.firstImage.setVisibility(View.VISIBLE);
+            Picasso.with(GLOBAL.CurrentContext)
+                    .load(post.getFirstImageUrl())
+                    .error(R.drawable.icon_no_image)         // optional
+                    .into(newsViewHolder.placephoto);
+        }
+        else {
+            newsViewHolder.firstImage.setVisibility(View.GONE);
+        }
         newsViewHolder.txtAddressLocation.setText(new GeolocatorAddressHelper(GLOBAL.CurrentContext, post.Latitude, post.Longitude).GetAddress());
         newsViewHolder.txtNumLike.setText(""+post.numLike);
         newsViewHolder.txtNumShared.setText(""+post.numShare);
@@ -133,6 +145,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public TextView txtNumShared;
         public Button btnComment;
         public TextView txtNumComment;
+        public RelativeLayout firstImage;
 
         public NewsItemViewHolder(View itemView) {
             super(itemView);
@@ -154,6 +167,7 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             txtNumShared = (TextView) itemView.findViewById(R.id.txtNumShared);
             btnComment = (Button) itemView.findViewById(R.id.btnComment);
             txtNumComment = (TextView) itemView.findViewById(R.id.txtNumComment);
+            firstImage = (RelativeLayout) itemView.findViewById(R.id.firstImage);
         }
 
         @Override

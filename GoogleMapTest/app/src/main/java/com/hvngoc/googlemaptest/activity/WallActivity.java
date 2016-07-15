@@ -133,6 +133,7 @@ public class WallActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("WALL ACTIVITY", "RESUME");
         GLOBAL.CurrentContext = this;
     }
 

@@ -49,6 +49,15 @@ public class MyWallFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("WALL", "RESUME WAL");
+        if(GLOBAL.needFragmentRefresh) {
+            Log.i("WALL", "REFRESH");
+            refreshThisFragment();
+        }
+    }
+
+    private void refreshThisFragment() {
+        adapter.clearListPost();
+        startLoading();
     }
 
     @Override
