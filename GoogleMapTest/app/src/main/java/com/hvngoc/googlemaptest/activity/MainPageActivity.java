@@ -417,8 +417,11 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
             @Override
             public void onReceiveResult(int resultCode, Bundle resultData) {
                 if (resultCode == 200) {
+                    int number = resultData.getInt("number", 1);
+                    BarBadgeHelper.notificationCount += number;
+
                     BottomBarBadge unreadMessages = BarBadgeHelper.Notification;
-                    unreadMessages.setCount(++BarBadgeHelper.notificationCount);
+                    unreadMessages.setCount(BarBadgeHelper.notificationCount);
                     unreadMessages.show();
                     if(delegationHelper != null)
                         delegationHelper.doSomeThing();

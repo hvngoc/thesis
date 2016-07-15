@@ -15,6 +15,7 @@ import com.hvngoc.googlemaptest.R;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.activity.LoginActivity;
 import com.hvngoc.googlemaptest.activity.MainPageActivity;
+import com.hvngoc.googlemaptest.helper.BarBadgeHelper;
 import com.hvngoc.googlemaptest.services.LocationNotifierService;
 import com.hvngoc.googlemaptest.services.TourCreationService;
 import com.squareup.picasso.Picasso;
@@ -52,6 +53,9 @@ public class LogoutFragment extends Fragment {
             public void onClick(View v) {
                 GLOBAL.startedUserHelper.clear();
                 GLOBAL.CurrentUser = null;
+                BarBadgeHelper.notificationCount = 0;
+                BarBadgeHelper.friendCount = 0;
+                BarBadgeHelper.chatMessageCount = 0;
                 getActivity().finish();
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), LocationNotifierService.class));
                 getActivity().stopService(new Intent(getContext().getApplicationContext(), TourCreationService.class));
