@@ -38,10 +38,12 @@ import java.util.ArrayList;
 public class MessagesFragment extends Fragment {
 
     private RVMessageAdapter adapter;
+    private boolean isUsed = false;
 
     public MessagesFragment() {
         adapter = new RVMessageAdapter();
         startLoading();
+        isUsed = true;
         Log.i("MESSAGE", "CONSTRUCTOR");
     }
 
@@ -94,6 +96,9 @@ public class MessagesFragment extends Fragment {
         super.onAttach(context);
         Log.i("MESSAGE FRAGMENT", "ON ATTACH");
         mContext = context;
+        if (BarBadgeHelper.chatMessageCount > 0 && !isUsed)
+            startLoading();
+        isUsed = false;
     }
 
 

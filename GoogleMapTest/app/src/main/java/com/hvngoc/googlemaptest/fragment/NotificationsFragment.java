@@ -38,10 +38,13 @@ public class NotificationsFragment extends Fragment {
 
     private RVNotificationAdapter rvNotificationAdapter;
 
+    private boolean isUsed = false;
+
     public NotificationsFragment() {
         rvNotificationAdapter = new RVNotificationAdapter();
         startLoading();
         Log.i("NOTIFICATION", "CONSTRUCTOR");
+        isUsed = true;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class NotificationsFragment extends Fragment {
         super.onDetach();
         ((MainPageActivity)mContext).setDelegationHelper(null);
         ((MainPageActivity)mContext).setMessageDelegationHelper(null);
+        isUsed = false;
     }
 
     @Override
@@ -133,6 +137,8 @@ public class NotificationsFragment extends Fragment {
         super.onAttach(context);
         mContext = context;
         Log.i("notification", "ATTACH");
+        if (BarBadgeHelper.notificationCount > 0 && !isUsed)
+            startLoading();
     }
 
 

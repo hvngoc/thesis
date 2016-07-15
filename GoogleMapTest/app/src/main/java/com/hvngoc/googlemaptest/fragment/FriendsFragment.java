@@ -22,16 +22,24 @@ public class FriendsFragment extends Fragment {
 
     private SampleViewPaperAdapter adapter;
 
+    private boolean isUsed = false;
+
     public FriendsFragment() {
         Log.i("FRIEND", "CONSTRUCTOR");
         FragmentActivity activity = (FragmentActivity)GLOBAL.CurrentContext;
         adapter = new SampleViewPaperAdapter(activity.getSupportFragmentManager());
+        isUsed = true;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("FRIEND", "CREATE");
+        if (BarBadgeHelper.friendCount > 0 && !isUsed){
+            FragmentActivity activity = (FragmentActivity)GLOBAL.CurrentContext;
+            adapter = new SampleViewPaperAdapter(activity.getSupportFragmentManager());
+        }
+        isUsed = false;
     }
 
     @Override
