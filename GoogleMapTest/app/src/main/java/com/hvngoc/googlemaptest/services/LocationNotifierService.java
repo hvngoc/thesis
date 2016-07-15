@@ -19,12 +19,14 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.hvngoc.googlemaptest.activity.GLOBAL;
 import com.hvngoc.googlemaptest.app.MyApplication;
 import com.hvngoc.googlemaptest.helper.HTTPPostHelper;
 import com.hvngoc.googlemaptest.helper.LocationRoundHelper;
 import com.hvngoc.googlemaptest.helper.ParseDateTimeHelper;
 import com.hvngoc.googlemaptest.helper.SquareHelper;
+import com.hvngoc.googlemaptest.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,7 +167,15 @@ public class LocationNotifierService extends Service implements LocationListener
             super.onPostExecute(result);
             if (result) {
                 NotifyDevice();
-                locationResultReceiver.send(200, new Bundle());
+
+                String res = helper.getResponse();
+                Gson gson = new Gson();
+                String sss = gson.fromJson(res, String.class);
+                int number = Integer.parseInt(sss);
+
+                Bundle b = new Bundle();
+                b.putInt("number", number);
+                locationResultReceiver.send(200, b);
             }
         }
     }

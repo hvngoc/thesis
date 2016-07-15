@@ -11,5 +11,5 @@ public class BarBadgeHelper {
     public static BottomBarBadge Friend;
     public static int notificationCount = 0;
     public static int chatMessageCount = 0;
-    public  static int friendCount = 0;
+    public static int friendCount = 0;
 }
