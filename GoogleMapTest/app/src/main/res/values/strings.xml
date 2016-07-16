@@ -108,7 +108,7 @@
 
     <string name="friend_request">Request</string>
     <string name="friend_find">Find</string>
-    <string name="friend_suggested">Suggested</string>
+    <string name="friend_suggested">Suggest</string>
     <string name="friend_friends">Friends</string>
 
     <string name="dialog_delete_request">Are you sure for deleting this request?</string>

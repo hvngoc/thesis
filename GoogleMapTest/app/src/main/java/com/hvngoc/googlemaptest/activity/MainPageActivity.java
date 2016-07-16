@@ -176,11 +176,11 @@ public class MainPageActivity extends AppCompatActivity implements FragmentDrawe
                 String res = helper.getResponse();
                 Gson gson = new Gson();
                 BottomMessage b = gson.fromJson(res, BottomMessage.class);
-                BarBadgeHelper.chatMessageCount += b.getNumMessage();
-                BarBadgeHelper.friendCount += b.getNumFriend();
-                BarBadgeHelper.notificationCount += b.getNumNotification();
-                initBarBadgeHelper();
+                BarBadgeHelper.chatMessageCount = b.getNumMessage();
+                BarBadgeHelper.friendCount = b.getNumFriend();
+                BarBadgeHelper.notificationCount = b.getNumNotification();
             }
+            initBarBadgeHelper();
         }
     }
 
