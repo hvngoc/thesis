@@ -28,8 +28,8 @@ public class GLOBAL {
 
     //public static final String SERVER_URL = "http://10.0.3.2:9000/api/";
     //public static final String SERVER_IMAGE_URL = "http://10.0.3.2:9000/images/";
-    public static final String SERVER_URL = "http://ae4c6ae5.ngrok.io/api/";
-    public static final String SERVER_IMAGE_URL = "http://ae4c6ae5.ngrok.io/images/";
+    public static final String SERVER_URL = "http://d5beee9c.ngrok.io/api/";
+    public static final String SERVER_IMAGE_URL = "http://d5beee9c.ngrok.io/images/";
 
     public static HashMap<String, String> NOTIFICATION = null;
 
